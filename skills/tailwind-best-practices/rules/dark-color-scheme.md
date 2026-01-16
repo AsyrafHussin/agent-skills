@@ -1,3 +1,10 @@
+---
+id: dark-color-scheme
+title: Dark Mode Color Scheme
+priority: HIGH
+category: Dark Mode
+---
+
 # Dark Mode Color Scheme
 
 Use semantic color naming and CSS custom properties for maintainable dark mode color systems.

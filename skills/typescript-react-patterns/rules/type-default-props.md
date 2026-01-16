@@ -1,4 +1,9 @@
-# Default Props Typing
+---
+title: Default Props Typing
+category: Component Typing
+priority: MEDIUM
+---
+
 
 Modern approaches to typing default props in React with TypeScript.
 

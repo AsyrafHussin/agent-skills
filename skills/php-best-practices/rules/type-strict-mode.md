@@ -1,7 +1,11 @@
-# type-strict-mode
+---
+title: Strict Types Declaration
+impact: CRITICAL
+impactDescription: Prevents type coercion bugs, enforces type safety
+tags: type-system, strict-types, type-safety, php7
+---
 
-**Priority:** CRITICAL
-**Category:** Type System
+# Strict Types Declaration
 
 ## Why It Matters
 

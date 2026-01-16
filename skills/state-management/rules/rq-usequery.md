@@ -1,7 +1,13 @@
-# rq-usequery
+---
+title: useQuery Hook Patterns
+impact: CRITICAL
+section: Query Fundamentals
+tags: react-query, hooks, data-fetching
+---
 
-**Priority:** CRITICAL
-**Category:** React Query Basics
+# useQuery Hook Patterns
+
+**Impact: CRITICAL**
 
 ## Why It Matters
 

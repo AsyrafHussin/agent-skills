@@ -1,3 +1,12 @@
+---
+id: solid-isp-interfaces
+title: SOLID - Interface Segregation (Small Interfaces)
+category: solid-principles
+priority: critical
+tags: [SOLID, ISP, interface-segregation, cohesion]
+related: [solid-isp-clients, solid-srp-class, core-separation-concerns]
+---
+
 # Interface Segregation Principle - Small Cohesive Interfaces
 
 Interfaces should be small and cohesive, grouping only closely related methods. Split large interfaces into smaller, more focused ones.

@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "organization": "Web Accessibility Initiative (WAI)",
+  "date": "January 2026",
+  "abstract": "Comprehensive UI/UX and accessibility guidelines for building inclusive, performant web interfaces. Contains 21+ rules across 8 categories focused on accessibility, forms, animations, and performance. Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations, and specific WCAG compliance information to guide accessible web development and code review.",
+  "references": [
+    "https://www.w3.org/WAI/WCAG22/",
+    "https://www.w3.org/WAI/WCAG22/quickref/",
+    "https://www.w3.org/WAI/ARIA/apg/",
+    "https://web.dev/accessibility/",
+    "https://web.dev/learn/accessibility/",
+    "https://web.dev/articles/prefers-reduced-motion",
+    "https://web.dev/articles/cls",
+    "https://web.dev/articles/optimize-cls",
+    "https://developer.mozilla.org/en-US/docs/Web/Accessibility",
+    "https://a11yproject.com/"
+  ]
+}

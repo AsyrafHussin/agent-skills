@@ -1,4 +1,11 @@
-# Enforce HTTPS Only
+---
+title: Enforce HTTPS Only
+impact: CRITICAL
+impactDescription: Protects data in transit from interception
+tags: security, https, encryption, tls
+---
+
+## Enforce HTTPS Only
 
 All API traffic must use HTTPS to encrypt data in transit. Never allow unencrypted HTTP connections for APIs.
 

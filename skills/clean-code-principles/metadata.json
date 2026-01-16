@@ -1,0 +1,374 @@
+{
+  "name": "clean-code-principles",
+  "version": "1.0.0",
+  "description": "SOLID principles, design patterns, DRY, KISS, and clean code fundamentals for writing maintainable, scalable software",
+  "author": "Agent Skills",
+  "license": "MIT",
+  "tags": [
+    "SOLID",
+    "clean-code",
+    "design-patterns",
+    "DRY",
+    "KISS",
+    "YAGNI",
+    "best-practices",
+    "software-architecture",
+    "code-quality",
+    "refactoring"
+  ],
+  "categories": [
+    {
+      "id": "solid-principles",
+      "name": "SOLID Principles",
+      "priority": "critical",
+      "prefix": "solid-",
+      "count": 10,
+      "description": "Five fundamental principles of object-oriented design"
+    },
+    {
+      "id": "core-principles",
+      "name": "Core Principles",
+      "priority": "critical",
+      "prefix": "core-",
+      "count": 12,
+      "description": "Fundamental coding principles like DRY, KISS, and YAGNI"
+    },
+    {
+      "id": "design-patterns",
+      "name": "Design Patterns",
+      "priority": "high",
+      "prefix": "pattern-",
+      "count": 1,
+      "description": "Common design patterns for recurring problems"
+    },
+    {
+      "id": "code-organization",
+      "name": "Code Organization",
+      "priority": "high",
+      "prefix": "org-",
+      "count": 0,
+      "description": "Project structure and module boundaries"
+    },
+    {
+      "id": "naming-readability",
+      "name": "Naming & Readability",
+      "priority": "medium",
+      "prefix": "name-",
+      "count": 0,
+      "description": "Naming conventions and code readability"
+    },
+    {
+      "id": "functions-methods",
+      "name": "Functions & Methods",
+      "priority": "medium",
+      "prefix": "func-",
+      "count": 0,
+      "description": "Function-level best practices"
+    },
+    {
+      "id": "comments-documentation",
+      "name": "Comments & Documentation",
+      "priority": "low",
+      "prefix": "doc-",
+      "count": 0,
+      "description": "Documentation and commenting guidelines"
+    }
+  ],
+  "rules": [
+    {
+      "id": "solid-srp-class",
+      "title": "SOLID - Single Responsibility Principle (Class Level)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "solid-srp-function",
+      "title": "SOLID - Single Responsibility Principle (Function Level)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "solid-ocp-extension",
+      "title": "SOLID - Open/Closed Principle (Extension)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "solid-ocp-abstraction",
+      "title": "SOLID - Open/Closed (Abstraction)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "solid-lsp-contracts",
+      "title": "SOLID - Liskov Substitution (Contracts)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "solid-lsp-preconditions",
+      "title": "SOLID - Liskov Substitution (Preconditions)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "solid-isp-clients",
+      "title": "SOLID - Interface Segregation (Client-Specific)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "solid-isp-interfaces",
+      "title": "SOLID - Interface Segregation (Small Interfaces)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "solid-dip-abstractions",
+      "title": "SOLID - Dependency Inversion (Abstractions)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "solid-dip-injection",
+      "title": "SOLID - Dependency Inversion (Injection)",
+      "category": "solid-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-dry",
+      "title": "Don't Repeat Yourself (DRY)",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-dry-extraction",
+      "title": "DRY - Code Extraction",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-dry-single-source",
+      "title": "DRY - Single Source of Truth",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-kiss-simplicity",
+      "title": "KISS - Simplicity",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-kiss-readability",
+      "title": "KISS - Readability",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-yagni-features",
+      "title": "YAGNI - Features",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-yagni-abstractions",
+      "title": "YAGNI - Abstractions",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-separation-concerns",
+      "title": "Separation of Concerns",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-composition",
+      "title": "Composition Over Inheritance",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-law-demeter",
+      "title": "Law of Demeter",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-fail-fast",
+      "title": "Fail Fast Principle",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "core-encapsulation",
+      "title": "Encapsulation",
+      "category": "core-principles",
+      "priority": "critical"
+    },
+    {
+      "id": "pattern-repository",
+      "title": "Design Pattern - Repository",
+      "category": "design-patterns",
+      "priority": "high"
+    }
+  ],
+  "references": {
+    "books": [
+      {
+        "title": "Clean Code: A Handbook of Agile Software Craftsmanship",
+        "author": "Robert C. Martin",
+        "year": 2008,
+        "isbn": "978-0132350884",
+        "url": "https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882"
+      },
+      {
+        "title": "Design Patterns: Elements of Reusable Object-Oriented Software",
+        "author": "Gang of Four (Gamma, Helm, Johnson, Vlissides)",
+        "year": 1994,
+        "isbn": "978-0201633610",
+        "url": "https://www.amazon.com/Design-Patterns-Elements-Reusable-Object-Oriented/dp/0201633612"
+      },
+      {
+        "title": "Refactoring: Improving the Design of Existing Code",
+        "author": "Martin Fowler",
+        "year": 2018,
+        "isbn": "978-0134757599",
+        "url": "https://martinfowler.com/books/refactoring.html"
+      },
+      {
+        "title": "The Pragmatic Programmer",
+        "author": "Andrew Hunt and David Thomas",
+        "year": 2019,
+        "isbn": "978-0135957059",
+        "url": "https://pragprog.com/titles/tpp20/the-pragmatic-programmer-20th-anniversary-edition/"
+      },
+      {
+        "title": "Patterns of Enterprise Application Architecture",
+        "author": "Martin Fowler",
+        "year": 2002,
+        "isbn": "978-0321127426",
+        "url": "https://martinfowler.com/books/eaa.html"
+      }
+    ],
+    "websites": [
+      {
+        "title": "Refactoring Guru - Design Patterns",
+        "url": "https://refactoring.guru/design-patterns",
+        "description": "Comprehensive catalog of design patterns with examples in multiple languages"
+      },
+      {
+        "title": "Refactoring Guru - Code Smells",
+        "url": "https://refactoring.guru/refactoring/smells",
+        "description": "Catalog of code smells and refactoring techniques"
+      },
+      {
+        "title": "Martin Fowler - Refactoring Catalog",
+        "url": "https://refactoring.com/catalog/",
+        "description": "Comprehensive refactoring catalog by Martin Fowler"
+      },
+      {
+        "title": "Martin Fowler - Bliki",
+        "url": "https://martinfowler.com/bliki/",
+        "description": "Martin Fowler's blog with articles on software design"
+      },
+      {
+        "title": "SOLID Principles",
+        "url": "https://en.wikipedia.org/wiki/SOLID",
+        "description": "Wikipedia article on SOLID principles"
+      },
+      {
+        "title": "Robert C. Martin (Uncle Bob) - Blog",
+        "url": "https://blog.cleancoder.com/",
+        "description": "Articles on clean code and software craftsmanship"
+      }
+    ],
+    "articles": [
+      {
+        "title": "The DRY Principle",
+        "author": "Martin Fowler",
+        "url": "https://martinfowler.com/ieeeSoftware/repetition.pdf",
+        "description": "In-depth article on avoiding duplication"
+      },
+      {
+        "title": "SOLID Principles Explained",
+        "author": "Various",
+        "url": "https://www.digitalocean.com/community/conceptual-articles/s-o-l-i-d-the-first-five-principles-of-object-oriented-design",
+        "description": "Practical explanation of SOLID principles"
+      },
+      {
+        "title": "Composition vs Inheritance",
+        "author": "Gang of Four",
+        "url": "https://en.wikipedia.org/wiki/Composition_over_inheritance",
+        "description": "Discussion of composition over inheritance principle"
+      }
+    ],
+    "videos": [
+      {
+        "title": "Clean Code - Uncle Bob / Lesson 1",
+        "url": "https://www.youtube.com/watch?v=7EmboKQH8lM",
+        "description": "Introduction to clean code principles"
+      },
+      {
+        "title": "SOLID Principles of Object Oriented Design",
+        "url": "https://www.youtube.com/watch?v=TMuno5RZNeE",
+        "description": "Conference talk on SOLID principles"
+      }
+    ]
+  },
+  "keywords": [
+    "software design",
+    "architecture",
+    "maintainability",
+    "scalability",
+    "testability",
+    "code quality",
+    "best practices",
+    "object-oriented design",
+    "functional programming",
+    "design principles",
+    "code organization",
+    "refactoring",
+    "technical debt",
+    "clean architecture"
+  ],
+  "languages": [
+    "typescript",
+    "javascript",
+    "python",
+    "java",
+    "go",
+    "rust",
+    "c-sharp",
+    "php",
+    "ruby"
+  ],
+  "compatibility": {
+    "paradigms": [
+      "object-oriented",
+      "functional",
+      "procedural",
+      "declarative"
+    ],
+    "scales": [
+      "single-file",
+      "module",
+      "application",
+      "microservices",
+      "distributed-systems"
+    ]
+  },
+  "metadata": {
+    "created": "2026-01-17",
+    "updated": "2026-01-17",
+    "status": "active",
+    "maturity": "stable",
+    "coverage": {
+      "total_categories": 7,
+      "implemented_categories": 3,
+      "total_rules": 23,
+      "coverage_percentage": 42.86
+    }
+  }
+}

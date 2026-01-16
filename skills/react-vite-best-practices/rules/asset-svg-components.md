@@ -1,9 +1,13 @@
-# asset-svg-components
+---
+title: Use SVGs as React Components
+impact: HIGH
+impactDescription: Better styling and integration
+tags: asset, svg, components, react, vite
+---
 
-**Priority:** HIGH
-**Category:** Asset Handling
+## Use SVGs as React Components
 
-## Why It Matters
+**Impact: HIGH (Better styling and integration)**
 
 SVGs can be used as images or as React components. Using them as components enables styling with CSS, dynamic colors, and better integration with React.
 

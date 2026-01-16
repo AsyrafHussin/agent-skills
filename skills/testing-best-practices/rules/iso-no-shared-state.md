@@ -1,3 +1,9 @@
+---
+title: No Shared Mutable State
+priority: CRITICAL
+category: Test Isolation
+---
+
 # No Shared Mutable State
 
 Avoid sharing mutable state between tests to prevent interference and flakiness.

@@ -1,3 +1,9 @@
+---
+title: Minimal Test Data
+priority: HIGH
+category: Test Data
+---
+
 # Minimal Test Data
 
 Use only the data necessary to test the specific behavior being verified.

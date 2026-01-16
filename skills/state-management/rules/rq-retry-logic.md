@@ -1,4 +1,14 @@
+---
+title: Retry Logic Configuration
+impact: MEDIUM
+section: Cache & Performance
+tags: react-query, retry, error-handling
+---
+
 # Retry Logic for Mutations
+
+**Impact: MEDIUM**
+
 
 Retry logic determines how React Query handles failed mutations. Unlike queries, mutations don't retry by default and require careful configuration.
 

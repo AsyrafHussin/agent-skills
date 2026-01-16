@@ -1,4 +1,13 @@
-# Focus Management
+---
+title: Manage Keyboard Focus Properly
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level A - Focus order and visibility
+tags: accessibility, keyboard, focus, navigation, modals
+---
+
+## Manage Keyboard Focus Properly
+
+**Impact: CRITICAL (WCAG 2.1 Level A - Focus order and visibility)**
 
 Manage keyboard focus intentionally to create a logical, predictable navigation experience. Focus should follow the user's expectations and never get lost or trapped.
 

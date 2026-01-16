@@ -1,3 +1,11 @@
+---
+title: Tags and Releases
+category: history
+priority: medium
+tags: [history, tags, releases, versioning, semver]
+related: [branch-release-strategy, commit-breaking-changes]
+---
+
 # Tags and Releases
 
 Use annotated tags to mark releases and maintain a clear versioning history.

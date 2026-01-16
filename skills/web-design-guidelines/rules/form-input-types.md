@@ -1,4 +1,13 @@
-# Form Input Types
+---
+title: Use Correct Input Types
+impact: HIGH
+impactDescription: Improves mobile UX and reduces errors
+tags: forms, input-types, mobile, ux
+---
+
+## Use Correct Input Types
+
+**Impact: HIGH (Improves mobile UX and reduces errors)**
 
 Use the correct HTML input types to provide appropriate virtual keyboards, validation, and user experience across devices.
 

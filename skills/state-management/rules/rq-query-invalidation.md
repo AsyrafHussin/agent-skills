@@ -1,4 +1,14 @@
+---
+title: Query Invalidation
+impact: HIGH
+section: Cache & Performance
+tags: react-query, invalidation, cache-updates
+---
+
 # Query Invalidation Strategies
+
+**Impact: HIGH**
+
 
 Query invalidation marks cached data as stale, triggering refetch for active queries. Proper invalidation keeps data fresh after mutations while avoiding over-fetching.
 

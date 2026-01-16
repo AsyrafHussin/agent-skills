@@ -1,4 +1,13 @@
-# Value Objects
+---
+title: Value Objects
+impact: MEDIUM
+impactDescription: Enforces business rules and improves type safety
+tags: architecture, value-objects, domain-driven, type-safety
+---
+
+## Value Objects
+
+**Impact: MEDIUM (Enforces business rules and improves type safety)**
 
 Encapsulate domain concepts with value objects to enforce business rules and improve type safety.
 

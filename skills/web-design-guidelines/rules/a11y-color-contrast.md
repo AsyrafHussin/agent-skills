@@ -1,4 +1,13 @@
-# Color Contrast
+---
+title: Ensure Sufficient Color Contrast
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level AA - 4.5:1 for text, 3:1 for large text
+tags: accessibility, color, contrast, visual
+---
+
+## Ensure Sufficient Color Contrast
+
+**Impact: CRITICAL (WCAG 2.1 Level AA - 4.5:1 for text, 3:1 for large text)**
 
 Ensure sufficient color contrast between text and backgrounds to make content readable for users with low vision or color blindness.
 

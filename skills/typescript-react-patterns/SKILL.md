@@ -1,6 +1,10 @@
 ---
 name: typescript-react-patterns
 description: TypeScript best practices for React development. Use when writing typed React components, hooks, events, refs, or generic components. Triggers on tasks involving TypeScript errors, type definitions, props typing, or type-safe React patterns.
+license: MIT
+metadata:
+  author: typescript-react-patterns
+  version: "1.0.0"
 ---
 
 # TypeScript React Patterns

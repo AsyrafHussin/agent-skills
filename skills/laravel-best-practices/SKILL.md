@@ -1,6 +1,12 @@
 ---
 name: laravel-best-practices
 description: Laravel 12 conventions and best practices. Use when creating controllers, models, migrations, validation, services, or structuring Laravel applications. Triggers on tasks involving Laravel architecture, Eloquent, database, API development, or PHP patterns.
+license: MIT
+metadata:
+  author: Laravel Community
+  version: "1.0.0"
+  laravelVersion: "12.x"
+  phpVersion: "8.5+"
 ---
 
 # Laravel 12 Best Practices
@@ -21,82 +27,67 @@ Reference these guidelines when:
 | Priority | Category | Impact | Prefix |
 |----------|----------|--------|--------|
 | 1 | Architecture & Structure | CRITICAL | `arch-` |
-| 2 | Eloquent & Database | CRITICAL | `db-` |
-| 3 | Controllers & Routing | HIGH | `ctrl-` |
-| 4 | Validation & Requests | HIGH | `valid-` |
+| 2 | Eloquent & Database | CRITICAL | `eloquent-` |
+| 3 | Controllers & Routing | HIGH | `controller-`, `ctrl-` |
+| 4 | Validation & Requests | HIGH | `validation-`, `valid-` |
 | 5 | Security | HIGH | `sec-` |
 | 6 | Performance | MEDIUM | `perf-` |
 | 7 | API Design | MEDIUM | `api-` |
-| 8 | Testing | LOW-MEDIUM | `test-` |
 
 ## Quick Reference
 
 ### 1. Architecture & Structure (CRITICAL)
 
-- `arch-single-responsibility` - One job per class
 - `arch-service-classes` - Extract business logic to services
 - `arch-action-classes` - Single-purpose action classes
 - `arch-repository-pattern` - When to use repositories
 - `arch-dto-pattern` - Data transfer objects
-- `arch-folder-structure` - Organize by domain/feature
+- `arch-value-objects` - Encapsulate domain concepts
+- `arch-event-driven` - Decouple with events and listeners
+- `arch-feature-folders` - Organize by domain/feature
 
 ### 2. Eloquent & Database (CRITICAL)
 
-- `db-eager-loading` - Prevent N+1 queries
-- `db-chunking` - Process large datasets
-- `db-query-scopes` - Reusable query logic
-- `db-model-events` - Use observers for side effects
-- `db-migrations` - Migration best practices
-- `db-indexes` - Proper indexing strategy
+- `eloquent-eager-loading` - Prevent N+1 queries
+- `eloquent-chunking` - Process large datasets
+- `eloquent-query-scopes` - Reusable query logic
+- `eloquent-model-events` - Use observers for side effects
+- `eloquent-relationships` - Define relationships properly
+- `eloquent-casts` - Automatic attribute casting
+- `eloquent-accessors-mutators` - Transform attributes
+- `eloquent-soft-deletes` - Safe deletion with recovery
+- `eloquent-pruning` - Automatic cleanup of old records
 
 ### 3. Controllers & Routing (HIGH)
 
 - `ctrl-resource-controllers` - Use resource controllers
-- `ctrl-thin-controllers` - Keep controllers thin
-- `ctrl-route-model-binding` - Implicit binding
-- `ctrl-api-resources` - Transform responses
-- `ctrl-invokable` - Single action controllers
+- `controller-single-action` - Single action invokable controllers
+- `controller-resource-methods` - RESTful resource methods
+- `controller-form-requests` - Use form requests
+- `controller-api-resources` - Transform API responses
+- `controller-middleware` - Apply middleware properly
+- `controller-dependency-injection` - Inject dependencies
 
 ### 4. Validation & Requests (HIGH)
 
-- `valid-form-requests` - Use form request classes
-- `valid-custom-rules` - Create custom rules
-- `valid-authorization` - Authorize in form requests
-- `valid-messages` - Custom error messages
-- `valid-conditional` - Conditional validation
+- `validation-form-requests` - Use form request classes
+- `validation-custom-rules` - Create custom rules
+- `validation-conditional-rules` - Conditional validation
+- `validation-array-validation` - Validate nested arrays
+- `validation-after-hooks` - Complex validation logic
 
 ### 5. Security (HIGH)
 
 - `sec-mass-assignment` - Protect against mass assignment
-- `sec-sql-injection` - Prevent SQL injection
-- `sec-xss` - Prevent XSS attacks
-- `sec-csrf` - CSRF protection
-- `sec-authentication` - Auth best practices
-- `sec-authorization` - Policies and gates
+- Additional security rules can be added as needed
 
 ### 6. Performance (MEDIUM)
 
-- `perf-caching` - Cache strategies
-- `perf-queues` - Queue heavy operations
-- `perf-lazy-collections` - Memory efficient processing
-- `perf-database-optimization` - Query optimization
-- `perf-config-cache` - Cache configuration
+- Performance rules can be added for caching, queues, and optimization
 
 ### 7. API Design (MEDIUM)
 
-- `api-versioning` - API versioning strategy
-- `api-resources` - API resource transformers
-- `api-pagination` - Paginate responses
-- `api-error-handling` - Consistent error responses
-- `api-rate-limiting` - Rate limiting
-
-### 8. Testing (LOW-MEDIUM)
-
-- `test-feature-tests` - Feature/integration tests
-- `test-unit-tests` - Unit test patterns
-- `test-factories` - Model factories
-- `test-mocking` - Mock external services
-- `test-database` - Database testing
+- API design rules can be added for versioning and response formatting
 
 ## Essential Patterns
 
@@ -347,12 +338,18 @@ Read individual rule files for detailed explanations and code examples:
 
 ```
 rules/arch-service-classes.md
-rules/db-eager-loading.md
-rules/valid-form-requests.md
+rules/eloquent-eager-loading.md
+rules/validation-form-requests.md
+rules/_sections.md
 ```
 
 Each rule file contains:
+- YAML frontmatter with metadata (title, impact, tags)
 - Brief explanation of why it matters
 - Incorrect code example with explanation
 - Correct code example with explanation
-- Laravel-specific context and references
+- Laravel 12 and PHP 8.5 specific context and references
+
+## Full Compiled Document
+
+For the complete guide with all rules expanded: `AGENTS.md`

@@ -1,3 +1,12 @@
+---
+id: core-kiss-simplicity
+title: KISS - Simplicity
+category: core-principles
+priority: critical
+tags: [KISS, simplicity, over-engineering, maintainability]
+related: [core-kiss-readability, core-yagni-abstractions, solid-srp-function]
+---
+
 # KISS Principle - Simplicity
 
 Keep It Simple, Stupid. Choose the simplest solution that solves the problem. Avoid unnecessary complexity, over-engineering, and clever code that's hard to understand.

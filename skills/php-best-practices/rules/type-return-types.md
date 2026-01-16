@@ -1,3 +1,10 @@
+---
+title: Return Type Declarations
+impact: CRITICAL
+impactDescription: Enforces type contracts, enables static analysis
+tags: type-system, return-types, type-safety, php7
+---
+
 # Return Type Declarations
 
 Always declare return types for all methods and functions.

@@ -1,7 +1,13 @@
-# motion-reduced
+---
+title: Respect Prefers-Reduced-Motion
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level AA - Animation from interactions
+tags: accessibility, animation, motion, vestibular
+---
 
-**Priority:** HIGH
-**Category:** Animation & Motion
+## Respect Prefers-Reduced-Motion
+
+**Impact: CRITICAL (WCAG 2.1 Level AA - Animation from interactions)**
 
 ## Why It Matters
 

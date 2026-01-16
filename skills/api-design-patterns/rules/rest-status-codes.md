@@ -1,4 +1,11 @@
-# Use Appropriate HTTP Status Codes
+---
+title: Use Appropriate HTTP Status Codes
+impact: CRITICAL
+impactDescription: Enables proper client handling, caching, and monitoring
+tags: rest, http-status, errors, semantics
+---
+
+## Use Appropriate HTTP Status Codes
 
 Return semantically correct HTTP status codes that accurately describe the result of the operation.
 

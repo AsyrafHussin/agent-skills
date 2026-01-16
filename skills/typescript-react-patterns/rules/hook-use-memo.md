@@ -1,4 +1,9 @@
-# useMemo Typing
+---
+title: useMemo Typing
+category: Hook Typing
+priority: MEDIUM
+---
+
 
 Properly typing useMemo for memoized computed values.
 

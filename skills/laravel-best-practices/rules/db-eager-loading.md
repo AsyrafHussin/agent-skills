@@ -1,7 +1,13 @@
-# db-eager-loading
+---
+title: Eager Loading to Prevent N+1 Queries
+impact: CRITICAL
+impactDescription: 10-100× performance improvement
+tags: eloquent, n+1, performance, database, eager-loading
+---
 
-**Priority:** CRITICAL
-**Category:** Eloquent & Database
+## Eager Loading to Prevent N+1 Queries
+
+**Impact: CRITICAL (10-100× performance improvement)**
 
 ## Why It Matters
 

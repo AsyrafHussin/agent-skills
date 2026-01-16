@@ -1,9 +1,13 @@
-# error-consistent-format
+---
+title: Consistent Error Response Format
+impact: CRITICAL
+impactDescription: Enables predictable error handling across API
+tags: errors, consistency, response-format, client-experience
+---
 
-**Priority:** CRITICAL
-**Category:** Error Handling
+## Consistent Error Response Format
 
-## Why It Matters
+**Impact: CRITICAL**
 
 Inconsistent error formats force API consumers to handle multiple error structures, leading to fragile client code. A consistent error format makes APIs predictable, easier to debug, and simpler to integrate. Clients can build reusable error handling logic.
 

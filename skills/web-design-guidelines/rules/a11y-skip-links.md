@@ -1,4 +1,13 @@
-# Skip Links
+---
+title: Provide Skip Links for Navigation
+impact: HIGH
+impactDescription: WCAG 2.1 Level A - Bypass blocks
+tags: accessibility, navigation, keyboard, skip-links
+---
+
+## Provide Skip Links for Navigation
+
+**Impact: HIGH (WCAG 2.1 Level A - Bypass blocks)**
 
 Provide skip links to allow keyboard and screen reader users to bypass repetitive content and navigate directly to main content areas.
 

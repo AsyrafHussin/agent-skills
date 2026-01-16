@@ -1,3 +1,10 @@
+---
+title: Named Arguments
+impact: MEDIUM
+impactDescription: Self-documenting calls, skip optional parameters
+tags: modern-features, named-arguments, readability, php8
+---
+
 # Named Arguments
 
 Use named arguments for clarity and flexibility (PHP 8.0+).

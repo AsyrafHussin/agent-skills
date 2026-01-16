@@ -1,4 +1,13 @@
+---
+title: Query Keys Best Practices
+impact: CRITICAL
+section: Query Fundamentals
+tags: react-query, query-keys, caching
+---
+
 # Query Keys Best Practices
+
+**Impact: CRITICAL**
 
 Query keys are the foundation of React Query's caching and refetching system. They must be unique, serializable, and structured for effective cache management.
 

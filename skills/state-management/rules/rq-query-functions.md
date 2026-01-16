@@ -1,4 +1,13 @@
+---
+title: Query Functions Best Practices
+impact: CRITICAL
+section: Query Fundamentals
+tags: react-query, query-functions, error-handling
+---
+
 # Query Functions Best Practices
+
+**Impact: CRITICAL**
 
 Query functions are the data fetching logic passed to useQuery. They should be pure, handle errors properly, and return consistent data shapes.
 

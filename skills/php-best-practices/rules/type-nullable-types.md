@@ -1,3 +1,10 @@
+---
+title: Nullable Types
+impact: CRITICAL
+impactDescription: Makes null handling explicit, prevents null pointer bugs
+tags: type-system, nullable, null-safety, php71
+---
+
 # Nullable Types
 
 Use nullable types explicitly when null is a valid value.

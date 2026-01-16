@@ -1,4 +1,11 @@
-# Use HTTP Methods Correctly
+---
+title: Use HTTP Methods Correctly
+impact: CRITICAL
+impactDescription: Enables caching, retry logic, and semantic API operations
+tags: rest, http-methods, idempotency, safety
+---
+
+## Use HTTP Methods Correctly
 
 HTTP methods have specific semantics and should be used according to their intended purpose. Each method has distinct characteristics for safety and idempotency.
 

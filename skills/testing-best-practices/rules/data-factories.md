@@ -1,3 +1,9 @@
+---
+title: Test Data Factories
+priority: HIGH
+category: Test Data
+---
+
 # Test Data Factories
 
 Use factory functions to create test data with sensible defaults and easy customization.

@@ -426,3 +426,60 @@ rules/form-useform-basic.md
 rules/page-props-typing.md
 rules/layout-persistent.md
 ```
+
+## Project Structure
+
+```
+laravel-inertia-react/
+├── SKILL.md                 # This file - overview and examples
+├── README.md                # Quick reference guide
+├── AGENTS.md                # Integration guide for AI agents
+├── metadata.json            # Skill metadata and references
+└── rules/
+    ├── _sections.md         # Rule categories and priorities
+    ├── _template.md         # Template for new rules
+    ├── page-*.md            # Page component patterns (6 rules)
+    ├── form-*.md            # Form handling patterns (8 rules)
+    ├── nav-*.md             # Navigation patterns (5 rules)
+    ├── shared-*.md          # Shared data patterns (4 rules)
+    └── layout-*.md          # Layout patterns (1 rule)
+```
+
+## References
+
+- [Inertia.js Documentation](https://inertiajs.com/) - Official Inertia.js docs
+- [Laravel Documentation](https://laravel.com/docs) - Laravel framework docs
+- [React Documentation](https://react.dev/) - Official React docs
+- [Ziggy](https://github.com/tighten/ziggy) - Laravel route helper for JavaScript
+
+## License
+
+MIT License
+
+Copyright (c) 2026 Asyraf Hussin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+## Metadata
+
+- **Version**: 1.0.0
+- **Last Updated**: 2026-01-17
+- **Maintainer**: Asyraf Hussin
+- **Rule Count**: 24 rules across 6 categories
+- **Tech Stack**: Laravel 10+, Inertia.js 1.0+, React 18+, TypeScript 5+

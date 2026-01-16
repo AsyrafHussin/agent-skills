@@ -1,3 +1,11 @@
+---
+title: Meaningful Commit Subject Lines
+category: commit
+priority: critical
+tags: [commits, subject-line, clarity, documentation]
+related: [commit-conventional-format, commit-imperative-mood, commit-body-context]
+---
+
 # Meaningful Commit Subject Lines
 
 Write clear, descriptive subject lines that explain WHAT changed and WHY it matters.

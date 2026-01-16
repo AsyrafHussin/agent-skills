@@ -1,4 +1,13 @@
-# Dev Fast Refresh
+---
+title: Structure Components for Fast Refresh
+impact: HIGH
+impactDescription: Instant updates without losing state
+tags: dev, fast-refresh, hmr, react, development
+---
+
+## Structure Components for Fast Refresh
+
+**Impact: HIGH (Instant updates without losing state)**
 
 Structure components to take full advantage of React Fast Refresh for instant updates during development.
 

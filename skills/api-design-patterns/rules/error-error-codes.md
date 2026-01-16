@@ -1,4 +1,11 @@
-# Use Machine-Readable Error Codes
+---
+title: Use Machine-Readable Error Codes
+impact: HIGH
+impactDescription: Enables programmatic error handling and client recovery
+tags: errors, error-codes, automation, monitoring
+---
+
+## Use Machine-Readable Error Codes
 
 Include standardized, machine-readable error codes alongside human-readable messages to enable programmatic error handling.
 

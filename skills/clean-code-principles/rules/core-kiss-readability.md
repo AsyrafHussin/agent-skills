@@ -1,4 +1,13 @@
-# KISS Principle - Readability
+---
+id: core-kiss-readability
+title: KISS - Readability
+category: core-principles
+priority: critical
+tags: [KISS, readability, clear-code, maintainability]
+related: [core-kiss-simplicity, solid-srp-function]
+---
+
+# KISS - Readability
 
 Code is read far more often than it is written. Optimize for readability by using clear names, straightforward logic, and avoiding clever tricks that obscure intent.
 

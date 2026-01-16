@@ -1,4 +1,13 @@
-# Split Library Chunks
+---
+title: Split Large Library Dependencies
+impact: CRITICAL
+impactDescription: Better caching for third-party code
+tags: split, libraries, chunks, vendor, optimization
+---
+
+## Split Large Library Dependencies
+
+**Impact: CRITICAL (Better caching for third-party code)**
 
 Configure Vite to split large third-party libraries into separate chunks for optimal caching and loading strategies.
 

@@ -1,3 +1,12 @@
+---
+id: solid-lsp-preconditions
+title: SOLID - Liskov Substitution (Preconditions)
+category: solid-principles
+priority: critical
+tags: [SOLID, LSP, liskov-substitution, preconditions, postconditions]
+related: [solid-lsp-contracts, core-fail-fast, solid-ocp-abstraction]
+---
+
 # Liskov Substitution Principle - Preconditions and Postconditions
 
 Subtypes cannot strengthen preconditions (require more) or weaken postconditions (guarantee less) compared to their base types.

@@ -1,3 +1,10 @@
+---
+title: Readonly Properties
+impact: CRITICAL
+impactDescription: Ensures immutability, prevents accidental modification
+tags: modern-features, readonly, immutability, php81
+---
+
 # Readonly Properties
 
 Use readonly properties for immutable data that should only be set once (PHP 8.1+).

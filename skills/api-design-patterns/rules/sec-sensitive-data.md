@@ -1,4 +1,11 @@
-# Protect Sensitive Data in Responses
+---
+title: Protect Sensitive Data in Responses
+impact: CRITICAL
+impactDescription: Prevents data leaks and privacy violations
+tags: security, privacy, sensitive-data, pii
+---
+
+## Protect Sensitive Data in Responses
 
 Never expose sensitive information like passwords, tokens, internal IDs, or PII in API responses.
 

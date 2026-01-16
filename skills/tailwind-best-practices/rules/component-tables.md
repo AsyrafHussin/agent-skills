@@ -1,3 +1,10 @@
+---
+id: component-tables
+title: Table Components
+priority: HIGH
+category: Component Patterns
+---
+
 # Table Components
 
 Create responsive, accessible tables with proper styling for data presentation.

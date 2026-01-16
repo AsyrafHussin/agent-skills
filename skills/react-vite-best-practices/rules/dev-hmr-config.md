@@ -1,4 +1,13 @@
-# Dev HMR Config
+---
+title: Configure HMR for Optimal Development
+impact: HIGH
+impactDescription: Fast, reliable hot updates
+tags: dev, hmr, hot-reload, development, vite
+---
+
+## Configure HMR for Optimal Development
+
+**Impact: HIGH (Fast, reliable hot updates)**
 
 Configure Vite's Hot Module Replacement (HMR) for optimal development experience with fast, reliable updates.
 

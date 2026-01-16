@@ -1,0 +1,75 @@
+{
+  "version": "1.0.0",
+  "organization": "Laravel Community",
+  "date": "January 2026",
+  "laravelVersion": "12.x",
+  "phpVersion": "8.5+",
+  "abstract": "Comprehensive Laravel 12 best practices guide designed for AI agents and LLMs. Contains 30+ rules across 7 categories, prioritized by impact from critical (architecture and database patterns) to incremental (performance optimization). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations using PHP 8.5 and Laravel 12 features, and specific impact metrics to guide automated refactoring and code generation. Focuses on modern Laravel patterns including typed properties, constructor property promotion, enums, and readonly properties.",
+  "references": [
+    "https://laravel.com",
+    "https://laravel.com/docs/12.x",
+    "https://laravel.com/docs/12.x/eloquent",
+    "https://laravel.com/docs/12.x/controllers",
+    "https://laravel.com/docs/12.x/validation",
+    "https://laravel.com/docs/12.x/eloquent-relationships",
+    "https://laravel.com/docs/12.x/queries",
+    "https://laravel.com/docs/12.x/security",
+    "https://php.net/manual/en/language.types.declarations.php",
+    "https://github.com/laravel/laravel"
+  ],
+  "categories": [
+    {
+      "name": "Architecture & Structure",
+      "prefix": "arch",
+      "impact": "CRITICAL",
+      "description": "Foundational patterns for organizing Laravel applications"
+    },
+    {
+      "name": "Eloquent & Database",
+      "prefix": "eloquent",
+      "impact": "CRITICAL",
+      "description": "Efficient database operations and ORM usage"
+    },
+    {
+      "name": "Controllers & Routing",
+      "prefix": "controller, ctrl",
+      "impact": "HIGH",
+      "description": "RESTful conventions and proper request handling"
+    },
+    {
+      "name": "Validation & Requests",
+      "prefix": "validation, valid",
+      "impact": "HIGH",
+      "description": "Form request classes and validation patterns"
+    },
+    {
+      "name": "Security",
+      "prefix": "sec",
+      "impact": "HIGH",
+      "description": "Protection against common vulnerabilities"
+    },
+    {
+      "name": "Performance",
+      "prefix": "perf",
+      "impact": "MEDIUM",
+      "description": "Caching strategies and optimization techniques"
+    },
+    {
+      "name": "API Design",
+      "prefix": "api",
+      "impact": "MEDIUM",
+      "description": "RESTful API patterns and resource transformers"
+    }
+  ],
+  "keyFeatures": [
+    "Service classes for business logic separation",
+    "Eager loading to prevent N+1 queries",
+    "Form request classes for validation",
+    "Resource controllers following REST conventions",
+    "Eloquent relationships and query scopes",
+    "Mass assignment protection",
+    "API resources for response transformation",
+    "Modern PHP 8.5 syntax (readonly properties, constructor promotion)",
+    "Laravel 12 patterns and conventions"
+  ]
+}

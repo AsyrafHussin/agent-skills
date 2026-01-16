@@ -1,3 +1,9 @@
+---
+title: Describe-It Block Structure
+priority: CRITICAL
+category: Test Structure
+---
+
 # Describe-It Block Structure
 
 Organize tests using nested describe blocks and it/test functions for clear hierarchy and context.

@@ -1,9 +1,13 @@
-# bundle-tree-shaking
+---
+title: Ensure Proper Tree Shaking with ESM Imports
+impact: MEDIUM
+impactDescription: 20-40% smaller bundle with proper imports
+tags: bundle, tree-shaking, esm, optimization, imports
+---
 
-**Priority:** LOW-MEDIUM
-**Category:** Bundle Analysis
+## Ensure Proper Tree Shaking with ESM Imports
 
-## Why It Matters
+**Impact: MEDIUM (20-40% smaller bundle with proper imports)**
 
 Tree shaking removes unused code from bundles. Improper imports can prevent tree shaking, including entire libraries when only small parts are used.
 

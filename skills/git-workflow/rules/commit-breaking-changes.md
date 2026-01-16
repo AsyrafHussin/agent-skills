@@ -1,3 +1,11 @@
+---
+title: Documenting Breaking Changes
+category: commit
+priority: critical
+tags: [commits, breaking-changes, semver, migration]
+related: [commit-conventional-format, commit-body-context]
+---
+
 # Documenting Breaking Changes
 
 Clearly mark and document breaking changes that require consumers to modify their code or configuration.

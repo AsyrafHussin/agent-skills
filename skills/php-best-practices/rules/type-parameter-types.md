@@ -1,3 +1,10 @@
+---
+title: Parameter Type Declarations
+impact: CRITICAL
+impactDescription: Prevents invalid arguments, improves code clarity
+tags: type-system, parameter-types, type-safety, php7
+---
+
 # Parameter Type Declarations
 
 Always declare types for all function and method parameters.

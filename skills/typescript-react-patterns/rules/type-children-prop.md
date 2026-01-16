@@ -1,4 +1,9 @@
-# Children Prop Typing
+---
+title: Children Prop Typing
+category: Component Typing
+priority: CRITICAL
+---
+
 
 Properly typing the children prop for different component use cases.
 

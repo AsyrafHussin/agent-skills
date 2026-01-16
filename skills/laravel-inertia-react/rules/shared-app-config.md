@@ -1,3 +1,10 @@
+---
+section: shared-data
+priority: medium
+description: Share app config and feature flags through Inertia middleware
+keywords: [config, settings, feature-flags, environment, configuration]
+---
+
 # Shared App Configuration
 
 Share application configuration through Inertia's middleware to provide consistent access to app settings, feature flags, and environment-specific values.

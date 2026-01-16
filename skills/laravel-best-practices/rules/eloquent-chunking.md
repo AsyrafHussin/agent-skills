@@ -1,4 +1,13 @@
-# Chunking Large Datasets
+---
+title: Chunking for Large Datasets
+impact: CRITICAL
+impactDescription: Prevents memory exhaustion on large datasets
+tags: eloquent, chunking, memory, performance
+---
+
+## Chunking for Large Datasets
+
+**Impact: CRITICAL (Prevents memory exhaustion on large datasets)**
 
 Process large datasets in chunks to prevent memory exhaustion and timeout issues.
 

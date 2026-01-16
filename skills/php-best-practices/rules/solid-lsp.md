@@ -1,3 +1,10 @@
+---
+title: Liskov Substitution Principle
+impact: HIGH
+impactDescription: Subtypes are substitutable, maintains polymorphism
+tags: solid, lsp, design-principles, substitutability
+---
+
 # Liskov Substitution Principle (LSP)
 
 Subtypes must be substitutable for their base types without altering correctness.

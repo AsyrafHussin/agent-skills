@@ -1,3 +1,10 @@
+---
+title: Single Responsibility Principle
+impact: CRITICAL
+impactDescription: One reason to change, easier testing and maintenance
+tags: solid, srp, design-principles, single-responsibility
+---
+
 # Single Responsibility Principle (SRP)
 
 A class should have only one reason to change - one responsibility.

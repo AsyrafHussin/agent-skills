@@ -1,9 +1,13 @@
-# asset-image-optimization
+---
+title: Optimize Image Loading and Format
+impact: HIGH
+impactDescription: 40-70% reduction in image payload
+tags: asset, images, optimization, webp, lazy-loading
+---
 
-**Priority:** HIGH
-**Category:** Asset Handling
+## Optimize Image Loading and Format
 
-## Why It Matters
+**Impact: HIGH (40-70% reduction in image payload)**
 
 Unoptimized images are often the largest assets, significantly impacting page load time. Proper image handling reduces bandwidth and improves Core Web Vitals.
 

@@ -1,4 +1,14 @@
+---
+title: Mutation Setup Best Practices
+impact: CRITICAL
+section: Mutation & Updates
+tags: react-query, mutations, create-update-delete
+---
+
 # Mutation Setup Best Practices
+
+**Impact: CRITICAL**
+
 
 Mutations handle data modifications (create, update, delete) in React Query. Proper setup ensures reliable data changes with appropriate error handling and cache updates.
 

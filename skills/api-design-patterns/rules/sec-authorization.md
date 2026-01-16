@@ -1,4 +1,11 @@
-# Implement Proper Authorization
+---
+title: Implement Proper Authorization
+impact: CRITICAL
+impactDescription: Enforces access control and resource permissions
+tags: security, authorization, rbac, permissions, access-control
+---
+
+## Implement Proper Authorization
 
 Authorization verifies what authenticated users can do. Implement role-based (RBAC) or attribute-based (ABAC) access control consistently.
 

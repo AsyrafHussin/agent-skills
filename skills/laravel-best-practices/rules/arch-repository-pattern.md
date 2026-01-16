@@ -1,4 +1,13 @@
-# Repository Pattern
+---
+title: Repository Pattern
+impact: MEDIUM
+impactDescription: Abstracts data access from business logic
+tags: architecture, repository, data-access, abstraction
+---
+
+## Repository Pattern
+
+**Impact: MEDIUM (Abstracts data access from business logic)**
 
 Abstract database queries into repository classes to decouple business logic from data access.
 

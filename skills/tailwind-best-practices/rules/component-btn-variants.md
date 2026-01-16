@@ -1,3 +1,10 @@
+---
+id: component-btn-variants
+title: Button Variants
+priority: HIGH
+category: Component Patterns
+---
+
 # Button Variants
 
 Create consistent, reusable button components with proper variants for different contexts and states.

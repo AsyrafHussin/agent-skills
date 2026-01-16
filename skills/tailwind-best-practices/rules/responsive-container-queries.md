@@ -1,3 +1,10 @@
+---
+id: responsive-container-queries
+title: Container Queries
+priority: CRITICAL
+category: Responsive Design
+---
+
 # Container Queries
 
 Use container queries to create components that respond to their parent container's size rather than the viewport.

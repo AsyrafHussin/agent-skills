@@ -1,3 +1,10 @@
+---
+id: dark-class-strategy
+title: Dark Mode Class Strategy
+priority: CRITICAL
+category: Dark Mode
+---
+
 # Dark Mode Class Strategy
 
 Use the class-based dark mode strategy for manual control over theme switching in your application.

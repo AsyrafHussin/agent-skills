@@ -1,36 +1,46 @@
-# Rule Sections
+# Sections
 
-## Priority Levels
+This file defines all sections, their ordering, impact levels, and descriptions.
+The section ID (in parentheses) is the filename prefix used to group rules.
 
-| Level | Description | When to Apply |
-|-------|-------------|---------------|
-| CRITICAL | Essential for production apps | Always |
-| HIGH | Significant performance impact | Most projects |
-| MEDIUM | Noticeable improvements | When optimizing |
-| LOW | Minor optimizations | Large-scale apps |
+---
 
-## Section Overview
+## 1. Build Optimization (build)
 
-### Build Optimization (CRITICAL)
-Rules for configuring Vite's production build. These have the highest impact on bundle size and load time.
+**Impact:** CRITICAL
+**Description:** Optimizing Vite build configuration and output has the highest impact on production bundle size, load time, and caching efficiency. These rules ensure minimal bundle size and optimal delivery.
 
-### Code Splitting (CRITICAL)
-Rules for splitting code effectively. Directly impacts initial load time and time-to-interactive.
+## 2. Code Splitting (split)
 
-### Development Performance (HIGH)
-Rules for faster development iteration. Important for developer experience but doesn't affect production.
+**Impact:** CRITICAL
+**Description:** Strategic code splitting reduces initial bundle size by 50-80%, dramatically improving Time to Interactive and First Contentful Paint. Load only what's needed, when it's needed.
 
-### Asset Handling (HIGH)
-Rules for handling static assets. Affects both bundle size and runtime performance.
+## 3. Development Performance (dev)
 
-### Environment Configuration (MEDIUM)
-Rules for managing environment variables. Important for security and configuration management.
+**Impact:** HIGH
+**Description:** Fast development iteration with instant feedback loops. Optimizing Vite's dev server, dependency pre-bundling, and HMR reduces build times and improves developer productivity.
 
-### HMR Optimization (MEDIUM)
-Rules for Hot Module Replacement. Affects development experience.
+## 4. Asset Handling (asset)
 
-### Bundle Analysis (LOW-MEDIUM)
-Rules for analyzing and understanding bundle composition. Useful for identifying optimization opportunities.
+**Impact:** HIGH
+**Description:** Proper asset optimization (images, SVGs, fonts) reduces page weight by 40-70% and improves Core Web Vitals. Critical for performance on slower networks.
 
-### Advanced Patterns (LOW)
-Rules for specialized use cases like SSR, library mode, etc.
+## 5. Environment Configuration (env)
+
+**Impact:** MEDIUM
+**Description:** Proper environment variable handling ensures security (no leaked secrets) and correct configuration across development, staging, and production environments.
+
+## 6. HMR Optimization (hmr)
+
+**Impact:** MEDIUM
+**Description:** React Fast Refresh and HMR optimization preserve component state during development, enabling instant visual feedback without full page reloads.
+
+## 7. Bundle Analysis (bundle)
+
+**Impact:** LOW-MEDIUM
+**Description:** Tools and techniques for analyzing bundle composition, identifying bloat, and ensuring proper tree shaking. Essential for maintaining long-term bundle health.
+
+## 8. Advanced Patterns (advanced)
+
+**Impact:** LOW
+**Description:** Specialized patterns for SSR, library mode, multi-page apps, Web Workers, and WebAssembly. Apply only when these specific use cases are required.

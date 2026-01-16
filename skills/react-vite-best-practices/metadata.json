@@ -1,0 +1,15 @@
+{
+  "version": "1.0.0",
+  "organization": "agent-skills",
+  "date": "January 2026",
+  "abstract": "Comprehensive performance optimization guide for React applications built with Vite, designed for AI agents and LLMs. Contains 27+ rules across 8 categories, prioritized by impact from critical (build optimization, code splitting) to incremental (advanced patterns). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations, and specific impact metrics to guide automated refactoring and code generation.",
+  "references": [
+    "https://vitejs.dev",
+    "https://react.dev",
+    "https://github.com/vitejs/vite",
+    "https://github.com/vitejs/vite-plugin-react",
+    "https://rollupjs.org",
+    "https://esbuild.github.io",
+    "https://terser.org"
+  ]
+}

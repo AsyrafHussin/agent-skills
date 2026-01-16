@@ -1,3 +1,10 @@
+---
+section: navigation
+priority: high
+description: Use standard anchor tags for external links and file downloads
+keywords: [external, links, download, anchor, security, noopener]
+---
+
 # External Links Handling
 
 Use standard anchor tags for external links and file downloads, reserving Inertia's Link component for internal navigation only.

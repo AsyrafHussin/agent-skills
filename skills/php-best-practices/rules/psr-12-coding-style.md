@@ -1,3 +1,10 @@
+---
+title: PSR-12 Coding Style
+impact: HIGH
+impactDescription: Consistent formatting, improved readability and collaboration
+tags: psr, coding-style, formatting, php-fig
+---
+
 # PSR-12 Coding Style
 
 Follow PSR-12 extended coding style for consistent, readable code.

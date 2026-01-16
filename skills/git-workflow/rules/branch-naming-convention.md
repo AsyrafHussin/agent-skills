@@ -1,3 +1,11 @@
+---
+title: Branch Naming Convention
+category: branch
+priority: high
+tags: [branching, naming, conventions, automation]
+related: [branch-feature-workflow, commit-conventional-format]
+---
+
 # Branch Naming Convention
 
 Use consistent, descriptive branch names that indicate the type and purpose of the work.

@@ -1,4 +1,14 @@
+---
+title: Placeholder Data Pattern
+impact: MEDIUM
+section: Cache & Performance
+tags: react-query, placeholder-data, ux
+---
+
 # Placeholder Data for Immediate Display
+
+**Impact: MEDIUM**
+
 
 Placeholder data provides temporary data to display while the actual query is loading. Unlike initialData, it doesn't persist to the cache and doesn't affect staleness.
 

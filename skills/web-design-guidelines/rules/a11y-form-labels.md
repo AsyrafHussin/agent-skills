@@ -1,4 +1,13 @@
-# Form Labels
+---
+title: Associate Labels with Form Inputs
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level A - Info and Relationships
+tags: accessibility, forms, labels, inputs
+---
+
+## Associate Labels with Form Inputs
+
+**Impact: CRITICAL (WCAG 2.1 Level A - Info and Relationships)**
 
 Every form input must have an associated label that clearly identifies its purpose. Labels are essential for screen reader users and improve usability for all users.
 

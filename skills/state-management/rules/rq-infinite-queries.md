@@ -1,4 +1,14 @@
+---
+title: Infinite Queries Pattern
+impact: HIGH
+section: Advanced Queries
+tags: react-query, infinite-scroll, pagination
+---
+
 # Infinite Queries for Paginated Lists
+
+**Impact: HIGH**
+
 
 Infinite queries handle "load more" patterns where data is fetched in pages and accumulated. They manage page parameters and provide seamless scrolling experiences.
 

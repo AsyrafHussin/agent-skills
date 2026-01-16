@@ -1,7 +1,11 @@
-# dark-setup
+---
+id: dark-setup
+title: Dark Mode Setup
+priority: CRITICAL
+category: Dark Mode
+---
 
-**Priority:** CRITICAL
-**Category:** Dark Mode
+# Dark Mode Setup
 
 ## Why It Matters
 

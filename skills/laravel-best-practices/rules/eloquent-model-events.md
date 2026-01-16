@@ -1,4 +1,13 @@
-# Model Events
+---
+title: Model Events and Observers
+impact: HIGH
+impactDescription: Clean lifecycle hooks and side effects
+tags: eloquent, events, observers, lifecycle
+---
+
+## Model Events and Observers
+
+**Impact: HIGH (Clean lifecycle hooks and side effects)**
 
 Use model events and observers to react to model lifecycle changes cleanly.
 

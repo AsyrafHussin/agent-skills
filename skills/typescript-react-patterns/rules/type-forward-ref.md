@@ -1,4 +1,9 @@
-# ForwardRef Typing
+---
+title: ForwardRef Typing
+category: Ref Typing
+priority: HIGH
+---
+
 
 Properly typing components that forward refs to child elements.
 

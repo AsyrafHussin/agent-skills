@@ -1,3 +1,10 @@
+---
+id: responsive-grid-system
+title: Responsive Grid System
+priority: CRITICAL
+category: Responsive Design
+---
+
 # Responsive Grid System
 
 Use CSS Grid with Tailwind for flexible, responsive layouts that adapt to different screen sizes and content needs.

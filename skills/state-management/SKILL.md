@@ -1,11 +1,24 @@
 ---
 name: state-management
 description: React Query and Zustand patterns for state management. Use when implementing data fetching, caching, mutations, or client-side state. Triggers on tasks involving useQuery, useMutation, Zustand stores, caching, or state management.
+version: 1.0.0
+date: January 2026
 ---
 
 # State Management with React Query + Zustand
 
-Comprehensive patterns for server state (React Query) and client state (Zustand). Contains 40+ rules for efficient data fetching and state management.
+**Version 1.0.0**
+State Management Patterns
+January 2026
+
+> **Note:**
+> This document provides comprehensive patterns for AI agents and LLMs working with
+> React Query (TanStack Query) and Zustand. Optimized for automated refactoring,
+> code generation, and state management best practices.
+
+---
+
+Comprehensive patterns for server state (React Query) and client state (Zustand). Contains 26+ rules for efficient data fetching and state management.
 
 ## When to Apply
 
@@ -400,3 +413,32 @@ rules/rq-usequery.md
 rules/zs-create-store.md
 rules/cache-invalidation.md
 ```
+
+---
+
+## References
+
+### React Query (TanStack Query)
+1. [TanStack Query Documentation](https://tanstack.com/query/latest)
+2. [React Query Overview](https://tanstack.com/query/latest/docs/react/overview)
+3. [Queries Guide](https://tanstack.com/query/latest/docs/react/guides/queries)
+4. [Mutations Guide](https://tanstack.com/query/latest/docs/react/guides/mutations)
+5. [Query Keys Guide](https://tanstack.com/query/latest/docs/react/guides/query-keys)
+6. [Optimistic Updates](https://tanstack.com/query/latest/docs/react/guides/optimistic-updates)
+7. [Infinite Queries](https://tanstack.com/query/latest/docs/react/guides/infinite-queries)
+8. [Paginated Queries](https://tanstack.com/query/latest/docs/react/guides/paginated-queries)
+9. [React Query DevTools](https://tanstack.com/query/latest/docs/react/devtools)
+
+### Zustand
+1. [Zustand Demo](https://zustand-demo.pmnd.rs)
+2. [Zustand GitHub](https://github.com/pmndrs/zustand)
+3. [Getting Started](https://docs.pmnd.rs/zustand/getting-started/introduction)
+4. [TypeScript Guide](https://docs.pmnd.rs/zustand/guides/typescript)
+5. [Persisting Store Data](https://docs.pmnd.rs/zustand/integrations/persisting-store-data)
+6. [Zustand Recipes](https://github.com/pmndrs/zustand#recipes)
+
+---
+
+## License
+
+This skill is provided as-is for educational and development purposes. React Query is MIT licensed by TanStack. Zustand is MIT licensed by Poimandres (pmnd.rs).

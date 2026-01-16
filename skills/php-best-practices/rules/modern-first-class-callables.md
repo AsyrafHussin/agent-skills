@@ -1,3 +1,10 @@
+---
+title: First-Class Callable Syntax
+impact: MEDIUM
+impactDescription: Concise callable references with IDE support
+tags: modern-features, first-class-callables, closures, php81
+---
+
 # First-Class Callable Syntax
 
 Use first-class callable syntax to create closures from callables (PHP 8.1+).

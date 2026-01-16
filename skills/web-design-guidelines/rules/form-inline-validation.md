@@ -1,4 +1,13 @@
-# Inline Form Validation
+---
+title: Implement Smart Inline Validation
+impact: MEDIUM
+impactDescription: Reduces errors by 20-40%
+tags: forms, validation, ux, inline-validation
+---
+
+## Implement Smart Inline Validation
+
+**Impact: MEDIUM (Reduces errors by 20-40%)**
 
 Implement inline validation that provides immediate, contextual feedback as users complete form fields. Validate at the right moment to help without interrupting.
 

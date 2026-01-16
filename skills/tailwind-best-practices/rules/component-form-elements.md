@@ -1,3 +1,10 @@
+---
+id: component-form-elements
+title: Form Elements
+priority: HIGH
+category: Component Patterns
+---
+
 # Form Elements
 
 Create accessible, consistent form components with proper states, labels, and validation styling.

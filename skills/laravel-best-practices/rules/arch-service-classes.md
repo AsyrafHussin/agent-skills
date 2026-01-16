@@ -1,7 +1,13 @@
-# arch-service-classes
+---
+title: Service Classes for Business Logic
+impact: CRITICAL
+impactDescription: Improves maintainability, testability, and code reusability
+tags: architecture, services, separation-of-concerns, business-logic
+---
 
-**Priority:** CRITICAL
-**Category:** Architecture & Structure
+## Service Classes for Business Logic
+
+**Impact: CRITICAL (Improves maintainability, testability, and code reusability)**
 
 ## Why It Matters
 

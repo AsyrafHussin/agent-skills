@@ -1,4 +1,14 @@
+---
+title: Query Cancellation
+impact: MEDIUM
+section: Advanced Queries
+tags: react-query, cancellation, cleanup
+---
+
 # Query Cancellation
+
+**Impact: MEDIUM**
+
 
 Query cancellation stops in-flight requests when they're no longer needed. This prevents race conditions, saves bandwidth, and improves performance.
 

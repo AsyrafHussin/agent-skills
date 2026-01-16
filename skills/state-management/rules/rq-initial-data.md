@@ -1,4 +1,14 @@
+---
+title: Initial Data Configuration
+impact: MEDIUM
+section: Cache & Performance
+tags: react-query, initial-data, prefetch
+---
+
 # Initial Data for Cache Seeding
+
+**Impact: MEDIUM**
+
 
 Initial data seeds the query cache with known data before or instead of fetching. It's cached immediately and affects query staleness, unlike placeholderData.
 

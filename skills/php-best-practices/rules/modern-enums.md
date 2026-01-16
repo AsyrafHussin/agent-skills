@@ -1,7 +1,11 @@
-# modern-enums
+---
+title: Type-Safe Enums
+impact: CRITICAL
+impactDescription: Provides type safety for constants, prevents invalid values
+tags: modern-features, enums, type-safety, php81
+---
 
-**Priority:** CRITICAL
-**Category:** Modern Features
+# Type-Safe Enums
 
 ## Why It Matters
 

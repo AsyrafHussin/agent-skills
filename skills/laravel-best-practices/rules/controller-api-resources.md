@@ -1,4 +1,13 @@
-# API Resources
+---
+title: API Resources for Response Transformation
+impact: HIGH
+impactDescription: Consistent API responses and data transformation
+tags: controllers, api, resources, transformation
+---
+
+## API Resources for Response Transformation
+
+**Impact: HIGH (Consistent API responses and data transformation)**
 
 Use API Resources to transform models into consistent JSON responses.
 

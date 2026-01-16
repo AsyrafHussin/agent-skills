@@ -1,4 +1,13 @@
-# Form Error Display
+---
+title: Display Form Errors Clearly
+impact: HIGH
+impactDescription: WCAG 2.1 Level A - Error identification
+tags: forms, errors, validation, accessibility, ux
+---
+
+## Display Form Errors Clearly
+
+**Impact: HIGH (WCAG 2.1 Level A - Error identification)**
 
 Display form errors clearly and consistently to help users identify and correct mistakes. Error messages should be visible, associated with their fields, and provide actionable guidance.
 

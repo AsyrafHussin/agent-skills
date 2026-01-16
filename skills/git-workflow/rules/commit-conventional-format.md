@@ -1,3 +1,11 @@
+---
+title: Conventional Commit Format
+category: commit
+priority: critical
+tags: [commits, conventional-commits, standards, automation]
+related: [commit-meaningful-subject, commit-references, commit-breaking-changes]
+---
+
 # Conventional Commit Format
 
 Use the Conventional Commits specification for standardized, machine-readable commit messages.

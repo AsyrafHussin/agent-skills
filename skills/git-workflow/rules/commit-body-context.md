@@ -1,3 +1,11 @@
+---
+title: Commit Body for Context
+category: commit
+priority: critical
+tags: [commits, documentation, context, motivation]
+related: [commit-meaningful-subject, commit-references]
+---
+
 # Commit Body for Context
 
 Use the commit body to explain the motivation behind changes and provide additional context that isn't obvious from the code.

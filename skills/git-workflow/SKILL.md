@@ -447,7 +447,124 @@ Example:
 Read individual rule files for detailed explanations:
 
 ```
-rules/commit-conventional.md
-rules/branch-naming.md
-rules/pr-small.md
+rules/commit-conventional-format.md
+rules/branch-naming-convention.md
+rules/pr-small-focused.md
 ```
+
+## References
+
+- [Git Official Documentation](https://git-scm.com/doc) - Comprehensive Git documentation
+- [Pro Git Book](https://git-scm.com/book/en/v2) - The complete Pro Git book
+- [Conventional Commits](https://www.conventionalcommits.org) - Commit message specification
+- [GitHub Flow](https://docs.github.com/en/get-started/quickstart/github-flow) - Lightweight workflow
+- [How to Write a Git Commit Message](https://chris.beams.io/posts/git-commit/) - Commit message guide
+- [Google Code Review Practices](https://google.github.io/eng-practices/review/) - Code review best practices
+
+## Examples from Well-Known Projects
+
+Learn from projects with excellent git practices:
+- **Linux Kernel** - Detailed commit messages and patch workflow
+- **React** - Conventional commits and thorough PR reviews
+- **Vue.js** - Clean commit history and good PR templates
+- **TypeScript** - Structured branching and clear release process
+- **Next.js** - Conventional commits and automated releases
+
+## Configuration Examples
+
+### Commitlint
+
+```javascript
+// commitlint.config.js
+module.exports = {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      ['feat', 'fix', 'docs', 'style', 'refactor', 'perf', 'test', 'chore', 'ci', 'build', 'revert']
+    ],
+    'subject-max-length': [2, 'always', 72],
+    'body-max-line-length': [2, 'always', 100]
+  }
+};
+```
+
+### Husky Git Hooks
+
+```bash
+# .husky/commit-msg
+#!/bin/sh
+npx commitlint --edit $1
+
+# .husky/pre-commit
+#!/bin/sh
+npm run lint
+npm test
+```
+
+### GitHub PR Template
+
+```markdown
+# .github/PULL_REQUEST_TEMPLATE.md
+## Summary
+Brief description of changes
+
+## Changes
+- List key changes
+- One per line
+
+## Testing
+- [ ] Unit tests pass
+- [ ] Integration tests pass
+- [ ] Manual testing completed
+
+## Related
+Closes #issue-number
+```
+
+---
+
+## Metadata
+
+**Skill Version:** 1.0.0
+**Last Updated:** 2026-01-17
+**Total Rules:** 26
+**Categories:** 5 (Commit Messages, Branching Strategy, Pull Requests, History Management, Collaboration)
+
+**Compatible With:**
+- Git 2.0+
+- GitHub, GitLab, Bitbucket, Azure DevOps
+
+**Recommended Tools:**
+- [Git](https://git-scm.com/) - Version control system
+- [GitHub CLI](https://cli.github.com/) - GitHub command-line tool
+- [Commitlint](https://commitlint.js.org/) - Commit message linter
+- [Husky](https://typicode.github.io/husky/) - Git hooks
+- [Semantic Release](https://semantic-release.gitbook.io/) - Automated versioning
+
+---
+
+## License
+
+MIT License
+
+Copyright (c) 2026 Agent Skills Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

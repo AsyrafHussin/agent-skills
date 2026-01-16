@@ -1,3 +1,9 @@
+---
+title: Single Logical Assertion
+priority: CRITICAL
+category: Test Structure
+---
+
 # Single Logical Assertion
 
 Each test should verify one specific behavior or logical concept.

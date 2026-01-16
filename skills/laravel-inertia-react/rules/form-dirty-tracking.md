@@ -1,3 +1,10 @@
+---
+section: forms
+priority: high
+description: Track unsaved changes with isDirty and warn before navigation
+keywords: [isDirty, unsaved, changes, navigation, warning, beforeunload]
+---
+
 # Form Dirty Tracking
 
 Use Inertia's isDirty flag to track unsaved changes and warn users before navigating away from modified forms.

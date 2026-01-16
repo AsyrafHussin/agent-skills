@@ -1,3 +1,10 @@
+---
+title: PHP Attributes
+impact: HIGH
+impactDescription: Type-safe metadata with IDE support, replaces annotations
+tags: modern-features, attributes, metadata, php8
+---
+
 # PHP Attributes
 
 Use native attributes for metadata instead of docblock annotations (PHP 8.0+).

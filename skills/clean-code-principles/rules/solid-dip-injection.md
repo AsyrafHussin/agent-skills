@@ -1,3 +1,12 @@
+---
+id: solid-dip-injection
+title: SOLID - Dependency Inversion (Injection)
+category: solid-principles
+priority: critical
+tags: [SOLID, DIP, dependency-injection, testability]
+related: [solid-dip-abstractions, solid-srp-class, core-composition]
+---
+
 # Dependency Inversion Principle - Dependency Injection
 
 Dependencies should be injected from outside rather than created inside a class. This enables loose coupling, testability, and flexibility in how dependencies are provided.

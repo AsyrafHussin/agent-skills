@@ -1,3 +1,9 @@
+---
+title: No Order Dependency
+priority: CRITICAL
+category: Test Isolation
+---
+
 # No Order Dependency
 
 Tests should pass regardless of the order in which they run.

@@ -1,4 +1,11 @@
-# Use Nouns, Not Verbs for Resource Names
+---
+title: Use Nouns, Not Verbs for Resource Names
+impact: CRITICAL
+impactDescription: Foundation of REST architecture
+tags: rest, resources, naming, http-methods
+---
+
+## Use Nouns, Not Verbs for Resource Names
 
 REST API endpoints should represent resources (nouns), not actions (verbs). HTTP methods already convey the action being performed.
 

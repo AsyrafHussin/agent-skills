@@ -1,4 +1,9 @@
-# Display Name Pattern
+---
+title: Display Name Pattern
+category: Utility Types
+priority: LOW
+---
+
 
 Setting displayName for better debugging and DevTools integration.
 

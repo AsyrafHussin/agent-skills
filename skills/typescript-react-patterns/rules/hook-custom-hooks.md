@@ -1,4 +1,9 @@
-# Custom Hooks Typing
+---
+title: Custom Hooks Typing
+category: Hook Typing
+priority: CRITICAL
+---
+
 
 Creating properly typed custom hooks with clear return types and parameters.
 

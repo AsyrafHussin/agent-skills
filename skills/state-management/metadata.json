@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "organization": "State Management Patterns",
+  "date": "January 2026",
+  "abstract": "Comprehensive guide for React Query (TanStack Query) and Zustand state management patterns, designed for AI agents and LLMs. Contains 26+ rules across 6 categories, prioritized by impact from critical (query fundamentals, mutations, stores) to medium (advanced patterns, caching strategies). Each rule includes detailed explanations with bad vs. good code examples, TypeScript patterns, and specific use cases. Covers server state with React Query (data fetching, caching, mutations, optimistic updates) and client state with Zustand (stores, persistence, selectors). Optimized for automated refactoring and state management best practices.",
+  "references": [
+    "https://tanstack.com/query/latest",
+    "https://tanstack.com/query/latest/docs/react/overview",
+    "https://tanstack.com/query/latest/docs/react/guides/queries",
+    "https://tanstack.com/query/latest/docs/react/guides/mutations",
+    "https://tanstack.com/query/latest/docs/react/guides/query-keys",
+    "https://tanstack.com/query/latest/docs/react/guides/optimistic-updates",
+    "https://tanstack.com/query/latest/docs/react/guides/infinite-queries",
+    "https://tanstack.com/query/latest/docs/react/guides/paginated-queries",
+    "https://tanstack.com/query/latest/docs/react/devtools",
+    "https://zustand-demo.pmnd.rs",
+    "https://github.com/pmndrs/zustand",
+    "https://docs.pmnd.rs/zustand/getting-started/introduction",
+    "https://docs.pmnd.rs/zustand/guides/typescript",
+    "https://docs.pmnd.rs/zustand/integrations/persisting-store-data",
+    "https://github.com/pmndrs/zustand#recipes"
+  ]
+}

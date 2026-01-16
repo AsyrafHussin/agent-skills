@@ -1,9 +1,11 @@
-# shared-flash-messages
+---
+section: shared-data
+priority: high
+description: Display Laravel session flash messages in React components
+keywords: [flash, messages, feedback, session, notifications, toast]
+---
 
-**Priority:** HIGH
-**Category:** Shared Data
-
-## Why It Matters
+# Shared Flash Messages
 
 Laravel's session flash messages need to be passed to Inertia and displayed in React. This enables consistent feedback to users after form submissions and actions.
 

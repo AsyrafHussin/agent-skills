@@ -1,3 +1,10 @@
+---
+title: PSR-4 Autoloading
+impact: CRITICAL
+impactDescription: Standard autoloading, predictable class location
+tags: psr, autoloading, organization, php-fig
+---
+
 # PSR-4 Autoloading
 
 Follow PSR-4 autoloading standard for class file organization.

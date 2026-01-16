@@ -1,3 +1,10 @@
+---
+title: Void and Never Return Types
+impact: HIGH
+impactDescription: Clarifies method intent, enables better static analysis
+tags: type-system, void, never, return-types, php71, php81
+---
+
 # Void and Never Return Types
 
 Use void for methods that don't return a value, and never for methods that always throw or exit.

@@ -1,3 +1,10 @@
+---
+id: component-navigation
+title: Navigation Components
+priority: HIGH
+category: Component Patterns
+---
+
 # Navigation Components
 
 Build accessible, responsive navigation patterns that work across all device sizes.

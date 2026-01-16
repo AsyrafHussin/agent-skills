@@ -1,4 +1,13 @@
-# Build Minification
+---
+title: Configure Optimal Minification Settings
+impact: CRITICAL
+impactDescription: 30-50% smaller bundles
+tags: build, minification, optimization, compression, vite
+---
+
+## Configure Optimal Minification Settings
+
+**Impact: CRITICAL (30-50% smaller bundles)**
 
 Configure optimal minification settings in Vite to reduce bundle size while maintaining debugging capabilities when needed.
 

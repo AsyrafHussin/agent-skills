@@ -1,3 +1,11 @@
+---
+title: CI Checks Must Pass
+category: pull-request
+priority: high
+tags: [pull-requests, ci-cd, quality-gates, automation]
+related: [pr-small-focused, branch-main-protected]
+---
+
 # CI Checks Must Pass
 
 All continuous integration checks must pass before a pull request can be merged.

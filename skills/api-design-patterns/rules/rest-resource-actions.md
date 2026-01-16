@@ -1,4 +1,11 @@
-# Handle Non-CRUD Actions on Resources
+---
+title: Handle Non-CRUD Actions on Resources
+impact: HIGH
+impactDescription: Proper handling of complex operations and state transitions
+tags: rest, actions, state-transitions, workflows
+---
+
+## Handle Non-CRUD Actions on Resources
 
 Some operations don't fit standard CRUD patterns. Use sub-resources or action endpoints for operations that represent state transitions or complex actions.
 

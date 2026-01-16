@@ -1,3 +1,12 @@
+---
+id: solid-dip-abstractions
+title: SOLID - Dependency Inversion (Abstractions)
+category: solid-principles
+priority: critical
+tags: [SOLID, DIP, dependency-inversion, abstractions]
+related: [solid-dip-injection, solid-ocp-abstraction, pattern-repository]
+---
+
 # Dependency Inversion Principle - Depend on Abstractions
 
 High-level modules should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend on details; details should depend on abstractions.

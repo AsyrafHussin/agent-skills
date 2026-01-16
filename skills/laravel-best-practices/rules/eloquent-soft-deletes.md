@@ -1,4 +1,13 @@
-# Soft Deletes
+---
+title: Soft Deletes
+impact: MEDIUM
+impactDescription: Safe deletion with recovery option
+tags: eloquent, soft-deletes, safety
+---
+
+## Soft Deletes
+
+**Impact: MEDIUM (Safe deletion with recovery option)**
 
 Use soft deletes to retain data while hiding it from normal queries, enabling recovery and audit trails.
 

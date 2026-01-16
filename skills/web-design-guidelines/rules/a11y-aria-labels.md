@@ -1,4 +1,13 @@
-# ARIA Labels
+---
+title: Add ARIA Labels to Interactive Elements
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level A - Provides accessible names
+tags: accessibility, aria, labels, screen-readers
+---
+
+## Add ARIA Labels to Interactive Elements
+
+**Impact: CRITICAL (WCAG 2.1 Level A - Provides accessible names)**
 
 Use ARIA (Accessible Rich Internet Applications) labels to provide accessible names and descriptions for elements that lack visible text or need additional context for assistive technologies.
 

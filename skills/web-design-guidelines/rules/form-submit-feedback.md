@@ -1,4 +1,13 @@
-# Form Submit Feedback
+---
+title: Provide Clear Form Submission Feedback
+impact: HIGH
+impactDescription: Prevents user confusion and double submissions
+tags: forms, feedback, ux, loading-states
+---
+
+## Provide Clear Form Submission Feedback
+
+**Impact: HIGH (Prevents user confusion and double submissions)**
 
 Provide clear, immediate feedback when users submit forms. Users should always know the current state: submitting, success, or failure.
 

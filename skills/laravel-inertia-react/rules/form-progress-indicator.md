@@ -1,3 +1,10 @@
+---
+section: forms
+priority: high
+description: Show upload progress and processing states for better user feedback
+keywords: [progress, indicator, upload, processing, feedback, ux]
+---
+
 # Form Progress Indicator
 
 Show upload progress for forms with file uploads and processing states for all form submissions.

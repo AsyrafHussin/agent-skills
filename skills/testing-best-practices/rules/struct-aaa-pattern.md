@@ -1,3 +1,9 @@
+---
+title: Arrange-Act-Assert Pattern
+priority: CRITICAL
+category: Test Structure
+---
+
 # Arrange-Act-Assert Pattern
 
 Structure every test using the AAA pattern to ensure clarity and consistency.

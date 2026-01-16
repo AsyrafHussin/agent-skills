@@ -1,3 +1,10 @@
+---
+section: page-components
+priority: critical
+description: Type-safe page props with TypeScript interfaces extending base PageProps
+keywords: [typescript, props, typing, interfaces, type-safety]
+---
+
 # Page Props Typing
 
 All Inertia page props should be strongly typed using TypeScript interfaces that extend a base PageProps type containing shared data.

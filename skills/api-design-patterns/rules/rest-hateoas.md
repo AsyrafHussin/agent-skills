@@ -1,4 +1,11 @@
-# Include HATEOAS Links for Discoverability
+---
+title: Include HATEOAS Links for Discoverability
+impact: MEDIUM
+impactDescription: Improves API discoverability and reduces client coupling
+tags: rest, hateoas, hypermedia, discoverability
+---
+
+## Include HATEOAS Links for Discoverability
 
 HATEOAS (Hypermedia as the Engine of Application State) provides links in responses that guide clients to related resources and available actions.
 

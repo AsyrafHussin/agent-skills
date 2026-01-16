@@ -1,3 +1,10 @@
+---
+section: navigation
+priority: critical
+description: Use router for programmatic navigation and form submissions
+keywords: [router, programmatic, navigation, visit, get, post, put, delete]
+---
+
 # Programmatic Navigation
 
 Use Inertia's router for programmatic navigation, redirects, and form submissions outside of Link components.

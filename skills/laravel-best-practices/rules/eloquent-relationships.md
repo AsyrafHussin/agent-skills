@@ -1,4 +1,13 @@
-# Eloquent Relationships
+---
+title: Eloquent Relationships
+impact: CRITICAL
+impactDescription: Expressive and efficient relationship management
+tags: eloquent, relationships, associations
+---
+
+## Eloquent Relationships
+
+**Impact: CRITICAL (Expressive and efficient relationship management)**
 
 Define relationships properly and use them effectively for clean, efficient database queries.
 

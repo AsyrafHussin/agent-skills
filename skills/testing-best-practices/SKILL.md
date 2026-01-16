@@ -164,7 +164,28 @@ tests/cart.test.ts:28 - [assert] Multiple unrelated assertions in one test
 Read individual rule files for detailed explanations:
 
 ```
-rules/struct-aaa.md
-rules/iso-independent.md
-rules/mock-only-boundaries.md
+rules/struct-aaa-pattern.md
+rules/iso-independent-tests.md
+rules/data-factories.md
 ```
+
+## References
+
+This skill is built on testing best practices from:
+- **Jest**: https://jestjs.io
+- **Vitest**: https://vitest.dev
+- **Testing Library**: https://testing-library.com
+- Kent C. Dodds' testing principles
+- TDD by Kent Beck
+- Working Effectively with Legacy Code by Michael Feathers
+
+## Metadata
+
+- **Version**: 1.0.0
+- **Rule Count**: 23 rules across 7 categories
+- **License**: MIT
+- **Last Updated**: 2026-01-17
+
+## Contributing
+
+These rules are derived from industry best practices and testing community standards. For detailed examples and additional context, refer to the individual rule files in the `rules/` directory.

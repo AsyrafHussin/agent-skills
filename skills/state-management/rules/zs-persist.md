@@ -1,4 +1,14 @@
+---
+title: Persist Middleware
+impact: CRITICAL
+section: Zustand Stores
+tags: zustand, persistence, localstorage
+---
+
 # zs-persist
+
+**Impact: CRITICAL**
+
 
 **Priority:** CRITICAL
 **Category:** Zustand Store Patterns

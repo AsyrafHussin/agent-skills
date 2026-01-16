@@ -1,3 +1,10 @@
+---
+title: Enum Methods
+impact: HIGH
+impactDescription: Encapsulate behavior within enums, reduce external helpers
+tags: modern-features, enums, methods, encapsulation, php81
+---
+
 # Enum Methods
 
 Add methods to enums to encapsulate related behavior and logic.

@@ -1,4 +1,9 @@
-# Polymorphic Component Typing
+---
+title: Polymorphic Component Typing
+category: Generic Components
+priority: MEDIUM
+---
+
 
 Creating type-safe polymorphic components that can render as different HTML elements.
 

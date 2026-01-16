@@ -1,3 +1,11 @@
+---
+title: Delete Merged Branches
+category: branch
+priority: high
+tags: [branching, cleanup, maintenance, automation]
+related: [branch-short-lived, branch-feature-workflow]
+---
+
 # Delete Merged Branches
 
 Clean up branches after they've been merged to keep the repository tidy and navigable.

@@ -1,3 +1,10 @@
+---
+title: Union Types
+impact: HIGH
+impactDescription: Provides type precision without using mixed
+tags: type-system, union-types, type-safety, php8
+---
+
 # Union Types
 
 Use union types when a value can legitimately be one of multiple types (PHP 8.0+).

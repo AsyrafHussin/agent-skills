@@ -1,4 +1,13 @@
-# Form Validation UX
+---
+title: Design User-Friendly Form Validation
+impact: HIGH
+impactDescription: Reduces form abandonment by 20-30%
+tags: forms, validation, ux, error-handling
+---
+
+## Design User-Friendly Form Validation
+
+**Impact: HIGH (Reduces form abandonment by 20-30%)**
 
 Design form validation that helps users succeed. Good validation provides clear feedback, prevents frustration, and guides users to correct errors efficiently.
 

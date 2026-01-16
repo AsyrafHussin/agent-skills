@@ -1,3 +1,12 @@
+---
+id: core-law-demeter
+title: Law of Demeter
+category: core-principles
+priority: critical
+tags: [law-of-demeter, coupling, encapsulation]
+related: [core-encapsulation, solid-srp-class, core-separation-concerns]
+---
+
 # Law of Demeter
 
 A method should only talk to its immediate friends, not to strangers. Don't reach through objects to access their internal structure. This reduces coupling and makes code more maintainable.

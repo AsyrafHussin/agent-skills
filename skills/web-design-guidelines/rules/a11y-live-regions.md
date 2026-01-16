@@ -1,4 +1,13 @@
-# ARIA Live Regions
+---
+title: Use ARIA Live Regions for Dynamic Content
+impact: HIGH
+impactDescription: WCAG 2.1 Level A - Status messages
+tags: accessibility, aria, live-regions, dynamic-content
+---
+
+## Use ARIA Live Regions for Dynamic Content
+
+**Impact: HIGH (WCAG 2.1 Level A - Status messages)**
 
 Use ARIA live regions to announce dynamic content changes to screen reader users. Live regions ensure that updates happening outside the user's current focus are communicated appropriately.
 

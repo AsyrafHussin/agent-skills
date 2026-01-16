@@ -1,4 +1,13 @@
-# Feature Folders (Domain-Driven Structure)
+---
+title: Feature Folders (Domain-Driven Structure)
+impact: MEDIUM
+impactDescription: Better cohesion and discoverability
+tags: architecture, organization, domain-driven, structure
+---
+
+## Feature Folders (Domain-Driven Structure)
+
+**Impact: MEDIUM (Better cohesion and discoverability)**
 
 Organize code by feature/domain rather than by type for better cohesion and discoverability.
 

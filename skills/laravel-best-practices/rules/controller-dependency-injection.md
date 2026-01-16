@@ -1,4 +1,13 @@
-# Dependency Injection in Controllers
+---
+title: Dependency Injection in Controllers
+impact: HIGH
+impactDescription: Testable and loosely coupled controllers
+tags: controllers, dependency-injection, testability
+---
+
+## Dependency Injection in Controllers
+
+**Impact: HIGH (Testable and loosely coupled controllers)**
 
 Use constructor and method injection to provide dependencies instead of using facades or creating instances.
 

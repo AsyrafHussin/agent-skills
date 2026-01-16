@@ -1,9 +1,13 @@
-# split-route-lazy
+---
+title: Use React.lazy() for Route-Based Splitting
+impact: CRITICAL
+impactDescription: 50-80% smaller initial bundle
+tags: split, lazy, routes, code-splitting, react
+---
 
-**Priority:** CRITICAL
-**Category:** Code Splitting
+## Use React.lazy() for Route-Based Splitting
 
-## Why It Matters
+**Impact: CRITICAL (50-80% smaller initial bundle)**
 
 Loading all route components upfront delays initial page load. Users download code for pages they may never visit. Route-based code splitting ensures users only download code for the current route.
 

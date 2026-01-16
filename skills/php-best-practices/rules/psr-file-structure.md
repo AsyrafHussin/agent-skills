@@ -1,3 +1,10 @@
+---
+title: File Structure
+impact: MEDIUM
+impactDescription: Predictable file organization, improves readability
+tags: psr, file-structure, organization, php-fig
+---
+
 # File Structure
 
 Organize PHP files with proper ordering of elements and logical grouping.

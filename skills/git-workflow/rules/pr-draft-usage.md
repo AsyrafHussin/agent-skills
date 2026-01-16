@@ -1,3 +1,11 @@
+---
+title: Draft Pull Requests
+category: pull-request
+priority: high
+tags: [pull-requests, collaboration, work-in-progress, early-feedback]
+related: [pr-description-template, pr-ci-checks]
+---
+
 # Draft Pull Requests
 
 Use draft PRs to share work-in-progress, get early feedback, and run CI before requesting formal review.

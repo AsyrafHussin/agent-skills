@@ -1,3 +1,10 @@
+---
+title: Open/Closed Principle
+impact: HIGH
+impactDescription: Extend without modifying, reduces regression risk
+tags: solid, ocp, design-principles, extension
+---
+
 # Open/Closed Principle (OCP)
 
 Classes should be open for extension but closed for modification.

@@ -1,3 +1,11 @@
+---
+title: Feature Branch Workflow
+category: branch
+priority: high
+tags: [branching, workflow, feature-branches, isolation]
+related: [branch-naming-convention, branch-short-lived, pr-small-focused]
+---
+
 # Feature Branch Workflow
 
 Develop new features in dedicated branches, keeping main stable and deployable at all times.

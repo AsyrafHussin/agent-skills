@@ -1,0 +1,128 @@
+{
+  "name": "testing-best-practices",
+  "version": "1.0.0",
+  "description": "Unit testing, integration testing, and test-driven development principles for reliable, maintainable test suites",
+  "author": "Agent Skills Community",
+  "license": "MIT",
+  "keywords": [
+    "testing",
+    "unit-tests",
+    "integration-tests",
+    "tdd",
+    "test-driven-development",
+    "jest",
+    "vitest",
+    "test-patterns",
+    "assertions",
+    "mocking",
+    "test-data"
+  ],
+  "categories": [
+    {
+      "name": "Test Structure",
+      "priority": "CRITICAL",
+      "description": "Fundamental patterns for organizing and structuring test code"
+    },
+    {
+      "name": "Test Isolation",
+      "priority": "CRITICAL",
+      "description": "Ensuring tests run independently without shared state"
+    },
+    {
+      "name": "Assertions",
+      "priority": "HIGH",
+      "description": "Using specific, meaningful assertions with clear messages"
+    },
+    {
+      "name": "Test Data",
+      "priority": "HIGH",
+      "description": "Managing test data through factories, builders, and fixtures"
+    },
+    {
+      "name": "Mocking & Test Doubles",
+      "priority": "MEDIUM",
+      "description": "Strategic use of mocks, stubs, and fakes"
+    },
+    {
+      "name": "Coverage Strategy",
+      "priority": "MEDIUM",
+      "description": "Balancing coverage goals with meaningful tests"
+    },
+    {
+      "name": "Test Performance",
+      "priority": "LOW",
+      "description": "Optimizing test execution speed"
+    }
+  ],
+  "references": [
+    {
+      "title": "Jest Documentation",
+      "url": "https://jestjs.io/docs/getting-started",
+      "description": "Official Jest testing framework documentation"
+    },
+    {
+      "title": "Vitest Documentation",
+      "url": "https://vitest.dev/guide/",
+      "description": "Blazing fast unit test framework powered by Vite"
+    },
+    {
+      "title": "Testing Library",
+      "url": "https://testing-library.com/docs/",
+      "description": "Simple and complete testing utilities that encourage good testing practices"
+    },
+    {
+      "title": "Kent C. Dodds - Testing Blog",
+      "url": "https://kentcdodds.com/blog/?q=testing",
+      "description": "Comprehensive testing articles and best practices"
+    },
+    {
+      "title": "Test Driven Development by Kent Beck",
+      "url": "https://www.amazon.com/Test-Driven-Development-Kent-Beck/dp/0321146530",
+      "description": "The classic book on TDD principles"
+    },
+    {
+      "title": "Working Effectively with Legacy Code",
+      "url": "https://www.amazon.com/Working-Effectively-Legacy-Michael-Feathers/dp/0131177052",
+      "description": "Michael Feathers' essential guide to testing legacy systems"
+    },
+    {
+      "title": "Growing Object-Oriented Software, Guided by Tests",
+      "url": "https://www.amazon.com/Growing-Object-Oriented-Software-Guided-Tests/dp/0321503627",
+      "description": "Advanced TDD patterns and practices"
+    }
+  ],
+  "tools": [
+    {
+      "name": "Jest",
+      "url": "https://jestjs.io",
+      "description": "Delightful JavaScript testing framework"
+    },
+    {
+      "name": "Vitest",
+      "url": "https://vitest.dev",
+      "description": "Next generation testing framework"
+    },
+    {
+      "name": "Testing Library",
+      "url": "https://testing-library.com",
+      "description": "Family of packages to test UI components"
+    },
+    {
+      "name": "Faker.js",
+      "url": "https://fakerjs.dev",
+      "description": "Generate massive amounts of fake data"
+    },
+    {
+      "name": "MSW (Mock Service Worker)",
+      "url": "https://mswjs.io",
+      "description": "API mocking library for browser and Node.js"
+    },
+    {
+      "name": "Sinon",
+      "url": "https://sinonjs.org",
+      "description": "Standalone test spies, stubs and mocks"
+    }
+  ],
+  "ruleCount": 23,
+  "lastUpdated": "2026-01-17"
+}

@@ -1,3 +1,10 @@
+---
+title: Arrow Functions
+impact: MEDIUM
+impactDescription: Concise closures with automatic variable capture
+tags: modern-features, arrow-functions, closures, php74
+---
+
 # Arrow Functions
 
 Use arrow functions for short, single-expression closures (PHP 7.4+).

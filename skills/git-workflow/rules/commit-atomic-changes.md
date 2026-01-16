@@ -1,3 +1,11 @@
+---
+title: Atomic Commits
+category: commit
+priority: critical
+tags: [commits, atomic, best-practices, revert]
+related: [commit-meaningful-subject, history-clean-commits]
+---
+
 # Atomic Commits
 
 Each commit should represent a single, complete, logical change that can be understood and reverted independently.

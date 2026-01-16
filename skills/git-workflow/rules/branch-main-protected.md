@@ -1,3 +1,11 @@
+---
+title: Protected Main Branch
+category: branch
+priority: high
+tags: [branching, protection, security, quality-gates]
+related: [branch-feature-workflow, pr-ci-checks, collab-code-review]
+---
+
 # Protected Main Branch
 
 The main branch should be protected from direct pushes and require pull requests for all changes.

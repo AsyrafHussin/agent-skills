@@ -1,7 +1,13 @@
-# core-dry
+---
+id: core-dry
+title: Don't Repeat Yourself (DRY)
+category: core-principles
+priority: critical
+tags: [DRY, duplication, single-source-of-truth, maintainability]
+related: [core-dry-extraction, core-dry-single-source, solid-srp-class]
+---
 
-**Priority:** CRITICAL
-**Category:** Core Principles
+# Don't Repeat Yourself (DRY)
 
 ## Why It Matters
 

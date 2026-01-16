@@ -1,4 +1,13 @@
-# Split Lazy Routes
+---
+title: Implement Route-Based Code Splitting
+impact: CRITICAL
+impactDescription: 50-70% smaller initial bundle
+tags: split, lazy, routes, code-splitting, react-router
+---
+
+## Implement Route-Based Code Splitting
+
+**Impact: CRITICAL (50-70% smaller initial bundle)**
 
 Implement route-based code splitting using React.lazy to load route components on demand, reducing initial bundle size.
 

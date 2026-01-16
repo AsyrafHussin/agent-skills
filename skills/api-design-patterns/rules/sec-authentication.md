@@ -1,4 +1,11 @@
-# Implement Secure Authentication
+---
+title: Implement Secure Authentication
+impact: CRITICAL
+impactDescription: Protects user data and prevents unauthorized access
+tags: security, authentication, jwt, oauth2, tokens
+---
+
+## Implement Secure Authentication
 
 Use industry-standard authentication mechanisms like OAuth 2.0, JWT, or API keys with proper security practices.
 

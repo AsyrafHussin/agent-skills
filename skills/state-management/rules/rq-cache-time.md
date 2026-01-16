@@ -1,4 +1,13 @@
+---
+title: Cache Time Configuration
+impact: HIGH
+section: Cache & Performance
+tags: react-query, caching, gc-time
+---
+
 # Cache Time (gcTime) Configuration
+
+**Impact: HIGH**
 
 Cache time (renamed to gcTime in v5) determines how long inactive query data remains in memory before garbage collection. This is different from staleTime.
 

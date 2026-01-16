@@ -1,9 +1,13 @@
-# env-vite-prefix
+---
+title: Use VITE_ Prefix for Environment Variables
+impact: MEDIUM
+impactDescription: Security and proper configuration
+tags: env, configuration, security, vite, environment-variables
+---
 
-**Priority:** MEDIUM
-**Category:** Environment Configuration
+## Use VITE_ Prefix for Environment Variables
 
-## Why It Matters
+**Impact: MEDIUM (Security and proper configuration)**
 
 Vite only exposes environment variables prefixed with `VITE_` to client-side code. This prevents accidental exposure of sensitive server-side variables.
 

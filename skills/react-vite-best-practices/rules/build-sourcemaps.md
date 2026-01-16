@@ -1,4 +1,13 @@
-# Build Source Maps
+---
+title: Configure Source Maps for Production Debugging
+impact: MEDIUM
+impactDescription: Better error tracking without exposing source
+tags: build, sourcemaps, debugging, production, vite
+---
+
+## Configure Source Maps for Production Debugging
+
+**Impact: MEDIUM (Better error tracking without exposing source)**
 
 Configure source maps appropriately for debugging in development and error tracking in production without exposing source code.
 

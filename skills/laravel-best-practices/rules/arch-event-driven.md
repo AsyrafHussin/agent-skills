@@ -1,4 +1,13 @@
-# Event-Driven Architecture
+---
+title: Event-Driven Architecture
+impact: HIGH
+impactDescription: Decouples components and enables async processing
+tags: architecture, events, listeners, decoupling, async
+---
+
+## Event-Driven Architecture
+
+**Impact: HIGH (Decouples components and enables async processing)**
 
 Use events and listeners to decouple components and handle side effects asynchronously.
 

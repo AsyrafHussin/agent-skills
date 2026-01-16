@@ -1,3 +1,12 @@
+---
+id: solid-lsp-contracts
+title: SOLID - Liskov Substitution (Contracts)
+category: solid-principles
+priority: critical
+tags: [SOLID, LSP, liskov-substitution, contracts]
+related: [solid-lsp-preconditions, solid-ocp-abstraction, core-composition]
+---
+
 # Liskov Substitution Principle - Contracts
 
 Subtypes must be substitutable for their base types without altering the correctness of the program. Derived classes must honor the contracts established by their base classes.

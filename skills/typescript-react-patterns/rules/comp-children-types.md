@@ -1,7 +1,10 @@
-# comp-children-types
+---
+title: Component Children Types
+category: Component Typing
+priority: CRITICAL
+---
 
-**Priority:** CRITICAL
-**Category:** Component Typing
+# comp-children-types
 
 ## Why It Matters
 

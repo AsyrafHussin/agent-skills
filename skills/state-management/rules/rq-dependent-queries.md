@@ -1,4 +1,14 @@
+---
+title: Dependent Queries Pattern
+impact: HIGH
+section: Advanced Queries
+tags: react-query, dependent-queries, sequential
+---
+
 # Dependent Queries
+
+**Impact: HIGH**
+
 
 Dependent queries are queries that rely on data from previous queries. They should only execute when their dependencies are available.
 

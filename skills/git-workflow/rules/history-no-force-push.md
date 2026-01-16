@@ -1,3 +1,11 @@
+---
+title: Avoid Force Push on Shared Branches
+category: history
+priority: medium
+tags: [history, force-push, safety, collaboration]
+related: [history-rebase-vs-merge, branch-main-protected]
+---
+
 # Avoid Force Push on Shared Branches
 
 Never force push to shared branches like main or develop, as it rewrites history and disrupts other developers.

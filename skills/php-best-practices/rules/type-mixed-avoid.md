@@ -1,3 +1,10 @@
+---
+title: Avoid Mixed Type
+impact: HIGH
+impactDescription: Maintains type safety, use union types or generics instead
+tags: type-system, mixed, union-types, generics, php8
+---
+
 # Avoid Mixed Type
 
 Avoid using mixed type; prefer specific types or union types instead.

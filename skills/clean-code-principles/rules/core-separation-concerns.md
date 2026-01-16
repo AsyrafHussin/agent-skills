@@ -1,3 +1,12 @@
+---
+id: core-separation-concerns
+title: Separation of Concerns
+category: core-principles
+priority: critical
+tags: [separation-of-concerns, modularity, cohesion]
+related: [solid-srp-class, solid-srp-function, core-law-demeter]
+---
+
 # Separation of Concerns
 
 Different concerns should be handled by different parts of the system. Each module, class, or function should address a single concern, making the code easier to understand, test, and modify.

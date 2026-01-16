@@ -1,4 +1,11 @@
-# Provide Meaningful Error Messages
+---
+title: Provide Meaningful Error Messages
+impact: HIGH
+impactDescription: Reduces support burden and improves developer experience
+tags: errors, messages, user-experience, actionable
+---
+
+## Provide Meaningful Error Messages
 
 Error messages should be clear, actionable, and help users understand what went wrong and how to fix it.
 

@@ -1,9 +1,13 @@
-# dev-dependency-prebundling
+---
+title: Configure Dependency Pre-bundling
+impact: HIGH
+impactDescription: 2-5× faster cold start
+tags: dev, dependencies, prebundling, optimization, vite
+---
 
-**Priority:** HIGH
-**Category:** Development Performance
+## Configure Dependency Pre-bundling
 
-## Why It Matters
+**Impact: HIGH (2-5× faster cold start)**
 
 Vite pre-bundles dependencies to convert CommonJS/UMD to ESM and reduce the number of module requests. Proper configuration speeds up cold starts and prevents runtime issues.
 

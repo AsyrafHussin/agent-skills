@@ -1,4 +1,13 @@
-# Array Validation
+---
+title: Array and Nested Validation
+impact: HIGH
+impactDescription: Validates complex nested data structures
+tags: validation, arrays, nested-data
+---
+
+## Array and Nested Validation
+
+**Impact: HIGH (Validates complex nested data structures)**
 
 Validate arrays and nested data structures with Laravel's powerful array validation syntax.
 

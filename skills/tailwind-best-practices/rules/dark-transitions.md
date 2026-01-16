@@ -1,3 +1,10 @@
+---
+id: dark-transitions
+title: Dark Mode Transitions
+priority: MEDIUM
+category: Dark Mode
+---
+
 # Dark Mode Transitions
 
 Add smooth transitions when switching between light and dark modes for a polished user experience.

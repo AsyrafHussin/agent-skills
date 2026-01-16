@@ -1,7 +1,11 @@
-# comp-clsx-cn
+---
+id: comp-clsx-cn
+title: Conditional Classes with clsx/cn
+priority: HIGH
+category: Component Patterns
+---
 
-**Priority:** HIGH
-**Category:** Component Patterns
+# Conditional Classes with clsx/cn
 
 ## Why It Matters
 

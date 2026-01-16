@@ -1,4 +1,14 @@
+---
+title: Query Data Transformation
+impact: HIGH
+section: Query Fundamentals
+tags: react-query, select, data-transformation
+---
+
 # Select Option for Data Transformation
+
+**Impact: HIGH**
+
 
 The select option transforms or filters query data before it reaches the component. It provides derived data without affecting the cached data and optimizes re-renders.
 

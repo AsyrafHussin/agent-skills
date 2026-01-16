@@ -1,4 +1,13 @@
-# Build Asset Hashing
+---
+title: Configure Asset Hashing for Cache Busting
+impact: CRITICAL
+impactDescription: Ensures latest version delivery
+tags: build, hashing, caching, assets, vite
+---
+
+## Configure Asset Hashing for Cache Busting
+
+**Impact: CRITICAL (Ensures latest version delivery)**
 
 Configure content-based asset hashing to enable aggressive caching while ensuring users always receive the latest version after deployments.
 

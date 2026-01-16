@@ -1,7 +1,13 @@
-# valid-form-requests
+---
+title: Form Request Classes for Validation
+impact: HIGH
+impactDescription: Separation of concerns and reusable validation
+tags: validation, form-requests, authorization, clean-code
+---
 
-**Priority:** HIGH
-**Category:** Validation & Requests
+## Form Request Classes for Validation
+
+**Impact: HIGH (Separation of concerns and reusable validation)**
 
 ## Why It Matters
 

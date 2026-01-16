@@ -1,4 +1,14 @@
+---
+title: Data Prefetching
+impact: MEDIUM
+section: Cache & Performance
+tags: react-query, prefetching, performance
+---
+
 # Prefetching Strategies
+
+**Impact: MEDIUM**
+
 
 Prefetching loads data before it's needed, eliminating loading states when users navigate to new views. Strategic prefetching dramatically improves perceived performance.
 

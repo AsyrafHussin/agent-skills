@@ -1,4 +1,11 @@
-# Implement Rate Limiting
+---
+title: Implement Rate Limiting
+impact: CRITICAL
+impactDescription: Prevents abuse and ensures service availability
+tags: security, rate-limiting, abuse-prevention, throttling
+---
+
+## Implement Rate Limiting
 
 Protect your API from abuse by limiting the number of requests clients can make within a time window.
 

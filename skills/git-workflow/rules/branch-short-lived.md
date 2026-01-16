@@ -1,3 +1,11 @@
+---
+title: Short-Lived Branches
+category: branch
+priority: high
+tags: [branching, merge-conflicts, feature-flags, continuous-integration]
+related: [branch-feature-workflow, pr-small-focused, history-rebase-vs-merge]
+---
+
 # Short-Lived Branches
 
 Keep feature branches short-lived to minimize merge conflicts and integration challenges.

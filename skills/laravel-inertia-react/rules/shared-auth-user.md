@@ -1,3 +1,10 @@
+---
+section: shared-data
+priority: critical
+description: Access authenticated user data through Inertia's shared props
+keywords: [auth, user, authentication, shared, middleware, HandleInertiaRequests]
+---
+
 # Shared Auth User Data
 
 Access authenticated user data through Inertia's shared props, set up via Laravel middleware, for consistent auth state across all pages.

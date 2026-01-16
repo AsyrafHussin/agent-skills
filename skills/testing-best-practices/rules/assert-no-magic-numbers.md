@@ -1,3 +1,9 @@
+---
+title: No Magic Numbers in Assertions
+priority: HIGH
+category: Assertions
+---
+
 # No Magic Numbers in Assertions
 
 Use named constants or explanatory variables instead of unexplained numeric literals.

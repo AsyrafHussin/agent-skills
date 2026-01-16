@@ -1,3 +1,10 @@
+---
+id: dark-custom-colors
+title: Dark Mode Custom Colors
+priority: HIGH
+category: Dark Mode
+---
+
 # Dark Mode Custom Colors
 
 Create custom color palettes that work harmoniously in both light and dark modes.

@@ -1,7 +1,13 @@
-# form-autocomplete
+---
+title: Use Autocomplete Attributes for Forms
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level AA - Identify input purpose
+tags: forms, autocomplete, accessibility, ux
+---
 
-**Priority:** CRITICAL
-**Category:** Forms & Validation
+## Use Autocomplete Attributes for Forms
+
+**Impact: CRITICAL (WCAG 2.1 Level AA - Identify input purpose)**
 
 ## Why It Matters
 

@@ -1,4 +1,11 @@
-# Include Request ID in Error Responses
+---
+title: Include Request ID in Error Responses
+impact: HIGH
+impactDescription: Enables log correlation and efficient debugging
+tags: errors, debugging, logging, request-tracking
+---
+
+## Include Request ID in Error Responses
 
 Every API request should have a unique identifier that appears in both the response and server logs, enabling easy correlation for debugging.
 

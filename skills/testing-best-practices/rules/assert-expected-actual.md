@@ -1,3 +1,9 @@
+---
+title: Expected vs Actual Order
+priority: HIGH
+category: Assertions
+---
+
 # Expected vs Actual Order
 
 Follow the convention of placing expected values first in assertions for consistent, readable error messages.

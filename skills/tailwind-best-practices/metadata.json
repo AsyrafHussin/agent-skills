@@ -1,0 +1,288 @@
+{
+  "name": "Tailwind CSS Best Practices",
+  "version": "4.0.0",
+  "description": "Comprehensive patterns and best practices for Tailwind CSS v4, covering responsive design, dark mode, component patterns, and configuration.",
+  "framework": "Tailwind CSS",
+  "minimumVersion": "3.4.0",
+  "recommendedVersion": "4.0.0",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/agent-skills/tailwind-best-practices"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agent-skills/tailwind-best-practices"
+  },
+  "keywords": [
+    "tailwind",
+    "tailwindcss",
+    "css",
+    "utility-first",
+    "responsive-design",
+    "dark-mode",
+    "component-patterns",
+    "best-practices",
+    "v4"
+  ],
+  "categories": [
+    {
+      "id": "responsive",
+      "name": "Responsive Design",
+      "priority": "CRITICAL",
+      "description": "Mobile-first responsive design patterns",
+      "ruleCount": 7
+    },
+    {
+      "id": "dark-mode",
+      "name": "Dark Mode",
+      "priority": "CRITICAL",
+      "description": "Dark mode implementation and theming",
+      "ruleCount": 6
+    },
+    {
+      "id": "components",
+      "name": "Component Patterns",
+      "priority": "HIGH",
+      "description": "Reusable component patterns and utilities",
+      "ruleCount": 7
+    },
+    {
+      "id": "configuration",
+      "name": "Custom Configuration",
+      "priority": "HIGH",
+      "description": "Theme extension and configuration",
+      "ruleCount": 6
+    },
+    {
+      "id": "spacing-typography",
+      "name": "Spacing & Typography",
+      "priority": "MEDIUM",
+      "description": "Spacing and typography systems",
+      "ruleCount": 0
+    },
+    {
+      "id": "animation",
+      "name": "Animation",
+      "priority": "MEDIUM",
+      "description": "Animations and transitions",
+      "ruleCount": 0
+    },
+    {
+      "id": "performance",
+      "name": "Performance",
+      "priority": "LOW",
+      "description": "Build and runtime optimization",
+      "ruleCount": 0
+    }
+  ],
+  "references": [
+    {
+      "title": "Tailwind CSS Documentation",
+      "url": "https://tailwindcss.com/docs",
+      "type": "official",
+      "description": "Official Tailwind CSS documentation"
+    },
+    {
+      "title": "Utility-First Fundamentals",
+      "url": "https://tailwindcss.com/docs/utility-first",
+      "type": "concept",
+      "description": "Understanding the utility-first approach"
+    },
+    {
+      "title": "Responsive Design",
+      "url": "https://tailwindcss.com/docs/responsive-design",
+      "type": "guide",
+      "description": "Mobile-first responsive design with breakpoints"
+    },
+    {
+      "title": "Dark Mode",
+      "url": "https://tailwindcss.com/docs/dark-mode",
+      "type": "guide",
+      "description": "Implementing dark mode with class or media strategies"
+    },
+    {
+      "title": "Reusing Styles",
+      "url": "https://tailwindcss.com/docs/reusing-styles",
+      "type": "guide",
+      "description": "Extracting components and using @apply"
+    },
+    {
+      "title": "Adding Custom Styles",
+      "url": "https://tailwindcss.com/docs/adding-custom-styles",
+      "type": "guide",
+      "description": "Extending Tailwind with custom utilities and components"
+    },
+    {
+      "title": "Configuration",
+      "url": "https://tailwindcss.com/docs/configuration",
+      "type": "guide",
+      "description": "Customizing Tailwind configuration"
+    },
+    {
+      "title": "Theme Configuration",
+      "url": "https://tailwindcss.com/docs/theme",
+      "type": "guide",
+      "description": "Customizing the default theme"
+    },
+    {
+      "title": "Colors",
+      "url": "https://tailwindcss.com/docs/customizing-colors",
+      "type": "reference",
+      "description": "Default color palette and customization"
+    },
+    {
+      "title": "Spacing",
+      "url": "https://tailwindcss.com/docs/customizing-spacing",
+      "type": "reference",
+      "description": "Default spacing scale and customization"
+    },
+    {
+      "title": "Typography",
+      "url": "https://tailwindcss.com/docs/font-family",
+      "type": "reference",
+      "description": "Font families and typography utilities"
+    },
+    {
+      "title": "Container Queries",
+      "url": "https://tailwindcss.com/docs/hover-focus-and-other-states#container-queries",
+      "type": "feature",
+      "description": "Using container queries for component-scoped responsive design"
+    },
+    {
+      "title": "Arbitrary Values",
+      "url": "https://tailwindcss.com/docs/adding-custom-styles#using-arbitrary-values",
+      "type": "feature",
+      "description": "Using arbitrary values for one-off customizations"
+    },
+    {
+      "title": "Functions & Directives",
+      "url": "https://tailwindcss.com/docs/functions-and-directives",
+      "type": "reference",
+      "description": "@apply, @layer, theme() and other directives"
+    },
+    {
+      "title": "Content Configuration",
+      "url": "https://tailwindcss.com/docs/content-configuration",
+      "type": "optimization",
+      "description": "Configuring content sources for tree-shaking"
+    },
+    {
+      "title": "Optimizing for Production",
+      "url": "https://tailwindcss.com/docs/optimizing-for-production",
+      "type": "optimization",
+      "description": "Minifying CSS and removing unused styles"
+    },
+    {
+      "title": "Using with Preprocessors",
+      "url": "https://tailwindcss.com/docs/using-with-preprocessors",
+      "type": "integration",
+      "description": "Using Tailwind with Sass, Less, or Stylus"
+    },
+    {
+      "title": "Editor Setup",
+      "url": "https://tailwindcss.com/docs/editor-setup",
+      "type": "tooling",
+      "description": "Setting up IntelliSense and formatting"
+    },
+    {
+      "title": "Tailwind CSS v4 Alpha",
+      "url": "https://tailwindcss.com/blog/tailwindcss-v4-alpha",
+      "type": "release",
+      "description": "What's new in Tailwind CSS v4"
+    },
+    {
+      "title": "Tailwind UI",
+      "url": "https://tailwindui.com",
+      "type": "resource",
+      "description": "Official component library and templates"
+    },
+    {
+      "title": "Headless UI",
+      "url": "https://headlessui.com",
+      "type": "resource",
+      "description": "Unstyled, accessible UI components"
+    },
+    {
+      "title": "Heroicons",
+      "url": "https://heroicons.com",
+      "type": "resource",
+      "description": "Beautiful hand-crafted SVG icons"
+    },
+    {
+      "title": "Play CDN",
+      "url": "https://tailwindcss.com/docs/installation/play-cdn",
+      "type": "tool",
+      "description": "Quick prototyping with CDN"
+    }
+  ],
+  "tools": [
+    {
+      "name": "Tailwind CSS IntelliSense",
+      "description": "VS Code extension for autocomplete and linting",
+      "url": "https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss"
+    },
+    {
+      "name": "Prettier Plugin",
+      "description": "Automatic class sorting for consistent ordering",
+      "url": "https://github.com/tailwindlabs/prettier-plugin-tailwindcss"
+    },
+    {
+      "name": "Tailwind Merge",
+      "description": "Merge Tailwind classes without conflicts",
+      "url": "https://github.com/dcastil/tailwind-merge"
+    },
+    {
+      "name": "CLSX",
+      "description": "Utility for conditionally constructing className strings",
+      "url": "https://github.com/lukeed/clsx"
+    },
+    {
+      "name": "CVA",
+      "description": "Class Variance Authority for component variants",
+      "url": "https://cva.style"
+    }
+  ],
+  "ecosystem": {
+    "frameworks": [
+      "React",
+      "Vue",
+      "Angular",
+      "Svelte",
+      "Next.js",
+      "Nuxt",
+      "Remix",
+      "Astro",
+      "Laravel",
+      "Rails"
+    ],
+    "componentLibraries": [
+      "shadcn/ui",
+      "Headless UI",
+      "Radix UI",
+      "daisyUI",
+      "Flowbite",
+      "Preline"
+    ],
+    "plugins": [
+      "@tailwindcss/typography",
+      "@tailwindcss/forms",
+      "@tailwindcss/aspect-ratio",
+      "@tailwindcss/container-queries"
+    ]
+  },
+  "tags": [
+    "css-framework",
+    "utility-first",
+    "responsive",
+    "mobile-first",
+    "dark-mode",
+    "components",
+    "design-system",
+    "frontend",
+    "ui",
+    "styling"
+  ],
+  "lastUpdated": "2026-01-17",
+  "rulesTotal": 26
+}

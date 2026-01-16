@@ -1,3 +1,10 @@
+---
+section: forms
+priority: high
+description: Handle file uploads with progress tracking and preview functionality
+keywords: [file, upload, formdata, progress, preview, multipart]
+---
+
 # Form File Uploads
 
 Handle file uploads with Inertia using the useForm hook with proper progress tracking and preview functionality.

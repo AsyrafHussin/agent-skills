@@ -1,7 +1,13 @@
-# pattern-repository
+---
+id: pattern-repository
+title: Design Pattern - Repository
+category: design-patterns
+priority: high
+tags: [design-patterns, repository, data-access, separation-of-concerns]
+related: [solid-dip-abstractions, solid-srp-class, core-separation-concerns]
+---
 
-**Priority:** HIGH
-**Category:** Design Patterns
+# Repository Pattern
 
 ## Why It Matters
 

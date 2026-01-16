@@ -1,3 +1,10 @@
+---
+id: responsive-aspect-ratio
+title: Responsive Aspect Ratios
+priority: CRITICAL
+category: Responsive Design
+---
+
 # Responsive Aspect Ratios
 
 Use Tailwind's aspect ratio utilities to maintain consistent proportions for images, videos, and containers across different screen sizes.

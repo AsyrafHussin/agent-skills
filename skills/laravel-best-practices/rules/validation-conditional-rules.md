@@ -1,4 +1,13 @@
-# Conditional Validation Rules
+---
+title: Conditional Validation Rules
+impact: HIGH
+impactDescription: Dynamic validation based on input
+tags: validation, conditional, dynamic-rules
+---
+
+## Conditional Validation Rules
+
+**Impact: HIGH (Dynamic validation based on input)**
 
 Apply validation rules conditionally based on input values or other conditions.
 

@@ -1,9 +1,13 @@
-# build-minify-terser
+---
+title: Use Terser for Production Minification
+impact: CRITICAL
+impactDescription: 5-10% smaller bundles
+tags: build, minification, terser, optimization, vite
+---
 
-**Priority:** CRITICAL
-**Category:** Build Optimization
+## Use Terser for Production Minification
 
-## Why It Matters
+**Impact: CRITICAL (5-10% smaller bundles)**
 
 Vite uses esbuild for minification by default (fast but less optimal). Terser produces smaller bundles through advanced optimizations like dead code elimination and console removal.
 

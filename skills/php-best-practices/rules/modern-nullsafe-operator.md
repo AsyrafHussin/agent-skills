@@ -1,3 +1,10 @@
+---
+title: Nullsafe Operator
+impact: HIGH
+impactDescription: Eliminates nested null checks, safer navigation
+tags: modern-features, nullsafe, null-handling, php8
+---
+
 # Nullsafe Operator
 
 Use the nullsafe operator for cleaner null checking chains (PHP 8.0+).

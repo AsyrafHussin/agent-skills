@@ -1,0 +1,216 @@
+{
+  "skill": {
+    "name": "git-workflow",
+    "version": "1.0.0",
+    "description": "Git best practices, branching strategies, commit conventions, and PR workflows",
+    "author": "Agent Skills Team",
+    "license": "MIT",
+    "keywords": [
+      "git",
+      "version-control",
+      "commits",
+      "branches",
+      "pull-requests",
+      "code-review",
+      "conventional-commits",
+      "git-flow",
+      "trunk-based-development"
+    ]
+  },
+  "categories": [
+    {
+      "id": "commit",
+      "name": "Commit Messages",
+      "priority": "critical",
+      "description": "Standards for writing clear, meaningful commit messages",
+      "rule_count": 7
+    },
+    {
+      "id": "branch",
+      "name": "Branching Strategy",
+      "priority": "high",
+      "description": "Guidelines for creating, naming, and managing branches",
+      "rule_count": 6
+    },
+    {
+      "id": "pull-request",
+      "name": "Pull Requests",
+      "priority": "high",
+      "description": "Best practices for creating and reviewing pull requests",
+      "rule_count": 6
+    },
+    {
+      "id": "history",
+      "name": "History Management",
+      "priority": "medium",
+      "description": "Techniques for maintaining a clean, useful git history",
+      "rule_count": 4
+    },
+    {
+      "id": "collaboration",
+      "name": "Collaboration",
+      "priority": "medium",
+      "description": "Practices for effective team collaboration using git",
+      "rule_count": 3
+    }
+  ],
+  "references": [
+    {
+      "title": "Git Official Documentation",
+      "url": "https://git-scm.com/doc",
+      "description": "Comprehensive official Git documentation covering all commands and concepts",
+      "type": "official"
+    },
+    {
+      "title": "Pro Git Book",
+      "url": "https://git-scm.com/book/en/v2",
+      "description": "The entire Pro Git book, written by Scott Chacon and Ben Straub",
+      "type": "book"
+    },
+    {
+      "title": "Conventional Commits",
+      "url": "https://www.conventionalcommits.org",
+      "description": "A specification for adding human and machine readable meaning to commit messages",
+      "type": "specification"
+    },
+    {
+      "title": "Git Best Practices",
+      "url": "https://git-scm.com/book/en/v2/Distributed-Git-Contributing-to-a-Project",
+      "description": "Official guidance on contributing to Git projects and best practices",
+      "type": "guide"
+    },
+    {
+      "title": "GitHub Flow",
+      "url": "https://docs.github.com/en/get-started/quickstart/github-flow",
+      "description": "GitHub's lightweight, branch-based workflow",
+      "type": "workflow"
+    },
+    {
+      "title": "GitFlow Workflow",
+      "url": "https://nvie.com/posts/a-successful-git-branching-model/",
+      "description": "Vincent Driessen's popular git branching model",
+      "type": "workflow"
+    },
+    {
+      "title": "Semantic Versioning",
+      "url": "https://semver.org/",
+      "description": "Versioning specification for software releases",
+      "type": "specification"
+    },
+    {
+      "title": "How to Write a Git Commit Message",
+      "url": "https://chris.beams.io/posts/git-commit/",
+      "description": "Comprehensive guide on writing great commit messages",
+      "type": "guide"
+    },
+    {
+      "title": "GitHub Pull Request Best Practices",
+      "url": "https://docs.github.com/en/pull-requests/collaborating-with-pull-requests",
+      "description": "Official GitHub documentation on pull requests and code review",
+      "type": "guide"
+    },
+    {
+      "title": "Git Merge vs Rebase",
+      "url": "https://www.atlassian.com/git/tutorials/merging-vs-rebasing",
+      "description": "Detailed comparison of merge and rebase strategies",
+      "type": "tutorial"
+    },
+    {
+      "title": "Code Review Best Practices",
+      "url": "https://google.github.io/eng-practices/review/",
+      "description": "Google's engineering practices for code review",
+      "type": "guide"
+    },
+    {
+      "title": "Trunk Based Development",
+      "url": "https://trunkbaseddevelopment.com/",
+      "description": "Source-control branching model for continuous integration",
+      "type": "workflow"
+    }
+  ],
+  "tools": [
+    {
+      "name": "Git",
+      "url": "https://git-scm.com/",
+      "description": "Distributed version control system"
+    },
+    {
+      "name": "GitHub CLI",
+      "url": "https://cli.github.com/",
+      "description": "Command-line tool for GitHub operations"
+    },
+    {
+      "name": "Commitlint",
+      "url": "https://commitlint.js.org/",
+      "description": "Lint commit messages according to conventional commits"
+    },
+    {
+      "name": "Husky",
+      "url": "https://typicode.github.io/husky/",
+      "description": "Git hooks made easy"
+    },
+    {
+      "name": "Semantic Release",
+      "url": "https://semantic-release.gitbook.io/",
+      "description": "Automated version management and package publishing"
+    },
+    {
+      "name": "Conventional Changelog",
+      "url": "https://github.com/conventional-changelog/conventional-changelog",
+      "description": "Generate changelogs from git metadata"
+    }
+  ],
+  "examples": {
+    "projects": [
+      {
+        "name": "Linux Kernel",
+        "url": "https://github.com/torvalds/linux",
+        "description": "Excellent example of detailed commit messages and patch workflow"
+      },
+      {
+        "name": "React",
+        "url": "https://github.com/facebook/react",
+        "description": "Conventional commits, thorough PR reviews, clear branching"
+      },
+      {
+        "name": "Vue.js",
+        "url": "https://github.com/vuejs/vue",
+        "description": "Clean commit history, conventional commits, good PR templates"
+      },
+      {
+        "name": "TypeScript",
+        "url": "https://github.com/microsoft/TypeScript",
+        "description": "Structured branching, detailed PR descriptions, clear release process"
+      },
+      {
+        "name": "Next.js",
+        "url": "https://github.com/vercel/next.js",
+        "description": "Conventional commits, automated releases, excellent PR workflow"
+      }
+    ]
+  },
+  "configurations": {
+    "commitlint": {
+      "file": "commitlint.config.js",
+      "example": "module.exports = { extends: ['@commitlint/config-conventional'] };"
+    },
+    "husky": {
+      "file": ".husky/commit-msg",
+      "example": "#!/bin/sh\nnpx commitlint --edit $1"
+    },
+    "github": {
+      "pr_template": ".github/PULL_REQUEST_TEMPLATE.md",
+      "codeowners": ".github/CODEOWNERS"
+    }
+  },
+  "meta": {
+    "created": "2026-01-17",
+    "last_updated": "2026-01-17",
+    "rule_count": 26,
+    "structure_version": "2.0",
+    "compatibility": {
+      "git": ">=2.0.0",
+      "platforms": ["GitHub", "GitLab", "Bitbucket", "Azure DevOps"]
+    }
+  }
+}

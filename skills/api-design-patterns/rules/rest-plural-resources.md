@@ -1,4 +1,11 @@
-# Use Plural Nouns for Resource Collections
+---
+title: Use Plural Nouns for Resource Collections
+impact: HIGH
+impactDescription: Improves API consistency and predictability
+tags: rest, resources, naming, conventions
+---
+
+## Use Plural Nouns for Resource Collections
 
 Resource names should consistently use plural nouns to represent collections, maintaining uniformity across your API.
 

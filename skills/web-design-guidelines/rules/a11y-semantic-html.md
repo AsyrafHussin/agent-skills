@@ -1,7 +1,13 @@
-# a11y-semantic-html
+---
+title: Use Semantic HTML Elements
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level A - Foundation for accessibility
+tags: accessibility, semantic-html, screen-readers, seo
+---
 
-**Priority:** CRITICAL
-**Category:** Accessibility
+## Use Semantic HTML Elements
+
+**Impact: CRITICAL (WCAG 2.1 Level A - Foundation for accessibility)**
 
 ## Why It Matters
 

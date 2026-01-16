@@ -1,3 +1,10 @@
+---
+title: Strict Types Declaration
+impact: CRITICAL
+impactDescription: Prevents type coercion bugs, enforces type safety
+tags: type-system, strict-types, type-safety, php8
+---
+
 # Strict Types Declaration
 
 Always enable strict type checking at the beginning of every PHP file.

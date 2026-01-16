@@ -1,3 +1,11 @@
+---
+title: Team Communication in Git Workflows
+category: collaboration
+priority: medium
+tags: [collaboration, communication, coordination, team-work]
+related: [pr-description-template, collab-code-review, branch-feature-workflow]
+---
+
 # Team Communication in Git Workflows
 
 Communicate effectively with your team through commits, PRs, and related tools to maintain smooth collaboration.

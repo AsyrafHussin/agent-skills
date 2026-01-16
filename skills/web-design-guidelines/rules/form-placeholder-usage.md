@@ -1,4 +1,13 @@
-# Form Placeholder Usage
+---
+title: Use Placeholders Appropriately
+impact: MEDIUM
+impactDescription: Prevents accessibility and usability issues
+tags: forms, placeholders, labels, accessibility
+---
+
+## Use Placeholders Appropriately
+
+**Impact: MEDIUM (Prevents accessibility and usability issues)**
 
 Use placeholders appropriately as supplementary hints, never as replacements for labels. Placeholders have significant accessibility and usability limitations.
 

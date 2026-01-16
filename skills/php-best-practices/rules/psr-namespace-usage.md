@@ -1,3 +1,10 @@
+---
+title: Namespace Usage
+impact: HIGH
+impactDescription: Proper code organization, avoids naming conflicts
+tags: psr, namespaces, organization, php-fig
+---
+
 # Namespace Usage
 
 Use namespaces properly to organize code and avoid naming conflicts.

@@ -1,7 +1,10 @@
-# hook-useref
+---
+title: useRef Hook Typing
+category: Hook Typing
+priority: CRITICAL
+---
 
-**Priority:** CRITICAL
-**Category:** Hook Typing
+# hook-useref
 
 ## Why It Matters
 

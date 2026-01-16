@@ -1,3 +1,10 @@
+---
+title: Match Expression
+impact: HIGH
+impactDescription: Type-safe, concise alternative to switch with no fall-through
+tags: modern-features, match, control-flow, php8
+---
+
 # Match Expression
 
 Use match expressions instead of switch statements for cleaner, safer code (PHP 8.0+).

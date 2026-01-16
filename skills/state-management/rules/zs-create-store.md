@@ -1,4 +1,14 @@
+---
+title: Creating Zustand Stores
+impact: CRITICAL
+section: Zustand Stores
+tags: zustand, stores, state-management
+---
+
 # zs-create-store
+
+**Impact: CRITICAL**
+
 
 **Priority:** CRITICAL
 **Category:** Zustand Store Patterns

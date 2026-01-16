@@ -1,3 +1,11 @@
+---
+title: Issue and PR References in Commits
+category: commit
+priority: critical
+tags: [commits, traceability, issues, automation]
+related: [commit-body-context, commit-conventional-format]
+---
+
 # Issue and PR References in Commits
 
 Link commits to relevant issues, pull requests, and external resources for traceability.

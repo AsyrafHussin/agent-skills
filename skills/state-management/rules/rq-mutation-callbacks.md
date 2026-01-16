@@ -1,4 +1,14 @@
+---
+title: Mutation Callbacks
+impact: HIGH
+section: Mutation & Updates
+tags: react-query, mutations, callbacks
+---
+
 # Mutation Callbacks
+
+**Impact: HIGH**
+
 
 Mutation callbacks (onSuccess, onError, onSettled, onMutate) provide hooks into the mutation lifecycle for side effects, cache updates, and error handling.
 

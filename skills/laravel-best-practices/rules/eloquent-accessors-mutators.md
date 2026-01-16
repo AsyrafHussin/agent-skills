@@ -1,4 +1,13 @@
-# Accessors and Mutators
+---
+title: Eloquent Accessors and Mutators
+impact: MEDIUM
+impactDescription: Clean data transformation at model layer
+tags: eloquent, accessors, mutators, attributes
+---
+
+## Eloquent Accessors and Mutators
+
+**Impact: MEDIUM (Clean data transformation at model layer)**
 
 Use accessors and mutators to transform attribute values when getting or setting them.
 

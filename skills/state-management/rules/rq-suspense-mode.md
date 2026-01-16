@@ -1,4 +1,14 @@
+---
+title: Suspense Mode Integration
+impact: MEDIUM
+section: Advanced Queries
+tags: react-query, suspense, react-18
+---
+
 # Suspense Mode
+
+**Impact: MEDIUM**
+
 
 Suspense mode integrates React Query with React Suspense, enabling declarative loading states and cleaner component code without manual loading checks.
 

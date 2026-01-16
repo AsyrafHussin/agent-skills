@@ -1,4 +1,13 @@
-# Action Classes
+---
+title: Single-Purpose Action Classes
+impact: HIGH
+impactDescription: Improves reusability and testability
+tags: architecture, actions, single-responsibility, testability
+---
+
+## Single-Purpose Action Classes
+
+**Impact: HIGH (Improves reusability and testability)**
 
 Use single-purpose action classes for discrete operations to achieve maximum reusability and testability.
 

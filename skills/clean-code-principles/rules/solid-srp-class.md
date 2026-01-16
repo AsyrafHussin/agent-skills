@@ -1,3 +1,12 @@
+---
+id: solid-srp-class
+title: SOLID - Single Responsibility Principle (Class Level)
+category: solid-principles
+priority: critical
+tags: [SOLID, SRP, single-responsibility, class-design]
+related: [solid-srp-function, core-separation-concerns, solid-isp-interfaces]
+---
+
 # Single Responsibility Principle - Class Level
 
 A class should have only one reason to change, meaning it should have only one job or responsibility.

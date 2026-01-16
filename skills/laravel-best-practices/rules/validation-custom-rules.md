@@ -1,4 +1,13 @@
-# Custom Validation Rules
+---
+title: Custom Validation Rules
+impact: HIGH
+impactDescription: Reusable domain-specific validation
+tags: validation, custom-rules, reusability
+---
+
+## Custom Validation Rules
+
+**Impact: HIGH (Reusable domain-specific validation)**
 
 Create reusable custom validation rules for complex or domain-specific validation logic.
 

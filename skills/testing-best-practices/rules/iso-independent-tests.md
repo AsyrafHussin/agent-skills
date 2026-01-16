@@ -1,3 +1,9 @@
+---
+title: Independent Tests
+priority: CRITICAL
+category: Test Isolation
+---
+
 # Independent Tests
 
 Each test should be completely independent and not rely on other tests.

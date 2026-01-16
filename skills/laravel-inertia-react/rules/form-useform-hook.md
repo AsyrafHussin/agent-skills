@@ -1,3 +1,10 @@
+---
+section: forms
+priority: critical
+description: Complete useForm hook API with all methods and options
+keywords: [useForm, hook, form, state, methods, api]
+---
+
 # Form useForm Hook
 
 Use Inertia's useForm hook for all form handling to get automatic state management, validation error handling, and submission progress tracking.

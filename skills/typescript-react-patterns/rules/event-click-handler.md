@@ -1,3 +1,9 @@
+---
+title: Click Event Handler Typing
+category: Event Handling
+priority: HIGH
+---
+
 # Click Event Handler Typing
 
 Properly typing click event handlers for various React elements.

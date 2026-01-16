@@ -1,4 +1,14 @@
+---
+title: Mutation Side Effects
+impact: MEDIUM
+section: Mutation & Updates
+tags: react-query, mutations, side-effects
+---
+
 # Mutation Side Effects
+
+**Impact: MEDIUM**
+
 
 Side effects are actions triggered by mutation results, such as cache updates, navigation, notifications, and analytics. Proper organization keeps mutations maintainable.
 

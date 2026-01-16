@@ -1,3 +1,10 @@
+---
+section: navigation
+priority: high
+description: Use replace option to prevent cluttered browser history
+keywords: [replace, history, browser, navigation, filters, tabs]
+---
+
 # Navigation Replace History
 
 Use the replace option to modify the current history entry instead of adding a new one, preventing cluttered browser history.

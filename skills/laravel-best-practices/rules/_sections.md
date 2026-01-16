@@ -1,36 +1,41 @@
-# Rule Sections
+# Sections
 
-## Priority Levels
+This file defines all sections, their ordering, impact levels, and descriptions.
+The section ID (in parentheses) is the filename prefix used to group rules.
 
-| Level | Description | When to Apply |
-|-------|-------------|---------------|
-| CRITICAL | Essential for any Laravel app | Always |
-| HIGH | Important for maintainability | Most projects |
-| MEDIUM | Performance and scalability | Growing applications |
-| LOW | Specialized patterns | Large-scale apps |
+---
 
-## Section Overview
+## 1. Architecture & Structure (arch)
 
-### Architecture & Structure (CRITICAL)
-Foundational patterns for organizing Laravel applications. Service classes, actions, and proper separation of concerns.
+**Impact:** CRITICAL
+**Description:** Foundational patterns for organizing Laravel applications. Service classes, action classes, DTOs, and proper separation of concerns are essential for maintainable, scalable codebases. These patterns determine long-term code quality and team productivity.
 
-### Eloquent & Database (CRITICAL)
-Patterns for efficient database operations. Preventing N+1 queries, proper indexing, and query optimization.
+## 2. Eloquent & Database (eloquent)
 
-### Controllers & Routing (HIGH)
-RESTful conventions, resource controllers, and proper request handling.
+**Impact:** CRITICAL
+**Description:** Efficient database operations and ORM usage. Preventing N+1 queries through eager loading, using chunking for large datasets, and proper relationship management are critical for performance. Poor database patterns can cripple application performance at scale.
 
-### Validation & Requests (HIGH)
-Form request classes, custom validation rules, and authorization patterns.
+## 3. Controllers & Routing (controller, ctrl)
 
-### Security (HIGH)
-Protection against common vulnerabilities and authentication/authorization best practices.
+**Impact:** HIGH
+**Description:** RESTful conventions, resource controllers, and proper request handling. Well-structured controllers following Laravel conventions improve code predictability, maintainability, and team collaboration. Thin controllers delegate to services for business logic.
 
-### Performance (MEDIUM)
-Caching strategies, queue usage, and optimization techniques.
+## 4. Validation & Requests (validation, valid)
 
-### API Design (MEDIUM)
-RESTful API patterns, resource transformers, and consistent responses.
+**Impact:** HIGH
+**Description:** Form request classes, custom validation rules, and authorization patterns. Proper validation ensures data integrity, security, and separation of concerns. Centralized validation logic in form requests keeps controllers clean and validation rules reusable.
 
-### Testing (LOW-MEDIUM)
-Testing strategies, factories, and mocking patterns.
+## 5. Security (sec)
+
+**Impact:** HIGH
+**Description:** Protection against common vulnerabilities including mass assignment, SQL injection, XSS, and CSRF attacks. Laravel provides excellent security features, but developers must use them correctly. Security issues can have catastrophic consequences.
+
+## 6. Performance (perf)
+
+**Impact:** MEDIUM
+**Description:** Caching strategies, queue usage, and optimization techniques for growing applications. While not critical initially, performance patterns become essential as applications scale. Proper caching and queue usage can provide 2-10× improvements.
+
+## 7. API Design (api)
+
+**Impact:** MEDIUM
+**Description:** RESTful API patterns, resource transformers, versioning, and consistent response formatting. Well-designed APIs are essential for frontend-backend communication, third-party integrations, and mobile applications. API resources provide consistent data transformation.

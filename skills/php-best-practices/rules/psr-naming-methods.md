@@ -1,3 +1,10 @@
+---
+title: Method Naming Conventions
+impact: MEDIUM
+impactDescription: Clear intent through descriptive method names
+tags: psr, naming, methods, conventions
+---
+
 # Method Naming Conventions
 
 Use camelCase for method names with clear, action-oriented verbs.

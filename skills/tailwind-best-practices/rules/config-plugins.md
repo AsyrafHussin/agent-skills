@@ -1,3 +1,10 @@
+---
+id: config-plugins
+title: Tailwind Plugins Configuration
+priority: HIGH
+category: Custom Configuration
+---
+
 # Tailwind Plugins Configuration
 
 Use and create plugins to extend Tailwind with custom utilities, components, and variants.

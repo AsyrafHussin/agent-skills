@@ -1,3 +1,9 @@
+---
+title: Given-When-Then Pattern
+priority: CRITICAL
+category: Test Structure
+---
+
 # Given-When-Then Pattern
 
 Use behavior-driven development (BDD) style for tests that describe user-facing behavior.

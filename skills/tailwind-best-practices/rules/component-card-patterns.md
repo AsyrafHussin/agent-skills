@@ -1,3 +1,10 @@
+---
+id: component-card-patterns
+title: Card Patterns
+priority: HIGH
+category: Component Patterns
+---
+
 # Card Patterns
 
 Create flexible, consistent card components for displaying grouped content with proper structure and styling.

@@ -1,3 +1,12 @@
+---
+id: core-composition
+title: Composition Over Inheritance
+category: core-principles
+priority: critical
+tags: [composition, inheritance, flexibility, design]
+related: [solid-srp-class, solid-dip-injection, core-encapsulation]
+---
+
 # Composition Over Inheritance
 
 Favor composing objects from smaller, focused pieces over building deep inheritance hierarchies. Composition provides more flexibility, better encapsulation, and avoids the fragile base class problem.

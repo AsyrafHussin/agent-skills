@@ -1,3 +1,12 @@
+---
+id: solid-ocp-extension
+title: SOLID - Open/Closed Principle (Extension)
+category: solid-principles
+priority: critical
+tags: [SOLID, OCP, open-closed, extensibility, design-patterns]
+related: [solid-ocp-abstraction, pattern-repository, solid-dip-abstractions]
+---
+
 # Open/Closed Principle - Extension
 
 Software entities should be open for extension but closed for modification. Add new functionality by adding new code, not by changing existing code.

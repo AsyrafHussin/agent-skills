@@ -1,4 +1,14 @@
+---
+title: Optimistic Updates
+impact: HIGH
+section: Mutation & Updates
+tags: react-query, optimistic-updates, ux
+---
+
 # Optimistic Updates
+
+**Impact: HIGH**
+
 
 Optimistic updates immediately reflect changes in the UI before the server confirms them, providing instant feedback. Proper implementation includes rollback on failure.
 

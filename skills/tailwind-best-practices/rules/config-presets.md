@@ -1,3 +1,10 @@
+---
+id: config-presets
+title: Tailwind Presets Configuration
+priority: MEDIUM
+category: Custom Configuration
+---
+
 # Tailwind Presets Configuration
 
 Use presets to share common Tailwind configurations across multiple projects or team members.

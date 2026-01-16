@@ -1,4 +1,13 @@
-# Model Pruning
+---
+title: Model Pruning
+impact: MEDIUM
+impactDescription: Automatic cleanup of old records
+tags: eloquent, pruning, cleanup, maintenance
+---
+
+## Model Pruning
+
+**Impact: MEDIUM (Automatic cleanup of old records)**
 
 Use model pruning to automatically clean up old or obsolete database records.
 

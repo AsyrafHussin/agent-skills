@@ -1,11 +1,15 @@
 ---
 name: web-design-guidelines
 description: UI/UX best practices and accessibility guidelines. Use when reviewing UI code, checking accessibility, auditing forms, or ensuring web interface best practices. Triggers on "review UI", "check accessibility", "audit design", "review UX", or "check best practices".
+license: MIT
+metadata:
+  author: Web Accessibility Initiative (WAI)
+  version: "1.0.0"
 ---
 
 # Web Design Guidelines
 
-Comprehensive UI/UX and accessibility guidelines for building inclusive, performant web interfaces. Contains 50+ rules covering accessibility, forms, performance, and user experience.
+Comprehensive UI/UX and accessibility guidelines for building inclusive, performant web interfaces. Contains 21 rules across 8 categories, prioritized by WCAG compliance and user impact.
 
 ## When to Apply
 
@@ -20,73 +24,61 @@ Reference these guidelines when:
 
 | Priority | Category | Impact | Prefix |
 |----------|----------|--------|--------|
-| 1 | Accessibility | CRITICAL | `a11y-` |
-| 2 | Forms & Validation | CRITICAL | `form-` |
-| 3 | Performance | HIGH | `perf-` |
-| 4 | Animation & Motion | HIGH | `motion-` |
-| 5 | Typography | MEDIUM | `typo-` |
-| 6 | Touch & Interaction | MEDIUM | `touch-` |
-| 7 | Internationalization | LOW | `i18n-` |
+| 1 | Accessibility - Semantic Structure | CRITICAL | `a11y-` |
+| 2 | Accessibility - Keyboard & Focus | CRITICAL | `a11y-` |
+| 3 | Accessibility - Visual & Color | CRITICAL | `a11y-` |
+| 4 | Forms - Input & Validation | CRITICAL | `form-` |
+| 5 | Forms - Error Handling | HIGH | `form-` |
+| 6 | Forms - User Experience | MEDIUM | `form-` |
+| 7 | Animation & Motion | CRITICAL | `motion-` |
+| 8 | Performance & UX | MEDIUM | `perf-` |
 
 ## Quick Reference
 
-### 1. Accessibility (CRITICAL)
+### 1. Accessibility - Semantic Structure (CRITICAL)
 
 - `a11y-semantic-html` - Use semantic HTML elements
+- `a11y-heading-hierarchy` - Maintain proper heading hierarchy
+- `a11y-screen-reader` - Optimize for screen reader compatibility
+- `a11y-skip-links` - Provide skip links for navigation
+
+### 2. Accessibility - Keyboard & Focus (CRITICAL)
+
+- `a11y-keyboard-nav` - Ensure full keyboard navigation
+- `a11y-focus-management` - Manage keyboard focus properly
 - `a11y-aria-labels` - Add ARIA labels to interactive elements
-- `a11y-keyboard-nav` - Ensure keyboard navigation
-- `a11y-focus-visible` - Visible focus indicators
-- `a11y-color-contrast` - Sufficient color contrast
-- `a11y-alt-text` - Meaningful image alt text
-- `a11y-heading-hierarchy` - Proper heading structure
-- `a11y-form-labels` - Associate labels with inputs
-- `a11y-skip-links` - Skip navigation links
-- `a11y-live-regions` - Announce dynamic content
 
-### 2. Forms & Validation (CRITICAL)
+### 3. Accessibility - Visual & Color (CRITICAL)
 
-- `form-autocomplete` - Use autocomplete attributes
-- `form-input-types` - Correct input types
-- `form-error-messages` - Clear error messages
-- `form-validation-timing` - Validate at right time
-- `form-required-fields` - Mark required fields
-- `form-success-feedback` - Confirm successful actions
-- `form-disabled-states` - Clear disabled states
+- `a11y-color-contrast` - Ensure sufficient color contrast
+- `a11y-alt-text` - Provide meaningful alt text for images
 
-### 3. Performance (HIGH)
+### 4. Forms - Input & Validation (CRITICAL)
 
-- `perf-image-dimensions` - Set image dimensions
-- `perf-lazy-loading` - Lazy load below-fold content
-- `perf-virtualization` - Virtualize long lists
-- `perf-preconnect` - Preconnect to required origins
-- `perf-font-loading` - Optimize font loading
-- `perf-layout-shifts` - Prevent layout shifts
+- `form-autocomplete` - Use autocomplete attributes for forms
+- `form-input-types` - Use correct input types
+- `form-labels` - Associate labels with form inputs
 
-### 4. Animation & Motion (HIGH)
+### 5. Forms - Error Handling (HIGH)
 
-- `motion-reduced` - Respect prefers-reduced-motion
-- `motion-performance` - Use GPU-friendly animations
-- `motion-meaningful` - Animations should have purpose
-- `motion-duration` - Appropriate animation duration
+- `form-error-display` - Display form errors clearly
+- `form-error-messages` - Provide accessible error messages
+- `form-validation-ux` - Design user-friendly form validation
 
-### 5. Typography (MEDIUM)
+### 6. Forms - User Experience (MEDIUM)
 
-- `typo-readable` - Readable font sizes
-- `typo-line-height` - Appropriate line height
-- `typo-measure` - Optimal line length
-- `typo-hierarchy` - Clear visual hierarchy
+- `form-inline-validation` - Implement smart inline validation
+- `form-multi-step` - Design effective multi-step forms
+- `form-placeholder-usage` - Use placeholders appropriately
+- `form-submit-feedback` - Provide clear form submission feedback
 
-### 6. Touch & Interaction (MEDIUM)
+### 7. Animation & Motion (CRITICAL)
 
-- `touch-targets` - Minimum touch target sizes
-- `touch-tap-highlight` - Handle tap highlight
-- `touch-scrolling` - Smooth scrolling behavior
+- `motion-reduced` - Respect prefers-reduced-motion preference
 
-### 7. Internationalization (LOW)
+### 8. Performance & UX (MEDIUM)
 
-- `i18n-date-format` - Use Intl.DateTimeFormat
-- `i18n-number-format` - Use Intl.NumberFormat
-- `i18n-rtl-support` - Support RTL languages
+- Image optimization and layout stability patterns
 
 ## Essential Guidelines
 
@@ -376,10 +368,22 @@ src/components/Form.tsx:28 - [form] Input missing associated label
 
 ## How to Use
 
-Read individual rule files for detailed explanations:
+Read individual rule files for detailed explanations and code examples:
 
 ```
 rules/a11y-semantic-html.md
 rules/form-autocomplete.md
 rules/motion-reduced.md
+rules/_sections.md
 ```
+
+Each rule file contains:
+- YAML frontmatter with metadata (title, impact, tags)
+- Brief explanation of why it matters
+- Incorrect code example with explanation
+- Correct code example with explanation
+- Additional context and WCAG references
+
+## Full Compiled Document
+
+For the complete guide with all rules expanded: `AGENTS.md`

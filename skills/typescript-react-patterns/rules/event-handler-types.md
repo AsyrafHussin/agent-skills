@@ -1,7 +1,10 @@
-# event-handler-types
+---
+title: Event Handler Types
+category: Event Handling
+priority: HIGH
+---
 
-**Priority:** HIGH
-**Category:** Event Handling
+# event-handler-types
 
 ## Why It Matters
 

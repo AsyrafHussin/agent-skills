@@ -1,3 +1,12 @@
+---
+id: core-encapsulation
+title: Encapsulation
+category: core-principles
+priority: critical
+tags: [encapsulation, information-hiding, data-protection]
+related: [solid-srp-class, core-law-demeter, solid-isp-interfaces]
+---
+
 # Encapsulation
 
 Hide internal implementation details and expose only what's necessary through a well-defined interface. Protect data integrity by controlling access to internal state.

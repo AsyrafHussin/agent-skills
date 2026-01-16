@@ -1,3 +1,12 @@
+---
+id: solid-srp-function
+title: SOLID - Single Responsibility Principle (Function Level)
+category: solid-principles
+priority: critical
+tags: [SOLID, SRP, single-responsibility, function-design]
+related: [solid-srp-class, core-dry-extraction, core-kiss-simplicity]
+---
+
 # Single Responsibility Principle - Function Level
 
 A function should do one thing, do it well, and do it only. It should have a single, clear purpose that can be described without using conjunctions like "and" or "or".

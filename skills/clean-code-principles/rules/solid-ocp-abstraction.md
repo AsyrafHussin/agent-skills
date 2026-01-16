@@ -1,3 +1,12 @@
+---
+id: solid-ocp-abstraction
+title: SOLID - Open/Closed (Abstraction)
+category: solid-principles
+priority: critical
+tags: [SOLID, OCP, open-closed, abstraction]
+related: [solid-ocp-extension, solid-dip-abstractions, pattern-repository]
+---
+
 # Open/Closed Principle - Abstraction
 
 Use abstractions (interfaces and abstract classes) to define stable contracts that allow new implementations without modifying existing code.

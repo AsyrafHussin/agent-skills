@@ -1,4 +1,13 @@
-# Multi-Step Forms
+---
+title: Design Effective Multi-Step Forms
+impact: MEDIUM
+impactDescription: Increases completion rates by 15-30%
+tags: forms, multi-step, ux, progress-indication
+---
+
+## Design Effective Multi-Step Forms
+
+**Impact: MEDIUM (Increases completion rates by 15-30%)**
 
 Design multi-step forms that are easy to navigate, maintain context, and don't overwhelm users. Break complex forms into logical, manageable steps.
 

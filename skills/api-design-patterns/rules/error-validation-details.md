@@ -1,4 +1,11 @@
-# Include Validation Error Details
+---
+title: Include Validation Error Details
+impact: HIGH
+impactDescription: Enables field-level error feedback for better UX
+tags: errors, validation, form-handling, user-experience
+---
+
+## Include Validation Error Details
 
 When validation fails, provide specific details about which fields failed and why, enabling clients to display targeted error messages.
 

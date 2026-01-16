@@ -1,3 +1,9 @@
+---
+title: Test Doubles for Isolation
+priority: CRITICAL
+category: Test Isolation
+---
+
 # Test Doubles for Isolation
 
 Use test doubles (mocks, stubs, spies, fakes) to isolate the unit under test from its dependencies.

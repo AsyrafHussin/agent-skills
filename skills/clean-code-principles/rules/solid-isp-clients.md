@@ -1,3 +1,12 @@
+---
+id: solid-isp-clients
+title: SOLID - Interface Segregation (Client-Specific)
+category: solid-principles
+priority: critical
+tags: [SOLID, ISP, interface-segregation, client-design]
+related: [solid-isp-interfaces, solid-srp-class, solid-lsp-contracts]
+---
+
 # Interface Segregation Principle - Client-Specific Interfaces
 
 Clients should not be forced to depend on interfaces they do not use. Design interfaces from the client's perspective, not the implementation's.

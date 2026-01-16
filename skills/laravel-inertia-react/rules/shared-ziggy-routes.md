@@ -1,3 +1,10 @@
+---
+section: shared-data
+priority: critical
+description: Use Ziggy for type-safe Laravel route generation in React
+keywords: [ziggy, routes, routing, laravel, named-routes, type-safety]
+---
+
 # Shared Ziggy Routes
 
 Use Ziggy to share Laravel named routes with your React frontend, enabling type-safe route generation with parameters.

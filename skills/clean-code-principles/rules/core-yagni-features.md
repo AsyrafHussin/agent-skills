@@ -1,3 +1,12 @@
+---
+id: core-yagni-features
+title: YAGNI - Features
+category: core-principles
+priority: critical
+tags: [YAGNI, speculative-features, lean-development]
+related: [core-yagni-abstractions, core-kiss-simplicity]
+---
+
 # YAGNI Principle - Features
 
 You Aren't Gonna Need It. Don't implement features until they are actually required. Building speculative features wastes time and adds unnecessary complexity.

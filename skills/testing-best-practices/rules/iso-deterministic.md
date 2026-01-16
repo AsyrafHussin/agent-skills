@@ -1,3 +1,9 @@
+---
+title: Deterministic Tests
+priority: CRITICAL
+category: Test Isolation
+---
+
 # Deterministic Tests
 
 Tests should produce the same result every time they run, regardless of environment or timing.

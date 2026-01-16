@@ -1,9 +1,11 @@
-# layout-persistent
+---
+section: layouts
+priority: critical
+description: Implement persistent layouts that maintain state across navigation
+keywords: [layout, persistent, state, performance, remount, nested-layouts]
+---
 
-**Priority:** MEDIUM
-**Category:** Layouts
-
-## Why It Matters
+# Persistent Layouts
 
 Persistent layouts maintain state between page visits. Without them, layouts remount on every navigation, losing state like scroll position, form inputs in navigation, or audio/video playback.
 

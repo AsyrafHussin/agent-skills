@@ -1,4 +1,13 @@
-# Heading Hierarchy
+---
+title: Maintain Proper Heading Hierarchy
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level A - Info and Relationships
+tags: accessibility, headings, structure, navigation
+---
+
+## Maintain Proper Heading Hierarchy
+
+**Impact: CRITICAL (WCAG 2.1 Level A - Info and Relationships)**
 
 Use heading elements (h1-h6) in a logical, hierarchical order to create a clear document outline. Proper heading structure is essential for screen reader navigation and SEO.
 

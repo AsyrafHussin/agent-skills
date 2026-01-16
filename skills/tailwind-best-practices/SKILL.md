@@ -1,11 +1,23 @@
 ---
 name: tailwind-best-practices
 description: Tailwind CSS patterns and conventions. Use when writing responsive designs, implementing dark mode, creating reusable component styles, or configuring Tailwind. Triggers on tasks involving Tailwind classes, responsive design, dark mode, or CSS styling.
+version: 4.0.0
+framework: Tailwind CSS
+minimumVersion: 3.4.0
+license: MIT
 ---
 
 # Tailwind CSS Best Practices
 
-Comprehensive patterns for building consistent, maintainable interfaces with Tailwind CSS. Contains 35+ rules for effective Tailwind usage.
+Comprehensive patterns for building consistent, maintainable interfaces with Tailwind CSS v4. Contains 26+ rules covering responsive design, dark mode, component patterns, and configuration best practices.
+
+## Metadata
+
+- **Version:** 4.0.0
+- **Framework:** Tailwind CSS v3.4+ / v4.0+
+- **Rule Count:** 26 rules across 7 categories
+- **License:** MIT
+- **Documentation:** [tailwindcss.com/docs](https://tailwindcss.com/docs)
 
 ## When to Apply
 
@@ -354,3 +366,27 @@ rules/resp-mobile-first.md
 rules/dark-setup.md
 rules/comp-clsx-cn.md
 ```
+
+## References
+
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs) - Official documentation
+- [Responsive Design Guide](https://tailwindcss.com/docs/responsive-design) - Mobile-first patterns
+- [Dark Mode Guide](https://tailwindcss.com/docs/dark-mode) - Theme implementation
+- [Configuration Guide](https://tailwindcss.com/docs/configuration) - Customization
+- [Tailwind UI](https://tailwindui.com) - Official component library
+- [Headless UI](https://headlessui.com) - Accessible components
+- [Heroicons](https://heroicons.com) - Icon library
+
+## Ecosystem Tools
+
+- **Tailwind CSS IntelliSense** - VS Code autocomplete and linting
+- **Prettier Plugin** - Automatic class sorting
+- **tailwind-merge** - Conflict-free class merging
+- **clsx** - Conditional class utility
+- **CVA** - Component variant system
+
+## License
+
+MIT License - See repository for full license text.
+
+This skill is part of the Agent Skills collection, providing AI-powered development assistance with industry best practices.

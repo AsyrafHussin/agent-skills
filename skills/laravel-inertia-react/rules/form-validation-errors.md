@@ -1,3 +1,10 @@
+---
+section: forms
+priority: critical
+description: Display Laravel validation errors with proper UX and accessibility patterns
+keywords: [validation, errors, laravel, form, accessibility, ux]
+---
+
 # Form Validation Errors
 
 Display Laravel validation errors using Inertia's built-in error handling with proper UX patterns for inline feedback.

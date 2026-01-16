@@ -1,3 +1,10 @@
+---
+section: navigation
+priority: critical
+description: Use Link component for SPA-like navigation without full page reloads
+keywords: [Link, navigation, spa, router, link-component]
+---
+
 # Navigation Link Component
 
 Use Inertia's Link component for internal navigation to enable SPA-like page transitions without full page reloads.

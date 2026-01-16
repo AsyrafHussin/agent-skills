@@ -1,4 +1,11 @@
-# Configure CORS Properly
+---
+title: Configure CORS Properly
+impact: HIGH
+impactDescription: Prevents unauthorized cross-origin access
+tags: security, cors, cross-origin, browsers
+---
+
+## Configure CORS Properly
 
 Cross-Origin Resource Sharing (CORS) must be configured correctly to allow legitimate cross-origin requests while preventing unauthorized access.
 

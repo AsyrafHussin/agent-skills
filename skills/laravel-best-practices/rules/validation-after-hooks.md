@@ -1,4 +1,13 @@
-# Validation After Hooks
+---
+title: Validation After Hooks
+impact: MEDIUM
+impactDescription: Complex cross-field validation
+tags: validation, hooks, custom-validation
+---
+
+## Validation After Hooks
+
+**Impact: MEDIUM (Complex cross-field validation)**
 
 Use after validation hooks for complex validation that depends on multiple fields or external data.
 

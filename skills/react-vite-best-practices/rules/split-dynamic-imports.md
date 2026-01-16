@@ -1,9 +1,13 @@
-# split-dynamic-imports
+---
+title: Use Dynamic Imports for Heavy Components
+impact: CRITICAL
+impactDescription: 30-50% reduction in initial bundle
+tags: split, dynamic-imports, lazy-loading, code-splitting, react
+---
 
-**Priority:** CRITICAL
-**Category:** Code Splitting
+## Use Dynamic Imports for Heavy Components
 
-## Why It Matters
+**Impact: CRITICAL (30-50% reduction in initial bundle)**
 
 Heavy components like charts, editors, and complex forms shouldn't be loaded until needed. Dynamic imports allow loading code on-demand, reducing initial bundle size.
 

@@ -1,3 +1,10 @@
+---
+id: dark-media-strategy
+title: Dark Mode Media Strategy
+priority: HIGH
+category: Dark Mode
+---
+
 # Dark Mode Media Strategy
 
 Use the media-based dark mode strategy to automatically follow the user's system preferences.

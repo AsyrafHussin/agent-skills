@@ -1,4 +1,13 @@
-# Eager Loading
+---
+title: Eager Loading Relationships
+impact: CRITICAL
+impactDescription: 10-100× query performance improvement
+tags: eloquent, eager-loading, n+1, performance
+---
+
+## Eager Loading Relationships
+
+**Impact: CRITICAL (10-100× query performance improvement)**
 
 Always eager load relationships to prevent N+1 query problems and improve performance.
 

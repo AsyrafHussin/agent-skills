@@ -1,3 +1,10 @@
+---
+title: Class Naming Conventions
+impact: HIGH
+impactDescription: Clear communication through consistent naming patterns
+tags: psr, naming, conventions, readability
+---
+
 # Class Naming Conventions
 
 Use PascalCase for class names with descriptive, intention-revealing names.

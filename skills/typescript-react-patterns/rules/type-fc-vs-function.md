@@ -1,4 +1,9 @@
-# FC vs Function Declaration
+---
+title: FC vs Function Declaration
+category: Component Typing
+priority: MEDIUM
+---
+
 
 Choosing between `React.FC` and regular function declarations for component typing.
 

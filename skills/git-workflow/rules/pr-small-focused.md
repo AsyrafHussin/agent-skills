@@ -1,3 +1,11 @@
+---
+title: Small, Focused Pull Requests
+category: pull-request
+priority: high
+tags: [pull-requests, code-review, velocity, quality]
+related: [pr-description-template, branch-short-lived, commit-atomic-changes]
+---
+
 # Small, Focused Pull Requests
 
 Keep pull requests small and focused on a single concern to enable thorough reviews and reduce risk.

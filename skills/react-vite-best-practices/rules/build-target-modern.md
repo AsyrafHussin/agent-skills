@@ -1,9 +1,13 @@
-# build-target-modern
+---
+title: Target Modern Browsers for Smaller Bundles
+impact: CRITICAL
+impactDescription: 10-15% smaller bundles
+tags: build, target, modern, es2020, optimization
+---
 
-**Priority:** CRITICAL
-**Category:** Build Optimization
+## Target Modern Browsers for Smaller Bundles
 
-## Why It Matters
+**Impact: CRITICAL (10-15% smaller bundles)**
 
 Vite defaults to a broad browser target for compatibility. Modern browsers support ES2020+ features natively. Targeting older browsers includes unnecessary polyfills and transpilation, increasing bundle size.
 

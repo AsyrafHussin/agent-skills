@@ -1,4 +1,13 @@
-# Build Tree Shaking
+---
+title: Configure Build for Effective Tree Shaking
+impact: CRITICAL
+impactDescription: 15-30% smaller bundles
+tags: build, tree-shaking, optimization, dead-code, vite
+---
+
+## Configure Build for Effective Tree Shaking
+
+**Impact: CRITICAL (15-30% smaller bundles)**
 
 Configure your Vite build to effectively eliminate dead code through tree shaking, reducing bundle size significantly.
 

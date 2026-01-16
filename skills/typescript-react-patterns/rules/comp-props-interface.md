@@ -1,7 +1,10 @@
-# comp-props-interface
+---
+title: Component Props Interface
+category: Component Typing
+priority: CRITICAL
+---
 
-**Priority:** CRITICAL
-**Category:** Component Typing
+# comp-props-interface
 
 ## Why It Matters
 

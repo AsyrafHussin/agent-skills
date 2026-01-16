@@ -1,3 +1,10 @@
+---
+id: responsive-fluid-typography
+title: Fluid Typography
+priority: CRITICAL
+category: Responsive Design
+---
+
 # Fluid Typography
 
 Use fluid typography that scales smoothly between breakpoints rather than jumping between fixed sizes.

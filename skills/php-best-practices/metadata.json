@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "organization": "PHP Community",
+  "date": "January 2026",
+  "abstract": "Comprehensive PHP 8.5+ best practices guide designed for AI agents and LLMs. Contains 33+ rules across 7 categories, prioritized by impact from critical (strict types, modern features) to medium (performance optimizations). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations, and specific rationale to guide automated refactoring and code generation. Covers type system, modern PHP 8.x features, PSR standards, SOLID principles, error handling, performance, and security.",
+  "references": [
+    "https://www.php.net/manual/en/",
+    "https://www.php.net/releases/8.5/en.php",
+    "https://www.php-fig.org/psr/",
+    "https://www.php-fig.org/psr/psr-4/",
+    "https://www.php-fig.org/psr/psr-12/",
+    "https://github.com/php/php-src",
+    "https://phpstan.org/",
+    "https://psalm.dev/",
+    "https://github.com/rectorphp/rector",
+    "https://cs.symfony.com/",
+    "https://phptherightway.com/"
+  ]
+}

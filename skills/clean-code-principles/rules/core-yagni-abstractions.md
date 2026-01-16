@@ -1,3 +1,12 @@
+---
+id: core-yagni-abstractions
+title: YAGNI - Abstractions
+category: core-principles
+priority: critical
+tags: [YAGNI, premature-abstraction, simplicity]
+related: [core-yagni-features, core-kiss-simplicity, solid-ocp-abstraction]
+---
+
 # YAGNI Principle - Abstractions
 
 Don't create abstractions until you have concrete evidence they're needed. Premature abstraction leads to wrong abstractions that are worse than no abstraction.

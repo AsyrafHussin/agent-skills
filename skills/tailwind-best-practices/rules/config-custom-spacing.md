@@ -1,3 +1,10 @@
+---
+id: config-custom-spacing
+title: Custom Spacing Configuration
+priority: HIGH
+category: Custom Configuration
+---
+
 # Custom Spacing Configuration
 
 Extend Tailwind's spacing scale with custom values for consistent layouts.

@@ -1,4 +1,13 @@
+---
+title: Stale Time Configuration
+impact: HIGH
+section: Cache & Performance
+tags: react-query, caching, stale-time
+---
+
 # Stale Time Configuration
+
+**Impact: HIGH**
 
 Stale time determines how long data is considered fresh. During this period, React Query will return cached data without refetching.
 

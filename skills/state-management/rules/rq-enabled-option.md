@@ -1,4 +1,14 @@
+---
+title: Query Conditional Execution
+impact: CRITICAL
+section: Query Fundamentals
+tags: react-query, conditional-queries
+---
+
 # Enabled Option for Conditional Queries
+
+**Impact: CRITICAL**
+
 
 The enabled option controls whether a query should execute. It's essential for dependent queries, conditional fetching, and avoiding unnecessary requests.
 

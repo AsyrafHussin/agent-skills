@@ -1,3 +1,10 @@
+---
+id: config-extend-theme
+title: Extend Theme Configuration
+priority: HIGH
+category: Custom Configuration
+---
+
 # Extend Theme Configuration
 
 Use the `extend` key in your Tailwind config to add custom values while preserving defaults.

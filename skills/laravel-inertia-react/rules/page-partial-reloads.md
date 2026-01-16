@@ -1,3 +1,10 @@
+---
+section: page-components
+priority: high
+description: Reload only specific props with only/except options for better performance
+keywords: [partial, reload, props, performance, only, except]
+---
+
 # Page Partial Reloads
 
 Use partial reloads to refresh only specific props without reloading the entire page, improving performance and user experience.

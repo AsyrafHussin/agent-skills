@@ -1,4 +1,11 @@
-# Validate All Input Data
+---
+title: Validate All Input Data
+impact: CRITICAL
+impactDescription: Prevents injection attacks and malformed data
+tags: security, validation, input-sanitization, injection
+---
+
+## Validate All Input Data
 
 Never trust client input. Validate, sanitize, and constrain all incoming data to prevent security vulnerabilities.
 

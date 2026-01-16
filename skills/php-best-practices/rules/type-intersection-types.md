@@ -1,3 +1,10 @@
+---
+title: Intersection Types
+impact: MEDIUM
+impactDescription: Enforces multiple interface implementations for composition
+tags: type-system, intersection-types, interfaces, php81
+---
+
 # Intersection Types
 
 Use intersection types when a value must implement multiple interfaces (PHP 8.1+).

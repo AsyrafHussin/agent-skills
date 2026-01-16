@@ -1,4 +1,14 @@
+---
+title: Refetch Configuration
+impact: HIGH
+section: Cache & Performance
+tags: react-query, refetching, background-updates
+---
+
 # Refetch Options Configuration
+
+**Impact: HIGH**
+
 
 Refetch options control when and how React Query automatically refetches data. Proper configuration prevents unnecessary requests while keeping data fresh.
 

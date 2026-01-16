@@ -1,3 +1,11 @@
+---
+title: Rebase vs. Merge
+category: history
+priority: medium
+tags: [history, rebase, merge, workflow]
+related: [history-no-force-push, branch-feature-workflow, pr-squash-merge]
+---
+
 # Rebase vs. Merge
 
 Understand when to use rebase versus merge to maintain a clean and useful git history.

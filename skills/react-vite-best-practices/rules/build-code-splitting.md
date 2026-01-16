@@ -1,4 +1,13 @@
-# Build Code Splitting
+---
+title: Configure Automatic Code Splitting
+impact: CRITICAL
+impactDescription: Better caching, faster initial loads
+tags: build, code-splitting, chunks, optimization, vite
+---
+
+## Configure Automatic Code Splitting
+
+**Impact: CRITICAL (Better caching, faster initial loads)**
 
 Configure Vite to automatically split your application code into smaller chunks for better caching and faster initial loads.
 

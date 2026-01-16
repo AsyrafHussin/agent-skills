@@ -1,3 +1,10 @@
+---
+id: responsive-breakpoint-order
+title: Responsive Breakpoint Order
+priority: CRITICAL
+category: Responsive Design
+---
+
 # Responsive Breakpoint Order
 
 Maintain consistent breakpoint ordering in class names for readability and predictability.

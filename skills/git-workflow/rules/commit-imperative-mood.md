@@ -1,3 +1,11 @@
+---
+title: Imperative Mood in Commit Messages
+category: commit
+priority: critical
+tags: [commits, writing-style, conventions, grammar]
+related: [commit-conventional-format, commit-meaningful-subject]
+---
+
 # Imperative Mood in Commit Messages
 
 Write commit messages in the imperative mood, as if giving a command or instruction.

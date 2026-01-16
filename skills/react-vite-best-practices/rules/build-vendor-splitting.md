@@ -1,4 +1,13 @@
-# Build Vendor Splitting
+---
+title: Strategic Vendor Code Splitting
+impact: CRITICAL
+impactDescription: Optimal cache utilization, faster builds
+tags: build, vendor, splitting, caching, vite
+---
+
+## Strategic Vendor Code Splitting
+
+**Impact: CRITICAL (Optimal cache utilization, faster builds)**
 
 Separate vendor dependencies from application code to optimize caching and reduce rebuild times.
 

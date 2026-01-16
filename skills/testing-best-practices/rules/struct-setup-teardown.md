@@ -1,3 +1,9 @@
+---
+title: Setup and Teardown
+priority: CRITICAL
+category: Test Structure
+---
+
 # Setup and Teardown
 
 Use setup and teardown hooks appropriately to prepare and clean up test environments.

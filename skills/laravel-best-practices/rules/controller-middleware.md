@@ -1,4 +1,13 @@
-# Controller Middleware
+---
+title: Controller Middleware
+impact: MEDIUM
+impactDescription: Reusable request filtering and modification
+tags: controllers, middleware, authentication, authorization
+---
+
+## Controller Middleware
+
+**Impact: MEDIUM (Reusable request filtering and modification)**
 
 Use middleware to handle cross-cutting concerns like authentication, rate limiting, and request modification.
 

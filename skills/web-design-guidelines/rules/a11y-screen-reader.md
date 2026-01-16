@@ -1,4 +1,13 @@
-# Screen Reader Compatibility
+---
+title: Optimize for Screen Reader Compatibility
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level A - Perceivable and operable
+tags: accessibility, screen-readers, semantic-html, aria
+---
+
+## Optimize for Screen Reader Compatibility
+
+**Impact: CRITICAL (WCAG 2.1 Level A - Perceivable and operable)**
 
 Design and code with screen reader users in mind. Screen readers convert visual content to audio output, requiring careful attention to how information is structured and announced.
 

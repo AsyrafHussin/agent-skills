@@ -1,3 +1,10 @@
+---
+id: responsive-mobile-first
+title: Mobile-First Responsive Design
+priority: CRITICAL
+category: Responsive Design
+---
+
 # Mobile-First Responsive Design
 
 Design for mobile devices first, then progressively enhance for larger screens using Tailwind's responsive prefixes.

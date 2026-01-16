@@ -1,7 +1,10 @@
-# hook-usestate
+---
+title: useState Hook Typing
+category: Hook Typing
+priority: CRITICAL
+---
 
-**Priority:** CRITICAL
-**Category:** Hook Typing
+# hook-usestate
 
 ## Why It Matters
 

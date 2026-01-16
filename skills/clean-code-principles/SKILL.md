@@ -171,7 +171,62 @@ src/models/Order.ts:28 - [name-meaningful] Variable 'x' should describe its purp
 Read individual rule files for detailed explanations:
 
 ```
-rules/solid-srp.md
+rules/solid-srp-class.md
 rules/core-dry.md
 rules/pattern-repository.md
 ```
+
+## References
+
+This skill is built on established software engineering principles:
+
+### Core Books
+- **Clean Code** by Robert C. Martin - Foundation for clean code practices
+- **Design Patterns** by Gang of Four - Classic design pattern catalog
+- **Refactoring** by Martin Fowler - Improving code structure
+- **The Pragmatic Programmer** by Hunt & Thomas - Practical wisdom
+
+### Online Resources
+- [Refactoring Guru](https://refactoring.guru/) - Design patterns and code smells
+- [Martin Fowler's Refactoring Catalog](https://refactoring.com/catalog/) - Comprehensive refactoring techniques
+- [Uncle Bob's Clean Coder Blog](https://blog.cleancoder.com/) - Software craftsmanship articles
+
+### Pattern Catalogs
+- [Refactoring Guru - Design Patterns](https://refactoring.guru/design-patterns)
+- [Martin Fowler - Enterprise Patterns](https://martinfowler.com/eaaCatalog/)
+
+## Metadata
+
+**Version:** 1.0.0
+**Status:** Active
+**Coverage:** 23 rules across 3 categories (SOLID, Core Principles, Design Patterns)
+**Last Updated:** 2026-01-17
+
+### Rule Statistics
+- SOLID Principles: 10 rules
+- Core Principles: 12 rules
+- Design Patterns: 1 rule
+
+## License
+
+MIT License
+
+Copyright (c) 2026 Agent Skills
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

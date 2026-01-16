@@ -1,3 +1,10 @@
+---
+id: config-custom-colors
+title: Custom Colors Configuration
+priority: HIGH
+category: Custom Configuration
+---
+
 # Custom Colors Configuration
 
 Define a consistent color system with proper scales and semantic naming.

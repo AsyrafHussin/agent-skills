@@ -1,3 +1,10 @@
+---
+section: navigation
+priority: high
+description: Maintain component state during navigation with preserveState option
+keywords: [preserveState, state, navigation, filters, tabs, ui-state]
+---
+
 # Navigation Preserve State
 
 Use preserveState to maintain local component state during navigation, useful for tabs, filters, and accordion states.

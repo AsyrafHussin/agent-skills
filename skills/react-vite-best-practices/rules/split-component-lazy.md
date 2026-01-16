@@ -1,4 +1,13 @@
-# Split Component Lazy
+---
+title: Lazy Load Non-Critical Components
+impact: CRITICAL
+impactDescription: 20-40% smaller initial bundle
+tags: split, lazy, components, code-splitting, react
+---
+
+## Lazy Load Non-Critical Components
+
+**Impact: CRITICAL (20-40% smaller initial bundle)**
 
 Use React.lazy for component-level code splitting to load non-critical UI components on demand.
 

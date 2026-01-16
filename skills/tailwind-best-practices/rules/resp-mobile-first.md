@@ -1,7 +1,11 @@
-# resp-mobile-first
+---
+id: resp-mobile-first
+title: Mobile-First Responsive Design
+priority: CRITICAL
+category: Responsive Design
+---
 
-**Priority:** CRITICAL
-**Category:** Responsive Design
+# Mobile-First Responsive Design
 
 ## Why It Matters
 

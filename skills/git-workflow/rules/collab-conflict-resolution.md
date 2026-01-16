@@ -1,3 +1,11 @@
+---
+title: Merge Conflict Resolution
+category: collaboration
+priority: medium
+tags: [collaboration, merge-conflicts, resolution, testing]
+related: [history-rebase-vs-merge, branch-short-lived]
+---
+
 # Merge Conflict Resolution
 
 Handle merge conflicts carefully and systematically to maintain code integrity.

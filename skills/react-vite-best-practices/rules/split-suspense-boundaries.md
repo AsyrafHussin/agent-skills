@@ -1,9 +1,13 @@
-# split-suspense-boundaries
+---
+title: Strategic Suspense Boundaries for Lazy Loading
+impact: CRITICAL
+impactDescription: Progressive loading, better UX
+tags: split, suspense, lazy, react, boundaries
+---
 
-**Priority:** CRITICAL
-**Category:** Code Splitting
+## Strategic Suspense Boundaries for Lazy Loading
 
-## Why It Matters
+**Impact: CRITICAL (Progressive loading, better UX)**
 
 Without proper Suspense boundaries, a single lazy component can block the entire UI. Strategic placement of Suspense boundaries allows parts of the UI to load independently.
 

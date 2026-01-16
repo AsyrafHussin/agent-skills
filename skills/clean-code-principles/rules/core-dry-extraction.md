@@ -1,4 +1,13 @@
-# DRY Principle - Code Extraction
+---
+id: core-dry-extraction
+title: DRY - Code Extraction
+category: core-principles
+priority: critical
+tags: [DRY, refactoring, extraction, code-reuse]
+related: [core-dry, core-dry-single-source, solid-srp-function]
+---
+
+# DRY - Code Extraction
 
 Don't Repeat Yourself. When you find duplicated code, extract it into a reusable function, method, or module. Every piece of knowledge should have a single, unambiguous representation.
 

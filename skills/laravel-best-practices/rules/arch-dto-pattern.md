@@ -1,4 +1,13 @@
-# Data Transfer Objects (DTOs)
+---
+title: Data Transfer Objects (DTOs)
+impact: MEDIUM
+impactDescription: Type safety and validation between layers
+tags: architecture, dto, type-safety, validation
+---
+
+## Data Transfer Objects (DTOs)
+
+**Impact: MEDIUM (Type safety and validation between layers)**
 
 Use DTOs to transfer data between layers with type safety and validation.
 

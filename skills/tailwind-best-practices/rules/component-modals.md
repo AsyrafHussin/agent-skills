@@ -1,3 +1,10 @@
+---
+id: component-modals
+title: Modal Components
+priority: HIGH
+category: Component Patterns
+---
+
 # Modal Components
 
 Create accessible modal dialogs with proper focus management, backdrop, and animations.

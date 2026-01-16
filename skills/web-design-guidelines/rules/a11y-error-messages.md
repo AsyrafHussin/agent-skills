@@ -1,4 +1,13 @@
-# Accessible Error Messages
+---
+title: Provide Accessible Error Messages
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level A - Error identification and suggestions
+tags: accessibility, forms, errors, aria, validation
+---
+
+## Provide Accessible Error Messages
+
+**Impact: CRITICAL (WCAG 2.1 Level A - Error identification and suggestions)**
 
 Error messages must be perceivable, understandable, and programmatically associated with their related form fields. Users should be able to identify and correct errors easily.
 

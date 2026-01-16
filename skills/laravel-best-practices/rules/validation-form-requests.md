@@ -1,4 +1,13 @@
-# Form Request Validation
+---
+title: Form Request Validation
+impact: HIGH
+impactDescription: Centralized validation and authorization
+tags: validation, form-requests, authorization
+---
+
+## Form Request Validation
+
+**Impact: HIGH (Centralized validation and authorization)**
 
 Encapsulate validation logic in Form Request classes for cleaner controllers and reusability.
 

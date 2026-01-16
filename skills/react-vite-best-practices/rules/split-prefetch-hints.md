@@ -1,4 +1,13 @@
-# Split Prefetch Hints
+---
+title: Prefetch Code Chunks on User Intent
+impact: MEDIUM
+impactDescription: Instant navigation perceived speed
+tags: split, prefetch, preload, performance, code-splitting
+---
+
+## Prefetch Code Chunks on User Intent
+
+**Impact: MEDIUM (Instant navigation perceived speed)**
 
 Use prefetch and preload hints to load code chunks before they're needed, improving perceived navigation speed.
 

@@ -1,4 +1,9 @@
-# Rest Props Typing
+---
+title: Rest Props Typing
+category: Component Typing
+priority: MEDIUM
+---
+
 
 Typing rest/spread props for components that pass through HTML attributes.
 

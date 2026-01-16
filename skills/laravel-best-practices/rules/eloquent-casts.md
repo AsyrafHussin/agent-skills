@@ -1,4 +1,13 @@
-# Attribute Casting
+---
+title: Eloquent Attribute Casting
+impact: HIGH
+impactDescription: Automatic type conversion and data handling
+tags: eloquent, casts, type-conversion, attributes
+---
+
+## Eloquent Attribute Casting
+
+**Impact: HIGH (Automatic type conversion and data handling)**
 
 Use Eloquent casts to automatically convert attributes to appropriate types.
 

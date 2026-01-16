@@ -1,4 +1,11 @@
-# Never Expose Stack Traces in Production
+---
+title: Never Expose Stack Traces in Production
+impact: CRITICAL
+impactDescription: Prevents security vulnerabilities and information disclosure
+tags: errors, security, production, sensitive-data
+---
+
+## Never Expose Stack Traces in Production
 
 Stack traces and internal error details should never be exposed to API clients in production environments, as they reveal implementation details and potential vulnerabilities.
 

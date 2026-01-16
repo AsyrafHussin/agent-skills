@@ -1,9 +1,13 @@
-# build-manual-chunks
+---
+title: Configure Manual Chunks for Vendor Separation
+impact: CRITICAL
+impactDescription: Optimal caching and parallel loading
+tags: build, chunks, vendor, optimization, rollup
+---
 
-**Priority:** CRITICAL
-**Category:** Build Optimization
+## Configure Manual Chunks for Vendor Separation
 
-## Why It Matters
+**Impact: CRITICAL (Optimal caching and parallel loading)**
 
 Without manual chunks, Vite bundles all vendor dependencies into a single chunk or mixes them with application code. This leads to:
 - Large initial bundle downloads

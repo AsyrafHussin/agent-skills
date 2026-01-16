@@ -1,3 +1,11 @@
+---
+title: PR Description Template
+category: pull-request
+priority: high
+tags: [pull-requests, documentation, templates, communication]
+related: [pr-small-focused, pr-reviewers, commit-body-context]
+---
+
 # PR Description Template
 
 Use a consistent, informative template for pull request descriptions to aid reviewers and document changes.

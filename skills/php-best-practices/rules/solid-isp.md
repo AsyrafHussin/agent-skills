@@ -1,3 +1,10 @@
+---
+title: Interface Segregation Principle
+impact: HIGH
+impactDescription: Focused interfaces, no forced implementations
+tags: solid, isp, design-principles, interfaces
+---
+
 # Interface Segregation Principle (ISP)
 
 Clients should not be forced to depend on interfaces they do not use.

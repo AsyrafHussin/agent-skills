@@ -1,3 +1,11 @@
+---
+title: Code Review Best Practices
+category: collaboration
+priority: medium
+tags: [collaboration, code-review, feedback, quality]
+related: [pr-reviewers, pr-description-template, pr-small-focused]
+---
+
 # Code Review Best Practices
 
 Conduct thorough, constructive code reviews that improve code quality and share knowledge.

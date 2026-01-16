@@ -1,7 +1,13 @@
-# ctrl-resource-controllers
+---
+title: Use Resource Controllers
+impact: HIGH
+impactDescription: RESTful conventions and consistent routing
+tags: controllers, rest, routing, conventions
+---
 
-**Priority:** HIGH
-**Category:** Controllers & Routing
+## Use Resource Controllers
+
+**Impact: HIGH (RESTful conventions and consistent routing)**
 
 ## Why It Matters
 

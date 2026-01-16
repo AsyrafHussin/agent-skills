@@ -1,4 +1,13 @@
-# Resource Controller Methods
+---
+title: RESTful Resource Methods
+impact: HIGH
+impactDescription: Standard CRUD operations following REST conventions
+tags: controllers, rest, crud, conventions
+---
+
+## RESTful Resource Methods
+
+**Impact: HIGH (Standard CRUD operations following REST conventions)**
 
 Use resource controllers with standard RESTful methods for CRUD operations.
 

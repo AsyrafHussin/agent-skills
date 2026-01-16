@@ -1,7 +1,13 @@
-# sec-mass-assignment
+---
+title: Protect Against Mass Assignment
+impact: HIGH
+impactDescription: Prevents security vulnerabilities
+tags: security, mass-assignment, eloquent, protection
+---
 
-**Priority:** HIGH
-**Category:** Security
+## Protect Against Mass Assignment
+
+**Impact: HIGH (Prevents security vulnerabilities)**
 
 ## Why It Matters
 

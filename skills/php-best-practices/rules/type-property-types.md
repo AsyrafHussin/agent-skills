@@ -1,3 +1,10 @@
+---
+title: Property Type Declarations
+impact: CRITICAL
+impactDescription: Ensures state integrity, prevents invalid property assignments
+tags: type-system, property-types, type-safety, php74
+---
+
 # Property Type Declarations
 
 Always declare types for class properties (PHP 7.4+).

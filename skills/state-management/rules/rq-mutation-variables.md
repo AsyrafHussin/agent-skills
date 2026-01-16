@@ -1,4 +1,14 @@
+---
+title: Mutation Variables Pattern
+impact: MEDIUM
+section: Mutation & Updates
+tags: react-query, mutations, variables
+---
+
 # Mutation Variables
+
+**Impact: MEDIUM**
+
 
 Mutation variables are the data passed to mutate() and forwarded to mutationFn and callbacks. Proper typing and structure ensure predictable mutations.
 

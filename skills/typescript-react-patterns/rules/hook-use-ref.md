@@ -1,4 +1,9 @@
-# useRef Typing
+---
+title: useRef Typing
+category: Hook Typing
+priority: HIGH
+---
+
 
 Properly typing useRef for DOM elements, mutable values, and instance variables.
 

@@ -1,4 +1,9 @@
-# Props Interface Definition
+---
+title: Props Interface Definition
+category: Component Typing
+priority: CRITICAL
+---
+
 
 Defining component props using TypeScript interfaces with proper naming conventions and organization.
 

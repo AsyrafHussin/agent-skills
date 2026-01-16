@@ -1,7 +1,10 @@
-# ctx-create
+---
+title: Create Typed Context
+category: Context & State
+priority: MEDIUM
+---
 
-**Priority:** MEDIUM
-**Category:** Context & State
+# ctx-create
 
 ## Why It Matters
 

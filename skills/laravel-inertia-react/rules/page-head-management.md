@@ -1,3 +1,10 @@
+---
+section: page-components
+priority: critical
+description: Manage document head with title and meta tags using Inertia's Head component
+keywords: [head, title, meta, seo, document, open-graph]
+---
+
 # Page Head Management
 
 Use Inertia's Head component to manage document head elements like title, meta tags, and Open Graph data on a per-page basis.

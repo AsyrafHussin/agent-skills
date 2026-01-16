@@ -1,3 +1,10 @@
+---
+title: Dependency Inversion Principle
+impact: CRITICAL
+impactDescription: Depend on abstractions, improves testability and flexibility
+tags: solid, dip, design-principles, abstractions, dependency-injection
+---
+
 # Dependency Inversion Principle (DIP)
 
 High-level modules should not depend on low-level modules. Both should depend on abstractions.

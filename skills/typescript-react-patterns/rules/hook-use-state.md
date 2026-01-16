@@ -1,4 +1,9 @@
-# useState Typing
+---
+title: useState Typing
+category: Hook Typing
+priority: CRITICAL
+---
+
 
 Properly typing the useState hook for type-safe state management.
 

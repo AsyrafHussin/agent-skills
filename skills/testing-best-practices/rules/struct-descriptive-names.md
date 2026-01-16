@@ -1,3 +1,9 @@
+---
+title: Descriptive Test Names
+priority: CRITICAL
+category: Test Structure
+---
+
 # Descriptive Test Names
 
 Write test names that clearly describe the scenario being tested and the expected outcome.

@@ -1,3 +1,11 @@
+---
+title: Clean Up Commits Before Merging
+category: history
+priority: medium
+tags: [history, interactive-rebase, cleanup, code-review]
+related: [history-rebase-vs-merge, commit-atomic-changes, pr-squash-merge]
+---
+
 # Clean Up Commits Before Merging
 
 Use interactive rebase to clean up commit history before creating or merging a pull request.

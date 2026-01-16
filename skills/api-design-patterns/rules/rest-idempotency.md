@@ -1,4 +1,11 @@
-# Implement Idempotency for Safe Retries
+---
+title: Implement Idempotency for Safe Retries
+impact: CRITICAL
+impactDescription: Prevents duplicate operations and enables safe retries
+tags: rest, idempotency, reliability, retries
+---
+
+## Implement Idempotency for Safe Retries
 
 Idempotent operations produce the same result regardless of how many times they're executed. Implement idempotency keys for non-idempotent operations to enable safe retries.
 

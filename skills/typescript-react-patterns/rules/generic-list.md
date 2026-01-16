@@ -1,7 +1,10 @@
-# generic-list
+---
+title: Generic List Component
+category: Generic Components
+priority: MEDIUM
+---
 
-**Priority:** MEDIUM
-**Category:** Generic Components
+# generic-list
 
 ## Why It Matters
 

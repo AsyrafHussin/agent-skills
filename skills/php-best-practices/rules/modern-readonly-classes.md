@@ -1,3 +1,10 @@
+---
+title: Readonly Classes
+impact: HIGH
+impactDescription: Enforces complete immutability for value objects and DTOs
+tags: modern-features, readonly, immutability, value-objects, php82
+---
+
 # Readonly Classes
 
 Use readonly classes when all properties should be immutable (PHP 8.2+).

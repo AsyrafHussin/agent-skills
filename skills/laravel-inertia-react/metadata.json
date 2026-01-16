@@ -1,0 +1,136 @@
+{
+  "name": "laravel-inertia-react",
+  "displayName": "Laravel + Inertia.js + React",
+  "version": "1.0.0",
+  "description": "Comprehensive patterns for building modern monolithic applications with Laravel, Inertia.js, and React. Covers page components, forms, navigation, shared data, and persistent layouts.",
+  "author": "Asyraf Hussin",
+  "license": "MIT",
+  "keywords": [
+    "laravel",
+    "inertia",
+    "inertiajs",
+    "react",
+    "typescript",
+    "fullstack",
+    "spa",
+    "forms",
+    "validation",
+    "routing",
+    "ziggy"
+  ],
+  "categories": [
+    "page-components",
+    "forms",
+    "navigation",
+    "shared-data",
+    "layouts",
+    "advanced-patterns"
+  ],
+  "priority": {
+    "critical": ["page-components", "forms", "navigation", "shared-data", "layouts"],
+    "high": ["navigation", "shared-data"],
+    "medium": ["layouts", "advanced-patterns"]
+  },
+  "references": [
+    {
+      "name": "Inertia.js Documentation",
+      "url": "https://inertiajs.com/",
+      "description": "Official Inertia.js documentation covering React adapter, routing, forms, and more"
+    },
+    {
+      "name": "Laravel Documentation",
+      "url": "https://laravel.com/docs",
+      "description": "Laravel framework documentation for backend API and routing"
+    },
+    {
+      "name": "React Documentation",
+      "url": "https://react.dev/",
+      "description": "Official React documentation for hooks, components, and TypeScript"
+    },
+    {
+      "name": "Ziggy Documentation",
+      "url": "https://github.com/tighten/ziggy",
+      "description": "Use Laravel named routes in JavaScript with type safety"
+    }
+  ],
+  "dependencies": {
+    "php": ">=8.1",
+    "laravel": ">=10.0",
+    "inertiajs/inertia-laravel": ">=0.6",
+    "@inertiajs/react": ">=1.0",
+    "react": ">=18.0",
+    "typescript": ">=5.0"
+  },
+  "sections": {
+    "page-components": {
+      "title": "Page Components",
+      "description": "Standard structure for Inertia page components with TypeScript typing and layout assignment",
+      "priority": "critical",
+      "rules": [
+        "page-component-structure",
+        "page-props-typing",
+        "page-head-management",
+        "page-default-layout",
+        "page-scroll-preservation",
+        "page-partial-reloads"
+      ]
+    },
+    "forms": {
+      "title": "Forms & Validation",
+      "description": "Complete form handling with useForm hook, validation, file uploads, and state management",
+      "priority": "critical",
+      "rules": [
+        "form-useform-basic",
+        "form-useform-hook",
+        "form-validation-errors",
+        "form-file-uploads",
+        "form-progress-indicator",
+        "form-transform-data",
+        "form-reset-handling",
+        "form-dirty-tracking"
+      ]
+    },
+    "navigation": {
+      "title": "Navigation",
+      "description": "SPA-like navigation with Link component and router for programmatic navigation",
+      "priority": "critical",
+      "rules": [
+        "nav-link-component",
+        "nav-programmatic",
+        "nav-external-links",
+        "nav-preserve-state",
+        "nav-replace-history"
+      ]
+    },
+    "shared-data": {
+      "title": "Shared Data",
+      "description": "Global props shared across all pages including auth, flash messages, and config",
+      "priority": "critical",
+      "rules": [
+        "shared-auth-user",
+        "shared-flash-messages",
+        "shared-ziggy-routes",
+        "shared-app-config"
+      ]
+    },
+    "layouts": {
+      "title": "Layouts",
+      "description": "Persistent layouts that maintain state across navigation for better performance",
+      "priority": "critical",
+      "rules": [
+        "layout-persistent"
+      ]
+    }
+  },
+  "tags": [
+    "fullstack",
+    "monolith",
+    "spa",
+    "typescript",
+    "forms",
+    "validation",
+    "routing",
+    "authentication"
+  ],
+  "updatedAt": "2026-01-17"
+}

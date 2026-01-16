@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "organization": "API Design Patterns",
+  "date": "January 2026",
+  "abstract": "Comprehensive RESTful API design guidelines covering resource naming, HTTP methods, error handling, pagination, versioning, and security best practices. Contains 21 rules across 7 categories, prioritized by impact from critical (REST fundamentals, error handling, security) to medium (documentation). Each rule includes detailed explanations with real-world examples comparing incorrect vs. correct implementations, designed for AI agents and developers building production-ready APIs.",
+  "references": [
+    "https://restfulapi.net",
+    "https://restfulapi.net/http-methods",
+    "https://restfulapi.net/http-status-codes",
+    "https://restfulapi.net/resource-naming",
+    "https://restfulapi.net/idempotent-rest-apis",
+    "https://restfulapi.net/hateoas",
+    "https://zalando.github.io/restful-api-guidelines",
+    "https://www.ietf.org/rfc/rfc7231.txt",
+    "https://www.ietf.org/rfc/rfc6749.txt",
+    "https://jwt.io",
+    "https://swagger.io/specification",
+    "https://github.com/microsoft/api-guidelines",
+    "https://developers.google.com/apis-explorer"
+  ]
+}

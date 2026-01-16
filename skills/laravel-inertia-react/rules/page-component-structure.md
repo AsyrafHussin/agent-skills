@@ -1,3 +1,10 @@
+---
+section: page-components
+priority: critical
+description: Standard structure for Inertia page components with TypeScript typing and layout assignment
+keywords: [inertia, page, component, typescript, layout]
+---
+
 # Page Component Structure
 
 Inertia page components should follow a consistent structure with proper TypeScript typing, clear separation of concerns, and explicit layout assignment.

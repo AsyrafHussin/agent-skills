@@ -1,4 +1,13 @@
-# Build Compression
+---
+title: Configure Build-Time Compression
+impact: HIGH
+impactDescription: 60-80% smaller asset size
+tags: build, compression, gzip, brotli, optimization
+---
+
+## Configure Build-Time Compression
+
+**Impact: HIGH (60-80% smaller asset size)**
 
 Configure build-time compression to serve pre-compressed assets, reducing server load and improving delivery speed.
 

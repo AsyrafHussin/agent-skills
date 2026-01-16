@@ -1,3 +1,11 @@
+---
+title: Requesting and Assigning Reviewers
+category: pull-request
+priority: high
+tags: [pull-requests, code-review, collaboration, codeowners]
+related: [pr-description-template, collab-code-review]
+---
+
 # Requesting and Assigning Reviewers
 
 Thoughtfully select reviewers who can provide valuable feedback on your changes.

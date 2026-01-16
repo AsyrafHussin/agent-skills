@@ -1,4 +1,9 @@
-# useReducer Typing
+---
+title: useReducer Typing
+category: Hook Typing
+priority: HIGH
+---
+
 
 Properly typing the useReducer hook with actions, state, and discriminated unions.
 

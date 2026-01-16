@@ -1,4 +1,13 @@
-# Alt Text for Images
+---
+title: Provide Meaningful Alt Text for Images
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level A - Required for non-text content
+tags: accessibility, images, alt-text, screen-readers
+---
+
+## Provide Meaningful Alt Text for Images
+
+**Impact: CRITICAL (WCAG 2.1 Level A - Required for non-text content)**
 
 Provide meaningful alternative text for images that conveys the purpose and content of the image to users who cannot see it.
 

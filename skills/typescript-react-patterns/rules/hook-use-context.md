@@ -1,4 +1,9 @@
-# useContext Typing
+---
+title: useContext Typing
+category: Hook Typing
+priority: MEDIUM
+---
+
 
 Properly typing Context and useContext for type-safe global state.
 

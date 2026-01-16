@@ -1,4 +1,14 @@
+---
+title: Paginated Queries
+impact: HIGH
+section: Advanced Queries
+tags: react-query, pagination, lists
+---
+
 # Paginated Queries
+
+**Impact: HIGH**
+
 
 Paginated queries fetch data one page at a time with navigation controls. Unlike infinite queries, they replace content when changing pages rather than accumulating.
 

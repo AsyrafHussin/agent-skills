@@ -1,9 +1,13 @@
-# hmr-fast-refresh
+---
+title: Preserve Component State with Fast Refresh
+impact: MEDIUM
+impactDescription: Faster iteration without state loss
+tags: hmr, fast-refresh, react, development, state
+---
 
-**Priority:** MEDIUM
-**Category:** HMR Optimization
+## Preserve Component State with Fast Refresh
 
-## Why It Matters
+**Impact: MEDIUM (Faster iteration without state loss)**
 
 React Fast Refresh preserves component state during hot updates, enabling faster development iteration. Incorrect patterns can break Fast Refresh, causing full reloads and lost state.
 

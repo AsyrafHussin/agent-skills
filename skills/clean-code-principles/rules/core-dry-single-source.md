@@ -1,4 +1,13 @@
-# DRY Principle - Single Source of Truth
+---
+id: core-dry-single-source
+title: DRY - Single Source of Truth
+category: core-principles
+priority: critical
+tags: [DRY, single-source-of-truth, constants, configuration]
+related: [core-dry, core-dry-extraction, core-encapsulation]
+---
+
+# DRY - Single Source of Truth
 
 Every piece of knowledge or configuration should exist in exactly one place. When data or logic needs to be referenced from multiple locations, use a single authoritative source.
 

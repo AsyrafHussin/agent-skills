@@ -1,4 +1,11 @@
-# Design Nested Resources for Hierarchical Relationships
+---
+title: Design Nested Resources for Hierarchical Relationships
+impact: HIGH
+impactDescription: Clarifies resource relationships and authorization boundaries
+tags: rest, resources, nesting, hierarchy
+---
+
+## Design Nested Resources for Hierarchical Relationships
 
 Use nested URLs to represent parent-child relationships between resources, but avoid deep nesting beyond two levels.
 

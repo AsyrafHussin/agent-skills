@@ -1,4 +1,13 @@
-# Keyboard Navigation
+---
+title: Ensure Full Keyboard Navigation
+impact: CRITICAL
+impactDescription: WCAG 2.1 Level A - Required for keyboard-only users
+tags: accessibility, keyboard, focus, navigation
+---
+
+## Ensure Full Keyboard Navigation
+
+**Impact: CRITICAL (WCAG 2.1 Level A - Required for keyboard-only users)**
 
 Ensure all interactive elements and functionality are fully accessible via keyboard. Users should be able to navigate, activate, and interact with all features without requiring a mouse.
 

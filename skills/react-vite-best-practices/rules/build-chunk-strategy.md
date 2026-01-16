@@ -1,4 +1,13 @@
-# Build Chunk Strategy
+---
+title: Design Optimal Chunk Splitting Strategy
+impact: CRITICAL
+impactDescription: Balance caching and loading performance
+tags: build, chunks, strategy, optimization, splitting
+---
+
+## Design Optimal Chunk Splitting Strategy
+
+**Impact: CRITICAL (Balance caching and loading performance)**
 
 Design an optimal chunk splitting strategy that balances caching efficiency with loading performance.
 

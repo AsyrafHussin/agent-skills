@@ -1,3 +1,11 @@
+---
+title: Squash Merge Strategy
+category: pull-request
+priority: high
+tags: [pull-requests, merge-strategy, history, changelog]
+related: [history-clean-commits, history-rebase-vs-merge, commit-conventional-format]
+---
+
 # Squash Merge Strategy
 
 Use squash merging to maintain a clean, linear history while preserving development context in PRs.

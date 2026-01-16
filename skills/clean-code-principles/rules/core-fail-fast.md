@@ -1,3 +1,12 @@
+---
+id: core-fail-fast
+title: Fail Fast Principle
+category: core-principles
+priority: critical
+tags: [fail-fast, error-handling, validation]
+related: [solid-lsp-preconditions, core-encapsulation]
+---
+
 # Fail Fast Principle
 
 Detect and report errors as early as possible. Validate inputs at system boundaries, check preconditions at the start of functions, and throw exceptions immediately when something is wrong.

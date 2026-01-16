@@ -1,3 +1,10 @@
+---
+id: config-custom-fonts
+title: Custom Fonts Configuration
+priority: HIGH
+category: Custom Configuration
+---
+
 # Custom Fonts Configuration
 
 Configure custom font families with proper fallbacks and font feature settings.

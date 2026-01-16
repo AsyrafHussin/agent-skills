@@ -1,7 +1,11 @@
-# modern-constructor-promotion
+---
+title: Constructor Property Promotion
+impact: CRITICAL
+impactDescription: Reduces boilerplate by 60%, cleaner class definitions
+tags: modern-features, constructor-promotion, php8, boilerplate-reduction
+---
 
-**Priority:** CRITICAL
-**Category:** Modern Features
+# Constructor Property Promotion
 
 ## Why It Matters
 

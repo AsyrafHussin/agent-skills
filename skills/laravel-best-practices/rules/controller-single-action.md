@@ -1,4 +1,13 @@
-# Single Action Controllers
+---
+title: Single Action Controllers
+impact: MEDIUM
+impactDescription: Focused controllers with single responsibility
+tags: controllers, invokable, single-action
+---
+
+## Single Action Controllers
+
+**Impact: MEDIUM (Focused controllers with single responsibility)**
 
 Use invokable controllers for actions that don't fit RESTful resource methods.
 

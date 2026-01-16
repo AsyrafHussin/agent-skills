@@ -1,4 +1,9 @@
-# Generic Hooks Typing
+---
+title: Generic Hooks Typing
+category: Hook Typing
+priority: MEDIUM
+---
+
 
 Creating flexible, reusable hooks with TypeScript generics.
 

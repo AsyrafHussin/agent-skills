@@ -1,3 +1,10 @@
+---
+section: page-components
+priority: high
+description: Control scroll behavior during navigation with preserveScroll option
+keywords: [scroll, navigation, pagination, ux, preserveScroll]
+---
+
 # Page Scroll Preservation
 
 Control scroll behavior during Inertia navigation to maintain user context and provide smooth transitions.

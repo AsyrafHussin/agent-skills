@@ -1,3 +1,11 @@
+---
+title: Release Branch Strategy
+category: branch
+priority: high
+tags: [branching, releases, deployment, versioning]
+related: [history-tags-releases, branch-feature-workflow, commit-breaking-changes]
+---
+
 # Release Branch Strategy
 
 Use a consistent branching strategy for releases that fits your deployment model and team size.

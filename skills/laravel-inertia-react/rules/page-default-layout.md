@@ -1,3 +1,10 @@
+---
+section: page-components
+priority: critical
+description: Assign layouts using static layout property for persistent layouts
+keywords: [layout, persistent, page, assignment, property]
+---
+
 # Page Default Layout
 
 Assign layouts to pages using the static layout property pattern to enable persistent layouts and avoid unnecessary re-renders.

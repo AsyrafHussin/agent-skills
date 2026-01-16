@@ -1,3 +1,9 @@
+---
+title: Test Fixtures
+priority: HIGH
+category: Test Data
+---
+
 # Test Fixtures
 
 Use fixtures to manage reusable test data and complex setup scenarios.

@@ -1,4 +1,13 @@
-# Query Scopes
+---
+title: Query Scopes for Reusable Queries
+impact: HIGH
+impactDescription: DRY principle for database queries
+tags: eloquent, scopes, queries, reusability
+---
+
+## Query Scopes for Reusable Queries
+
+**Impact: HIGH (DRY principle for database queries)**
 
 Encapsulate reusable query constraints in model scopes for cleaner, more maintainable code.
 

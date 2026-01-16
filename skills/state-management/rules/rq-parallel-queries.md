@@ -1,4 +1,14 @@
+---
+title: Parallel Queries Pattern
+impact: HIGH
+section: Advanced Queries
+tags: react-query, parallel-queries, performance
+---
+
 # Parallel Queries
+
+**Impact: HIGH**
+
 
 Parallel queries fetch multiple independent data sources simultaneously, maximizing performance by eliminating waterfall requests.
 

@@ -1,9 +1,11 @@
-# form-useform-basic
+---
+section: forms
+priority: critical
+description: Use useForm hook for form state management and Laravel validation integration
+keywords: [useForm, form, validation, laravel, state]
+---
 
-**Priority:** CRITICAL
-**Category:** Forms & Validation
-
-## Why It Matters
+# Form useForm Hook
 
 The useForm hook is Inertia's primary way to handle forms. It provides automatic form state management, error handling, processing state, and seamless integration with Laravel validation.
 

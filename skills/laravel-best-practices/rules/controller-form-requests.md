@@ -1,4 +1,13 @@
-# Form Request Classes
+---
+title: Form Requests in Controllers
+impact: HIGH
+impactDescription: Separates validation logic from controllers
+tags: controllers, form-requests, validation
+---
+
+## Form Requests in Controllers
+
+**Impact: HIGH (Separates validation logic from controllers)**
 
 Move validation and authorization logic from controllers to dedicated Form Request classes.
 

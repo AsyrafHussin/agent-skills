@@ -1,4 +1,9 @@
-# useCallback Typing
+---
+title: useCallback Typing
+category: Hook Typing
+priority: MEDIUM
+---
+
 
 Properly typing useCallback for memoized function references.
 
