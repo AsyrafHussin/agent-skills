@@ -1,10 +1,6 @@
 ---
 name: git-workflow
 description: Git best practices, branching strategies, commit conventions, and PR workflows. Use when reviewing git history, writing commits, setting up branching strategy, or improving git practices. Triggers on "git best practices", "commit message", "branching strategy", or "PR workflow".
-license: MIT
-metadata:
-  author: agent-skills
-  version: "1.0.0"
 ---
 
 # Git Workflow

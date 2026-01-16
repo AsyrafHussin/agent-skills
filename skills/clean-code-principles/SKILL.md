@@ -1,10 +1,6 @@
 ---
 name: clean-code-principles
 description: SOLID principles, design patterns, DRY, KISS, and clean code fundamentals. Use when reviewing architecture, checking code quality, refactoring, or discussing design decisions. Triggers on "review architecture", "check code quality", "SOLID principles", "design patterns", or "clean code".
-license: MIT
-metadata:
-  author: agent-skills
-  version: "1.0.0"
 ---
 
 # Clean Code Principles
@@ -97,461 +93,62 @@ Reference these guidelines when:
 
 ## Essential Guidelines
 
-### SOLID Principles
+For detailed examples and explanations, see the rule files:
 
-#### Single Responsibility Principle (SRP)
+- [core-dry.md](rules/core-dry.md) - Don't Repeat Yourself principle
+- [pattern-repository.md](rules/pattern-repository.md) - Repository pattern for data access
 
-```
-A class should have only one reason to change.
-```
+### SOLID Principles (Summary)
+
+| Principle | Definition |
+|-----------|------------|
+| **S**ingle Responsibility | A class should have only one reason to change |
+| **O**pen/Closed | Open for extension, closed for modification |
+| **L**iskov Substitution | Subtypes must be substitutable for base types |
+| **I**nterface Segregation | Don't force clients to depend on unused interfaces |
+| **D**ependency Inversion | Depend on abstractions, not concretions |
+
+### Core Principles (Summary)
+
+| Principle | Definition |
+|-----------|------------|
+| **DRY** | Don't Repeat Yourself - single source of truth |
+| **KISS** | Keep It Simple - avoid over-engineering |
+| **YAGNI** | You Aren't Gonna Need It - build only what's needed |
+
+### Quick Examples
 
 ```typescript
-// ❌ Multiple responsibilities
-class UserService {
-  createUser(data) { /* validation, creation, email, logging */ }
-  generateReport() { /* reporting logic */ }
-  exportToCsv() { /* export logic */ }
-}
-
-// ✅ Single responsibility each
+// Single Responsibility - one class, one job
 class UserService {
   constructor(
     private validator: UserValidator,
     private repository: UserRepository,
-    private notifier: NotificationService,
   ) {}
 
   createUser(data) {
     this.validator.validate(data);
-    const user = this.repository.create(data);
-    this.notifier.sendWelcome(user);
-    return user;
-  }
-}
-```
-
-#### Open/Closed Principle (OCP)
-
-```
-Software entities should be open for extension, closed for modification.
-```
-
-```typescript
-// ❌ Requires modification to add new types
-function calculateArea(shape) {
-  if (shape.type === 'circle') {
-    return Math.PI * shape.radius ** 2;
-  } else if (shape.type === 'rectangle') {
-    return shape.width * shape.height;
-  }
-  // Adding triangle requires modifying this function
-}
-
-// ✅ Open for extension via new classes
-interface Shape {
-  area(): number;
-}
-
-class Circle implements Shape {
-  constructor(private radius: number) {}
-  area() { return Math.PI * this.radius ** 2; }
-}
-
-class Rectangle implements Shape {
-  constructor(private width: number, private height: number) {}
-  area() { return this.width * this.height; }
-}
-
-// Adding Triangle doesn't modify existing code
-class Triangle implements Shape {
-  constructor(private base: number, private height: number) {}
-  area() { return 0.5 * this.base * this.height; }
-}
-```
-
-#### Liskov Substitution Principle (LSP)
-
-```
-Subtypes must be substitutable for their base types.
-```
-
-```typescript
-// ❌ Violates LSP - Square changes Rectangle behavior
-class Rectangle {
-  constructor(protected width: number, protected height: number) {}
-  setWidth(w: number) { this.width = w; }
-  setHeight(h: number) { this.height = h; }
-  area() { return this.width * this.height; }
-}
-
-class Square extends Rectangle {
-  setWidth(w: number) { this.width = this.height = w; } // Breaks expectation
-  setHeight(h: number) { this.width = this.height = h; }
-}
-
-// ✅ Proper abstraction
-interface Shape {
-  area(): number;
-}
-
-class Rectangle implements Shape {
-  constructor(private width: number, private height: number) {}
-  area() { return this.width * this.height; }
-}
-
-class Square implements Shape {
-  constructor(private side: number) {}
-  area() { return this.side ** 2; }
-}
-```
-
-#### Interface Segregation Principle (ISP)
-
-```
-Clients should not be forced to depend on interfaces they don't use.
-```
-
-```typescript
-// ❌ Fat interface
-interface Worker {
-  work(): void;
-  eat(): void;
-  sleep(): void;
-}
-
-class Robot implements Worker {
-  work() { /* ... */ }
-  eat() { throw new Error('Robots dont eat'); } // Forced to implement
-  sleep() { throw new Error('Robots dont sleep'); }
-}
-
-// ✅ Segregated interfaces
-interface Workable {
-  work(): void;
-}
-
-interface Feedable {
-  eat(): void;
-}
-
-interface Restable {
-  sleep(): void;
-}
-
-class Human implements Workable, Feedable, Restable {
-  work() { /* ... */ }
-  eat() { /* ... */ }
-  sleep() { /* ... */ }
-}
-
-class Robot implements Workable {
-  work() { /* ... */ }
-}
-```
-
-#### Dependency Inversion Principle (DIP)
-
-```
-Depend on abstractions, not concretions.
-```
-
-```typescript
-// ❌ Depends on concrete implementation
-class OrderService {
-  private repository = new MySQLOrderRepository(); // Hard dependency
-
-  createOrder(data) {
-    return this.repository.save(data);
+    return this.repository.create(data);
   }
 }
 
-// ✅ Depends on abstraction
-interface OrderRepository {
-  save(order: Order): Order;
-  find(id: string): Order | null;
+// Dependency Inversion - depend on abstractions
+interface Repository<T> {
+  find(id: string): Promise<T | null>;
+  save(entity: T): Promise<T>;
 }
 
 class OrderService {
-  constructor(private repository: OrderRepository) {} // Injected abstraction
-
-  createOrder(data) {
-    return this.repository.save(data);
-  }
+  constructor(private repository: Repository<Order>) {}
 }
 
-// Can swap implementations
-new OrderService(new MySQLOrderRepository());
-new OrderService(new MongoOrderRepository());
-new OrderService(new InMemoryOrderRepository()); // For testing
-```
-
-### Core Principles
-
-#### DRY - Don't Repeat Yourself
-
-```typescript
-// ❌ Duplicated logic
-function validateEmail(email: string) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return regex.test(email);
-}
-
-function isValidUserEmail(user: User) {
-  const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/; // Duplicated
-  return regex.test(user.email);
-}
-
-// ✅ Single source of truth
+// DRY - single source of truth
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const isValidEmail = (email: string) => EMAIL_REGEX.test(email);
 
-function isValidEmail(email: string): boolean {
-  return EMAIL_REGEX.test(email);
-}
-
-function validateUser(user: User) {
-  return isValidEmail(user.email);
-}
-```
-
-#### KISS - Keep It Simple, Stupid
-
-```typescript
-// ❌ Over-engineered
-class ConfigurationManagerFactoryBuilderProvider {
-  private static instance: ConfigurationManagerFactoryBuilderProvider;
-  private configFactoryBuilder: ConfigFactoryBuilder;
-
-  static getInstance() {
-    if (!this.instance) {
-      this.instance = new ConfigurationManagerFactoryBuilderProvider();
-    }
-    return this.instance;
-  }
-
-  createConfigManager() {
-    return this.configFactoryBuilder.build().create();
-  }
-}
-
-// ✅ Simple and direct
-const config = {
-  apiUrl: process.env.API_URL,
-  timeout: parseInt(process.env.TIMEOUT || '5000'),
-};
-
-export default config;
-```
-
-#### YAGNI - You Aren't Gonna Need It
-
-```typescript
-// ❌ Premature abstraction
-interface DataExporter {
-  exportToCsv(): string;
-  exportToJson(): string;
-  exportToXml(): string;      // Not needed yet
-  exportToYaml(): string;     // Not needed yet
-  exportToPdf(): string;      // Not needed yet
-  exportToExcel(): string;    // Not needed yet
-}
-
-// ✅ Build only what's needed now
-interface DataExporter {
-  exportToCsv(): string;
-  exportToJson(): string;
-}
-// Add more methods when actually required
-```
-
-#### Composition Over Inheritance
-
-```typescript
-// ❌ Deep inheritance hierarchy
-class Animal { }
-class Mammal extends Animal { }
-class Dog extends Mammal { }
-class FlyingDog extends Dog { } // Dogs can't fly, awkward
-
-// ✅ Composition with behaviors
-interface CanWalk {
-  walk(): void;
-}
-
-interface CanFly {
-  fly(): void;
-}
-
-interface CanSwim {
-  swim(): void;
-}
-
-class Dog implements CanWalk {
-  walk() { console.log('Walking'); }
-}
-
-class Duck implements CanWalk, CanFly, CanSwim {
-  walk() { console.log('Walking'); }
-  fly() { console.log('Flying'); }
-  swim() { console.log('Swimming'); }
-}
-```
-
-### Design Patterns
-
-#### Repository Pattern
-
-```typescript
-// ✅ Repository abstracts data access
-interface UserRepository {
-  find(id: string): Promise<User | null>;
-  findAll(): Promise<User[]>;
-  save(user: User): Promise<User>;
-  delete(id: string): Promise<void>;
-}
-
-class PostgresUserRepository implements UserRepository {
-  async find(id: string) {
-    const result = await this.db.query('SELECT * FROM users WHERE id = $1', [id]);
-    return result.rows[0] ? this.mapToUser(result.rows[0]) : null;
-  }
-  // ...
-}
-
-class InMemoryUserRepository implements UserRepository {
-  private users: Map<string, User> = new Map();
-
-  async find(id: string) {
-    return this.users.get(id) ?? null;
-  }
-  // ... great for testing
-}
-```
-
-#### Strategy Pattern
-
-```typescript
-// ✅ Encapsulate algorithms
-interface PaymentStrategy {
-  pay(amount: number): Promise<PaymentResult>;
-}
-
-class CreditCardPayment implements PaymentStrategy {
-  async pay(amount: number) {
-    // Credit card processing
-  }
-}
-
-class PayPalPayment implements PaymentStrategy {
-  async pay(amount: number) {
-    // PayPal processing
-  }
-}
-
-class PaymentProcessor {
-  constructor(private strategy: PaymentStrategy) {}
-
-  async processPayment(amount: number) {
-    return this.strategy.pay(amount);
-  }
-}
-
-// Usage - swap strategies at runtime
-const processor = new PaymentProcessor(new CreditCardPayment());
-await processor.processPayment(100);
-```
-
-#### Factory Pattern
-
-```typescript
-// ✅ Encapsulate object creation
-interface Notification {
-  send(message: string): Promise<void>;
-}
-
-class NotificationFactory {
-  static create(type: 'email' | 'sms' | 'push'): Notification {
-    switch (type) {
-      case 'email':
-        return new EmailNotification();
-      case 'sms':
-        return new SmsNotification();
-      case 'push':
-        return new PushNotification();
-      default:
-        throw new Error(`Unknown notification type: ${type}`);
-    }
-  }
-}
-
-// Usage
-const notification = NotificationFactory.create('email');
-await notification.send('Hello!');
-```
-
-### Functions & Methods
-
-#### Small Functions
-
-```typescript
-// ❌ Long function doing many things
-function processOrder(order) {
-  // Validate (20 lines)
-  // Calculate totals (30 lines)
-  // Apply discounts (25 lines)
-  // Process payment (40 lines)
-  // Send notifications (15 lines)
-  // Update inventory (20 lines)
-}
-
-// ✅ Small, focused functions
-function processOrder(order) {
-  validateOrder(order);
-  const totals = calculateTotals(order);
-  const finalAmount = applyDiscounts(totals, order.customer);
-  await processPayment(order, finalAmount);
-  await sendOrderConfirmation(order);
-  await updateInventory(order.items);
-}
-```
-
-#### Meaningful Names
-
-```typescript
-// ❌ Cryptic names
-function calc(a, b, c) {
-  return a * b * (1 - c);
-}
-
-const d = calc(100, 5, 0.1);
-
-// ✅ Intention-revealing names
-function calculateDiscountedTotal(
-  unitPrice: number,
-  quantity: number,
-  discountRate: number
-): number {
-  return unitPrice * quantity * (1 - discountRate);
-}
-
-const orderTotal = calculateDiscountedTotal(100, 5, 0.1);
-```
-
-#### Avoid Magic Numbers
-
-```typescript
-// ❌ Magic numbers
-if (user.age >= 18) { }
-if (password.length < 8) { }
-if (items.length > 100) { }
-
-// ✅ Named constants
+// Meaningful names over magic numbers
 const MINIMUM_AGE = 18;
-const MINIMUM_PASSWORD_LENGTH = 8;
-const MAX_ITEMS_PER_PAGE = 100;
-
 if (user.age >= MINIMUM_AGE) { }
-if (password.length < MINIMUM_PASSWORD_LENGTH) { }
-if (items.length > MAX_ITEMS_PER_PAGE) { }
 ```
 
 ## Output Format

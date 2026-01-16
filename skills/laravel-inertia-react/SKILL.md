@@ -1,10 +1,6 @@
 ---
 name: laravel-inertia-react
 description: Laravel + Inertia.js + React integration patterns. Use when building Inertia page components, handling forms with useForm, managing shared data, or implementing persistent layouts. Triggers on tasks involving Inertia.js, page props, form handling, or Laravel React integration.
-license: MIT
-metadata:
-  author: agent-skills
-  version: "1.0.0"
 ---
 
 # Laravel + Inertia.js + React

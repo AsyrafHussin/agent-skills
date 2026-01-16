@@ -1,10 +1,6 @@
 ---
 name: api-design-patterns
 description: RESTful API design, error handling, versioning, and best practices. Use when designing APIs, reviewing endpoints, implementing error responses, or setting up API structure. Triggers on "design API", "review API", "REST best practices", or "API patterns".
-license: MIT
-metadata:
-  author: agent-skills
-  version: "1.0.0"
 ---
 
 # API Design Patterns

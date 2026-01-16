@@ -1,10 +1,6 @@
 ---
 name: react-vite-best-practices
 description: React and Vite performance optimization guidelines. Use when writing, reviewing, or optimizing React components built with Vite. Triggers on tasks involving Vite configuration, build optimization, code splitting, lazy loading, HMR, bundle size, or React performance.
-license: MIT
-metadata:
-  author: agent-skills
-  version: "1.0.0"
 ---
 
 # React + Vite Best Practices

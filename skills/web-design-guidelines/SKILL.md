@@ -1,10 +1,6 @@
 ---
 name: web-design-guidelines
 description: UI/UX best practices and accessibility guidelines. Use when reviewing UI code, checking accessibility, auditing forms, or ensuring web interface best practices. Triggers on "review UI", "check accessibility", "audit design", "review UX", or "check best practices".
-license: MIT
-metadata:
-  author: agent-skills
-  version: "1.0.0"
 ---
 
 # Web Design Guidelines

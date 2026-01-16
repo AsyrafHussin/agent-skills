@@ -1,10 +1,6 @@
 ---
 name: tailwind-best-practices
 description: Tailwind CSS patterns and conventions. Use when writing responsive designs, implementing dark mode, creating reusable component styles, or configuring Tailwind. Triggers on tasks involving Tailwind classes, responsive design, dark mode, or CSS styling.
-license: MIT
-metadata:
-  author: agent-skills
-  version: "1.0.0"
 ---
 
 # Tailwind CSS Best Practices

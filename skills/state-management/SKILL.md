@@ -1,10 +1,6 @@
 ---
 name: state-management
 description: React Query and Zustand patterns for state management. Use when implementing data fetching, caching, mutations, or client-side state. Triggers on tasks involving useQuery, useMutation, Zustand stores, caching, or state management.
-license: MIT
-metadata:
-  author: agent-skills
-  version: "1.0.0"
 ---
 
 # State Management with React Query + Zustand
