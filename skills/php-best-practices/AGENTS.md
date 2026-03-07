@@ -1,14 +1,14 @@
 # PHP Best Practices - Complete Guide
 
 **Version:** 2.0.0  
-**Focus:** PHP 8.5+, PSR Standards, Modern Features  
+**Focus:** PHP 8.3+, PSR Standards, Modern Features  
 **License:** MIT
 
 ---
 
 ## Overview
 
-Comprehensive PHP 8.5+ best practices covering type system, modern features, PSR standards, SOLID principles, error handling, performance, and security. Each rule includes incorrect and correct examples with detailed explanations.
+Comprehensive PHP 8.3+ best practices covering type system, modern features, PSR standards, SOLID principles, error handling, performance, and security. Each rule includes incorrect and correct examples with detailed explanations.
 
 ## Categories
 
@@ -766,7 +766,7 @@ if (password_verify($inputPassword, $storedHash)) {
 ## References
 
 - [PHP Manual](https://www.php.net/manual/en/)
-- [PHP 8.5 Release](https://www.php.net/releases/8.5/en.php)
+- [PHP 8.3 Release](https://www.php.net/releases/8.3/en.php)
 - [PSR Standards](https://www.php-fig.org/psr/)
 - [PHPStan - Static Analysis](https://phpstan.org/)
 - [Psalm - Static Analysis](https://psalm.dev/)
