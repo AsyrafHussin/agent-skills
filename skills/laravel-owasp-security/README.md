@@ -13,20 +13,21 @@ This skill provides:
 
 ## Categories
 
-### Audit Checklist (13 checks)
+### OWASP Top 10 Checklist (A01–A10)
 1. Broken Access Control (A01:2021) — CRITICAL
 2. Cryptographic Failures (A02:2021) — CRITICAL
-3. Injection — SQL & Mass Assignment (A03:2021) — CRITICAL
-4. Cross-Site Scripting / XSS (A03:2021) — HIGH
+3. Injection — SQL, Mass Assignment, XSS (A03:2021) — CRITICAL
+4. Insecure Design (A04:2021) — HIGH
 5. Security Misconfiguration (A05:2021) — HIGH
 6. Vulnerable & Outdated Components (A06:2021) — MEDIUM
-7. Identification & Authentication Failures (A07:2021) — HIGH
-8. Cookie & Session Security (A07:2021) — HIGH
-9. CSRF Protection (A08:2021) — HIGH
-10. Security Logging & Monitoring (A09:2021) — MEDIUM
-11. SSRF (A10:2021) — HIGH
-12. Other Security Checks — HIGH
-13. Security Headers — HIGH
+7. Identification & Authentication Failures + Session (A07:2021) — HIGH
+8. Software & Data Integrity Failures — CSRF + Deserialization (A08:2021) — HIGH
+9. Security Logging & Monitoring Failures (A09:2021) — MEDIUM
+10. Server-Side Request Forgery — SSRF (A10:2021) — HIGH
+
+### Additional Checks
+- Command Injection & Dangerous Functions
+- Security Headers
 
 ### React + Inertia.js Checks (R1–R6)
 - R1. XSS in React Components
