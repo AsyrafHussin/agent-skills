@@ -171,7 +171,10 @@ class OrderServiceProvider extends ServiceProvider
     }
 }
 
-// Autoload in composer.json
+```
+
+```json
+// composer.json autoload section
 {
     "autoload": {
         "psr-4": {

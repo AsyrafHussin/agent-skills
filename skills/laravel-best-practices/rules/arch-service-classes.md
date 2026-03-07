@@ -13,10 +13,10 @@ tags: architecture, services, separation-of-concerns, business-logic
 
 Controllers should be thin - they handle HTTP requests and delegate business logic. Service classes encapsulate complex business operations, making code reusable, testable, and maintainable.
 
-## Incorrect
+## Bad Example
 
 ```php
-// ❌ Fat controller with business logic
+// Fat controller with business logic
 class OrderController extends Controller
 {
     public function store(Request $request)
@@ -83,10 +83,10 @@ class OrderController extends Controller
 }
 ```
 
-## Correct
+## Good Example
 
 ```php
-// ✅ Service class with business logic
+// Service class with business logic
 namespace App\Services;
 
 use App\Models\Order;
@@ -176,7 +176,7 @@ class OrderService
 ```
 
 ```php
-// ✅ Thin controller
+// Thin controller
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreOrderRequest;
@@ -211,29 +211,29 @@ class OrderController extends Controller
 ## Service Class Guidelines
 
 ```php
-// ✅ Constructor injection
 class UserService
 {
+    // Constructor injection
     public function __construct(
         private readonly NotificationService $notifications,
         private readonly PaymentGateway $payments,
     ) {}
-}
 
-// ✅ Return types
-public function findOrFail(int $id): User
-{
-    return User::findOrFail($id);
-}
+    // Always declare return types
+    public function findOrFail(int $id): User
+    {
+        return User::findOrFail($id);
+    }
 
-// ✅ Handle exceptions properly
-public function processPayment(Order $order): PaymentResult
-{
-    try {
-        return $this->payments->charge($order->total);
-    } catch (PaymentFailedException $e) {
-        Log::error('Payment failed', ['order' => $order->id, 'error' => $e->getMessage()]);
-        throw $e;
+    // Handle exceptions explicitly
+    public function processPayment(Order $order): PaymentResult
+    {
+        try {
+            return $this->payments->charge($order->total);
+        } catch (PaymentFailedException $e) {
+            Log::error('Payment failed', ['order' => $order->id, 'error' => $e->getMessage()]);
+            throw $e;
+        }
     }
 }
 ```

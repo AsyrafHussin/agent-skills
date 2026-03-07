@@ -204,12 +204,8 @@ class StoreUserRequest extends FormRequest
     }
 }
 
-// Register rules globally via macro (optional)
+// Register as a fluent macro (optional)
 // In AppServiceProvider
-Validator::extend('strong_password', function ($attribute, $value, $parameters) {
-    return (new StrongPassword())->passes($attribute, $value);
-});
-
 // Or use Rule::macro for fluent syntax
 Rule::macro('strongPassword', function () {
     return new StrongPassword();

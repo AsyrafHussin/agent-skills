@@ -47,7 +47,7 @@ class UserService
 ## Good Example
 
 ```php
-// Single-purpose action class
+// app/Actions/User/RegisterUserAction.php
 namespace App\Actions\User;
 
 use App\Models\User;
@@ -74,8 +74,10 @@ class RegisterUserAction
         return $user;
     }
 }
+```
 
-// Another focused action
+```php
+// app/Actions/User/SendWelcomeEmailAction.php
 namespace App\Actions\User;
 
 use App\Models\User;
@@ -88,8 +90,10 @@ class SendWelcomeEmailAction
         $user->notify(new WelcomeNotification());
     }
 }
+```
 
-// Action for profile updates
+```php
+// app/Actions/User/UpdateUserProfileAction.php
 namespace App\Actions\User;
 
 use App\Models\User;
@@ -114,8 +118,18 @@ class UpdateUserProfileAction
         return Storage::disk('public')->put('avatars', $avatar);
     }
 }
+```
 
+```php
 // Controller using actions
+namespace App\Http\Controllers;
+
+use App\Actions\User\RegisterUserAction;
+use App\Actions\User\UpdateUserProfileAction;
+use App\Http\Requests\RegisterUserRequest;
+use App\Http\Requests\UpdateUserProfileRequest;
+use App\Http\Resources\UserResource;
+
 class UserController extends Controller
 {
     public function store(

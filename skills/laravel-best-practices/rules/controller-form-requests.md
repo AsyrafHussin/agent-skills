@@ -134,11 +134,9 @@ class StoreArticleRequest extends FormRequest
      */
     protected function passedValidation(): void
     {
-        // Modify validated data after validation passes
-        $this->replace([
-            ...$this->validated(),
-            'user_id' => $this->user()->id,
-        ]);
+        // Called after validation passes — use for side effects, not data modification
+        // To add extra fields like user_id, do so in the controller:
+        // Article::create([...$request->validated(), 'user_id' => $request->user()->id])
     }
 }
 

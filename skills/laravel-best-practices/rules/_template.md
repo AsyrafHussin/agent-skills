@@ -11,7 +11,7 @@ tags: tag1, tag2, tag3
 
 Brief explanation of the rule and why it matters in Laravel 12 applications. This should be clear and concise, explaining the performance, maintainability, or security implications. Focus on Laravel-specific context and patterns.
 
-**Incorrect (description of what's wrong):**
+## Bad Example
 
 ```php
 <?php
@@ -27,7 +27,7 @@ class BadExample
 }
 ```
 
-**Correct (description of what's right):**
+## Good Example
 
 ```php
 <?php

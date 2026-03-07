@@ -11,7 +11,7 @@ metadata:
 
 # Laravel 12 Best Practices
 
-Comprehensive best practices guide for Laravel 12 applications. Contains 45+ rules across 8 categories for building scalable, maintainable Laravel applications.
+Comprehensive best practices guide for Laravel 12 applications. Contains 29 rules across 7 categories for building scalable, maintainable Laravel applications.
 
 ## When to Apply
 
@@ -307,26 +307,26 @@ return new class extends Migration
 ### Eager Loading
 
 ```php
-// ❌ N+1 Problem
+// N+1 Problem
 $posts = Post::all();
 foreach ($posts as $post) {
     echo $post->author->name;  // Query per post
 }
 
-// ✅ Eager loading
+// Eager loading — only 3 queries total
 $posts = Post::with(['author', 'category', 'tags'])->get();
 foreach ($posts as $post) {
     echo $post->author->name;  // No additional queries
 }
 
-// ✅ Nested eager loading
+// Nested eager loading
 $posts = Post::with([
     'author.profile',
     'comments.user',
     'tags',
 ])->get();
 
-// ✅ Constrained eager loading
+// Constrained eager loading
 $posts = Post::with([
     'comments' => fn ($query) => $query->latest()->limit(5),
 ])->get();
@@ -346,8 +346,8 @@ rules/_sections.md
 Each rule file contains:
 - YAML frontmatter with metadata (title, impact, tags)
 - Brief explanation of why it matters
-- Incorrect code example with explanation
-- Correct code example with explanation
+- Bad Example with explanation
+- Good Example with explanation
 - Laravel 12 and PHP 8.3 specific context and references
 
 ## Full Compiled Document

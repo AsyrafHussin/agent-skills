@@ -39,8 +39,11 @@ class UserController extends Controller
         ]);
     }
 }
+```
 
-// In views, more manual formatting
+In views, more manual formatting:
+
+```blade
 <p>{{ strtoupper($user->first_name) }} {{ strtoupper($user->last_name) }}</p>
 ```
 
@@ -124,10 +127,16 @@ $user->email = '  JOHN@EXAMPLE.COM  ';
 $user->save();
 // Stored as: john@example.com
 
-// In views - just use attributes directly
+```
+
+In views — just use attributes directly:
+
+```blade
 <p>{{ $user->full_name }}</p>
 <p>{{ $user->phone }}</p>
+```
 
+```php
 // Legacy syntax (still works but not recommended for new code)
 class User extends Model
 {

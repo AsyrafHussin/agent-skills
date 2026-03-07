@@ -13,17 +13,17 @@ tags: controllers, rest, routing, conventions
 
 Resource controllers provide a consistent, RESTful structure for CRUD operations. They follow Laravel conventions, making code predictable and easier for other developers to understand.
 
-## Incorrect
+## Bad Example
 
 ```php
-// ❌ Inconsistent naming and structure
+// Inconsistent naming and structure
 Route::get('/posts', [PostController::class, 'getAllPosts']);
 Route::get('/posts/{id}', [PostController::class, 'getPost']);
 Route::post('/posts/new', [PostController::class, 'createPost']);
 Route::put('/posts/{id}/edit', [PostController::class, 'updatePost']);
 Route::delete('/posts/{id}/delete', [PostController::class, 'removePost']);
 
-// ❌ Non-standard controller methods
+// Non-standard controller methods
 class PostController extends Controller
 {
     public function getAllPosts() { }
@@ -34,12 +34,12 @@ class PostController extends Controller
 }
 ```
 
-## Correct
+## Good Example
 
 ### Resource Route
 
 ```php
-// ✅ Single line defines all 7 RESTful routes
+// Single line defines all 7 RESTful routes
 Route::resource('posts', PostController::class);
 
 // Generated routes:
@@ -157,11 +157,11 @@ class PostController extends Controller
 ### Partial Resource Routes
 
 ```php
-// ✅ Only specific actions
+// Only specific actions
 Route::resource('posts', PostController::class)
     ->only(['index', 'show']);
 
-// ✅ All except specific actions
+// All except specific actions
 Route::resource('posts', PostController::class)
     ->except(['destroy']);
 ```
@@ -169,7 +169,7 @@ Route::resource('posts', PostController::class)
 ### API Resource Controller
 
 ```php
-// ✅ API routes (no create/edit - those are for forms)
+// API routes (no create/edit - those are for forms)
 Route::apiResource('posts', Api\PostController::class);
 
 // Generated routes:
@@ -183,12 +183,12 @@ Route::apiResource('posts', Api\PostController::class);
 ### Nested Resources
 
 ```php
-// ✅ Nested resource routes
+// Nested resource routes
 Route::resource('posts.comments', CommentController::class);
 
 // Generated: /posts/{post}/comments/{comment}
 
-// ✅ Shallow nesting (recommended)
+// Shallow nesting (recommended)
 Route::resource('posts.comments', CommentController::class)->shallow();
 
 // Generated:
@@ -212,21 +212,21 @@ php artisan make:controller Api/PostController --api --model=Post
 ## Route Model Binding
 
 ```php
-// ✅ Automatic model binding - Laravel resolves Post from {post}
+// Automatic model binding - Laravel resolves Post from {post}
 public function show(Post $post): View
 {
     // $post is automatically fetched or 404
     return view('posts.show', compact('post'));
 }
 
-// ✅ Custom binding key
+// Custom binding key
 // Route: /posts/{post:slug}
 public function show(Post $post): View
 {
     // Resolved by slug instead of id
 }
 
-// ✅ In model
+// In model
 class Post extends Model
 {
     public function getRouteKeyName(): string

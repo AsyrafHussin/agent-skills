@@ -55,7 +55,7 @@ class UserController extends Controller
 ## Good Example
 
 ```php
-// API Resource for single model
+// app/Http/Resources/UserResource.php
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
@@ -106,7 +106,10 @@ class UserResource extends JsonResource
     }
 }
 
-// Resource collection for customizing collection behavior
+```
+
+```php
+// app/Http/Resources/UserCollection.php
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\ResourceCollection;
@@ -125,7 +128,16 @@ class UserCollection extends ResourceCollection
     }
 }
 
-// Nested resource
+```
+
+```php
+// app/Http/Resources/PostResource.php
+namespace App\Http\Resources;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Str;
+
 class PostResource extends JsonResource
 {
     public function toArray(Request $request): array
@@ -161,7 +173,15 @@ class PostResource extends JsonResource
     }
 }
 
+```
+
+```php
 // Clean API controller
+namespace App\Http\Controllers;
+
+use App\Http\Resources\UserResource;
+use App\Models\User;
+
 class UserController extends Controller
 {
     public function index()
@@ -187,8 +207,11 @@ class UserController extends Controller
         return new UserResource($user);
     }
 }
+```
 
-// Response structure is consistent:
+Response structure is consistent:
+
+```json
 {
     "data": {
         "id": 1,

@@ -122,7 +122,7 @@ class StoreOrderRequest extends FormRequest
     }
 }
 
-// Sometimes rules (deprecated but still works)
+// Sometimes for dynamic conditions
 class ProfileRequest extends FormRequest
 {
     public function rules(): array
@@ -152,14 +152,14 @@ class RegistrationController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users'],
 
-            // Business account requires additional fields
-            'company_name' => ['required_if:account_type,business', 'nullable', 'string'],
-            'tax_id' => ['required_if:account_type,business', 'nullable', 'string'],
-
-            // Prohibit certain fields for personal accounts
+            // Business account requires additional fields; prohibited for personal
             'company_name' => [
+                'required_if:account_type,business',
+                'nullable',
+                'string',
                 Rule::prohibitedIf($request->account_type === 'personal'),
             ],
+            'tax_id' => ['required_if:account_type,business', 'nullable', 'string'],
         ]);
     }
 }

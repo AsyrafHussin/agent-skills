@@ -183,12 +183,6 @@ class UpdatePasswordRequest extends FormRequest
 // After hook with external API validation
 class VerifyAddressRequest extends FormRequest
 {
-    public function __construct(
-        private AddressVerificationService $addressService
-    ) {
-        parent::__construct();
-    }
-
     public function rules(): array
     {
         return [
@@ -206,7 +200,8 @@ class VerifyAddressRequest extends FormRequest
                 return;
             }
 
-            $result = $this->addressService->verify([
+            $addressService = app(AddressVerificationService::class);
+            $result = $addressService->verify([
                 'street' => $this->street,
                 'city' => $this->city,
                 'state' => $this->state,

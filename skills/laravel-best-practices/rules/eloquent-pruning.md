@@ -140,23 +140,19 @@ class DatabaseNotification extends Model
     }
 }
 
-// Schedule pruning in Console Kernel
-class Kernel extends ConsoleKernel
-{
-    protected function schedule(Schedule $schedule): void
-    {
-        // Run pruning daily
-        $schedule->command('model:prune')->daily();
+// Schedule pruning in routes/console.php (Laravel 11+)
+use Illuminate\Support\Facades\Schedule;
 
-        // Or prune specific models
-        $schedule->command('model:prune', [
-            '--model' => [ActivityLog::class, Session::class],
-        ])->daily();
+// Run pruning daily
+Schedule::command('model:prune')->daily();
 
-        // With chunk size for large datasets
-        $schedule->command('model:prune', ['--chunk' => 1000])->daily();
-    }
-}
+// Or prune specific models
+Schedule::command('model:prune', [
+    '--model' => [ActivityLog::class, Session::class],
+])->daily();
+
+// With chunk size for large datasets
+Schedule::command('model:prune', ['--chunk' => 1000])->daily();
 
 // Run manually
 php artisan model:prune

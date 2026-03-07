@@ -13,10 +13,10 @@ tags: security, mass-assignment, eloquent, protection
 
 Mass assignment vulnerabilities allow attackers to modify database fields they shouldn't have access to. A malicious user could set `is_admin=1` or `role=admin` if those fields aren't protected.
 
-## Incorrect
+## Bad Example
 
 ```php
-// ❌ No protection - allows any field to be mass assigned
+// No protection - allows any field to be mass assigned
 class User extends Model
 {
     protected $guarded = [];  // DANGEROUS!
@@ -27,7 +27,7 @@ User::create($request->all());  // is_admin is set!
 ```
 
 ```php
-// ❌ Using $request->all() with fillable
+// Using $request->all() with fillable
 class User extends Model
 {
     protected $fillable = ['name', 'email', 'password'];
@@ -38,7 +38,7 @@ User::create($request->all());
 ```
 
 ```php
-// ❌ Overly permissive fillable
+// Overly permissive fillable
 class Post extends Model
 {
     protected $fillable = [
@@ -50,12 +50,12 @@ class Post extends Model
 }
 ```
 
-## Correct
+## Good Example
 
 ### Use $fillable Restrictively
 
 ```php
-// ✅ Only include user-submittable fields
+// Only include user-submittable fields
 class Post extends Model
 {
     protected $fillable = [
@@ -74,7 +74,7 @@ $post->save();
 ### Use Form Request validated()
 
 ```php
-// ✅ Only use validated data
+// Only use validated data
 class PostController extends Controller
 {
     public function store(StorePostRequest $request)
@@ -101,7 +101,7 @@ class StorePostRequest extends FormRequest
 ### Set Sensitive Fields Manually
 
 ```php
-// ✅ Set sensitive fields explicitly
+// Set sensitive fields explicitly
 public function store(StorePostRequest $request)
 {
     $post = Post::create([
@@ -111,7 +111,7 @@ public function store(StorePostRequest $request)
     ]);
 }
 
-// ✅ Or use tap
+// Or use tap
 public function store(StorePostRequest $request)
 {
     $post = tap(new Post($request->validated()), function ($post) {
@@ -158,7 +158,7 @@ public function store(AdminStorePostRequest $request)
 ### Use $guarded for Simple Models
 
 ```php
-// ✅ Guard only the sensitive fields
+// Guard only the sensitive fields
 class Category extends Model
 {
     // These fields cannot be mass assigned
@@ -171,10 +171,10 @@ class Category extends Model
 ### Never Use in Production
 
 ```php
-// ❌ NEVER do this in production
+// NEVER do this in production
 protected $guarded = [];
 
-// ❌ NEVER do this
+// NEVER do this
 Model::unguard();
 Post::create($request->all());
 Model::reguard();

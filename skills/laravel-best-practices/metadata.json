@@ -1,10 +1,11 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "organization": "Laravel Community",
-  "date": "January 2026",
+  "date": "March 2026",
   "laravelVersion": "12.x",
   "phpVersion": "8.3+",
-  "abstract": "Comprehensive Laravel 12 best practices guide designed for AI agents and LLMs. Contains 30+ rules across 7 categories, prioritized by impact from critical (architecture and database patterns) to incremental (performance optimization). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations using PHP 8.3 and Laravel 12 features, and specific impact metrics to guide automated refactoring and code generation. Focuses on modern Laravel patterns including typed properties, constructor property promotion, enums, and readonly properties.",
+  "rulesTotal": 29,
+  "abstract": "Comprehensive Laravel 12 best practices guide designed for AI agents and LLMs. Contains 29 rules across 7 categories, prioritized by impact from critical (architecture and database patterns) to incremental (performance optimization). Each rule includes detailed explanations, real-world examples with bad and good implementations using PHP 8.3 and Laravel 12 features, and specific impact metrics to guide automated refactoring and code generation. Focuses on modern Laravel patterns including typed properties, constructor property promotion, enums, and readonly properties.",
   "references": [
     "https://laravel.com",
     "https://laravel.com/docs/12.x",

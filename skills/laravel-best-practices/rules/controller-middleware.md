@@ -61,17 +61,20 @@ class AdminController extends Controller
 ## Good Example
 
 ```php
-// Middleware in controller constructor
-class AdminController extends Controller
-{
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('admin');
+// Middleware using HasMiddleware interface (Laravel 11+)
+use Illuminate\Routing\Controllers\HasMiddleware;
+use Illuminate\Routing\Controllers\Middleware;
 
-        // Apply to specific methods
-        $this->middleware('verified')->only(['store', 'update']);
-        $this->middleware('throttle:10,1')->only('store');
+class AdminController extends Controller implements HasMiddleware
+{
+    public static function middleware(): array
+    {
+        return [
+            'auth',
+            'admin',
+            new Middleware('verified', only: ['store', 'update']),
+            new Middleware('throttle:10,1', only: ['store']),
+        ];
     }
 
     public function index()
@@ -155,23 +158,14 @@ Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
     Route::apiResource('posts', PostController::class);
 });
 
-// Conditional middleware
-class ApiController extends Controller
+// Conditional middleware using HasMiddleware
+class ApiController extends Controller implements HasMiddleware
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('auth:sanctum');
-
-        $this->middleware(function ($request, $next) {
-            if ($request->user()->needsTwoFactor()) {
-                return response()->json([
-                    'message' => '2FA required',
-                    'requires_2fa' => true,
-                ], 403);
-            }
-
-            return $next($request);
-        });
+        return [
+            'auth:sanctum',
+        ];
     }
 }
 

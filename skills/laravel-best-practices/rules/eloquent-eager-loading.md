@@ -24,13 +24,18 @@ class PostController extends Controller
         return view('posts.index', compact('posts'));
     }
 }
+```
 
-// In the view - N additional queries
+In the view — N additional queries:
+
+```blade
 @foreach ($posts as $post)
-    <p>{{ $post->author->name }}</p>  <!-- 1 query per post -->
-    <p>{{ $post->category->name }}</p> <!-- 1 query per post -->
+    <p>{{ $post->author->name }}</p>  {{-- 1 query per post --}}
+    <p>{{ $post->category->name }}</p> {{-- 1 query per post --}}
 @endforeach
+```
 
+```php
 // Also bad: loading in loop
 $posts = Post::all();
 foreach ($posts as $post) {

@@ -151,23 +151,32 @@ class SyncOrderToExternalSystems implements ShouldQueue
     }
 }
 
-// Register in EventServiceProvider
+// Register listeners in AppServiceProvider::boot() (Laravel 11+)
 namespace App\Providers;
 
-use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Event;
+use App\Events\OrderPlaced;
+use App\Listeners\SendOrderConfirmation;
+use App\Listeners\UpdateInventory;
+use App\Listeners\TrackOrderAnalytics;
+use App\Listeners\NotifyAdminOfNewOrder;
+use App\Listeners\UpdateLoyaltyPoints;
+use App\Listeners\SyncOrderToExternalSystems;
 
-class EventServiceProvider extends ServiceProvider
+class AppServiceProvider extends ServiceProvider
 {
-    protected $listen = [
-        \App\Events\OrderPlaced::class => [
-            \App\Listeners\SendOrderConfirmation::class,
-            \App\Listeners\UpdateInventory::class,
-            \App\Listeners\TrackOrderAnalytics::class,
-            \App\Listeners\NotifyAdminOfNewOrder::class,
-            \App\Listeners\UpdateLoyaltyPoints::class,
-            \App\Listeners\SyncOrderToExternalSystems::class,
-        ],
-    ];
+    public function boot(): void
+    {
+        Event::listen(OrderPlaced::class, [
+            SendOrderConfirmation::class,
+            UpdateInventory::class,
+            TrackOrderAnalytics::class,
+            NotifyAdminOfNewOrder::class,
+            UpdateLoyaltyPoints::class,
+            SyncOrderToExternalSystems::class,
+        ]);
+    }
 }
 
 // Clean controller

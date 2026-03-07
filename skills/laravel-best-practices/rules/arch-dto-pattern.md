@@ -45,10 +45,11 @@ class UserController extends Controller
 ## Good Example
 
 ```php
-// DTO class with type safety
+// app/DTOs/CreateUserDTO.php
 namespace App\DTOs;
 
 use App\Http\Requests\CreateUserRequest;
+use Illuminate\Support\Facades\Hash;
 
 readonly class CreateUserDTO
 {
@@ -93,8 +94,15 @@ readonly class CreateUserDTO
         ];
     }
 }
+```
 
-// Service using DTO
+```php
+// app/Services/UserService.php
+namespace App\Services;
+
+use App\DTOs\CreateUserDTO;
+use App\Models\User;
+
 class UserService
 {
     public function createUser(CreateUserDTO $dto): User
@@ -102,8 +110,17 @@ class UserService
         return User::create($dto->toArray());
     }
 }
+```
 
+```php
 // Controller creating DTO from request
+namespace App\Http\Controllers;
+
+use App\DTOs\CreateUserDTO;
+use App\Http\Requests\CreateUserRequest;
+use App\Http\Resources\UserResource;
+use App\Services\UserService;
+
 class UserController extends Controller
 {
     public function store(CreateUserRequest $request, UserService $service)
@@ -114,7 +131,9 @@ class UserController extends Controller
         return new UserResource($user);
     }
 }
+```
 
+```php
 // Complex DTO with nested objects
 namespace App\DTOs;
 
