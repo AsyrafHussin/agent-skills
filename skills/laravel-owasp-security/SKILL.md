@@ -4,7 +4,7 @@ description: OWASP Top 10 security audit and secure coding guidelines for Larave
 license: MIT
 metadata:
   author: AsyrafHussin
-  version: "1.0.1"
+  version: "1.0.2"
   laravelVersion: "12.x"
   phpVersion: "8.3+"
 ---
@@ -38,7 +38,7 @@ Check if the project uses React + Inertia.js by looking for:
 
 Work through every item below. For each, output:
 - **PASS** — brief confirmation of what was verified
-- **FAIL** — exact `file:line`, a description of the vulnerability (do NOT reproduce secret values, API keys, tokens, or .env contents verbatim), and a concrete fix
+- **FAIL** — exact `file:line`, a description of the vulnerability (do NOT reproduce any code, values, API keys, tokens, or .env contents from the file), and a fix recommendation
 - **N/A** — if the check does not apply to this project
 
 ---
@@ -225,8 +225,7 @@ Structure the audit report as:
 
 ### 1. Broken Access Control (A01:2021)
 - **PASS** `app/Http/Middleware/RoleMiddleware.php` — role middleware applied to all route groups
-- **FAIL** `app/Http/Controllers/PaymentController.php:42` — `Payment::find($id)` fetched without ownership check. Do not reproduce any secret values found at this location.
-  Fix: `Payment::where('user_id', auth()->id())->findOrFail($id)`
+- **FAIL** `app/Http/Controllers/PaymentController.php:42` — Payment model fetched without ownership check (direct object reference exposure). Fix: scope the query to the authenticated user.
 
 [Continue for all 10 OWASP checks + Additional Checks + R1–R6 React/Inertia checks]
 
