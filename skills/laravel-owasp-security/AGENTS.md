@@ -2,7 +2,7 @@
 
 OWASP Top 10 security audit checklist and secure coding reference for Laravel 12 + React/Inertia.js applications.
 
-**Version:** 1.0.0 | **Laravel:** 12.x | **PHP:** 8.3+ | **Author:** AsyrafHussin
+**Version:** 1.0.1 | **Laravel:** 12.x | **PHP:** 8.3+ | **Author:** AsyrafHussin
 
 ---
 
@@ -28,7 +28,7 @@ State at the top of report:
 ### Step 3: Output Format
 
 - **PASS** `file:line` — brief confirmation
-- **FAIL** `file:line` — vulnerable code + concrete fix
+- **FAIL** `file:line` — description of the vulnerability (do NOT reproduce secret values, API keys, tokens, or .env contents verbatim) + concrete fix
 - **N/A** — not applicable to this project
 
 ---
