@@ -29,11 +29,18 @@ Rules for building reusable, consistent components. Essential patterns for butto
 **Focus:** Reusable patterns, consistent styling, component composition
 **Impact:** Code maintainability, design consistency, development speed
 
-### Custom Configuration (HIGH)
-Rules for extending Tailwind's theme. Covers extending vs overriding, custom colors with proper scales, font families with fallbacks, custom spacing values, plugin usage, and preset sharing across projects.
+### Custom Configuration — v3 only (HIGH)
+Rules for extending Tailwind's v3 theme via `tailwind.config.js`. Covers extending vs overriding, custom colors with proper scales, font families with fallbacks, custom spacing values, plugin usage, and preset sharing across projects. **For v4 projects, use `@theme {}` instead — see V4 & Migration.**
 
 **Focus:** Theme extension, design system integration, configuration patterns
 **Impact:** Design system alignment, team consistency, flexibility
+
+### V4 & Migration (HIGH)
+Rules for Tailwind CSS v4 — a CSS-first rewrite that replaces `tailwind.config.js` with `@theme {}` in CSS. Covers installation with the Vite/PostCSS plugin, theme configuration with `@theme`, custom utilities with `@utility` and `@custom-variant`, and the full step-by-step migration path from v3 to v4.
+
+**Focus:** CSS-first configuration, v4 setup, v3→v4 migration path
+**Impact:** Modern tooling, zero-JS config, access to new v4 features
+**Rules:** `v4-installation`, `v4-theme-configuration`, `v4-custom-utilities`, `v4-migration`
 
 ### Spacing & Typography (MEDIUM)
 Rules for consistent spacing and typography systems. Includes spacing scale usage, margin/padding patterns, typography hierarchy, line height management, and responsive text sizing.

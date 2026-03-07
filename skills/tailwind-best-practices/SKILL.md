@@ -1,6 +1,6 @@
 ---
 name: tailwind-best-practices
-description: Tailwind CSS patterns and conventions. Use when writing responsive designs, implementing dark mode, creating reusable component styles, or configuring Tailwind. Triggers on tasks involving Tailwind classes, responsive design, dark mode, or CSS styling.
+description: Tailwind CSS patterns and conventions. Use when writing responsive designs, implementing dark mode, creating reusable component styles, configuring Tailwind, or migrating from v3 to v4. Triggers on tasks involving Tailwind classes, responsive design, dark mode, CSS styling, or "migrate to Tailwind v4".
 license: MIT
 metadata:
   author: agent-skills
@@ -10,15 +10,39 @@ metadata:
 
 # Tailwind CSS Best Practices
 
-Comprehensive patterns for building consistent, maintainable interfaces with Tailwind CSS v3.4+ and v4. Contains 26+ rules covering responsive design, dark mode, component patterns, and configuration best practices.
+Comprehensive patterns for building consistent, maintainable interfaces with Tailwind CSS v3.4+ and v4. Contains 30+ rules covering responsive design, dark mode, component patterns, configuration, and v4 migration.
 
 ## Metadata
 
 - **Version:** 1.0.0
 - **Framework:** Tailwind CSS v3.4+ / v4.0+
-- **Rule Count:** 26 rules across 7 categories
+- **Rule Count:** 30+ rules across 8 categories
 - **License:** MIT
 - **Documentation:** [tailwindcss.com/docs](https://tailwindcss.com/docs)
+
+## Step 1: Detect Tailwind Version
+
+**Always check the version before giving any advice.** v3 and v4 are fundamentally different.
+
+Check `package.json` for the installed version:
+```json
+{ "tailwindcss": "^3.x" }  // → v3 rules apply
+{ "tailwindcss": "^4.x" }  // → v4 rules apply
+```
+
+Also check for these signals:
+
+| Signal | Version |
+|--------|---------|
+| `tailwind.config.js` exists | v3 |
+| `@import "tailwindcss"` in CSS | v4 |
+| `@tailwindcss/vite` in dependencies | v4 |
+| `@tailwindcss/postcss` in dependencies | v4 |
+| `@theme {}` block in CSS | v4 |
+
+**If v3**: Apply `resp-`, `dark-`, `comp-`, `config-` rules. Note that v4 is available.
+**If v4**: Apply `v4-` rules. `tailwind.config.js` patterns do NOT apply — use `@theme {}` instead.
+**If migrating v3 → v4**: Follow `v4-migration` rules directly.
 
 ## When to Apply
 
@@ -26,20 +50,22 @@ Reference these guidelines when:
 - Writing responsive layouts
 - Implementing dark mode
 - Creating reusable component styles
-- Configuring Tailwind
-- Optimizing CSS output
+- Configuring Tailwind (v3 or v4)
+- Migrating a project from v3 to v4
+- Setting up a new project with v4
 
 ## Rule Categories by Priority
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Responsive Design | CRITICAL | `resp-` |
-| 2 | Dark Mode | CRITICAL | `dark-` |
-| 3 | Component Patterns | HIGH | `comp-` |
-| 4 | Custom Configuration | HIGH | `config-` |
-| 5 | Spacing & Typography | MEDIUM | `space-` |
-| 6 | Animation | MEDIUM | `anim-` |
-| 7 | Performance | LOW | `perf-` |
+| Priority | Category | Impact | Prefix | Version |
+|----------|----------|--------|--------|---------|
+| 1 | Responsive Design | CRITICAL | `resp-` | v3 / v4 |
+| 2 | Dark Mode | CRITICAL | `dark-` | v3 / v4 |
+| 3 | Component Patterns | HIGH | `comp-` | v3 / v4 |
+| 4 | Custom Configuration | HIGH | `config-` | v3 |
+| 5 | V4 & Migration | HIGH | `v4-` | v4 only |
+| 6 | Spacing & Typography | MEDIUM | `space-` | v3 / v4 |
+| 7 | Animation | MEDIUM | `anim-` | v3 / v4 |
+| 8 | Performance | LOW | `perf-` | v3 / v4 |
 
 ## Quick Reference
 
@@ -66,13 +92,20 @@ Reference these guidelines when:
 - `comp-slots` - Slot-based components
 - `comp-composition` - Composing utilities
 
-### 4. Custom Configuration (HIGH)
+### 4. Custom Configuration — v3 only (HIGH)
 
 - `config-extend` - Extend vs override theme
 - `config-colors` - Custom color palette
 - `config-fonts` - Custom fonts
 - `config-screens` - Custom breakpoints
 - `config-plugins` - Using plugins
+
+### 5. V4 & Migration (HIGH)
+
+- `v4-installation` - Install and set up Tailwind v4 with Vite or PostCSS
+- `v4-theme-configuration` - Replace `tailwind.config.js` with `@theme {}` in CSS
+- `v4-custom-utilities` - Custom utilities with `@utility` and `@custom-variant`
+- `v4-migration` - Step-by-step v3 → v4 migration with renamed utilities
 
 ### 5. Spacing & Typography (MEDIUM)
 
@@ -120,24 +153,24 @@ Reference these guidelines when:
 
 ### Dark Mode Implementation
 
-```tsx
-// tailwind.config.js
-module.exports = {
-  darkMode: 'class', // or 'media' for system preference
-  // ...
-}
+**v3 — `tailwind.config.js`:**
+```js
+module.exports = { darkMode: 'class' }
+```
 
-// Component
-<div className="
-  bg-white dark:bg-gray-900
-  text-gray-900 dark:text-white
-  border border-gray-200 dark:border-gray-700
-">
+**v4 — CSS only, no config file:**
+```css
+@import "tailwindcss";
+/* dark mode is class-based by default in v4 — no config needed */
+```
+
+**Component — identical in both versions:**
+```tsx
+<div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
   <h2 className="text-gray-900 dark:text-white">Title</h2>
   <p className="text-gray-600 dark:text-gray-400">Description</p>
 </div>
 
-// Toggle with JavaScript
 function toggleDarkMode() {
   document.documentElement.classList.toggle('dark')
 }
@@ -197,60 +230,39 @@ function Button({ variant = 'primary', size = 'md', className, children }: Butto
 }
 ```
 
-### Tailwind Configuration
+### Theme Configuration — v3 vs v4
 
+**v3 — `tailwind.config.js`:**
 ```js
-// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: [
-    './resources/**/*.blade.php',
-    './resources/**/*.{js,ts,jsx,tsx}',
-  ],
+  content: ['./resources/**/*.{blade.php,js,ts,jsx,tsx}'],
   darkMode: 'class',
   theme: {
-    // Override defaults
-    screens: {
-      sm: '640px',
-      md: '768px',
-      lg: '1024px',
-      xl: '1280px',
-      '2xl': '1536px',
-    },
-
-    // Extend (recommended - keeps defaults)
     extend: {
-      colors: {
-        primary: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          500: '#0ea5e9',
-          600: '#0284c7',
-          700: '#0369a1',
-        },
-        secondary: {
-          // ...
-        },
-      },
-      fontFamily: {
-        sans: ['Inter', 'sans-serif'],
-        mono: ['JetBrains Mono', 'monospace'],
-      },
-      spacing: {
-        '18': '4.5rem',
-        '88': '22rem',
-      },
-      borderRadius: {
-        '4xl': '2rem',
-      },
+      colors: { primary: { 500: '#0ea5e9', 600: '#0284c7' } },
+      fontFamily: { sans: ['Inter', 'sans-serif'] },
+      spacing: { '18': '4.5rem' },
     },
   },
-  plugins: [
-    require('@tailwindcss/forms'),
-    require('@tailwindcss/typography'),
-  ],
+  plugins: [require('@tailwindcss/forms')],
 }
 ```
+
+**v4 — `app.css` only, no JS config:**
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-primary-500: #0ea5e9;
+  --color-primary-600: #0284c7;
+  --font-sans: Inter, sans-serif;
+  --spacing-18: 4.5rem;
+  --breakpoint-3xl: 1920px;
+}
+```
+
+> See `v4-theme-configuration` and `v4-migration` rules for full details.
 
 ### Responsive Grid Layout
 
@@ -360,12 +372,26 @@ module.exports = {
 
 ## How to Use
 
-Read individual rule files for detailed explanations and code examples:
+Always run Step 1 (version detection) first, then read the relevant rule files:
 
+**v3 projects:**
 ```
-rules/resp-mobile-first.md
+rules/config-extend-theme.md
 rules/dark-setup.md
 rules/comp-clsx-cn.md
+rules/resp-mobile-first.md
+```
+
+**v4 projects:**
+```
+rules/v4-installation.md
+rules/v4-theme-configuration.md
+rules/v4-custom-utilities.md
+```
+
+**Migrating v3 → v4:**
+```
+rules/v4-migration.md
 ```
 
 ## References
