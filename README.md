@@ -22,7 +22,7 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-owasp-security
 
 ### [laravel-best-practices](skills/laravel-best-practices)
 
-Laravel 12 conventions and architecture. Contains 45+ rules across 7 categories.
+Laravel 12 conventions and architecture. Contains 29 rules across 7 categories.
 
 **Example:** `Review this Laravel controller for best practices`
 
