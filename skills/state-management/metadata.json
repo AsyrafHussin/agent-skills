@@ -19,5 +19,39 @@
     "https://docs.pmnd.rs/zustand/guides/typescript",
     "https://docs.pmnd.rs/zustand/integrations/persisting-store-data",
     "https://github.com/pmndrs/zustand#recipes"
+  ],
+  "categories": [
+    {
+      "name": "React Query Fundamentals",
+      "prefix": "query",
+      "impact": "CRITICAL",
+      "description": "useQuery, query keys, enabled flag, and stale time"
+    },
+    {
+      "name": "Mutations",
+      "prefix": "mutation",
+      "impact": "CRITICAL",
+      "description": "useMutation, optimistic updates, cache invalidation"
+    },
+    {
+      "name": "Zustand Stores",
+      "prefix": "store",
+      "impact": "CRITICAL",
+      "description": "Store creation, slices, TypeScript, and persistence"
+    },
+    {
+      "name": "Advanced Patterns",
+      "prefix": "advanced",
+      "impact": "MEDIUM",
+      "description": "Infinite queries, paginated queries, prefetching, devtools"
+    }
+  ],
+  "keyFeatures": [
+    "React Query (TanStack Query) for server state management",
+    "Zustand for lightweight client state",
+    "Optimistic updates with rollback patterns",
+    "Query key factories for consistent cache management",
+    "TypeScript patterns for type-safe stores and queries",
+    "Persistence with zustand/middleware"
   ]
 }

@@ -1,10 +1,9 @@
 {
   "name": "Tailwind CSS Best Practices",
-  "version": "4.0.0",
-  "description": "Comprehensive patterns and best practices for Tailwind CSS v4, covering responsive design, dark mode, component patterns, and configuration.",
+  "version": "1.0.0",
+  "tailwindVersion": "3.4+ / 4.0+",
+  "description": "Comprehensive patterns and best practices for Tailwind CSS v3.4+ and v4, covering responsive design, dark mode, component patterns, and configuration.",
   "framework": "Tailwind CSS",
-  "minimumVersion": "3.4.0",
-  "recommendedVersion": "4.0.0",
   "license": "MIT",
   "author": {
     "name": "Agent Skills Contributors",
@@ -284,5 +283,13 @@
     "styling"
   ],
   "lastUpdated": "2026-01-17",
-  "rulesTotal": 26
+  "rulesTotal": 26,
+  "keyFeatures": [
+    "Mobile-first responsive design with breakpoint system",
+    "Dark mode with class and media strategies",
+    "Component patterns using cn() / clsx for conditional classes",
+    "Custom theme configuration via tailwind.config.js (v3) and @theme (v4)",
+    "Container queries for component-scoped responsive design",
+    "Covers both Tailwind CSS v3.4+ and v4.0+"
+  ]
 }

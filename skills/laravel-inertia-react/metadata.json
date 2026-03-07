@@ -2,6 +2,8 @@
   "name": "laravel-inertia-react",
   "displayName": "Laravel + Inertia.js + React",
   "version": "1.0.0",
+  "phpVersion": "8.3+",
+  "laravelVersion": "12.x",
   "description": "Comprehensive patterns for building modern monolithic applications with Laravel, Inertia.js, and React. Covers page components, forms, navigation, shared data, and persistent layouts.",
   "author": "Asyraf Hussin",
   "license": "MIT",
@@ -54,11 +56,11 @@
     }
   ],
   "dependencies": {
-    "php": ">=8.1",
-    "laravel": ">=10.0",
-    "inertiajs/inertia-laravel": ">=0.6",
-    "@inertiajs/react": ">=1.0",
-    "react": ">=18.0",
+    "php": ">=8.3",
+    "laravel": ">=12.0",
+    "inertiajs/inertia-laravel": ">=2.0",
+    "@inertiajs/react": ">=2.0",
+    "react": ">=19.0",
     "typescript": ">=5.0"
   },
   "sections": {

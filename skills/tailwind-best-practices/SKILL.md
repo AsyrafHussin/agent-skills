@@ -1,19 +1,20 @@
 ---
 name: tailwind-best-practices
 description: Tailwind CSS patterns and conventions. Use when writing responsive designs, implementing dark mode, creating reusable component styles, or configuring Tailwind. Triggers on tasks involving Tailwind classes, responsive design, dark mode, or CSS styling.
-version: 4.0.0
-framework: Tailwind CSS
-minimumVersion: 3.4.0
 license: MIT
+metadata:
+  author: agent-skills
+  version: "1.0.0"
+  tailwindVersion: "3.4+ / 4.0+"
 ---
 
 # Tailwind CSS Best Practices
 
-Comprehensive patterns for building consistent, maintainable interfaces with Tailwind CSS v4. Contains 26+ rules covering responsive design, dark mode, component patterns, and configuration best practices.
+Comprehensive patterns for building consistent, maintainable interfaces with Tailwind CSS v3.4+ and v4. Contains 26+ rules covering responsive design, dark mode, component patterns, and configuration best practices.
 
 ## Metadata
 
-- **Version:** 4.0.0
+- **Version:** 1.0.0
 - **Framework:** Tailwind CSS v3.4+ / v4.0+
 - **Rule Count:** 26 rules across 7 categories
 - **License:** MIT
