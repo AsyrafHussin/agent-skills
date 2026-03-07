@@ -216,10 +216,12 @@ class MySQLDatabase implements Database {
 
   private buildSelectQuery(query: QueryBuilder): string {
     // MySQL-specific query building
+    return `SELECT ${query.select?.join(', ') ?? '*'} FROM ${query.table}`;
   }
 
   private buildCommandQuery(command: Command): string {
     // MySQL-specific command building
+    return `INSERT INTO ${command.table} ...`;
   }
 }
 
@@ -275,7 +277,7 @@ class StripePaymentGateway implements PaymentGateway {
 // Composition root - where we wire everything together
 function createOrderService(): OrderService {
   const database = new PostgreSQLDatabase();
-  const emailSender = new SendGridEmailSender(process.env.SENDGRID_API_KEY);
+  const emailSender = new SendGridEmailSender(process.env.SENDGRID_API_KEY!);
   const paymentGateway = new StripePaymentGateway(new Stripe(process.env.STRIPE_KEY));
 
   return new OrderService(database, emailSender, paymentGateway);

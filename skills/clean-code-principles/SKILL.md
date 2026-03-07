@@ -1,6 +1,10 @@
 ---
 name: clean-code-principles
 description: SOLID principles, design patterns, DRY, KISS, and clean code fundamentals. Use when reviewing architecture, checking code quality, refactoring, or discussing design decisions. Triggers on "review architecture", "check code quality", "SOLID principles", "design patterns", or "clean code".
+license: MIT
+metadata:
+  author: AsyrafHussin
+  version: "1.0.2"
 ---
 
 # Clean Code Principles
@@ -60,7 +64,7 @@ Reference these guidelines when:
 - `pattern-facade` - Facade pattern for simplified interfaces
 - `pattern-dependency-injection` - DI for loose coupling
 
-### 4. Code Organization (HIGH)
+### 4. Code Organization (HIGH) — planned
 
 - `org-feature-folders` - Organize by feature, not layer
 - `org-module-boundaries` - Clear module boundaries
@@ -68,7 +72,7 @@ Reference these guidelines when:
 - `org-package-cohesion` - Related code together
 - `org-circular-dependencies` - Avoid circular imports
 
-### 5. Naming & Readability (MEDIUM)
+### 5. Naming & Readability (MEDIUM) — planned
 
 - `name-meaningful` - Use intention-revealing names
 - `name-consistent` - Consistent naming conventions
@@ -76,7 +80,7 @@ Reference these guidelines when:
 - `name-avoid-encodings` - No Hungarian notation
 - `name-domain-language` - Use domain terminology
 
-### 6. Functions & Methods (MEDIUM)
+### 6. Functions & Methods (MEDIUM) — planned
 
 - `func-small` - Keep functions small
 - `func-single-purpose` - Do one thing
@@ -84,7 +88,7 @@ Reference these guidelines when:
 - `func-no-side-effects` - Minimize side effects
 - `func-command-query` - Separate commands and queries
 
-### 7. Comments & Documentation (LOW)
+### 7. Comments & Documentation (LOW) — planned
 
 - `doc-self-documenting` - Code should explain itself
 - `doc-why-not-what` - Explain why, not what
@@ -197,16 +201,13 @@ This skill is built on established software engineering principles:
 
 ## Metadata
 
-**Version:** 1.0.0
+**Version:** 1.0.2
 **Status:** Active
-**Coverage:** 23 rules across 3 categories (SOLID, Core Principles, Design Patterns)
-**Last Updated:** 2026-01-17
+**Coverage:** 23 rules across 3 implemented categories (SOLID, Core Principles, Design Patterns); 4 planned
+**Last Updated:** 2026-03-07
 
 ### Rule Statistics
 - SOLID Principles: 10 rules
 - Core Principles: 12 rules
 - Design Patterns: 1 rule
 
-## License
-
-MIT License. This skill is provided as-is for educational and development purposes.

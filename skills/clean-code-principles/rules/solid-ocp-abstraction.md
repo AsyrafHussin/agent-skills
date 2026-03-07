@@ -91,7 +91,7 @@ interface ReportItem {
 interface ReportFormatter {
   readonly format: string;
   readonly mimeType: string;
-  render(data: ReportData): string | Buffer;
+  render(data: ReportData): string | Buffer | Promise<string | Buffer>;
 }
 
 // Stable abstraction for data sources
@@ -122,7 +122,7 @@ class ReportGenerator {
 
     const rawData = await dataSource.fetch(criteria);
     const reportData = dataSource.transform(rawData);
-    const content = formatter.render(reportData);
+    const content = await Promise.resolve(formatter.render(reportData));
 
     return {
       content,

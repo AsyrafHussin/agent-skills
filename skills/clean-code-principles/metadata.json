@@ -1,6 +1,8 @@
 {
   "name": "clean-code-principles",
-  "version": "1.0.1",
+  "version": "1.0.2",
+  "author": "AsyrafHussin",
+  "license": "MIT",
   "description": "SOLID principles, design patterns, DRY, KISS, and clean code fundamentals for writing maintainable, scalable software",
   "author": "Agent Skills",
   "license": "MIT",
@@ -361,7 +363,7 @@
   },
   "metadata": {
     "created": "2026-01-17",
-    "updated": "2026-01-17",
+    "updated": "2026-03-07",
     "status": "active",
     "maturity": "stable",
     "coverage": {

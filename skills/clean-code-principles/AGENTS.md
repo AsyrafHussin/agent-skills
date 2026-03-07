@@ -1,5 +1,12 @@
 # Clean Code Principles - Agent Documentation
 
+**Version:** 1.0.2
+**Focus:** SOLID Principles, Core Principles (DRY, KISS, YAGNI), Design Patterns
+**Rules:** 23 (10 SOLID + 12 Core + 1 Pattern); 4 categories planned
+**License:** MIT
+
+---
+
 This skill provides comprehensive clean code principles, SOLID guidelines, and design patterns for building maintainable, scalable software.
 
 ## Overview
@@ -405,11 +412,11 @@ This skill complements:
 
 ## Metadata
 
-**Version:** 1.0.0
+**Version:** 1.0.2
 **Rules:** 23 (10 SOLID, 12 Core, 1 Pattern)
 **Categories:** 7 (3 implemented, 4 planned)
 **Languages:** Language-agnostic (examples in TypeScript)
-**Last Updated:** 2026-01-17
+**Last Updated:** 2026-03-07
 
 ## Resources
 
@@ -440,4 +447,4 @@ When adding new rules:
 
 ## License
 
-MIT License - See SKILL.md for full license text
+MIT License. This skill is provided as-is for educational and development purposes.

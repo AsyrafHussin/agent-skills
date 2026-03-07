@@ -149,7 +149,7 @@ class StandardPaymentProcessor implements PaymentProcessor {
     }
 
     // Implementation
-    const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const transactionId = `TXN-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 
     // Postcondition: always returns valid PaymentResult
     return {
@@ -193,7 +193,7 @@ class PremiumPaymentProcessor implements PaymentProcessor {
     }
 
     // Premium processing logic
-    const transactionId = `PREM-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const transactionId = `PREM-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
 
     // Postcondition: always returns valid PaymentResult (same guarantee)
     return {

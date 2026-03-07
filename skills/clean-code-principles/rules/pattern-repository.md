@@ -9,11 +9,9 @@ related: [solid-dip-abstractions, solid-srp-class, core-separation-concerns]
 
 # Repository Pattern
 
-## Why It Matters
-
 The Repository pattern abstracts data persistence, providing a collection-like interface for accessing domain objects. It separates business logic from data access, makes code testable, and allows swapping storage implementations without changing application code.
 
-## Incorrect
+## Bad Example
 
 ```typescript
 // ❌ Data access mixed with business logic
@@ -64,7 +62,7 @@ class OrderService {
 - Changing database requires rewriting service
 - SQL scattered across codebase
 
-## Correct
+## Good Example
 
 ### Define Repository Interface
 
@@ -350,7 +348,7 @@ abstract class BasePostgresRepository<T, ID> implements Repository<T, ID> {
 }
 ```
 
-## Benefits
+## Why
 
 - Separation of concerns
 - Business logic free of persistence details
