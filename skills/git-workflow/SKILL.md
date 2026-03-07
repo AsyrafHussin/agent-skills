@@ -527,8 +527,8 @@ Closes #issue-number
 
 ## Metadata
 
-**Skill Version:** 1.0.0
-**Last Updated:** 2026-01-17
+**Skill Version:** 1.0.1
+**Last Updated:** 2026-03-07
 **Total Rules:** 26
 **Categories:** 5 (Commit Messages, Branching Strategy, Pull Requests, History Management, Collaboration)
 

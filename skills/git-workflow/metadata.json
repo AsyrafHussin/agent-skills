@@ -1,8 +1,8 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "skill": {
     "name": "git-workflow",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "Git best practices, branching strategies, commit conventions, and PR workflows",
     "author": "Agent Skills Team",
     "license": "MIT",
@@ -206,7 +206,7 @@
   },
   "meta": {
     "created": "2026-01-17",
-    "last_updated": "2026-01-17",
+    "last_updated": "2026-03-07",
     "rule_count": 26,
     "structure_version": "2.0",
     "compatibility": {
