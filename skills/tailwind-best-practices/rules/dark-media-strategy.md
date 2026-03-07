@@ -78,12 +78,25 @@ Use the media-based dark mode strategy to automatically follow the user's system
 
 ## Configuration
 
+### v3
+
 ```js
 // tailwind.config.js
 module.exports = {
   darkMode: 'media', // Default - can be omitted
   // ...
 }
+```
+
+### v4
+
+In v4, dark mode defaults to class-based. To use media (system preference) strategy:
+
+```css
+@import "tailwindcss";
+
+/* Override the default dark variant to use system preference */
+@custom-variant dark (@media (prefers-color-scheme: dark));
 ```
 
 ## Generated CSS

@@ -10,13 +10,13 @@ metadata:
 
 # Tailwind CSS Best Practices
 
-Comprehensive patterns for building consistent, maintainable interfaces with Tailwind CSS v3.4+ and v4. Contains 30+ rules covering responsive design, dark mode, component patterns, configuration, and v4 migration.
+Comprehensive patterns for building consistent, maintainable interfaces with Tailwind CSS v3.4+ and v4. Contains 29 rules covering responsive design, dark mode, component patterns, configuration, and v4 migration.
 
 ## Metadata
 
 - **Version:** 1.0.0
 - **Framework:** Tailwind CSS v3.4+ / v4.0+
-- **Rule Count:** 30+ rules across 8 categories
+- **Rule Count:** 29 rules across 8 categories
 - **License:** MIT
 - **Documentation:** [tailwindcss.com/docs](https://tailwindcss.com/docs)
 
@@ -102,12 +102,12 @@ Reference these guidelines when:
 
 ### 5. V4 & Migration (HIGH)
 
-- `v4-installation` - Install and set up Tailwind v4 with Vite or PostCSS
+- `v4-installation` - Install v4 with Vite or PostCSS, `@source`, `@reference`
 - `v4-theme-configuration` - Replace `tailwind.config.js` with `@theme {}` in CSS
-- `v4-custom-utilities` - Custom utilities with `@utility` and `@custom-variant`
-- `v4-migration` - Step-by-step v3 → v4 migration with renamed utilities
+- `v4-custom-utilities` - `@utility`, `@custom-variant`, `@variant`, `@plugin`
+- `v4-migration` - Step-by-step v3 → v4 migration with renamed utilities, `starting:`, `forced-colors:`
 
-### 5. Spacing & Typography (MEDIUM)
+### 6. Spacing & Typography (MEDIUM)
 
 - `space-consistent` - Consistent spacing scale
 - `space-margins` - Margin patterns
@@ -115,13 +115,13 @@ Reference these guidelines when:
 - `typo-scale` - Typography scale
 - `typo-line-height` - Line height
 
-### 6. Animation (MEDIUM)
+### 7. Animation (MEDIUM)
 
 - `anim-transitions` - Transition utilities
 - `anim-keyframes` - Custom keyframes
 - `anim-reduced-motion` - Respect motion preferences
 
-### 7. Performance (LOW)
+### 8. Performance (LOW)
 
 - `perf-purge` - Content configuration
 - `perf-jit` - JIT mode benefits

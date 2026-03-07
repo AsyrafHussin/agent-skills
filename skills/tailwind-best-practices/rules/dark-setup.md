@@ -13,13 +13,15 @@ Dark mode is expected in modern applications. Tailwind provides first-class dark
 
 ## Configuration Options
 
-| Mode | Description | Use Case |
-|------|-------------|----------|
-| `'class'` | Toggled via class on html/body | Manual toggle, user preference |
-| `'media'` | Follows system preference | Simple, automatic |
-| `'selector'` | Custom selector (v3.4.1+) | Advanced custom logic |
+| Mode | v3 | v4 | Use Case |
+|------|----|----|----------|
+| Class-based | `darkMode: 'class'` in config | Default, no config needed | Manual toggle, user preference |
+| Media (system) | `darkMode: 'media'` in config | `@variant dark (&:where(.dark, .dark *));` override | Simple, automatic |
+| Custom selector | `darkMode: ['selector', '...']` | `@custom-variant dark (...)` | Advanced custom logic |
 
 ## Configuration
+
+### v3 — `tailwind.config.js`
 
 ```js
 // tailwind.config.js
@@ -35,7 +37,6 @@ module.exports = {
 
   theme: {
     extend: {
-      // Dark mode friendly colors
       colors: {
         background: {
           light: '#ffffff',
@@ -45,6 +46,21 @@ module.exports = {
     },
   },
 }
+```
+
+### v4 — CSS only, no config file
+
+```css
+@import "tailwindcss";
+
+/* Dark mode is class-based by default in v4 — no config needed */
+/* The dark: variant works out of the box */
+
+/* To use a custom selector instead of .dark class: */
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+/* To use media (system preference) strategy: */
+/* @custom-variant dark (@media (prefers-color-scheme: dark)); */
 ```
 
 ## Basic Usage
@@ -111,7 +127,7 @@ function DarkModeToggle() {
       className="p-2 rounded-lg bg-gray-100 dark:bg-gray-800"
       aria-label="Toggle dark mode"
     >
-      {isDark ? '🌞' : '🌙'}
+      {isDark ? 'Light' : 'Dark'}
     </button>
   )
 }
@@ -212,6 +228,22 @@ function ThemeSelector() {
   focus:ring-blue-500 dark:focus:ring-blue-400
   focus:ring-offset-2 dark:focus:ring-offset-gray-900
 ">
+```
+
+## v4: Using @variant in Custom CSS
+
+In v4, nest dark mode inside custom CSS with `@variant`:
+
+```css
+.card {
+  background: white;
+  color: #1e293b;
+
+  @variant dark {
+    background: #1e293b;
+    color: #f1f5f9;
+  }
+}
 ```
 
 ## Impact

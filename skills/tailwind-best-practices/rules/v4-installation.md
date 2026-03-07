@@ -1,9 +1,8 @@
 ---
-title: "V4 Installation & Setup"
-prefix: v4-installation
-impact: HIGH
-tags: [tailwind, v4, installation, vite, postcss, setup]
-version: v4 only
+id: v4-installation
+title: V4 Installation & Setup
+priority: HIGH
+category: V4 & Migration
 ---
 
 ## Why It Matters
@@ -88,6 +87,22 @@ By default, v4 auto-detects your template files. Override with `@source` if need
 /* Only scan specific paths */
 @source "./resources/js/**/*.{ts,tsx}";
 @source "./resources/views/**/*.blade.php";
+
+/* Exclude paths from scanning */
+@source not "./resources/js/legacy/**";
+```
+
+### Importing without emitting CSS with @reference
+
+Use `@reference` when you need access to theme values or `@apply` in a secondary CSS file without duplicating Tailwind's output:
+
+```css
+/* components/card.css — not the main entry point */
+@reference "tailwindcss";
+
+.card {
+  @apply rounded-lg bg-white shadow-sm dark:bg-gray-800;
+}
 ```
 
 ## Recommended Patterns

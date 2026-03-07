@@ -1,9 +1,8 @@
 ---
-title: "V4 Theme Configuration with @theme"
-prefix: v4-theme-configuration
-impact: HIGH
-tags: [tailwind, v4, theme, configuration, css-variables, design-tokens]
-version: v4 only
+id: v4-theme-configuration
+title: V4 Theme Configuration with @theme
+priority: HIGH
+category: V4 & Migration
 ---
 
 ## Why It Matters

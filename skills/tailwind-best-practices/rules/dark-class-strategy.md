@@ -146,17 +146,25 @@ export const useTheme = () => useContext(ThemeContext);
 </script>
 ```
 
-## Selector Strategy (Tailwind v4)
+## v4: No Config Needed
 
-```js
-// tailwind.config.js
-module.exports = {
-  darkMode: ['class', '[data-theme="dark"]'], // Multiple selectors
-}
+In Tailwind v4, class-based dark mode is the default. No `tailwind.config.js` required:
+
+```css
+@import "tailwindcss";
+/* dark: variant works out of the box with .dark class */
+```
+
+To use a custom selector (e.g., `data-theme`):
+
+```css
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 ```
 
 ```html
 <html data-theme="dark">
-  <!-- Works with data attributes too -->
+  <!-- Works with data attributes in v4 -->
 </html>
 ```
+
+The toggle logic and React implementation remain the same in both v3 and v4.

@@ -91,9 +91,16 @@ Use container queries to create components that respond to their parent containe
 
 ## Configuration
 
+### v3 — requires plugin
+
+```bash
+npm install @tailwindcss/container-queries
+```
+
 ```js
 // tailwind.config.js
 module.exports = {
+  plugins: [require('@tailwindcss/container-queries')],
   theme: {
     containers: {
       'xs': '20rem',
@@ -106,4 +113,36 @@ module.exports = {
     },
   },
 }
+```
+
+### v4 — built into core, no plugin needed
+
+Container queries are native in v4. No plugin to install:
+
+```css
+@import "tailwindcss";
+
+/* Custom container sizes via @theme */
+@theme {
+  --container-prose: 65ch;
+}
+```
+
+v4 also adds range variants for container queries:
+
+```html
+<!-- Min-width container query (same as v3) -->
+<div class="@container">
+  <div class="@md:flex-row flex-col">...</div>
+</div>
+
+<!-- Max-width container query (v4 only) -->
+<div class="@container">
+  <div class="@max-sm:flex-col">Only stacks below @sm</div>
+</div>
+
+<!-- Range: between two sizes (v4 only) -->
+<div class="@container">
+  <div class="@min-sm:@max-lg:grid-cols-2">2 cols between sm and lg</div>
+</div>
 ```

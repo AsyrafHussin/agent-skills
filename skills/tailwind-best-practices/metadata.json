@@ -30,7 +30,7 @@
       "name": "Responsive Design",
       "priority": "CRITICAL",
       "description": "Mobile-first responsive design patterns",
-      "ruleCount": 7
+      "ruleCount": 6
     },
     {
       "id": "dark-mode",
@@ -73,6 +73,13 @@
       "priority": "LOW",
       "description": "Build and runtime optimization",
       "ruleCount": 0
+    },
+    {
+      "id": "v4-migration",
+      "name": "V4 & Migration",
+      "priority": "HIGH",
+      "description": "Tailwind CSS v4 setup, configuration, custom utilities, and v3-to-v4 migration",
+      "ruleCount": 4
     }
   ],
   "references": [
@@ -185,10 +192,10 @@
       "description": "Setting up IntelliSense and formatting"
     },
     {
-      "title": "Tailwind CSS v4 Alpha",
-      "url": "https://tailwindcss.com/blog/tailwindcss-v4-alpha",
-      "type": "release",
-      "description": "What's new in Tailwind CSS v4"
+      "title": "Tailwind CSS v4 Upgrade Guide",
+      "url": "https://tailwindcss.com/docs/upgrade-guide",
+      "type": "guide",
+      "description": "Official v3 to v4 migration guide"
     },
     {
       "title": "Tailwind UI",
@@ -282,8 +289,8 @@
     "ui",
     "styling"
   ],
-  "lastUpdated": "2026-01-17",
-  "rulesTotal": 26,
+  "lastUpdated": "2026-03-07",
+  "rulesTotal": 29,
   "keyFeatures": [
     "Mobile-first responsive design with breakpoint system",
     "Dark mode with class and media strategies",

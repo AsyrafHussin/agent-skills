@@ -277,6 +277,32 @@ module.exports = {
 }
 ```
 
+## v4: Plugins Move to CSS
+
+In Tailwind v4, plugins use `@plugin` in CSS instead of `require()` in config:
+
+```css
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+@plugin "@tailwindcss/forms";
+```
+
+Custom utilities and variants use CSS directives instead of the JS plugin API:
+
+```css
+/* Custom utility — replaces addUtilities() */
+@utility scrollbar-hide {
+  scrollbar-width: none;
+}
+
+/* Custom variant — replaces addVariant() */
+@custom-variant hocus (&:hover, &:focus);
+```
+
+**Plugins no longer needed in v4** (features built into core):
+- `@tailwindcss/aspect-ratio` — native `aspect-*` utilities
+- `@tailwindcss/container-queries` — native `@container` with `@min-*`/`@max-*` range variants
+
 ## Popular Community Plugins
 
 ```js

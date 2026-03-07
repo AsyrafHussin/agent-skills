@@ -199,6 +199,25 @@ module.exports = {
 </div>
 ```
 
+## v4: Custom Colors with @theme
+
+In v4, define color scales directly in CSS:
+
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-brand-50: #eff6ff;
+  --color-brand-500: #3b82f6;
+  --color-brand-950: #172554;
+
+  --color-success-500: #22c55e;
+  --color-error-500: #ef4444;
+}
+```
+
+The same pairing guidelines apply — use lighter shades (50-100) for dark backgrounds and darker shades (700-900) for dark text, with `dark:` variants.
+
 ## Generating Color Palettes
 
 Use tools like:

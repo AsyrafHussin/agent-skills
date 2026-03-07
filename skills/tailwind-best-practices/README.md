@@ -8,7 +8,8 @@ This skill provides guidance for:
 - Mobile-first responsive design
 - Dark mode implementation
 - Component styling patterns
-- Tailwind configuration
+- Tailwind configuration (v3 and v4)
+- V4 migration from v3
 - Animation and transitions
 
 ## Categories
@@ -22,16 +23,19 @@ Setup, styling, and system preference handling.
 ### 3. Component Patterns (High)
 Conditional classes, variants, and reusable patterns.
 
-### 4. Custom Configuration (High)
-Colors, fonts, spacing, and plugins.
+### 4. Custom Configuration — v3 (High)
+Colors, fonts, spacing, and plugins via `tailwind.config.js`.
 
-### 5. Spacing & Typography (Medium)
+### 5. V4 & Migration (High)
+v4 installation, `@theme` configuration, `@utility`/`@custom-variant`, and v3-to-v4 migration.
+
+### 6. Spacing & Typography (Medium)
 Consistent spacing and typography scales.
 
-### 6. Animation (Medium)
+### 7. Animation (Medium)
 Transitions, keyframes, and reduced motion.
 
-### 7. Performance (Low)
+### 8. Performance (Low)
 Content configuration and optimization.
 
 ## Quick Start

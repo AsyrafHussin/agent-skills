@@ -1,9 +1,8 @@
 ---
-title: "Migrating from Tailwind v3 to v4"
-prefix: v4-migration
-impact: HIGH
-tags: [tailwind, v4, migration, upgrade, breaking-changes]
-version: v4 only
+id: v4-migration
+title: Migrating from Tailwind v3 to v4
+priority: HIGH
+category: V4 & Migration
 ---
 
 ## Why It Matters
@@ -128,6 +127,30 @@ plugins: [
 @custom-variant hocus (&:hover, &:focus);
 ```
 
+### 7. Replace `@layer components` with `@utility`
+
+```css
+/* ❌ v3 */
+@layer components {
+  .btn { border-radius: 0.5rem; padding: 0.5rem 1rem; }
+}
+
+/* ✅ v4 — @utility sorts by property count for correct specificity */
+@utility btn {
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+```
+
+### 8. Plugins removed in v4 (built into core)
+
+These v3 plugins are no longer needed — their features are native in v4:
+
+| v3 Plugin | v4 Status |
+|-----------|-----------|
+| `@tailwindcss/aspect-ratio` | Native `aspect-*` utilities |
+| `@tailwindcss/container-queries` | Native `@container` support with `@min-*`/`@max-*` range variants |
+
 ## Step 3 — New v4 Features to Adopt
 
 These are new in v4 — not breaking changes, but worth adopting:
@@ -150,6 +173,31 @@ These are new in v4 — not breaking changes, but worth adopting:
 
 <!-- field-sizing for auto-growing inputs -->
 <textarea class="field-sizing-content">
+
+<!-- starting: variant for CSS @starting-style (animate initial appearance) -->
+<div popover class="transition-discrete starting:open:opacity-0 open:opacity-100">
+
+<!-- forced-colors: variant for Windows High Contrast accessibility -->
+<input type="checkbox" class="appearance-none forced-colors:appearance-auto">
+
+<!-- color-mix for opacity modifiers (works with CSS variables) -->
+<div class="bg-blue-500/50">
+  <!-- v4 uses color-mix(in oklab, ...) under the hood -->
+
+<!-- @variant directive for nesting variants in custom CSS -->
+```
+
+```css
+/* Nest variants in custom CSS */
+.my-card {
+  background: white;
+  @variant dark {
+    background: #1e293b;
+    @variant hover {
+      background: #334155;
+    }
+  }
+}
 ```
 
 ## Checklist
@@ -162,6 +210,8 @@ These are new in v4 — not breaking changes, but worth adopting:
 - [ ] Fix grid arbitrary values: commas → underscores
 - [ ] Convert JS plugins to `@utility` / `@custom-variant` in CSS
 - [ ] Switch official plugins to `@plugin` imports in CSS
+- [ ] Remove `@tailwindcss/aspect-ratio` and `@tailwindcss/container-queries` plugins (now in core)
+- [ ] Replace `@layer components` with `@utility` for custom component classes
 - [ ] Run `npm run build` and check for warnings
 
 Reference: https://tailwindcss.com/docs/upgrade-guide

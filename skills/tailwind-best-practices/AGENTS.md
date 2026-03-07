@@ -5,9 +5,9 @@ This skill provides comprehensive Tailwind CSS patterns and best practices for A
 ## Skill Overview
 
 **Name:** tailwind-best-practices
-**Version:** 4.0.0
+**Version:** 1.0.0
 **Framework:** Tailwind CSS v3.4+ / v4.0+
-**Rule Count:** 26 rules across 7 categories
+**Rule Count:** 29 rules across 8 categories
 **License:** MIT
 
 ## When to Use This Skill
@@ -17,14 +17,15 @@ Activate this skill when:
 - Implementing responsive designs with breakpoints
 - Adding dark mode support to applications
 - Creating reusable component patterns
-- Configuring Tailwind theme customization
+- Configuring Tailwind theme customization (v3 config or v4 @theme)
+- Migrating from Tailwind v3 to v4
 - Building forms, buttons, cards, tables, navigation
 - Optimizing Tailwind for production
 - Questions about Tailwind utilities and patterns
 
 ## Rule Categories
 
-### 1. Responsive Design (CRITICAL - 7 rules)
+### 1. Responsive Design (CRITICAL - 6 rules)
 Mobile-first responsive patterns are fundamental to every Tailwind project.
 
 **Key Concepts:**
@@ -47,7 +48,7 @@ Mobile-first responsive patterns are fundamental to every Tailwind project.
 </div>
 ```
 
-**Rules:** `resp-mobile-first`, `responsive-mobile-first`, `responsive-breakpoint-order`, `responsive-container-queries`, `responsive-fluid-typography`, `responsive-aspect-ratio`, `responsive-grid-system`
+**Rules:** `resp-mobile-first`, `responsive-breakpoint-order`, `responsive-container-queries`, `responsive-fluid-typography`, `responsive-aspect-ratio`, `responsive-grid-system`
 
 ### 2. Dark Mode (CRITICAL - 6 rules)
 Modern applications require seamless light/dark theme support.
@@ -112,8 +113,8 @@ function Button({ variant = 'primary', size = 'md', className, children }) {
 
 **Rules:** `comp-clsx-cn`, `component-btn-variants`, `component-card-patterns`, `component-form-elements`, `component-modals`, `component-navigation`, `component-tables`
 
-### 4. Custom Configuration (HIGH - 6 rules)
-Extending Tailwind's theme for design system integration.
+### 4. Custom Configuration — v3 (HIGH - 6 rules)
+Extending Tailwind's v3 theme via `tailwind.config.js`. For v4, use `@theme {}` instead.
 
 **Key Concepts:**
 - Always `extend` theme, don't override (preserves defaults)
@@ -157,7 +158,38 @@ module.exports = {
 
 **Rules:** `config-extend-theme`, `config-custom-colors`, `config-custom-fonts`, `config-custom-spacing`, `config-plugins`, `config-presets`
 
-### 5. Spacing & Typography (MEDIUM - 0 rules)
+### 5. V4 & Migration (HIGH - 4 rules)
+Tailwind CSS v4 setup, configuration, and migration from v3.
+
+**Key Concepts:**
+- CSS-first architecture: `@import "tailwindcss"` replaces `@tailwind` directives
+- `@theme {}` replaces `tailwind.config.js` for design tokens
+- `@utility` and `@custom-variant` replace JS plugin API
+- `@variant` for nesting variants in custom CSS
+- `@reference` for importing without emitting CSS
+- `@source` / `@source not` for scan control
+- New features: `starting:`, `forced-colors:`, `color-mix()`, `transition-discrete`
+- Container queries and aspect-ratio built into core (no plugins)
+
+**Common Patterns:**
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-brand-500: #3b82f6;
+  --font-sans: "Inter", sans-serif;
+}
+
+@utility scrollbar-hide {
+  scrollbar-width: none;
+}
+
+@custom-variant hocus (&:hover, &:focus);
+```
+
+**Rules:** `v4-installation`, `v4-theme-configuration`, `v4-custom-utilities`, `v4-migration`
+
+### 6. Spacing & Typography (MEDIUM - 0 rules)
 Consistent spacing and typography systems.
 
 **Key Concepts:**
@@ -169,7 +201,7 @@ Consistent spacing and typography systems.
 
 **Future Rules:** To be added based on common patterns
 
-### 6. Animation (MEDIUM - 0 rules)
+### 7. Animation (MEDIUM - 0 rules)
 Smooth transitions and animations.
 
 **Key Concepts:**
@@ -180,7 +212,7 @@ Smooth transitions and animations.
 
 **Future Rules:** To be added based on common patterns
 
-### 7. Performance (LOW - 0 rules)
+### 8. Performance (LOW - 0 rules)
 Build and runtime optimization.
 
 **Key Concepts:**
@@ -191,35 +223,67 @@ Build and runtime optimization.
 
 **Future Rules:** To be added based on common patterns
 
-## Tailwind CSS v4 Features
+## Tailwind CSS v4 Quick Reference
 
-When working with Tailwind v4, be aware of these new features:
+When working with Tailwind v4, be aware of these key differences from v3:
 
-### @theme Directive
+### Setup
 ```css
-@theme {
-  --color-primary: oklch(60% 0.2 250);
+/* Single import replaces @tailwind directives */
+@import "tailwindcss";
+```
 
-  @media (prefers-color-scheme: dark) {
-    --color-primary: oklch(70% 0.15 250);
-  }
+### Configuration
+```css
+/* @theme replaces tailwind.config.js */
+@theme {
+  --color-brand-500: #3b82f6;
+  --font-sans: "Inter", sans-serif;
+  --breakpoint-3xl: 1920px;
 }
 ```
 
-### Improved Color Spaces
-```html
-<!-- OKLCH color space for perceptual uniformity -->
-<div class="bg-[oklch(60%_0.2_250)]">Better colors</div>
+### Custom Code
+```css
+/* @utility replaces addUtilities() and @layer components */
+@utility scrollbar-hide { scrollbar-width: none; }
+
+/* @custom-variant replaces addVariant() */
+@custom-variant hocus (&:hover, &:focus);
+
+/* @variant for nesting in custom CSS */
+.card {
+  background: white;
+  @variant dark { background: #1e293b; }
+}
+
+/* @plugin replaces require() in config */
+@plugin "@tailwindcss/forms";
+
+/* @reference for @apply without emitting CSS */
+@reference "tailwindcss";
 ```
 
-### Container Queries
+### New Variants and Features
 ```html
+<!-- starting: for @starting-style animations -->
+<div popover class="transition-discrete starting:open:opacity-0">
+
+<!-- forced-colors: for Windows High Contrast -->
+<input class="appearance-none forced-colors:appearance-auto">
+
+<!-- Container query ranges (built-in, no plugin) -->
 <div class="@container">
-  <div class="@lg:grid-cols-2">
-    Responds to container, not viewport
-  </div>
+  <div class="@min-sm:@max-lg:grid-cols-2">Range query</div>
 </div>
+
+<!-- Dynamic values — no config needed -->
+<div class="grid-cols-15 px-17">
 ```
+
+### Plugins No Longer Needed
+- `@tailwindcss/aspect-ratio` — native `aspect-*` utilities
+- `@tailwindcss/container-queries` — native `@container` with range variants
 
 ## Agent Workflow
 
@@ -361,20 +425,21 @@ When working with Tailwind v4, be aware of these new features:
 <div class={cn('px-4', condition && 'px-8')}>
 ```
 
-### ❌ Don't: Override theme without extend
+### ❌ Don't: Override theme without extend (v3)
 ```js
 theme: {
   colors: { primary: '#blue' } // Lost all default colors!
 }
 ```
 
-### ✅ Do: Extend theme
+### ✅ Do: Extend theme (v3) or use @theme (v4)
 ```js
-theme: {
-  extend: {
-    colors: { brand: {...} } // Keeps defaults
-  }
-}
+// v3
+theme: { extend: { colors: { brand: {...} } } }
+```
+```css
+/* v4 — extends by default */
+@theme { --color-brand-500: #3b82f6; }
 ```
 
 ### ❌ Don't: Arbitrary values for standard utilities
@@ -434,6 +499,6 @@ When this skill is applied correctly, you should see:
 
 ---
 
-**Last Updated:** 2026-01-17
-**Skill Version:** 4.0.0
+**Last Updated:** 2026-03-07
+**Skill Version:** 1.0.0
 **Maintainer:** Agent Skills Contributors

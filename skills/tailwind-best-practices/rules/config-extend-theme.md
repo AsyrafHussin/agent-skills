@@ -241,3 +241,25 @@ npx tailwindcss init --full
 ```
 
 Or reference the documentation for each utility's default values.
+
+## v4: Use @theme Instead
+
+In Tailwind v4, `tailwind.config.js` is replaced by `@theme {}` in CSS. The `@theme` block extends the default theme by default — no `extend` key needed:
+
+```css
+@import "tailwindcss";
+
+@theme {
+  /* Extends defaults automatically */
+  --color-brand-500: #3b82f6;
+  --font-sans: "Inter", sans-serif;
+  --spacing-18: 4.5rem;
+
+  /* To override ALL values in a namespace: */
+  --color-*: initial;
+  --color-white: #fff;
+  --color-brand: #3b82f6;
+}
+```
+
+See `v4-theme-configuration` for full details.

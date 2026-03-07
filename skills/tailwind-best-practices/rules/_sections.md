@@ -12,13 +12,13 @@
 ## Section Overview
 
 ### Responsive Design (CRITICAL)
-Rules for mobile-first responsive design patterns. These are fundamental to creating adaptive layouts that work across all device sizes. Includes breakpoint usage, container queries, fluid typography, and responsive grid systems.
+Rules for mobile-first responsive design patterns. These are fundamental to creating adaptive layouts that work across all device sizes. Includes breakpoint usage, container queries (plugin in v3, built-in in v4 with `@min-*`/`@max-*` range variants), fluid typography, and responsive grid systems.
 
 **Focus:** Mobile-first approach, breakpoint ordering, fluid scaling
 **Impact:** User experience on all devices, accessibility, performance
 
 ### Dark Mode (CRITICAL)
-Rules for implementing dark mode support. Modern applications must support both light and dark themes seamlessly. Covers setup strategies, color schemes, transitions, and custom color palettes for dual-theme support.
+Rules for implementing dark mode support. Modern applications must support both light and dark themes seamlessly. Covers setup strategies (v3: `tailwind.config.js`, v4: class-based by default or `@custom-variant`), color schemes, transitions, and custom color palettes for dual-theme support. v4 adds `@variant dark {}` for nesting in custom CSS.
 
 **Focus:** Theme strategies, color management, smooth transitions
 **Impact:** User preference support, reduced eye strain, modern UX
@@ -36,9 +36,9 @@ Rules for extending Tailwind's v3 theme via `tailwind.config.js`. Covers extendi
 **Impact:** Design system alignment, team consistency, flexibility
 
 ### V4 & Migration (HIGH)
-Rules for Tailwind CSS v4 — a CSS-first rewrite that replaces `tailwind.config.js` with `@theme {}` in CSS. Covers installation with the Vite/PostCSS plugin, theme configuration with `@theme`, custom utilities with `@utility` and `@custom-variant`, and the full step-by-step migration path from v3 to v4.
+Rules for Tailwind CSS v4 — a CSS-first rewrite that replaces `tailwind.config.js` with `@theme {}` in CSS. Covers installation with the Vite/PostCSS plugin, theme configuration with `@theme`, custom utilities with `@utility` and `@custom-variant`, the `@variant` directive for nesting, `@reference` for non-emitting imports, `@source` for scan control, and the full step-by-step migration path from v3 to v4. Includes new v4 features: `starting:` variant, `forced-colors:` variant, `color-mix()` opacity, container query ranges (`@min-*`/`@max-*`), and `transition-discrete`.
 
-**Focus:** CSS-first configuration, v4 setup, v3→v4 migration path
+**Focus:** CSS-first configuration, v4 setup, v3→v4 migration path, new CSS features
 **Impact:** Modern tooling, zero-JS config, access to new v4 features
 **Rules:** `v4-installation`, `v4-theme-configuration`, `v4-custom-utilities`, `v4-migration`
 

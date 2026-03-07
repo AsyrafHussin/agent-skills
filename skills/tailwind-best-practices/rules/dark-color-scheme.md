@@ -118,6 +118,8 @@ module.exports = {
 
 ## CSS Variables Setup
 
+### v3
+
 ```css
 /* globals.css */
 @tailwind base;
@@ -150,6 +152,34 @@ module.exports = {
   }
 }
 ```
+
+### v4
+
+```css
+@import "tailwindcss";
+
+/* Define semantic colors as theme tokens */
+@theme {
+  --color-background: hsl(0 0% 100%);
+  --color-foreground: hsl(222 47% 11%);
+  --color-surface: hsl(210 40% 98%);
+  --color-muted: hsl(210 40% 96%);
+  --color-primary: hsl(221 83% 53%);
+  --color-border: hsl(214 32% 91%);
+}
+
+/* Dark mode overrides with CSS custom properties */
+.dark {
+  --color-background: hsl(222 47% 4%);
+  --color-foreground: hsl(210 40% 98%);
+  --color-surface: hsl(222 47% 7%);
+  --color-muted: hsl(217 33% 17%);
+  --color-primary: hsl(217 91% 60%);
+  --color-border: hsl(217 33% 17%);
+}
+```
+
+The v4 approach uses `@theme` to register CSS variables as utility classes, so `bg-background`, `text-foreground`, etc. work automatically without configuring `tailwind.config.js`.
 
 ## Usage
 
