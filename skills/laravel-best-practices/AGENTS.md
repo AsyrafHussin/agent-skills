@@ -2,13 +2,13 @@
 
 **Version:** 1.0.0
 **Laravel Version:** 12.x
-**PHP Version:** 8.5+
+**PHP Version:** 8.3+
 **Organization:** Laravel Community
 **Date:** January 2026
 
 ## Overview
 
-Comprehensive best practices guide for Laravel 12 applications, designed for AI agents and LLMs. Contains 30+ rules across 7 categories, prioritized by impact from critical (architecture and database patterns) to incremental (performance optimization). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations using PHP 8.5 and Laravel 12 features, and specific impact metrics to guide automated refactoring and code generation.
+Comprehensive best practices guide for Laravel 12 applications, designed for AI agents and LLMs. Contains 30+ rules across 7 categories, prioritized by impact from critical (architecture and database patterns) to incremental (performance optimization). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations using PHP 8.3 and Laravel 12 features, and specific impact metrics to guide automated refactoring and code generation.
 
 ### Key Features
 
@@ -19,7 +19,7 @@ Comprehensive best practices guide for Laravel 12 applications, designed for AI 
 - Eloquent relationships and query scopes
 - Mass assignment protection
 - API resources for response transformation
-- Modern PHP 8.5 syntax (readonly properties, constructor promotion)
+- Modern PHP 8.3 syntax (readonly properties, constructor promotion)
 - Laravel 12 patterns and conventions
 
 ## Categories

@@ -6,7 +6,7 @@ metadata:
   author: Laravel Community
   version: "1.0.0"
   laravelVersion: "12.x"
-  phpVersion: "8.5+"
+  phpVersion: "8.3+"
 ---
 
 # Laravel 12 Best Practices
@@ -348,7 +348,7 @@ Each rule file contains:
 - Brief explanation of why it matters
 - Incorrect code example with explanation
 - Correct code example with explanation
-- Laravel 12 and PHP 8.5 specific context and references
+- Laravel 12 and PHP 8.3 specific context and references
 
 ## Full Compiled Document
 

@@ -43,7 +43,7 @@ class GoodExample
     public function goodMethod(): ReturnType
     {
         // This demonstrates the correct approach
-        // Using modern PHP 8.5 and Laravel 12 features
+        // Using modern PHP 8.3 and Laravel 12 features
     }
 }
 ```
