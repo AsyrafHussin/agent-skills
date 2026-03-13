@@ -34,7 +34,7 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-best-practices
 
 ### [laravel-inertia-react](skills/laravel-inertia-react)
 
-Laravel + Inertia.js + React patterns for full-stack applications.
+Laravel 12 + Inertia.js + React 18 full-stack patterns. Covers page components, form handling, layouts, file uploads, and real-time features.
 
 **Example:** `How do I share data from Laravel to a React component with Inertia?`
 
@@ -58,7 +58,7 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-owasp-security
 
 ### [php-best-practices](skills/php-best-practices)
 
-Modern PHP 8.x patterns, PSR standards, and SOLID principles.
+Modern PHP 8.0–8.5 patterns, type system, PSR standards, and SOLID principles. Contains 51 rules for secure, maintainable code.
 
 **Example:** `Review my PHP class for SOLID principles`
 
@@ -70,7 +70,7 @@ npx skills add AsyrafHussin/agent-skills --skill php-best-practices
 
 ### [react-vite-best-practices](skills/react-vite-best-practices)
 
-React + Vite performance optimization. Contains 27 rules across 8 categories.
+React + Vite performance optimization. Contains 27 rules across 8 categories covering build configuration, code splitting, bundle analysis, HMR, and asset handling.
 
 **Example:** `Review this React component for performance issues`
 
@@ -82,7 +82,7 @@ npx skills add AsyrafHussin/agent-skills --skill react-vite-best-practices
 
 ### [typescript-react-patterns](skills/typescript-react-patterns)
 
-TypeScript best practices and patterns for React applications.
+Type-safe React with TypeScript 5+. Covers component props, hooks, event handling, refs, generics, and context patterns.
 
 **Example:** `How do I properly type this React component with TypeScript?`
 
@@ -94,7 +94,7 @@ npx skills add AsyrafHussin/agent-skills --skill typescript-react-patterns
 
 ### [state-management](skills/state-management)
 
-React state management patterns using React Query and Zustand.
+Server state with TanStack Query v5 and client state with Zustand v5. Covers caching, mutations, optimistic updates, and devtools.
 
 **Example:** `How do I manage server state with React Query?`
 
@@ -118,7 +118,7 @@ npx skills add AsyrafHussin/agent-skills --skill tailwind-best-practices
 
 ### [web-design-guidelines](skills/web-design-guidelines)
 
-UI/UX and accessibility guidelines. Contains 21 rules across 8 categories.
+WCAG accessibility, semantic HTML, keyboard navigation, color contrast, and motion preferences. Contains 21 rules across 8 categories.
 
 **Example:** `Review my UI for accessibility and UX issues`
 
@@ -130,7 +130,7 @@ npx skills add AsyrafHussin/agent-skills --skill web-design-guidelines
 
 ### [clean-code-principles](skills/clean-code-principles)
 
-SOLID, DRY, and clean code design patterns for maintainable software.
+Language-agnostic SOLID, DRY, KISS principles and design patterns (Factory, Strategy, Repository). Contains 23 rules for maintainable software.
 
 **Example:** `Review this class for code smells and SOLID violations`
 
@@ -142,7 +142,7 @@ npx skills add AsyrafHussin/agent-skills --skill clean-code-principles
 
 ### [api-design-patterns](skills/api-design-patterns)
 
-RESTful API design patterns for consistent, scalable APIs.
+RESTful API design: HTTP methods, error handling, pagination, versioning, rate limiting, and security patterns.
 
 **Example:** `Review my API endpoints for REST best practices`
 
@@ -166,7 +166,7 @@ npx skills add AsyrafHussin/agent-skills --skill git-workflow
 
 ### [testing-best-practices](skills/testing-best-practices)
 
-Unit testing, integration testing, and TDD principles.
+Unit, integration, and E2E testing. Covers AAA pattern, test isolation, mocking, test data factories, coverage strategy, and TDD principles.
 
 **Example:** `Write tests for this Laravel service class`
 
