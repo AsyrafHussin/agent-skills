@@ -1,0 +1,144 @@
+{
+  "name": "SEO Best Practices",
+  "version": "1.0.0",
+  "description": "Comprehensive SEO patterns for web applications built with React and Laravel. Covers Core Web Vitals, technical SEO, structured data, performance, social sharing, and mobile-first indexing.",
+  "framework": "Framework-agnostic (React, Laravel examples)",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "keywords": [
+    "seo",
+    "search-engine-optimization",
+    "core-web-vitals",
+    "structured-data",
+    "json-ld",
+    "schema-org",
+    "meta-tags",
+    "open-graph",
+    "twitter-cards",
+    "sitemap",
+    "performance",
+    "mobile-first",
+    "react-seo",
+    "laravel-seo"
+  ],
+  "categories": [
+    {
+      "id": "core-web-vitals",
+      "name": "Core Web Vitals",
+      "priority": "CRITICAL",
+      "description": "LCP, INP, and CLS optimization for search ranking",
+      "ruleCount": 3
+    },
+    {
+      "id": "technical-seo",
+      "name": "Technical SEO",
+      "priority": "CRITICAL",
+      "description": "Meta tags, canonical URLs, robots.txt, sitemaps, and URL structure",
+      "ruleCount": 5
+    },
+    {
+      "id": "on-page-seo",
+      "name": "On-Page SEO",
+      "priority": "HIGH",
+      "description": "Headings, semantic HTML, internal linking, and image optimization",
+      "ruleCount": 4
+    },
+    {
+      "id": "structured-data",
+      "name": "Structured Data",
+      "priority": "HIGH",
+      "description": "JSON-LD Schema.org markup for rich results",
+      "ruleCount": 4
+    },
+    {
+      "id": "performance-seo",
+      "name": "Performance SEO",
+      "priority": "HIGH",
+      "description": "Image formats, lazy loading, fonts, and resource hints",
+      "ruleCount": 4
+    },
+    {
+      "id": "social-sharing",
+      "name": "Social Sharing",
+      "priority": "HIGH",
+      "description": "Open Graph and Twitter Card meta tags",
+      "ruleCount": 2
+    },
+    {
+      "id": "react-spa-seo",
+      "name": "React/SPA SEO",
+      "priority": "HIGH",
+      "description": "SSR, meta management, and routing for single-page apps",
+      "ruleCount": 3
+    },
+    {
+      "id": "mobile-first",
+      "name": "Mobile-First",
+      "priority": "MEDIUM",
+      "description": "Viewport, content parity, and mobile UX for search",
+      "ruleCount": 3
+    }
+  ],
+  "references": [
+    {
+      "title": "Google Search Central",
+      "url": "https://developers.google.com/search",
+      "type": "official"
+    },
+    {
+      "title": "Core Web Vitals",
+      "url": "https://web.dev/articles/vitals",
+      "type": "guide"
+    },
+    {
+      "title": "Schema.org",
+      "url": "https://schema.org/",
+      "type": "reference"
+    },
+    {
+      "title": "Open Graph Protocol",
+      "url": "https://ogp.me/",
+      "type": "reference"
+    },
+    {
+      "title": "Google Rich Results Test",
+      "url": "https://search.google.com/test/rich-results",
+      "type": "tool"
+    },
+    {
+      "title": "Google PageSpeed Insights",
+      "url": "https://pagespeed.web.dev/",
+      "type": "tool"
+    },
+    {
+      "title": "Google Search Console",
+      "url": "https://search.google.com/search-console",
+      "type": "tool"
+    },
+    {
+      "title": "Mobile-First Indexing",
+      "url": "https://developers.google.com/search/docs/crawling-indexing/mobile/mobile-sites-mobile-first-indexing",
+      "type": "guide"
+    }
+  ],
+  "tags": [
+    "seo",
+    "web-performance",
+    "search-ranking",
+    "structured-data",
+    "meta-tags",
+    "core-web-vitals",
+    "social-sharing",
+    "mobile-first",
+    "accessibility"
+  ],
+  "lastUpdated": "2026-03-14",
+  "rulesTotal": 28
+}

@@ -176,6 +176,18 @@ npx skills add AsyrafHussin/agent-skills --skill testing-best-practices
 
 ---
 
+### [seo-best-practices](skills/seo-best-practices)
+
+SEO patterns for Laravel Blade and Laravel + Inertia.js + React. Contains 28 rules across 8 categories covering Core Web Vitals, meta tags, structured data (JSON-LD), Open Graph, performance, and mobile-first indexing. Auto-detects project type to apply the right rules.
+
+**Example:** `Review my page for SEO issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill seo-best-practices
+```
+
+---
+
 ## License
 
 MIT
