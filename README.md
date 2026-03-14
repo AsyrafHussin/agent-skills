@@ -190,7 +190,7 @@ npx skills add AsyrafHussin/agent-skills --skill seo-best-practices
 
 ### [laravel-database-optimization](skills/laravel-database-optimization)
 
-Laravel 12 database optimization. Contains 29 rules across 8 categories covering N+1 prevention, indexing strategies, Eloquent performance, Redis caching, cursor pagination, transactions, zero-downtime migrations, and query debugging.
+Laravel 12 database optimization. Contains 33 rules across 9 categories covering N+1 prevention, indexing strategies, Eloquent performance, Redis caching, cursor pagination, transactions, zero-downtime migrations, naming conventions, and query debugging.
 
 **Example:** `Optimize the database queries in this controller`
 

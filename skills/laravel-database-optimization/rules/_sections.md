@@ -44,3 +44,8 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 
 **Impact:** MEDIUM
 **Description:** Effective query debugging identifies performance bottlenecks before they reach production. EXPLAIN ANALYZE for understanding query plans, Laravel Debugbar for development profiling, and slow query log monitoring for production surveillance provide visibility into database performance.
+
+## 9. Naming & Structure (naming)
+
+**Impact:** HIGH
+**Description:** Laravel Eloquent relies heavily on naming conventions to auto-resolve models to tables, methods to foreign keys, and relationships to columns. Following consistent table, column, relationship, and migration naming conventions prevents silent bugs and enables Eloquent's convention-over-configuration approach.

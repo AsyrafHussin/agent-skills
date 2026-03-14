@@ -4,16 +4,16 @@ description: Laravel database optimization patterns. Use when writing Eloquent q
 license: MIT
 metadata:
   author: agent-skills
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Laravel Database Optimization
 
-Comprehensive database optimization guide for Laravel 12 applications. Contains 29 rules across 8 categories for writing performant database queries, proper indexing, efficient caching, and debugging slow queries in Laravel 12.
+Comprehensive database optimization guide for Laravel 12 applications. Contains 33 rules across 9 categories for writing performant database queries, proper indexing, efficient caching, naming conventions, and debugging slow queries in Laravel 12.
 
 ## Metadata
 
-- **Version:** 1.0.0
+- **Version:** 1.1.0
 - **Framework:** Laravel 12.x
 - **PHP:** 8.3+
 
@@ -41,6 +41,7 @@ Reference these guidelines when:
 | 6 | Transactions & Locking | HIGH | `lock-` |
 | 7 | Migrations | HIGH | `migrate-` |
 | 8 | Query Debugging | MEDIUM | `debug-` |
+| 9 | Naming & Structure | HIGH | `naming-` |
 
 ## Quick Reference
 
@@ -96,6 +97,13 @@ Reference these guidelines when:
 - `debug-explain-analyze` - Use EXPLAIN ANALYZE to understand query plans
 - `debug-laravel-debugbar` - Use Laravel Debugbar to find query bottlenecks
 - `debug-slow-query-log` - Enable and monitor slow query logs
+
+### 9. Naming & Structure (HIGH)
+
+- `naming-tables` - Table naming conventions (plural snake_case, pivot alphabetical)
+- `naming-columns` - Column naming conventions (FKs, booleans, timestamps, polymorphic)
+- `naming-relationships` - Relationship method naming (singular/plural matching)
+- `naming-migrations` - Migration and index naming conventions
 
 ## Essential Patterns
 

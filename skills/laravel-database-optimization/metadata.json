@@ -1,10 +1,10 @@
 {
   "name": "laravel-database-optimization",
-  "version": "1.0.0",
-  "description": "Comprehensive Laravel 12 database optimization guide designed for AI agents and LLMs. Contains 29 rules across 8 categories covering query performance, indexing strategies, Eloquent optimization, Redis caching, pagination, transactions, migrations, and query debugging. Each rule includes detailed explanations, real-world examples with incorrect and correct implementations using PHP 8.3 and Laravel 12 features, and specific impact metrics. Focuses on eliminating N+1 queries, proper indexing, cache-first strategies, and zero-downtime migrations.",
+  "version": "1.1.0",
+  "description": "Comprehensive Laravel 12 database optimization guide designed for AI agents and LLMs. Contains 33 rules across 9 categories covering query performance, indexing strategies, Eloquent optimization, Redis caching, pagination, transactions, migrations, naming conventions, and query debugging.",
   "framework": "Laravel 12.x",
   "phpVersion": "8.3+",
-  "rulesTotal": 29,
+  "rulesTotal": 33,
   "lastUpdated": "2026-03-14",
   "categories": [
     {
@@ -62,6 +62,13 @@
       "impact": "MEDIUM",
       "ruleCount": 3,
       "description": "EXPLAIN ANALYZE, Laravel Debugbar integration, and slow query log monitoring"
+    },
+    {
+      "name": "Naming & Structure",
+      "prefix": "naming",
+      "impact": "HIGH",
+      "ruleCount": 4,
+      "description": "Table, column, relationship, and migration naming conventions for Eloquent"
     }
   ],
   "references": [

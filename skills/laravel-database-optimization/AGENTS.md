@@ -1,13 +1,13 @@
 # Laravel Database Optimization - Complete Reference
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 **Framework:** Laravel 12.x / PHP 8.3+
 **Date:** March 2026
 **License:** MIT
 
 ## Abstract
 
-Comprehensive database optimization patterns for Laravel 12 applications. Contains 29 rules across 8 categories covering N+1 query prevention, indexing strategies, Eloquent optimization, Redis caching, pagination, transactions, migrations, and query debugging. Each rule includes incorrect and correct code examples with practical Laravel implementations.
+Comprehensive database optimization patterns for Laravel 12 applications. Contains 33 rules across 9 categories covering N+1 query prevention, indexing strategies, Eloquent optimization, Redis caching, pagination, transactions, migrations, naming conventions, and query debugging. Each rule includes incorrect and correct code examples with practical Laravel implementations.
 
 ## References
 
@@ -65,6 +65,11 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 
 **Impact:** MEDIUM
 **Description:** Effective query debugging identifies performance bottlenecks before they reach production. EXPLAIN ANALYZE for understanding query plans, Laravel Debugbar for development profiling, and slow query log monitoring for production surveillance provide visibility into database performance.
+
+## 9. Naming & Structure (naming)
+
+**Impact:** HIGH
+**Description:** Laravel Eloquent relies heavily on naming conventions to auto-resolve models to tables, methods to foreign keys, and relationships to columns. Following consistent table, column, relationship, and migration naming conventions prevents silent bugs and enables Eloquent's convention-over-configuration approach.
 
 
 ---
@@ -2196,6 +2201,495 @@ DB::whenQueryingForLongerThan(5000, function (Connection $connection, QueryExecu
 - `whenQueryingForLongerThan()` detects death-by-a-thousand-cuts — many fast queries that add up
 
 Reference: [Laravel Database Monitoring](https://laravel.com/docs/12.x/database#monitoring-cumulative-query-time)
+
+
+---
+
+## Table Naming Conventions
+
+**Impact: HIGH (Eloquent relies on naming conventions to auto-resolve models to tables)**
+
+Laravel's Eloquent ORM automatically maps a model to its table by converting the class name to plural snake_case. Always use English for all table names — Laravel's built-in tables (`users`, `password_reset_tokens`, `failed_jobs`) are English, and mixing languages creates inconsistency. Deviating from these conventions forces manual overrides across every model, breaks implicit route model binding, and confuses developers who expect standard Laravel behavior.
+
+## Incorrect
+
+```php
+// ❌ Singular table name — Eloquent expects plural
+Schema::create('user', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+});
+
+// ❌ PascalCase — Eloquent converts "OrderItem" to "order_items", not "OrderItems"
+Schema::create('OrderItems', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('order_id')->constrained();
+});
+
+// ❌ Wrong pivot table order — must be alphabetical
+Schema::create('user_role', function (Blueprint $table) {
+    $table->foreignId('user_id')->constrained();
+    $table->foreignId('role_id')->constrained();
+});
+
+// ❌ Prefixed tables — adds noise, breaks Eloquent auto-resolution
+Schema::create('tbl_users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+});
+```
+
+**Problems:**
+- Eloquent cannot auto-resolve `User` model to a `user` table (expects `users`)
+- PascalCase tables require explicit `$table` property on every model
+- Non-alphabetical pivot names break `belongsToMany` without manual table overrides
+- Table prefixes like `tbl_` add noise and break all convention-based resolution
+
+## Correct
+
+```php
+// ✅ Plural snake_case — matches Eloquent's automatic resolution
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->timestamps();
+});
+
+Schema::create('order_items', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('order_id')->constrained();
+    $table->integer('quantity');
+    $table->timestamps();
+});
+
+Schema::create('blog_posts', function (Blueprint $table) {
+    $table->id();
+    $table->string('title');
+    $table->text('body');
+    $table->timestamps();
+});
+
+// ✅ Pivot table — alphabetical order of both model names (singular snake_case)
+Schema::create('role_user', function (Blueprint $table) {
+    $table->foreignId('role_id')->constrained();
+    $table->foreignId('user_id')->constrained();
+    $table->primary(['role_id', 'user_id']);
+});
+
+// ✅ Override with $table property when a custom name is required
+class Product extends Model
+{
+    protected $table = 'catalog_products';
+}
+
+// ✅ Custom pivot table name specified explicitly
+class Category extends Model
+{
+    public function products(): BelongsToMany
+    {
+        return $this->belongsToMany(Product::class, 'category_product');
+    }
+}
+```
+
+**Benefits:**
+- Eloquent auto-resolves `User` to `users`, `OrderItem` to `order_items` with zero configuration
+- Alphabetical pivot naming (`role_user`) works with `belongsToMany` without specifying the table
+- Consistent naming makes migrations, queries, and team collaboration predictable
+- Custom `$table` overrides are explicit and self-documenting when needed
+
+Reference: [Laravel Eloquent Conventions](https://laravel.com/docs/12.x/eloquent#eloquent-model-conventions)
+
+
+---
+
+## Column Naming Conventions
+
+**Impact: HIGH (Laravel auto-generates foreign keys, timestamps, and casts based on column names)**
+
+Laravel's Eloquent relies on column naming conventions to auto-resolve foreign keys, handle timestamps, and generate accessors. Always use English for all column names — Laravel's built-in columns (`created_at`, `email_verified_at`, `remember_token`) are English, and mixing languages breaks convention. Using non-standard names forces manual configuration throughout models and breaks framework features like `$model->user_id` foreign key resolution, `$dates` casting, and `constrained()` migration helpers.
+
+## Incorrect
+
+```php
+// ❌ camelCase columns — breaks Laravel's snake_case convention
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('firstName');
+    $table->string('lastName');
+    $table->string('emailAddress');
+});
+
+// ❌ Wrong foreign key naming — Eloquent expects {model}_id
+Schema::create('posts', function (Blueprint $table) {
+    $table->id();
+    $table->unsignedBigInteger('user');     // ambiguous, not a valid FK convention
+    $table->unsignedBigInteger('userId');   // camelCase breaks auto-resolution
+});
+
+// ❌ Bad boolean naming — unclear intent, no is_/has_/can_ prefix
+Schema::create('users', function (Blueprint $table) {
+    $table->boolean('active');
+    $table->boolean('verified');
+    $table->boolean('admin');
+});
+
+// ❌ Wrong timestamp naming — breaks Eloquent's automatic handling
+Schema::create('users', function (Blueprint $table) {
+    $table->timestamp('createdDate');
+    $table->timestamp('updatedDate');
+});
+```
+
+**Problems:**
+- camelCase columns break Eloquent attribute accessors and mass assignment conventions
+- Non-standard FK names prevent `constrained()` and `belongsTo()` auto-resolution
+- Booleans without `is_`/`has_`/`can_` prefix are ambiguous (is `active` a scope, column, or method?)
+- Non-standard timestamp names break `$model->timestamps`, `useSoftDeletes()`, and date casting
+
+## Correct
+
+```php
+// ✅ snake_case columns
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('first_name');
+    $table->string('last_name');
+    $table->string('email');
+    $table->timestamps(); // creates created_at, updated_at
+});
+
+// ✅ Foreign keys follow {model}_id convention
+Schema::create('posts', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('user_id')->constrained();       // auto-resolves to users.id
+    $table->foreignId('category_id')->constrained();   // auto-resolves to categories.id
+    $table->timestamps();
+});
+
+// ✅ Booleans use is_, has_, can_ prefix
+Schema::create('users', function (Blueprint $table) {
+    $table->boolean('is_active')->default(false);
+    $table->boolean('has_verified_email')->default(false);
+    $table->boolean('can_edit')->default(false);
+});
+
+// ✅ Timestamps follow Laravel convention with _at suffix
+Schema::create('posts', function (Blueprint $table) {
+    $table->id();
+    $table->timestamp('published_at')->nullable();
+    $table->timestamp('verified_at')->nullable();
+    $table->softDeletes(); // creates deleted_at
+    $table->timestamps();  // creates created_at, updated_at
+});
+
+// ✅ Polymorphic columns match morphTo method name + _id/_type
+Schema::create('comments', function (Blueprint $table) {
+    $table->id();
+    $table->morphs('commentable'); // creates commentable_id, commentable_type
+    $table->text('body');
+    $table->timestamps();
+});
+
+// In the Comment model:
+class Comment extends Model
+{
+    public function commentable(): MorphTo
+    {
+        return $this->morphTo(); // auto-resolves commentable_id and commentable_type
+    }
+}
+```
+
+**Benefits:**
+- `foreignId('user_id')->constrained()` auto-resolves table and column with zero configuration
+- `is_active`, `has_verified_email` clearly communicate boolean intent in queries and conditions
+- Standard `created_at`/`updated_at` work with Eloquent's `$timestamps` and date casting automatically
+- Polymorphic `_id`/`_type` columns match `morphTo()` method name, enabling auto-resolution
+
+Reference: [Laravel Eloquent Conventions](https://laravel.com/docs/12.x/eloquent#eloquent-model-conventions)
+
+
+---
+
+## Relationship Method Naming
+
+**Impact: HIGH (Wrong method names break eager loading, `whereHas`, and Eloquent's convention-based FK resolution)**
+
+Eloquent derives foreign key names from relationship method names. A `belongsTo` method named `user()` automatically looks for a `user_id` column. Incorrect naming breaks this auto-resolution, causes N+1 query issues with eager loading, and makes `whereHas` queries fail silently or target wrong columns.
+
+## Incorrect
+
+```php
+// ❌ Plural for belongsTo — should be singular
+class Post extends Model
+{
+    public function users(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+        // Eloquent looks for "users_id" column, which doesn't exist
+    }
+}
+
+// ❌ Singular for hasMany — should be plural
+class User extends Model
+{
+    public function comment(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+        // Misleading: returns a Collection, not a single model
+    }
+}
+
+// ❌ Non-descriptive method name — unclear intent
+class User extends Model
+{
+    public function data(): HasOne
+    {
+        return $this->hasOne(Profile::class);
+        // "data" tells nothing about the related model
+    }
+}
+```
+
+**Problems:**
+- `belongsTo` named `users()` makes Eloquent look for `users_id` instead of `user_id`
+- Singular `comment()` on a hasMany is misleading — the method returns a Collection, not a model
+- Vague names like `data()` make eager loading calls (`with('data')`) unreadable and unmaintainable
+- Incorrect names break `whereHas('users')` queries and cause hard-to-debug runtime errors
+
+## Correct
+
+```php
+// ✅ belongsTo → singular (returns one model, FK derived from method name)
+class Post extends Model
+{
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+        // Auto-resolves: looks for "user_id" column on posts table
+    }
+
+    public function category(): BelongsTo
+    {
+        return $this->belongsTo(Category::class);
+        // Auto-resolves: looks for "category_id" column on posts table
+    }
+
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'author_id');
+        // Custom FK specified when method name differs from column prefix
+    }
+}
+
+// ✅ hasMany → plural (returns a Collection)
+class User extends Model
+{
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
+        // Auto-resolves: looks for "user_id" on posts table
+    }
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+}
+
+// ✅ hasOne → singular (returns one model)
+class User extends Model
+{
+    public function profile(): HasOne
+    {
+        return $this->hasOne(Profile::class);
+    }
+
+    public function address(): HasOne
+    {
+        return $this->hasOne(Address::class);
+    }
+
+    public function phone(): HasOne
+    {
+        return $this->hasOne(Phone::class);
+    }
+}
+
+// ✅ belongsToMany → plural (returns a Collection via pivot)
+class User extends Model
+{
+    public function roles(): BelongsToMany
+    {
+        return $this->belongsToMany(Role::class);
+        // Auto-resolves: uses "role_user" pivot table (alphabetical)
+    }
+
+    public function tags(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+
+    public function permissions(): BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class);
+    }
+}
+
+// ✅ morphMany → plural (returns a Collection)
+class Post extends Model
+{
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function images(): MorphMany
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+}
+
+// ✅ morphTo → singular, describing the polymorphic relationship
+class Comment extends Model
+{
+    public function commentable(): MorphTo
+    {
+        return $this->morphTo();
+        // Auto-resolves: uses commentable_id and commentable_type columns
+    }
+}
+
+class Image extends Model
+{
+    public function imageable(): MorphTo
+    {
+        return $this->morphTo();
+    }
+}
+```
+
+**Benefits:**
+- `user()` on belongsTo auto-resolves to `user_id` — no manual FK specification needed
+- Plural `comments()` on hasMany clearly signals a Collection return type
+- Eager loading reads naturally: `Post::with(['user', 'comments', 'tags'])->get()`
+- `whereHas('comments')` and `withCount('orders')` work without additional configuration
+
+Reference: [Laravel Eloquent Relationships](https://laravel.com/docs/12.x/eloquent-relationships)
+
+
+---
+
+## Migration and Index Naming
+
+**Impact: HIGH (Consistent migration names enable rollbacks and team collaboration)**
+
+Laravel migration filenames serve as a changelog for your database schema. Vague or inconsistent names make rollbacks unpredictable, obscure the migration history, and create merge conflicts when team members cannot understand what each migration does at a glance.
+
+## Incorrect
+
+```php
+// ❌ Vague name: 2026_03_14_000000_update_users.php — update what?
+// Impossible to know what changed without reading the file
+Schema::table('users', function (Blueprint $table) {
+    $table->string('phone')->nullable();
+    $table->boolean('is_active')->default(true);
+});
+
+// ❌ Too broad: one migration doing multiple unrelated changes
+// File: 2026_03_14_000000_update_database.php
+Schema::table('users', function (Blueprint $table) {
+    $table->string('phone')->nullable();
+});
+
+Schema::create('categories', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->timestamps();
+});
+
+Schema::table('posts', function (Blueprint $table) {
+    $table->dropColumn('legacy_field');
+});
+
+// ❌ Manual index names that don't follow convention
+Schema::table('users', function (Blueprint $table) {
+    $table->unique('email', 'idx_email');        // non-standard prefix
+    $table->index('last_name', 'my_index');      // meaningless name
+});
+```
+
+**Problems:**
+- `update_users` gives no indication of what columns are added, removed, or modified
+- Multi-concern migrations cannot be partially rolled back and create confusing diffs
+- Non-standard index names make debugging and dropping indexes error-prone
+- Vague names slow down team code reviews and make `migrate:status` output unhelpful
+
+## Correct
+
+```php
+// ✅ Descriptive migration names that explain the change
+// File: 2026_03_14_000000_create_users_table.php
+Schema::create('users', function (Blueprint $table) {
+    $table->id();
+    $table->string('name');
+    $table->string('email');
+    $table->timestamps();
+});
+
+// File: 2026_03_14_000001_add_phone_to_users_table.php
+Schema::table('users', function (Blueprint $table) {
+    $table->string('phone')->nullable()->after('email');
+});
+
+// File: 2026_03_14_000002_create_role_user_table.php
+Schema::create('role_user', function (Blueprint $table) {
+    $table->foreignId('role_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+    $table->primary(['role_id', 'user_id']);
+});
+
+// ✅ Generate with artisan for consistent naming
+// php artisan make:migration create_users_table
+// php artisan make:migration add_phone_to_users_table --table=users
+// php artisan make:migration create_role_user_table
+
+// ✅ Let Laravel auto-generate index names: {table}_{column}_{type}
+Schema::table('users', function (Blueprint $table) {
+    $table->unique('email');
+    // Auto-generated name: users_email_unique
+});
+
+Schema::table('posts', function (Blueprint $table) {
+    $table->index('published_at');
+    // Auto-generated name: posts_published_at_index
+});
+
+// ✅ Custom index name only when the auto-generated name would be too long
+Schema::table('order_items', function (Blueprint $table) {
+    $table->unique(['order_id', 'product_id', 'variant_id'], 'order_product_variant_unique');
+});
+
+// ✅ One migration per concern — easy to rollback and review
+// File: 2026_03_14_000003_add_is_active_to_users_table.php
+Schema::table('users', function (Blueprint $table) {
+    $table->boolean('is_active')->default(true)->after('email');
+});
+```
+
+**Benefits:**
+- `add_phone_to_users_table` is immediately clear in `migrate:status` and git history
+- One concern per migration enables clean rollbacks with `migrate:rollback --step=1`
+- Laravel's auto-generated index names (`users_email_unique`) follow a predictable `{table}_{column}_{type}` pattern
+- Artisan generators enforce consistent naming: `php artisan make:migration add_phone_to_users_table --table=users`
+
+Reference: [Laravel Migrations](https://laravel.com/docs/12.x/migrations)
 
 
 ---

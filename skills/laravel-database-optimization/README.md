@@ -1,10 +1,10 @@
-# Laravel Database Optimization v1.0.0
+# Laravel Database Optimization v1.1.0
 
 Database optimization patterns and best practices for Laravel 12 applications.
 
 ## Overview
 
-This skill provides 29 rules across 8 categories for optimizing database performance in Laravel 12 applications. Covers query optimization, indexing, caching, pagination, transactions, migrations, and debugging.
+This skill provides 33 rules across 9 categories for optimizing database performance in Laravel 12 applications. Covers query optimization, indexing, caching, pagination, transactions, migrations, naming conventions, and debugging.
 
 ## Categories
 
@@ -31,6 +31,9 @@ Zero-downtime migrations, concurrent index creation, and safe column additions.
 
 ### 8. Query Debugging (Medium)
 EXPLAIN ANALYZE, Laravel Debugbar, and slow query log monitoring.
+
+### 9. Naming & Structure (High)
+Table, column, relationship, and migration naming conventions for Eloquent.
 
 ## Quick Start
 
