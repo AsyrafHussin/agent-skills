@@ -1,32 +1,34 @@
 ---
 title: Implement Proper Authorization
 impact: CRITICAL
-impactDescription: Enforces access control and resource permissions
+impactDescription: "Enforces access control and resource permissions"
 tags: security, authorization, rbac, permissions, access-control
 ---
 
 ## Implement Proper Authorization
 
+**Impact: CRITICAL (Enforces access control and resource permissions)**
+
 Authorization verifies what authenticated users can do. Implement role-based (RBAC) or attribute-based (ABAC) access control consistently.
 
-## Bad Example
+## Incorrect
 
 ```javascript
-// Anti-pattern: No authorization checks
+// ❌ No authorization checks
 app.delete('/users/:id', authenticate, async (req, res) => {
   // Anyone authenticated can delete any user!
   await db.deleteUser(req.params.id);
   res.status(204).send();
 });
 
-// Anti-pattern: Client-side only authorization
+// ❌ Client-side only authorization
 app.get('/admin/users', authenticate, async (req, res) => {
   // Relies on frontend hiding the button
   const users = await db.getAllUsers();
   res.json(users);
 });
 
-// Anti-pattern: Inconsistent checks
+// ❌ Inconsistent checks
 app.get('/documents/:id', async (req, res) => {
   const doc = await db.findDocument(req.params.id);
   // Sometimes checks, sometimes doesn't
@@ -38,10 +40,17 @@ app.get('/documents/:id', async (req, res) => {
 });
 ```
 
-## Good Example
+**Problems:**
+- Any authenticated user can perform any operation on any resource
+- Client-side authorization can be bypassed by calling the API directly
+- Inconsistent checks leave gaps attackers can exploit
+- No separation between authentication (who) and authorization (what)
+- No audit trail of permission-based access decisions
+
+## Correct
 
 ```javascript
-// Role-Based Access Control (RBAC)
+// ✅ Role-Based Access Control (RBAC)
 const ROLES = {
   ADMIN: 'admin',
   MANAGER: 'manager',
@@ -163,7 +172,7 @@ app.put('/documents/:id',
 ```
 
 ```python
-# FastAPI with RBAC
+# ✅ FastAPI with RBAC
 from fastapi import FastAPI, Depends, HTTPException, status
 from enum import Enum
 from typing import List
@@ -269,7 +278,7 @@ async def get_document(
 ```
 
 ```json
-// Authorization error response
+// ✅ Authorization error response
 {
   "error": {
     "code": "forbidden",
@@ -293,18 +302,12 @@ async def get_document(
 | Hierarchical | Org structure | Managers see team's data |
 | Feature flags | Feature access | Premium features |
 
-## Why
+**Benefits:**
+- Prevents unauthorized access to sensitive data and operations
+- Principle of least privilege: users only get access they need
+- Centralized permission definitions are easy to audit and update
+- Server-side checks cannot be bypassed like client-side authorization
+- RBAC/ABAC scales better than per-user permissions
+- Clear authorization rules support compliance requirements
 
-1. **Security**: Prevents unauthorized access to sensitive data and operations.
-
-2. **Principle of Least Privilege**: Users only get access they actually need.
-
-3. **Audit Compliance**: Clear authorization rules support compliance requirements.
-
-4. **Separation of Concerns**: Authorization logic is centralized and reusable.
-
-5. **Defense in Depth**: Server-side checks can't be bypassed like client-side.
-
-6. **Scalability**: RBAC/ABAC scales better than per-user permissions.
-
-7. **Maintainability**: Centralized permission definitions are easy to update.
+Reference: [OWASP Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html)

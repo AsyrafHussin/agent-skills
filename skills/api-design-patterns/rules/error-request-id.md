@@ -1,18 +1,20 @@
 ---
 title: Include Request ID in Error Responses
-impact: HIGH
-impactDescription: Enables log correlation and efficient debugging
+impact: CRITICAL
+impactDescription: "Enables log correlation and efficient debugging"
 tags: errors, debugging, logging, request-tracking
 ---
 
 ## Include Request ID in Error Responses
 
+**Impact: CRITICAL (Enables log correlation and efficient debugging)**
+
 Every API request should have a unique identifier that appears in both the response and server logs, enabling easy correlation for debugging.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: No request identifier
+// ❌ No request identifier
 {
   "error": {
     "code": "internal_error",
@@ -23,7 +25,7 @@ Every API request should have a unique identifier that appears in both the respo
 ```
 
 ```javascript
-// No request tracking
+// ❌ No request tracking
 app.get('/users/:id', async (req, res) => {
   try {
     const user = await db.findUser(req.params.id);
@@ -35,12 +37,19 @@ app.get('/users/:id', async (req, res) => {
 });
 ```
 
-## Good Example
+**Problems:**
+- Support cannot locate specific errors in logs when users report issues
+- No way to correlate client-side errors with server-side logs
+- Debugging requires time-based log searching which is imprecise
+- Distributed systems cannot trace requests across services
+- No audit trail for specific request flows
+
+## Correct
 
 ```javascript
+// ✅ Request ID middleware
 const { v4: uuidv4 } = require('uuid');
 
-// Request ID middleware
 app.use((req, res, next) => {
   // Use client-provided ID or generate new one
   req.id = req.headers['x-request-id'] || uuidv4();
@@ -98,7 +107,7 @@ app.use((err, req, res, next) => {
 ```
 
 ```python
-# FastAPI with request ID
+# ✅ FastAPI with request ID
 import uuid
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
@@ -175,7 +184,7 @@ async def get_user(user_id: int, request: Request):
 ```
 
 ```json
-// Error response with request ID
+// ✅ Error response with request ID
 HTTP/1.1 500 Internal Server Error
 X-Request-ID: req-550e8400-e29b-41d4-a716-446655440000
 
@@ -189,7 +198,7 @@ X-Request-ID: req-550e8400-e29b-41d4-a716-446655440000
 ```
 
 ```bash
-# Server logs with request ID
+# ✅ Server logs with request ID
 2024-01-15 10:30:00 [req-550e8400-e29b-41d4-a716-446655440000] INFO: Fetching user 123
 2024-01-15 10:30:00 [req-550e8400-e29b-41d4-a716-446655440000] ERROR: Database connection timeout
 2024-01-15 10:30:00 [req-550e8400-e29b-41d4-a716-446655440000] ERROR: Request failed
@@ -198,7 +207,7 @@ X-Request-ID: req-550e8400-e29b-41d4-a716-446655440000
 ## Distributed Tracing Integration
 
 ```javascript
-// Integration with OpenTelemetry
+// ✅ Integration with OpenTelemetry
 const { trace, context } = require('@opentelemetry/api');
 
 app.use((req, res, next) => {
@@ -219,7 +228,7 @@ app.use((req, res, next) => {
 ```
 
 ```yaml
-# OpenAPI documentation for request ID
+# ✅ OpenAPI documentation for request ID
 components:
   headers:
     X-Request-ID:
@@ -245,18 +254,12 @@ components:
               description: Unique request identifier for support correlation
 ```
 
-## Why
+**Benefits:**
+- Users can provide the request ID when reporting issues for instant log lookup
+- Links all log entries for a single request across multiple services
+- Request IDs propagate through microservices for end-to-end distributed tracing
+- "Please provide the request ID" is faster than "describe what you did"
+- Enables tracking individual request paths through infrastructure
+- Audit trails require the ability to trace specific requests
 
-1. **Debugging**: Users can provide the request ID when reporting issues, allowing instant log lookup.
-
-2. **Log Correlation**: Link all log entries for a single request across multiple services.
-
-3. **Distributed Tracing**: Request IDs propagate through microservices for end-to-end tracing.
-
-4. **Support Efficiency**: "Please provide the request ID" is faster than "describe what you did."
-
-5. **Monitoring**: Track individual request paths through your infrastructure.
-
-6. **Compliance**: Audit trails require the ability to trace specific requests.
-
-7. **Client Debugging**: Client applications can include request IDs in their own logs.
+Reference: [OpenTelemetry Tracing](https://opentelemetry.io/docs/concepts/signals/traces/)

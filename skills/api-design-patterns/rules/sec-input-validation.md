@@ -1,32 +1,34 @@
 ---
 title: Validate All Input Data
 impact: CRITICAL
-impactDescription: Prevents injection attacks and malformed data
+impactDescription: "Prevents injection attacks and malformed data"
 tags: security, validation, input-sanitization, injection
 ---
 
 ## Validate All Input Data
 
+**Impact: CRITICAL (Prevents injection attacks and malformed data)**
+
 Never trust client input. Validate, sanitize, and constrain all incoming data to prevent security vulnerabilities.
 
-## Bad Example
+## Incorrect
 
 ```javascript
-// Anti-pattern: No validation
+// ❌ No validation
 app.post('/users', async (req, res) => {
   // Directly using user input!
   const user = await db.createUser(req.body);
   res.json(user);
 });
 
-// Anti-pattern: SQL injection vulnerability
+// ❌ SQL injection vulnerability
 app.get('/users', async (req, res) => {
   const query = `SELECT * FROM users WHERE name = '${req.query.name}'`;
   const users = await db.raw(query);
   res.json(users);
 });
 
-// Anti-pattern: NoSQL injection
+// ❌ NoSQL injection
 app.post('/login', async (req, res) => {
   const user = await db.users.findOne({
     email: req.body.email,
@@ -34,16 +36,25 @@ app.post('/login', async (req, res) => {
   });
 });
 
-// Anti-pattern: Path traversal
+// ❌ Path traversal
 app.get('/files/:filename', (req, res) => {
   const path = `./uploads/${req.params.filename}`;
   res.sendFile(path); // Could access ../../../etc/passwd
 });
 ```
 
-## Good Example
+**Problems:**
+- SQL injection allows attackers to read, modify, or delete database data
+- NoSQL injection bypasses authentication with operator-based payloads
+- Path traversal exposes sensitive server files
+- Unbounded input sizes enable memory exhaustion and DoS attacks
+- Unsanitized HTML/script input enables XSS attacks
+- Type confusion attacks exploit loosely typed inputs
+
+## Correct
 
 ```javascript
+// ✅ Comprehensive input validation
 const { body, param, query, validationResult } = require('express-validator');
 const sanitizeHtml = require('sanitize-html');
 const path = require('path');
@@ -104,7 +115,7 @@ app.post('/users', validateUser, handleValidation, async (req, res) => {
   res.status(201).json(user);
 });
 
-// Parameterized queries (prevent SQL injection)
+// ✅ Parameterized queries (prevent SQL injection)
 app.get('/users', async (req, res) => {
   const users = await db.query(
     'SELECT id, name, email FROM users WHERE name = ?',
@@ -113,7 +124,7 @@ app.get('/users', async (req, res) => {
   res.json(users);
 });
 
-// Safe MongoDB queries
+// ✅ Safe MongoDB queries
 app.post('/login', async (req, res) => {
   // Ensure email and password are strings
   const email = String(req.body.email || '');
@@ -126,7 +137,7 @@ app.post('/login', async (req, res) => {
   // ...
 });
 
-// Path traversal prevention
+// ✅ Path traversal prevention
 app.get('/files/:filename',
   param('filename')
     .matches(/^[a-zA-Z0-9_-]+\.[a-zA-Z0-9]+$/)
@@ -145,7 +156,7 @@ app.get('/files/:filename',
   }
 );
 
-// Array size limits
+// ✅ Array size limits
 app.post('/batch',
   body('items')
     .isArray({ min: 1, max: 100 })
@@ -160,7 +171,7 @@ app.post('/batch',
   }
 );
 
-// JSON depth/size limits
+// ✅ JSON depth/size limits
 const jsonParser = express.json({
   limit: '100kb', // Max request body size
   strict: true    // Only accept arrays and objects
@@ -170,7 +181,7 @@ app.use('/api', jsonParser);
 ```
 
 ```python
-# FastAPI with Pydantic validation
+# ✅ FastAPI with Pydantic validation
 from fastapi import FastAPI, Query, Path, Body, HTTPException
 from pydantic import BaseModel, EmailStr, Field, validator, HttpUrl
 from typing import Optional, List
@@ -246,18 +257,12 @@ async def search(
 | Array size limits | Prevent memory exhaustion |
 | Nested depth limits | Prevent stack overflow |
 
-## Why
+**Benefits:**
+- Prevents SQL/NoSQL injection attacks from manipulating queries
+- Sanitizing input stops cross-site scripting (XSS) attacks
+- Filename validation prevents unauthorized file access via path traversal
+- Size limits prevent memory exhaustion and denial-of-service attacks
+- Ensures only valid data enters your system, maintaining data integrity
+- Catches bad data at the API boundary before it causes downstream errors
 
-1. **SQL/NoSQL Injection**: Validation prevents malicious query manipulation.
-
-2. **XSS Prevention**: Sanitizing input stops script injection attacks.
-
-3. **Path Traversal**: Validating filenames prevents unauthorized file access.
-
-4. **DoS Prevention**: Size limits prevent memory exhaustion attacks.
-
-5. **Data Integrity**: Ensures only valid data enters your system.
-
-6. **Business Logic**: Enforces domain rules at the API boundary.
-
-7. **Error Prevention**: Catches bad data before it causes downstream errors.
+Reference: [OWASP Input Validation Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html)

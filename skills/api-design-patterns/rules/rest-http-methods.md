@@ -1,18 +1,20 @@
 ---
 title: Use HTTP Methods Correctly
 impact: CRITICAL
-impactDescription: Enables caching, retry logic, and semantic API operations
+impactDescription: "Enables caching, retry logic, and semantic API operations"
 tags: rest, http-methods, idempotency, safety
 ---
 
 ## Use HTTP Methods Correctly
 
+**Impact: CRITICAL (Enables caching, retry logic, and semantic API operations)**
+
 HTTP methods have specific semantics and should be used according to their intended purpose. Each method has distinct characteristics for safety and idempotency.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Incorrect method usage
+// ❌ Incorrect method usage
 POST /users/123          // Should use GET to retrieve
 GET /users/create        // Should use POST to create
 POST /users/123/delete   // Should use DELETE method
@@ -21,7 +23,7 @@ POST /search             // GET is better for safe operations
 ```
 
 ```javascript
-// Incorrect method usage
+// ❌ Incorrect method usage
 app.post('/users/:id', (req, res) => {
   // Fetching user with POST - wrong!
   const user = db.findUser(req.params.id);
@@ -41,10 +43,17 @@ app.post('/users/:id/update', (req, res) => {
 });
 ```
 
-## Good Example
+**Problems:**
+- GET requests that modify data can be triggered by crawlers or link prefetchers
+- POST for retrieval prevents browser and CDN caching
+- Clients cannot implement safe retry logic without correct method semantics
+- Security tools and load balancers cannot apply method-based rules
+- API documentation tools generate incorrect specifications
+
+## Correct
 
 ```javascript
-// Correct HTTP method usage
+// ✅ Correct HTTP method usage
 const express = require('express');
 const router = express.Router();
 
@@ -72,7 +81,7 @@ router.put('/users/:id', async (req, res) => {
   res.json(user);
 });
 
-// PATCH - Partial update, idempotent
+// PATCH - Partial update, not necessarily idempotent
 router.patch('/users/:id', async (req, res) => {
   const user = await db.updateUser(req.params.id, req.body);
   res.json(user);
@@ -98,7 +107,7 @@ router.options('/users', (req, res) => {
 ```
 
 ```python
-# FastAPI with correct HTTP methods
+# ✅ FastAPI with correct HTTP methods
 from fastapi import FastAPI, HTTPException, status
 
 app = FastAPI()
@@ -144,23 +153,17 @@ def delete_user(user_id: int):
 | GET     | Retrieve | Yes  | Yes        | No           | Yes           |
 | POST    | Create   | No   | No         | Yes          | Yes           |
 | PUT     | Replace  | No   | Yes        | Yes          | Yes           |
-| PATCH   | Update   | No   | Yes        | Yes          | Yes           |
+| PATCH   | Update   | No   | Not guaranteed | Yes      | Yes           |
 | DELETE  | Remove   | No   | Yes        | Optional     | Optional      |
 | HEAD    | Headers  | Yes  | Yes        | No           | No            |
 | OPTIONS | Methods  | Yes  | Yes        | No           | No            |
 
-## Why
+**Benefits:**
+- Each method has clear, well-defined purpose all developers understand
+- GET requests can be cached by browsers and CDNs
+- Browsers handle different methods appropriately (e.g., warn before resubmitting POST)
+- Security tools, load balancers, and proxies understand HTTP semantics
+- Idempotent methods (GET, PUT, DELETE) can be safely retried on network failures
+- Tools like Swagger/OpenAPI rely on correct method usage for accurate documentation
 
-1. **Semantic Clarity**: Each method has a clear, well-defined purpose that all developers understand.
-
-2. **Cacheability**: GET requests can be cached by browsers and CDNs because they're safe and idempotent.
-
-3. **Browser Behavior**: Browsers handle different methods appropriately (e.g., warn before resubmitting POST forms).
-
-4. **Middleware Support**: Security tools, load balancers, and proxies understand HTTP semantics.
-
-5. **Retry Logic**: Idempotent methods (GET, PUT, DELETE) can be safely retried on network failures.
-
-6. **Security**: GET requests shouldn't modify data, preventing accidental changes from link clicks or crawlers.
-
-7. **API Documentation**: Tools like Swagger/OpenAPI rely on correct method usage for accurate documentation.
+Reference: [MDN HTTP Methods](https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods)

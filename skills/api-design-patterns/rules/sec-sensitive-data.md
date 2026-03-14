@@ -1,18 +1,20 @@
 ---
 title: Protect Sensitive Data in Responses
 impact: CRITICAL
-impactDescription: Prevents data leaks and privacy violations
+impactDescription: "Prevents data leaks and privacy violations"
 tags: security, privacy, sensitive-data, pii
 ---
 
 ## Protect Sensitive Data in Responses
 
+**Impact: CRITICAL (Prevents data leaks and privacy violations)**
+
 Never expose sensitive information like passwords, tokens, internal IDs, or PII in API responses.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Exposing password hash
+// ❌ Exposing password hash
 {
   "id": 123,
   "email": "user@example.com",
@@ -20,7 +22,7 @@ Never expose sensitive information like passwords, tokens, internal IDs, or PII 
   "name": "John Doe"
 }
 
-// Anti-pattern: Exposing API keys
+// ❌ Exposing API keys
 {
   "user": {
     "id": 123,
@@ -29,7 +31,7 @@ Never expose sensitive information like passwords, tokens, internal IDs, or PII 
   }
 }
 
-// Anti-pattern: Exposing internal IDs
+// ❌ Exposing internal IDs
 {
   "user": {
     "id": 123,
@@ -38,7 +40,7 @@ Never expose sensitive information like passwords, tokens, internal IDs, or PII 
   }
 }
 
-// Anti-pattern: Exposing other users' data
+// ❌ Exposing other users' data
 {
   "order": {
     "id": 456,
@@ -52,17 +54,24 @@ Never expose sensitive information like passwords, tokens, internal IDs, or PII 
 ```
 
 ```javascript
-// Dangerous: Returning entire database record
+// ❌ Returning entire database record
 app.get('/users/:id', async (req, res) => {
   const user = await db.findUser(req.params.id);
   res.json(user); // Exposes ALL fields including sensitive ones
 });
 ```
 
-## Good Example
+**Problems:**
+- Exposed password hashes enable offline brute force attacks
+- API keys in responses allow unauthorized access to third-party services
+- Internal IDs help attackers enumerate resources and map infrastructure
+- PII exposure violates privacy regulations (GDPR, CCPA, PCI-DSS)
+- Returning full database records exposes fields never intended for clients
+
+## Correct
 
 ```javascript
-// Define what fields to expose per context
+// ✅ Explicit field selection per context
 const userPublicFields = ['id', 'name', 'avatar', 'createdAt'];
 const userPrivateFields = [...userPublicFields, 'email', 'settings'];
 const userAdminFields = [...userPrivateFields, 'roles', 'lastLoginAt', 'status'];
@@ -153,7 +162,7 @@ app.get('/users/:id', async (req, res) => {
 ```
 
 ```python
-# FastAPI with Pydantic response models
+# ✅ FastAPI with Pydantic response models
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 
@@ -221,7 +230,7 @@ class SensitiveDataFilter(logging.Filter):
 ```
 
 ```json
-// Safe user response
+// ✅ Safe user response
 {
   "id": 123,
   "name": "John Doe",
@@ -230,7 +239,7 @@ class SensitiveDataFilter(logging.Filter):
   "memberSince": "2023-01-15"
 }
 
-// Safe payment method response
+// ✅ Safe payment method response
 {
   "paymentMethods": [
     {
@@ -258,18 +267,12 @@ class SensitiveDataFilter(logging.Filter):
 | Phone | Mask | Privacy |
 | Address | Context-dependent | Privacy |
 
-## Why
+**Benefits:**
+- Prevents account takeover from exposed credentials
+- Meets privacy regulation requirements (GDPR, CCPA, PCI-DSS)
+- Reduces attack surface by hiding internal system identifiers
+- Context-based field exposure follows the principle of least privilege
+- Data masking provides useful info without exposing full values
+- Simplifies compliance audits with clear data handling policies
 
-1. **Security**: Exposed credentials enable account takeover.
-
-2. **Privacy**: PII exposure violates privacy regulations (GDPR, CCPA).
-
-3. **Compliance**: PCI-DSS requires protecting cardholder data.
-
-4. **Trust**: Users expect their data to be protected.
-
-5. **Attack Surface**: Internal IDs help attackers enumerate resources.
-
-6. **Least Privilege**: Only expose data the client actually needs.
-
-7. **Audit**: Proper data handling simplifies compliance audits.
+Reference: [OWASP Sensitive Data Exposure](https://owasp.org/www-project-web-security-testing-guide/latest/4-Web_Application_Security_Testing/09-Testing_for_Weak_Cryptography/04-Testing_for_Weak_Encryption)

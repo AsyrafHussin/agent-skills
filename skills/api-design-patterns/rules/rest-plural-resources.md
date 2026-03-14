@@ -1,18 +1,20 @@
 ---
 title: Use Plural Nouns for Resource Collections
-impact: HIGH
-impactDescription: Improves API consistency and predictability
+impact: CRITICAL
+impactDescription: "Improves API consistency and predictability"
 tags: rest, resources, naming, conventions
 ---
 
 ## Use Plural Nouns for Resource Collections
 
+**Impact: CRITICAL (Improves API consistency and predictability)**
+
 Resource names should consistently use plural nouns to represent collections, maintaining uniformity across your API.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Inconsistent singular/plural usage
+// ❌ Inconsistent singular/plural usage
 GET /user          // Singular for collection
 GET /user/123      // Singular for individual
 GET /products      // Plural for collection
@@ -22,7 +24,7 @@ POST /person       // Mixed conventions
 ```
 
 ```yaml
-# OpenAPI spec with inconsistent naming
+# ❌ OpenAPI spec with inconsistent naming
 paths:
   /user:
     get:
@@ -38,10 +40,17 @@ paths:
       summary: Get single product
 ```
 
-## Good Example
+**Problems:**
+- Developers must guess whether a resource uses singular or plural form
+- Inconsistent patterns across endpoints reduce predictability
+- Ambiguity: `/user` could mean "current user" or "user collection"
+- Misalignment with database table naming conventions
+- Harder to generate documentation and client SDKs
+
+## Correct
 
 ```json
-// Correct: Consistent plural nouns
+// ✅ Consistent plural nouns
 GET /users         // Collection of users
 GET /users/123     // Single user from collection
 POST /users        // Create user in collection
@@ -55,7 +64,7 @@ GET /orders/789    // Single item
 ```
 
 ```yaml
-# OpenAPI spec with consistent plurals
+# ✅ OpenAPI spec with consistent plurals
 openapi: 3.0.0
 paths:
   /users:
@@ -85,7 +94,7 @@ paths:
 ```
 
 ```javascript
-// Express router with consistent plurals
+// ✅ Express router with consistent plurals
 const router = express.Router();
 
 // Users resource
@@ -108,18 +117,12 @@ router.post('/orders', createOrder);
 router.get('/orders/:id', getOrder);
 ```
 
-## Why
+**Benefits:**
+- Consistent naming eliminates guesswork for developers
+- Predictable patterns: knowing `/users` lets you predict `/products`, `/orders`
+- Plural names clearly indicate collection semantics
+- `/users/123` reads naturally as "user 123 from the users collection"
+- Aligns with database table naming conventions (users, products, orders)
+- Matches expectations of REST frameworks and documentation generators
 
-1. **Consistency**: Developers don't need to guess whether a resource uses singular or plural form.
-
-2. **Predictability**: When you know one resource uses `/users`, you can predict others will be `/products`, `/orders`, etc.
-
-3. **Collection Semantics**: Plural names clearly indicate that the endpoint returns or operates on a collection of items.
-
-4. **URI Logic**: `/users/123` reads naturally as "user 123 from the users collection."
-
-5. **Database Alignment**: Most databases use plural table names (users, products, orders), making the API consistent with the data model.
-
-6. **Framework Conventions**: Most REST frameworks and documentation generators expect plural resource names.
-
-7. **Avoid Ambiguity**: `/user` could mean "current user" or "user collection," while `/users` clearly means the collection.
+Reference: [REST API Tutorial - Resource Naming](https://restfulapi.net/resource-naming/)

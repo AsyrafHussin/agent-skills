@@ -1,15 +1,15 @@
 ---
 title: Consistent Error Response Format
 impact: CRITICAL
-impactDescription: Enables predictable error handling across API
+impactDescription: "Enables predictable error handling across API"
 tags: errors, consistency, response-format, client-experience
 ---
 
 ## Consistent Error Response Format
 
-**Impact: CRITICAL**
+**Impact: CRITICAL (Enables predictable error handling across API)**
 
-Inconsistent error formats force API consumers to handle multiple error structures, leading to fragile client code. A consistent error format makes APIs predictable, easier to debug, and simpler to integrate. Clients can build reusable error handling logic.
+Inconsistent error formats force API consumers to handle multiple error structures, leading to fragile client code. A consistent error format makes APIs predictable, easier to debug, and simpler to integrate.
 
 ## Incorrect
 
@@ -207,7 +207,7 @@ Inconsistent error formats force API consumers to handle multiple error structur
 ### TypeScript/Node.js
 
 ```typescript
-// Error classes
+// ✅ Error classes
 abstract class AppError extends Error {
   abstract readonly code: string;
   abstract readonly statusCode: number;
@@ -276,7 +276,7 @@ function errorHandler(err, req, res, next) {
 ```php
 <?php
 
-// app/Exceptions/AppException.php
+// ✅ app/Exceptions/AppException.php
 abstract class AppException extends Exception
 {
     abstract public function getErrorCode(): string;
@@ -388,11 +388,12 @@ FAILED
 BAD_REQUEST
 ```
 
-## Benefits
-
-- Predictable API behavior
-- Reusable client-side error handling
+**Benefits:**
+- Predictable API behavior across all endpoints
+- Reusable client-side error handling logic
 - Easier debugging with request IDs
 - Clear error codes for programmatic handling
 - Human-readable messages for display
-- Detailed validation feedback
+- Detailed validation feedback for field-level errors
+
+Reference: [RFC 7807 - Problem Details for HTTP APIs](https://www.rfc-editor.org/rfc/rfc7807)

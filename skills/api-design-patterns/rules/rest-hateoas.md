@@ -1,18 +1,20 @@
 ---
 title: Include HATEOAS Links for Discoverability
-impact: MEDIUM
-impactDescription: Improves API discoverability and reduces client coupling
+impact: CRITICAL
+impactDescription: "Improves API discoverability and reduces client coupling"
 tags: rest, hateoas, hypermedia, discoverability
 ---
 
 ## Include HATEOAS Links for Discoverability
 
+**Impact: CRITICAL (Improves API discoverability and reduces client coupling)**
+
 HATEOAS (Hypermedia as the Engine of Application State) provides links in responses that guide clients to related resources and available actions.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: No links, client must construct URLs
+// ❌ No links, client must construct URLs
 {
   "id": 123,
   "name": "John Doe",
@@ -24,17 +26,24 @@ HATEOAS (Hypermedia as the Engine of Application State) provides links in respon
 ```
 
 ```javascript
-// Response without navigation
+// ❌ Response without navigation
 app.get('/users/:id', async (req, res) => {
   const user = await db.findUser(req.params.id);
   res.json(user); // Raw data only
 });
 ```
 
-## Good Example
+**Problems:**
+- Clients must hardcode URL patterns, creating tight coupling
+- No indication of what actions are available on a resource
+- API URL changes break all clients
+- New features are not automatically discoverable
+- Clients cannot adapt behavior based on resource state
+
+## Correct
 
 ```javascript
-// Response with HATEOAS links
+// ✅ Response with HATEOAS links
 app.get('/users/:id', async (req, res) => {
   const user = await db.findUser(req.params.id);
   const baseUrl = `${req.protocol}://${req.get('host')}`;
@@ -68,7 +77,7 @@ app.get('/users/:id', async (req, res) => {
   });
 });
 
-// Collection with pagination links
+// ✅ Collection with pagination links
 app.get('/users', async (req, res) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 20;
@@ -105,7 +114,7 @@ app.get('/users', async (req, res) => {
 ```
 
 ```json
-// Example response with HATEOAS
+// ✅ Example response with HATEOAS
 {
   "id": 123,
   "name": "John Doe",
@@ -147,7 +156,7 @@ app.get('/users', async (req, res) => {
 ```
 
 ```python
-# FastAPI with HATEOAS helper
+# ✅ FastAPI with HATEOAS helper
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from typing import Dict, List, Optional, Any
@@ -186,14 +195,19 @@ async def get_order(order_id: int, request: Request):
     order = await db.get_order(order_id)
     base_url = str(request.base_url).rstrip('/')
 
+    cancel_link = (
+        {"href": f"{base_url}/orders/{order_id}/cancel", "method": "POST"}
+        if order.status == "pending"
+        else None
+    )
+
     return {
         **order.dict(),
         "_links": {
             "self": {"href": f"{base_url}/orders/{order_id}"},
             "customer": {"href": f"{base_url}/users/{order.customer_id}"},
             "items": {"href": f"{base_url}/orders/{order_id}/items"},
-            "cancel": {"href": f"{base_url}/orders/{order_id}/cancel", "method": "POST"}
-                if order.status == "pending" else None,
+            "cancel": cancel_link,
             "invoice": {"href": f"{base_url}/orders/{order_id}/invoice", "type": "application/pdf"}
         }
     }
@@ -223,18 +237,12 @@ async def get_order(order_id: int, request: Request):
 }
 ```
 
-## Why
+**Benefits:**
+- Responses tell clients exactly what actions are available and how to perform them
+- Clients follow links dynamically instead of hardcoding URL patterns
+- APIs can change URL structures without breaking clients
+- New features are automatically discoverable through new links
+- Links can vary based on resource state (e.g., "cancel" only for pending orders)
+- Links guide users through multi-step processes naturally
 
-1. **Self-Documenting**: Responses tell clients exactly what actions are available and how to perform them.
-
-2. **Loose Coupling**: Clients don't need hardcoded URL patterns; they follow links dynamically.
-
-3. **Evolvability**: APIs can change URL structures without breaking clients that follow links.
-
-4. **Discoverability**: New features are automatically discoverable through new links.
-
-5. **Context-Aware**: Links can vary based on resource state (e.g., "cancel" only shown for pending orders).
-
-6. **Reduced Documentation**: Clients can explore the API by following links.
-
-7. **Workflow Guidance**: Links guide users through multi-step processes naturally.
+Reference: [HAL Specification](https://stateless.group/hal_specification.html)

@@ -180,7 +180,7 @@ npx skills add AsyrafHussin/agent-skills --skill clean-code-principles
 
 ### [api-design-patterns](skills/api-design-patterns)
 
-RESTful API design: HTTP methods, error handling, pagination, versioning, rate limiting, and security patterns.
+RESTful API design patterns. Contains 38 rules across 7 categories covering resource design, error handling, security, pagination, versioning, response format, and OpenAPI documentation.
 
 **Example:** `Review my API endpoints for REST best practices`
 

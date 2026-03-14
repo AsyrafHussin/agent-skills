@@ -1,18 +1,20 @@
 ---
 title: Use Nouns, Not Verbs for Resource Names
 impact: CRITICAL
-impactDescription: Foundation of REST architecture
+impactDescription: "Foundation of REST architecture"
 tags: rest, resources, naming, http-methods
 ---
 
 ## Use Nouns, Not Verbs for Resource Names
 
+**Impact: CRITICAL (Foundation of REST architecture)**
+
 REST API endpoints should represent resources (nouns), not actions (verbs). HTTP methods already convey the action being performed.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Verbs in endpoint names
+// ❌ Verbs in endpoint names
 GET /getUsers
 POST /createUser
 PUT /updateUser/123
@@ -22,7 +24,7 @@ POST /addNewProduct
 ```
 
 ```javascript
-// Express routes with verb-based endpoints
+// ❌ Express routes with verb-based endpoints
 app.get('/getUsers', getUsers);
 app.post('/createUser', createUser);
 app.get('/fetchUserById/:id', getUserById);
@@ -30,10 +32,18 @@ app.put('/updateUserProfile/:id', updateUser);
 app.delete('/removeUser/:id', deleteUser);
 ```
 
-## Good Example
+**Problems:**
+- Redundant action verbs when HTTP methods already describe the operation
+- Inconsistent naming across endpoints (get, fetch, create, add)
+- More endpoints than necessary for the same resource
+- URLs become unpredictable and hard to discover
+- Breaks RESTful conventions that developers expect
+- Cannot leverage HTTP method semantics for caching and retry logic
+
+## Correct
 
 ```json
-// Correct: Nouns representing resources
+// ✅ Nouns representing resources
 GET /users
 POST /users
 GET /users/123
@@ -44,7 +54,7 @@ POST /products
 ```
 
 ```javascript
-// Express routes with noun-based endpoints
+// ✅ Express routes with noun-based endpoints
 app.get('/users', listUsers);
 app.post('/users', createUser);
 app.get('/users/:id', getUser);
@@ -53,7 +63,7 @@ app.delete('/users/:id', deleteUser);
 ```
 
 ```python
-# FastAPI with noun-based resources
+# ✅ FastAPI with noun-based resources
 from fastapi import FastAPI
 
 app = FastAPI()
@@ -79,16 +89,12 @@ def delete_user(user_id: int):
     return {"deleted": True}
 ```
 
-## Why
+**Benefits:**
+- RESTful convention: URLs are resource identifiers, HTTP methods describe actions
+- Consistent and predictable API structure developers can easily understand
+- Fewer endpoints needed since one resource path handles multiple operations
+- Self-documenting resources that map to domain model entities
+- GET requests to noun-based endpoints can be cached effectively
+- Leverages built-in HTTP method semantics
 
-1. **RESTful Convention**: REST treats URLs as resource identifiers. The HTTP method (GET, POST, PUT, DELETE) already describes the action.
-
-2. **Consistency**: Using nouns creates a predictable, consistent API structure that developers can easily understand and use.
-
-3. **Simplicity**: Reduces the number of endpoints needed. One resource endpoint can handle multiple operations via different HTTP methods.
-
-4. **Discoverability**: Resources become self-documenting when they represent entities in your domain model.
-
-5. **Cacheability**: GET requests to noun-based endpoints can be cached more effectively since they represent stable resource identifiers.
-
-6. **HTTP Semantics**: Leverages the built-in semantics of HTTP methods rather than inventing custom verbs.
+Reference: [REST Resource Naming Guide](https://restfulapi.net/resource-naming/)

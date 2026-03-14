@@ -1,25 +1,27 @@
 ---
 title: Implement Rate Limiting
 impact: CRITICAL
-impactDescription: Prevents abuse and ensures service availability
+impactDescription: "Prevents abuse and ensures service availability"
 tags: security, rate-limiting, abuse-prevention, throttling
 ---
 
 ## Implement Rate Limiting
 
+**Impact: CRITICAL (Prevents abuse and ensures service availability)**
+
 Protect your API from abuse by limiting the number of requests clients can make within a time window.
 
-## Bad Example
+## Incorrect
 
 ```javascript
-// Anti-pattern: No rate limiting
+// ❌ No rate limiting
 app.post('/login', async (req, res) => {
   // Vulnerable to brute force attacks
   const user = await authenticate(req.body);
   res.json(user);
 });
 
-// Anti-pattern: Rate limit only on response
+// ❌ Rate limit only on response
 app.get('/api/data', async (req, res) => {
   const data = await expensiveQuery(); // Query runs every time!
   if (requestCount > 100) {
@@ -28,7 +30,7 @@ app.get('/api/data', async (req, res) => {
   res.json(data);
 });
 
-// Anti-pattern: No rate limit headers
+// ❌ No rate limit headers
 app.use((req, res, next) => {
   if (isRateLimited(req)) {
     res.status(429).send('Too many requests');
@@ -38,9 +40,17 @@ app.use((req, res, next) => {
 });
 ```
 
-## Good Example
+**Problems:**
+- Login endpoints without rate limits are vulnerable to brute force attacks
+- Checking limits after processing wastes server resources
+- Missing retry headers leave clients guessing when they can retry
+- No per-user or per-endpoint differentiation allows abuse
+- Expensive operations run before limits are checked
+
+## Correct
 
 ```javascript
+// ✅ Comprehensive rate limiting
 const rateLimit = require('express-rate-limit');
 const RedisStore = require('rate-limit-redis');
 const Redis = require('ioredis');
@@ -212,7 +222,7 @@ async function tieredRateLimiter(req, res, next) {
 ```
 
 ```python
-# FastAPI with rate limiting
+# ✅ FastAPI with rate limiting
 from fastapi import FastAPI, Request, HTTPException
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
@@ -255,18 +265,12 @@ X-RateLimit-Reset: 1705312800
 Retry-After: 60
 ```
 
-## Why
+**Benefits:**
+- Prevents denial-of-service attacks from overwhelming servers
+- Limits brute force password guessing and credential stuffing attacks
+- Ensures fair API access for all users
+- Prevents runaway usage that increases infrastructure costs
+- Enables tiered pricing based on usage limits
+- Rate limit headers help clients implement proper backoff strategies
 
-1. **DDoS Protection**: Prevents denial-of-service attacks from overwhelming your servers.
-
-2. **Brute Force Prevention**: Limits password guessing and credential stuffing attacks.
-
-3. **Fair Usage**: Ensures all users get fair access to API resources.
-
-4. **Cost Control**: Prevents runaway API usage that could increase infrastructure costs.
-
-5. **Service Stability**: Protects backend services from traffic spikes.
-
-6. **Business Model**: Enables tiered pricing based on usage limits.
-
-7. **Client Guidance**: Headers help clients implement proper backoff strategies.
+Reference: [IETF Rate Limiting Headers](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)

@@ -1,18 +1,20 @@
 ---
 title: Provide Meaningful Error Messages
-impact: HIGH
-impactDescription: Reduces support burden and improves developer experience
+impact: CRITICAL
+impactDescription: "Reduces support burden and improves developer experience"
 tags: errors, messages, user-experience, actionable
 ---
 
 ## Provide Meaningful Error Messages
 
+**Impact: CRITICAL (Reduces support burden and improves developer experience)**
+
 Error messages should be clear, actionable, and help users understand what went wrong and how to fix it.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Vague or unhelpful messages
+// ❌ Vague or unhelpful messages
 {
   "error": "Error"
 }
@@ -37,7 +39,7 @@ Error messages should be clear, actionable, and help users understand what went 
   "error": "Error code: 0x8004005"
 }
 
-// Technical jargon users can't understand
+// ❌ Technical jargon users can't understand
 {
   "error": "SQLITE_CONSTRAINT_FOREIGNKEY"
 }
@@ -48,7 +50,7 @@ Error messages should be clear, actionable, and help users understand what went 
 ```
 
 ```javascript
-// Unhelpful error responses
+// ❌ Unhelpful error responses
 app.post('/users', async (req, res) => {
   try {
     await db.createUser(req.body);
@@ -58,10 +60,17 @@ app.post('/users', async (req, res) => {
 });
 ```
 
-## Good Example
+**Problems:**
+- Users cannot determine what went wrong or how to fix it
+- Developers waste time debugging vague error messages
+- Support burden increases with every unclear error
+- Internal database errors leak implementation details
+- No actionable guidance for the next step
+
+## Correct
 
 ```javascript
-// Clear, actionable error messages
+// ✅ Clear, actionable error messages
 const errorMessages = {
   email_required: 'Email address is required to create an account',
   email_invalid: 'Please provide a valid email address (e.g., user@example.com)',
@@ -124,7 +133,7 @@ app.post('/users', async (req, res, next) => {
 ```
 
 ```python
-# FastAPI with meaningful errors
+# ✅ FastAPI with meaningful errors
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, validator, EmailStr
 
@@ -192,7 +201,7 @@ async def create_user(user: UserCreate):
 ```
 
 ```json
-// Good error response examples
+// ✅ Good error response examples
 
 // Validation error with guidance
 {
@@ -261,18 +270,12 @@ async def create_user(user: UserCreate):
 }
 ```
 
-## Why
+**Benefits:**
+- Clear messages help users fix problems without contacting support
+- Self-explanatory errors reduce support ticket volume
+- API consumers can debug issues faster with meaningful context
+- Actionable guidance tells users what to do next, not just what went wrong
+- Professional error messages build confidence in your API
+- Clear messages are easier to translate for localization
 
-1. **User Experience**: Clear messages help users fix problems without contacting support.
-
-2. **Reduced Support Burden**: Self-explanatory errors mean fewer support tickets.
-
-3. **Developer Productivity**: API consumers can debug issues faster with meaningful messages.
-
-4. **Actionable Guidance**: Good messages tell users what to do next, not just what went wrong.
-
-5. **Trust Building**: Professional error messages build confidence in your API.
-
-6. **Accessibility**: Messages should be understandable by non-technical users when appropriate.
-
-7. **Localization Ready**: Clear messages are easier to translate accurately.
+Reference: [Microsoft REST API Guidelines - Errors](https://github.com/microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses)

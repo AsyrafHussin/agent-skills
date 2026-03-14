@@ -1,21 +1,75 @@
 {
-  "version": "1.0.0",
-  "organization": "API Design Patterns",
-  "date": "January 2026",
-  "abstract": "Comprehensive RESTful API design guidelines covering resource naming, HTTP methods, error handling, pagination, versioning, and security best practices. Contains 21 rules across 7 categories, prioritized by impact from critical (REST fundamentals, error handling, security) to medium (documentation). Each rule includes detailed explanations with real-world examples comparing incorrect vs. correct implementations, designed for AI agents and developers building production-ready APIs.",
+  "name": "API Design Patterns",
+  "version": "2.0.0",
+  "description": "RESTful API design principles for building consistent, developer-friendly APIs. Contains 38 rules across 7 categories covering resource design, error handling, security, pagination, versioning, response format, and documentation.",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "categories": [
+    {
+      "name": "Resource Design",
+      "prefix": "rest",
+      "impact": "CRITICAL",
+      "ruleCount": 8
+    },
+    {
+      "name": "Error Handling",
+      "prefix": "error",
+      "impact": "CRITICAL",
+      "ruleCount": 6
+    },
+    {
+      "name": "Security",
+      "prefix": "sec",
+      "impact": "CRITICAL",
+      "ruleCount": 7
+    },
+    {
+      "name": "Pagination & Filtering",
+      "prefix": "page/filter/sort",
+      "impact": "HIGH",
+      "ruleCount": 6
+    },
+    {
+      "name": "Versioning",
+      "prefix": "ver",
+      "impact": "HIGH",
+      "ruleCount": 4
+    },
+    {
+      "name": "Response Format",
+      "prefix": "resp",
+      "impact": "MEDIUM",
+      "ruleCount": 4
+    },
+    {
+      "name": "Documentation",
+      "prefix": "doc",
+      "impact": "MEDIUM",
+      "ruleCount": 3
+    }
+  ],
   "references": [
     "https://restfulapi.net",
-    "https://restfulapi.net/http-methods",
-    "https://restfulapi.net/http-status-codes",
-    "https://restfulapi.net/resource-naming",
-    "https://restfulapi.net/idempotent-rest-apis",
-    "https://restfulapi.net/hateoas",
     "https://zalando.github.io/restful-api-guidelines",
-    "https://www.ietf.org/rfc/rfc7231.txt",
-    "https://www.ietf.org/rfc/rfc6749.txt",
-    "https://jwt.io",
-    "https://swagger.io/specification",
     "https://github.com/microsoft/api-guidelines",
-    "https://developers.google.com/apis-explorer"
-  ]
+    "https://cloud.google.com/apis/design",
+    "https://swagger.io/specification"
+  ],
+  "keywords": [
+    "api",
+    "rest",
+    "restful",
+    "http",
+    "error-handling",
+    "pagination",
+    "versioning",
+    "security",
+    "openapi",
+    "swagger"
+  ],
+  "rulesTotal": 38,
+  "lastUpdated": "2026-03-14"
 }

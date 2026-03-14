@@ -1,23 +1,25 @@
 ---
 title: Include Validation Error Details
-impact: HIGH
-impactDescription: Enables field-level error feedback for better UX
+impact: CRITICAL
+impactDescription: "Enables field-level error feedback for better UX"
 tags: errors, validation, form-handling, user-experience
 ---
 
 ## Include Validation Error Details
 
+**Impact: CRITICAL (Enables field-level error feedback for better UX)**
+
 When validation fails, provide specific details about which fields failed and why, enabling clients to display targeted error messages.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Single vague validation error
+// ❌ Single vague validation error
 {
   "error": "Validation failed"
 }
 
-// Anti-pattern: List without field association
+// ❌ List without field association
 {
   "errors": [
     "Invalid email",
@@ -26,7 +28,7 @@ When validation fails, provide specific details about which fields failed and wh
   ]
 }
 
-// Anti-pattern: Boolean flags without messages
+// ❌ Boolean flags without messages
 {
   "valid": false,
   "emailValid": false,
@@ -35,7 +37,7 @@ When validation fails, provide specific details about which fields failed and wh
 ```
 
 ```javascript
-// Unhelpful validation response
+// ❌ Unhelpful validation response
 app.post('/users', (req, res) => {
   const errors = validate(req.body);
   if (errors.length > 0) {
@@ -44,10 +46,17 @@ app.post('/users', (req, res) => {
 });
 ```
 
-## Good Example
+**Problems:**
+- Clients cannot highlight specific form fields with their errors
+- Users must guess which fields need attention
+- Multiple form submissions required to discover all errors
+- Frontend validation libraries cannot map errors to form fields
+- No constraint context (e.g., min length, allowed range) for UI feedback
+
+## Correct
 
 ```javascript
-// Detailed validation errors
+// ✅ Detailed validation errors
 const { body, validationResult } = require('express-validator');
 
 const validateUser = [
@@ -96,7 +105,7 @@ app.post('/users', validateUser, (req, res) => {
 ```
 
 ```json
-// Detailed validation error response
+// ✅ Detailed validation error response
 {
   "error": {
     "code": "validation_error",
@@ -134,7 +143,7 @@ app.post('/users', validateUser, (req, res) => {
 ```
 
 ```python
-# FastAPI with detailed validation
+# ✅ FastAPI with detailed validation
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -191,7 +200,7 @@ async def create_user(user: UserCreate):
 ```
 
 ```typescript
-// TypeScript/Zod validation with detailed errors
+// ✅ TypeScript/Zod validation with detailed errors
 import { z } from 'zod';
 import express from 'express';
 
@@ -242,7 +251,7 @@ app.post('/users', (req, res) => {
 ## Nested Object Validation
 
 ```json
-// Validation errors for nested objects
+// ✅ Validation errors for nested objects
 {
   "error": {
     "code": "validation_error",
@@ -272,18 +281,12 @@ app.post('/users', (req, res) => {
 }
 ```
 
-## Why
+**Benefits:**
+- Clients can highlight specific form fields with their errors
+- Users see exactly which fields need attention without guessing
+- Developers can quickly identify validation issues during development
+- Users can fix all issues at once instead of submitting multiple times
+- Frontend validation libraries can map errors directly to form fields
+- Clear validation responses help document expected input formats
 
-1. **Field-Level Feedback**: Clients can highlight specific form fields with their errors.
-
-2. **User Experience**: Users see exactly which fields need attention without guessing.
-
-3. **Efficient Debugging**: Developers can quickly identify validation issues during development.
-
-4. **Batch Correction**: Users can fix all issues at once instead of submitting multiple times.
-
-5. **Localization**: Field-specific messages can be translated appropriately.
-
-6. **Form Libraries**: Frontend validation libraries can map errors directly to form fields.
-
-7. **API Contract**: Clear validation responses help document expected input formats.
+Reference: [JSON:API Error Objects](https://jsonapi.org/format/#error-objects)

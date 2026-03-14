@@ -1,28 +1,30 @@
 ---
 title: Use Machine-Readable Error Codes
-impact: HIGH
-impactDescription: Enables programmatic error handling and client recovery
+impact: CRITICAL
+impactDescription: "Enables programmatic error handling and client recovery"
 tags: errors, error-codes, automation, monitoring
 ---
 
 ## Use Machine-Readable Error Codes
 
+**Impact: CRITICAL (Enables programmatic error handling and client recovery)**
+
 Include standardized, machine-readable error codes alongside human-readable messages to enable programmatic error handling.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Only human-readable messages
+// ❌ Only human-readable messages
 {
   "error": "The user was not found"
 }
 
-// Anti-pattern: HTTP status codes only
+// ❌ HTTP status codes only
 {
   "status": 404
 }
 
-// Anti-pattern: Inconsistent or vague codes
+// ❌ Inconsistent or vague codes
 {
   "error_code": "ERR001"
 }
@@ -37,7 +39,7 @@ Include standardized, machine-readable error codes alongside human-readable mess
 ```
 
 ```javascript
-// No error codes for programmatic handling
+// ❌ No error codes for programmatic handling
 app.get('/users/:id', async (req, res) => {
   const user = await db.findUser(req.params.id);
   if (!user) {
@@ -47,10 +49,18 @@ app.get('/users/:id', async (req, res) => {
 });
 ```
 
-## Good Example
+**Problems:**
+- Clients must parse human-readable messages which change with localization
+- No stable identifier for programmatic error handling
+- Numeric codes are meaningless without a reference table
+- Inconsistent code formats across endpoints
+- Cannot implement targeted recovery strategies per error type
+- Monitoring dashboards cannot categorize errors precisely
+
+## Correct
 
 ```javascript
-// Define error codes as constants
+// ✅ Define error codes as constants
 const ErrorCodes = {
   // Authentication & Authorization
   AUTH_TOKEN_MISSING: 'auth_token_missing',
@@ -159,7 +169,7 @@ app.use((err, req, res, next) => {
 ```
 
 ```python
-# Python with error codes
+# ✅ Python with error codes
 from enum import Enum
 from fastapi import FastAPI, HTTPException
 from typing import Optional, Any
@@ -230,7 +240,7 @@ async def get_user(user_id: int):
 ```
 
 ```json
-// Error response with code
+// ✅ Error response with code
 {
   "error": {
     "code": "inventory_unavailable",
@@ -246,7 +256,7 @@ async def get_user(user_id: int):
 ```
 
 ```typescript
-// Client-side error handling
+// ✅ Client-side error handling
 async function createOrder(orderData: OrderData): Promise<Order> {
   const response = await fetch('/api/orders', {
     method: 'POST',
@@ -296,18 +306,12 @@ async function createOrder(orderData: OrderData): Promise<Order> {
 | Rate Limit | `rate_limit_*` | `rate_limit_exceeded` |
 | Server | `internal_*` or `service_*` | `internal_error`, `service_unavailable` |
 
-## Why
+**Benefits:**
+- Code can switch on error codes to take appropriate recovery action
+- Error codes remain stable even when messages change or are localized
+- Error codes can be documented and referenced in API docs
+- Precise alerting and monitoring dashboards based on error categories
+- Tests can assert on specific error codes rather than message strings
+- Messages can be translated while codes stay constant across locales
 
-1. **Programmatic Handling**: Code can switch on error codes to take appropriate action.
-
-2. **Stability**: Error codes remain stable even when messages change or are localized.
-
-3. **Documentation**: Error codes can be documented and referenced in API docs.
-
-4. **Monitoring**: Error codes enable precise alerting and dashboards.
-
-5. **Client Logic**: Clients can implement specific recovery strategies per error type.
-
-6. **Testing**: Tests can assert on specific error codes.
-
-7. **Internationalization**: Messages can be translated while codes stay constant.
+Reference: [Google Cloud API Error Model](https://cloud.google.com/apis/design/errors)

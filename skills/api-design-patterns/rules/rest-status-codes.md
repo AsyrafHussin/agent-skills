@@ -1,18 +1,20 @@
 ---
 title: Use Appropriate HTTP Status Codes
 impact: CRITICAL
-impactDescription: Enables proper client handling, caching, and monitoring
+impactDescription: "Enables proper client handling, caching, and monitoring"
 tags: rest, http-status, errors, semantics
 ---
 
 ## Use Appropriate HTTP Status Codes
 
+**Impact: CRITICAL (Enables proper client handling, caching, and monitoring)**
+
 Return semantically correct HTTP status codes that accurately describe the result of the operation.
 
-## Bad Example
+## Incorrect
 
 ```javascript
-// Anti-pattern: Always returning 200
+// ❌ Always returning 200
 app.post('/users', async (req, res) => {
   try {
     const user = await db.createUser(req.body);
@@ -37,7 +39,7 @@ app.delete('/users/:id', async (req, res) => {
 ```
 
 ```json
-// Anti-pattern: Error responses with 200 status
+// ❌ Error responses with 200 status
 HTTP/1.1 200 OK
 {
   "success": false,
@@ -45,13 +47,20 @@ HTTP/1.1 200 OK
 }
 ```
 
-## Good Example
+**Problems:**
+- Clients cannot distinguish success from failure without parsing the body
+- HTTP caches will cache error responses as successful
+- Monitoring and APM tools cannot track real error rates
+- Retry logic cannot determine whether to retry based on status code
+- Breaks HTTP standards and confuses developers
+
+## Correct
 
 ```javascript
 const express = require('express');
 const router = express.Router();
 
-// 200 OK - Successful GET, PUT, PATCH
+// ✅ 200 OK - Successful GET, PUT, PATCH
 router.get('/users/:id', async (req, res) => {
   const user = await db.findUser(req.params.id);
   if (!user) {
@@ -63,7 +72,7 @@ router.get('/users/:id', async (req, res) => {
   res.status(200).json(user);
 });
 
-// 201 Created - Successful POST that creates a resource
+// ✅ 201 Created - Successful POST that creates a resource
 router.post('/users', async (req, res) => {
   const user = await db.createUser(req.body);
   res.status(201)
@@ -71,7 +80,7 @@ router.post('/users', async (req, res) => {
     .json(user);
 });
 
-// 204 No Content - Successful DELETE or update with no response body
+// ✅ 204 No Content - Successful DELETE or update with no response body
 router.delete('/users/:id', async (req, res) => {
   const deleted = await db.deleteUser(req.params.id);
   if (!deleted) {
@@ -83,7 +92,7 @@ router.delete('/users/:id', async (req, res) => {
   res.status(204).send();
 });
 
-// 400 Bad Request - Invalid input
+// ✅ 400 Bad Request - Invalid input
 router.post('/users', async (req, res) => {
   if (!req.body.email) {
     return res.status(400).json({
@@ -95,7 +104,7 @@ router.post('/users', async (req, res) => {
   // ...
 });
 
-// 401 Unauthorized - Not authenticated
+// ✅ 401 Unauthorized - Not authenticated
 router.use((req, res, next) => {
   if (!req.headers.authorization) {
     return res.status(401).json({
@@ -106,7 +115,7 @@ router.use((req, res, next) => {
   next();
 });
 
-// 403 Forbidden - Authenticated but not authorized
+// ✅ 403 Forbidden - Authenticated but not authorized
 router.delete('/users/:id', async (req, res) => {
   if (req.user.id !== req.params.id && !req.user.isAdmin) {
     return res.status(403).json({
@@ -117,7 +126,7 @@ router.delete('/users/:id', async (req, res) => {
   // ...
 });
 
-// 409 Conflict - Resource conflict
+// ✅ 409 Conflict - Resource conflict
 router.post('/users', async (req, res) => {
   const exists = await db.userExists(req.body.email);
   if (exists) {
@@ -129,7 +138,7 @@ router.post('/users', async (req, res) => {
   // ...
 });
 
-// 422 Unprocessable Entity - Semantic validation error
+// ✅ 422 Unprocessable Entity - Semantic validation error
 router.post('/orders', async (req, res) => {
   const product = await db.findProduct(req.body.productId);
   if (product.stock < req.body.quantity) {
@@ -173,18 +182,12 @@ router.post('/orders', async (req, res) => {
 | 503 | Service Unavailable | Server temporarily unavailable |
 | 504 | Gateway Timeout | Upstream service timeout |
 
-## Why
+**Benefits:**
+- Status codes convey meaning before clients parse the response body
+- HTTP clients, browsers, and tools handle different status codes appropriately
+- Correct codes enable proper caching (2xx cached, 4xx/5xx not)
+- Infrastructure and APM tools use status codes to track error rates and API health
+- Clients can implement smart retry logic (retry 503, don't retry 400)
+- Following HTTP standards ensures interoperability with tools and services
 
-1. **Semantic Meaning**: Status codes convey meaning before clients even parse the response body.
-
-2. **Client Behavior**: HTTP clients, browsers, and tools handle different status codes appropriately.
-
-3. **Caching**: 2xx responses can be cached; 4xx/5xx cannot. Correct codes enable proper caching.
-
-4. **Monitoring**: Infrastructure and APM tools use status codes to track error rates and API health.
-
-5. **Debugging**: Correct status codes help developers quickly identify the type of issue.
-
-6. **Standards Compliance**: Following HTTP standards ensures interoperability with tools and services.
-
-7. **Retry Logic**: Clients can implement smart retry logic based on status codes (retry 503, don't retry 400).
+Reference: [MDN HTTP Status Codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)

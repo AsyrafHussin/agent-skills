@@ -1,74 +1,53 @@
-# API Design Patterns
+# API Design Patterns v2.0.0
 
-RESTful API design principles and best practices for building consistent, developer-friendly APIs.
+RESTful API design principles for building consistent, developer-friendly APIs.
 
 ## Overview
 
-This skill provides guidance for:
-- RESTful resource design
-- HTTP methods and status codes
-- Error handling patterns
-- Pagination and filtering
-- API versioning
-- Security best practices
+- Resource design with proper HTTP methods and status codes
+- Consistent error handling with machine-readable codes
+- Security (authentication, authorization, rate limiting, CORS)
+- Cursor and offset pagination with filtering and sorting
+- API versioning strategies and deprecation
+- Response format conventions and compression
+- OpenAPI documentation and changelog
+- 38 rules across 7 categories
 
 ## Categories
 
 ### 1. Resource Design (Critical)
-Nouns over verbs, plural resources, proper nesting, HTTP methods, status codes.
+Nouns over verbs, plural resources, proper nesting, HTTP methods, status codes, idempotency, HATEOAS.
 
 ### 2. Error Handling (Critical)
-Consistent error format, meaningful messages, validation details, error codes.
+Consistent error format, meaningful messages, validation details, error codes, request IDs.
 
 ### 3. Security (Critical)
-Authentication, authorization, rate limiting, input validation, CORS.
+Authentication (OAuth2/JWT), authorization (RBAC), rate limiting, input validation, CORS, HTTPS.
 
 ### 4. Pagination & Filtering (High)
-Cursor-based, offset-based, filtering, sorting, field selection.
+Cursor-based and offset pagination, consistent parameters, filtering, sorting.
 
 ### 5. Versioning (High)
-URL path versioning, header versioning, backward compatibility.
+URL path versioning, header versioning, backward compatibility, deprecation strategy.
 
 ### 6. Response Format (Medium)
-Consistent structure, JSON conventions, compression.
+Consistent envelope, JSON naming conventions, sparse fieldsets, compression.
+
+### 7. Documentation (Medium)
+OpenAPI/Swagger specification, request/response examples, API changelog.
 
 ## Usage
 
-Ask Claude to:
-- "Review my API design"
-- "Check REST best practices"
-- "Design error responses"
-- "Review API endpoints"
-
-## Key Principles
-
-### REST Resource Design
-- Use nouns, not verbs: `/users` not `/getUsers`
-- Use plural names: `/users` not `/user`
-- Nest logically: `/users/123/orders`
-- Max 2 levels of nesting
-
-### HTTP Methods
-- GET: Retrieve
-- POST: Create
-- PUT: Full update
-- PATCH: Partial update
-- DELETE: Remove
-
-### Status Codes
-- 200: Success
-- 201: Created
-- 204: No Content
-- 400: Bad Request
-- 401: Unauthorized
-- 403: Forbidden
-- 404: Not Found
-- 422: Validation Error
-- 429: Rate Limited
-- 500: Server Error
+```
+Review my API design
+Check REST best practices for these endpoints
+Design error responses for my API
+Set up pagination for this endpoint
+```
 
 ## References
 
-- [HTTP Status Codes](https://httpstatuses.com/)
-- [JSON:API Specification](https://jsonapi.org/)
-- [OpenAPI Specification](https://swagger.io/specification/)
+- [RESTful API Guidelines](https://restfulapi.net)
+- [Zalando RESTful API Guidelines](https://zalando.github.io/restful-api-guidelines)
+- [Microsoft API Guidelines](https://github.com/microsoft/api-guidelines)
+- [OpenAPI Specification](https://swagger.io/specification)

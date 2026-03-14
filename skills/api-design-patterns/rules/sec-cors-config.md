@@ -1,24 +1,26 @@
 ---
 title: Configure CORS Properly
-impact: HIGH
-impactDescription: Prevents unauthorized cross-origin access
+impact: CRITICAL
+impactDescription: "Prevents unauthorized cross-origin access"
 tags: security, cors, cross-origin, browsers
 ---
 
 ## Configure CORS Properly
 
+**Impact: CRITICAL (Prevents unauthorized cross-origin access)**
+
 Cross-Origin Resource Sharing (CORS) must be configured correctly to allow legitimate cross-origin requests while preventing unauthorized access.
 
-## Bad Example
+## Incorrect
 
 ```javascript
-// Anti-pattern: Allow all origins
+// ❌ Allow all origins
 app.use(cors({
   origin: '*',
   credentials: true  // DANGEROUS: Can't use * with credentials!
 }));
 
-// Anti-pattern: Reflecting origin without validation
+// ❌ Reflecting origin without validation
 app.use((req, res, next) => {
   // Allows ANY origin - security vulnerability
   res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -26,7 +28,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Anti-pattern: Overly permissive headers
+// ❌ Overly permissive headers
 app.use(cors({
   origin: '*',
   methods: '*',
@@ -34,16 +36,24 @@ app.use(cors({
   exposedHeaders: '*'
 }));
 
-// Anti-pattern: Missing CORS entirely for API
+// ❌ Missing CORS entirely for API
 app.get('/api/data', (req, res) => {
   // Browser will block cross-origin requests
   res.json({ data: 'value' });
 });
 ```
 
-## Good Example
+**Problems:**
+- Wildcard origin with credentials allows any website to make authenticated requests
+- Reflecting the Origin header blindly defeats the purpose of CORS
+- Overly permissive headers expose the API to cross-origin attacks
+- Missing CORS configuration blocks legitimate frontend applications
+- Enables CSRF attacks that rely on cross-origin requests
+
+## Correct
 
 ```javascript
+// ✅ Properly configured CORS
 const cors = require('cors');
 
 // Allowed origins whitelist
@@ -131,7 +141,7 @@ app.use('/api/admin', strictCors, adminRouter);
 ```
 
 ```python
-# FastAPI CORS configuration
+# ✅ FastAPI CORS configuration
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -184,7 +194,7 @@ app.mount("/public", public_app)
 ```
 
 ```typescript
-// Dynamic CORS based on subdomain pattern
+// ✅ Dynamic CORS based on subdomain pattern
 const corsOptions = {
   origin: (origin: string | undefined, callback: Function) => {
     if (!origin) {
@@ -218,14 +228,14 @@ const corsOptions = {
 ## Common Patterns
 
 ```javascript
-// Pattern 1: Subdomain allowlist
+// ✅ Pattern 1: Subdomain allowlist
 const isAllowedOrigin = (origin) => {
   if (!origin) return true;
   const url = new URL(origin);
   return url.hostname.endsWith('.myapp.com');
 };
 
-// Pattern 2: Environment-based
+// ✅ Pattern 2: Environment-based
 const origins = {
   production: ['https://myapp.com'],
   staging: ['https://staging.myapp.com'],
@@ -233,7 +243,7 @@ const origins = {
 };
 const allowedOrigins = origins[process.env.NODE_ENV];
 
-// Pattern 3: Database-driven (for multi-tenant)
+// ✅ Pattern 3: Database-driven (for multi-tenant)
 const corsOptions = {
   origin: async (origin, callback) => {
     const tenant = await db.findTenantByDomain(origin);
@@ -242,18 +252,12 @@ const corsOptions = {
 };
 ```
 
-## Why
+**Benefits:**
+- Prevents malicious websites from making unauthorized API calls
+- Proper configuration prevents credential leakage to untrusted origins
+- Blocks CSRF attacks that rely on cross-origin requests
+- Explicitly controls which domains can access your API
+- Preflight caching reduces OPTIONS request overhead
+- Route-specific CORS allows different policies for different endpoints
 
-1. **Security**: Prevents malicious websites from making unauthorized API calls.
-
-2. **Credential Protection**: Proper config prevents credential leakage to untrusted origins.
-
-3. **Attack Prevention**: Blocks CSRF attacks that rely on cross-origin requests.
-
-4. **Controlled Access**: Explicitly whitelist which domains can access your API.
-
-5. **Performance**: Preflight caching reduces OPTIONS request overhead.
-
-6. **Flexibility**: Route-specific CORS allows different policies for different endpoints.
-
-7. **Debugging**: Clear CORS errors help developers identify misconfiguration.
+Reference: [MDN CORS Documentation](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)

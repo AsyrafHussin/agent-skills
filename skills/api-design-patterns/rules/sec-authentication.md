@@ -1,18 +1,20 @@
 ---
 title: Implement Secure Authentication
 impact: CRITICAL
-impactDescription: Protects user data and prevents unauthorized access
+impactDescription: "Protects user data and prevents unauthorized access"
 tags: security, authentication, jwt, oauth2, tokens
 ---
 
 ## Implement Secure Authentication
 
+**Impact: CRITICAL (Protects user data and prevents unauthorized access)**
+
 Use industry-standard authentication mechanisms like OAuth 2.0, JWT, or API keys with proper security practices.
 
-## Bad Example
+## Incorrect
 
 ```javascript
-// Anti-pattern: Basic auth over HTTP
+// ❌ Basic auth over HTTP
 app.use((req, res, next) => {
   const auth = req.headers.authorization;
   const [user, pass] = Buffer.from(auth.split(' ')[1], 'base64')
@@ -23,20 +25,20 @@ app.use((req, res, next) => {
   }
 });
 
-// Anti-pattern: Token in URL
+// ❌ Token in URL
 app.get('/users?token=secret123', (req, res) => {
   // Token visible in logs, browser history, referrer headers
 });
 
-// Anti-pattern: No token expiration
+// ❌ No token expiration
 const token = jwt.sign({ userId: 123 }); // No expiration!
 
-// Anti-pattern: Weak secret
+// ❌ Weak secret
 const token = jwt.sign({ userId: 123 }, 'secret'); // Easily guessable
 ```
 
 ```json
-// Anti-pattern: Credentials in response body
+// ❌ Credentials in response body
 {
   "user": {
     "id": 123,
@@ -46,9 +48,17 @@ const token = jwt.sign({ userId: 123 }, 'secret'); // Easily guessable
 }
 ```
 
-## Good Example
+**Problems:**
+- Plain text credentials can be intercepted over HTTP
+- Tokens in URLs are logged by servers, proxies, and browsers
+- Non-expiring tokens remain valid forever if compromised
+- Weak secrets allow token forgery through brute force
+- Exposing credentials in responses enables account takeover
+
+## Correct
 
 ```javascript
+// ✅ Secure JWT authentication
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
@@ -237,7 +247,7 @@ app.get('/users/me', authenticate, (req, res) => {
 ```
 
 ```python
-# FastAPI with OAuth2 and JWT
+# ✅ FastAPI with OAuth2 and JWT
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from jose import JWTError, jwt
@@ -299,18 +309,12 @@ async def read_users_me(current_user = Depends(get_current_user)):
     return current_user
 ```
 
-## Why
+**Benefits:**
+- Short-lived tokens and refresh rotation limit damage from token theft
+- Bcrypt hashing protects passwords even if the database is compromised
+- HTTP-only cookies prevent XSS attacks on refresh tokens
+- OAuth 2.0/JWT are well-understood, widely supported standards
+- Stateless JWT tokens work well in distributed systems
+- Token-based auth provides clear user identification for audit logging
 
-1. **Data Protection**: Proper authentication protects sensitive user data and operations.
-
-2. **Token Security**: Short-lived tokens and refresh rotation limit damage from token theft.
-
-3. **Password Safety**: Bcrypt hashing protects passwords even if the database is compromised.
-
-4. **Standards Compliance**: OAuth 2.0/JWT are well-understood and widely supported.
-
-5. **Secure Transmission**: HTTP-only cookies prevent XSS attacks on refresh tokens.
-
-6. **Audit Trail**: Token-based auth provides clear user identification for logging.
-
-7. **Scalability**: Stateless JWT tokens work well in distributed systems.
+Reference: [OWASP Authentication Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html)

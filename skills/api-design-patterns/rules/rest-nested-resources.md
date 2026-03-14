@@ -1,33 +1,35 @@
 ---
 title: Design Nested Resources for Hierarchical Relationships
-impact: HIGH
-impactDescription: Clarifies resource relationships and authorization boundaries
+impact: CRITICAL
+impactDescription: "Clarifies resource relationships and authorization boundaries"
 tags: rest, resources, nesting, hierarchy
 ---
 
 ## Design Nested Resources for Hierarchical Relationships
 
+**Impact: CRITICAL (Clarifies resource relationships and authorization boundaries)**
+
 Use nested URLs to represent parent-child relationships between resources, but avoid deep nesting beyond two levels.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Deeply nested resources (3+ levels)
+// ❌ Deeply nested resources (3+ levels)
 GET /companies/123/departments/456/employees/789/projects/101/tasks/202
 POST /organizations/1/teams/2/members/3/assignments/4/subtasks
 
-// Anti-pattern: Flat structure losing context
+// ❌ Flat structure losing context
 GET /tasks/202          // Which project? Which employee?
 GET /comments/999       // Comment on what?
 
-// Anti-pattern: Inconsistent nesting
+// ❌ Inconsistent nesting
 GET /users/123/orders   // Nested
 GET /order-items?orderId=456  // Query param
 GET /products/789/reviews     // Nested again
 ```
 
 ```javascript
-// Overly deep nesting
+// ❌ Overly deep nesting
 app.get('/companies/:companyId/departments/:deptId/employees/:empId/reviews/:reviewId',
   (req, res) => {
     // 4 levels deep - too complex!
@@ -37,10 +39,17 @@ app.get('/companies/:companyId/departments/:deptId/employees/:empId/reviews/:rev
 );
 ```
 
-## Good Example
+**Problems:**
+- URLs become unwieldy and difficult to construct at 3+ levels deep
+- Each nesting level adds required path parameters, complicating client code
+- Inconsistent nesting patterns confuse API consumers
+- Flat structures lose important relationship context
+- Deep nesting makes authorization checks more complex
+
+## Correct
 
 ```json
-// Correct: Maximum 2 levels of nesting
+// ✅ Maximum 2 levels of nesting
 GET /users/123/orders           // User's orders
 GET /orders/456/items           // Order's items
 GET /posts/789/comments         // Post's comments
@@ -55,7 +64,7 @@ GET /tasks?employeeId=789&status=active
 ```
 
 ```javascript
-// Express router with appropriate nesting
+// ✅ Express router with appropriate nesting
 const router = express.Router();
 
 // Parent resource
@@ -79,7 +88,7 @@ router.patch('/order-items/:itemId', updateOrderItem);
 ```
 
 ```python
-# FastAPI with nested resources
+# ✅ FastAPI with nested resources
 from fastapi import APIRouter
 
 router = APIRouter()
@@ -114,7 +123,7 @@ def update_comment(comment_id: int, update: CommentUpdate):
 ```
 
 ```yaml
-# OpenAPI spec with nested resources
+# ✅ OpenAPI spec with nested resources
 openapi: 3.0.0
 paths:
   /users/{userId}/orders:
@@ -143,18 +152,12 @@ paths:
       summary: Get order by ID directly
 ```
 
-## Why
+**Benefits:**
+- Nested URLs clearly show ownership and hierarchy (e.g., `/users/123/orders`)
+- URL structure makes it easy to enforce authorization boundaries
+- Limiting to 2 levels keeps URLs manageable and predictable
+- Both nested and direct access patterns accommodate different use cases
+- Creating under a parent automatically establishes the relationship
+- Enables specific error messages like "Order 456 not found for user 123"
 
-1. **Clarity of Relationships**: Nested URLs clearly show ownership and hierarchy (e.g., `/users/123/orders` shows orders belonging to user 123).
-
-2. **Natural Authorization**: The URL structure makes it easy to enforce that users can only access their own resources.
-
-3. **Avoid Deep Nesting**: Beyond 2 levels, URLs become unwieldy and difficult to work with. Use direct access or query parameters instead.
-
-4. **Flexibility**: Provide both nested and direct access patterns to accommodate different use cases.
-
-5. **Scoped Operations**: Creating a resource under a parent automatically associates them (POST `/users/123/orders` creates an order for user 123).
-
-6. **Better Error Messages**: Nested structure enables specific errors like "Order 456 not found for user 123."
-
-7. **Consistent Patterns**: Establish a predictable pattern that developers can rely on across your API.
+Reference: [REST API Design - Resource Relationships](https://restfulapi.net/resource-naming/)

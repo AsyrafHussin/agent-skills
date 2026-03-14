@@ -1,37 +1,39 @@
 ---
 title: Never Expose Stack Traces in Production
 impact: CRITICAL
-impactDescription: Prevents security vulnerabilities and information disclosure
+impactDescription: "Prevents security vulnerabilities and information disclosure"
 tags: errors, security, production, sensitive-data
 ---
 
 ## Never Expose Stack Traces in Production
 
+**Impact: CRITICAL (Prevents security vulnerabilities and information disclosure)**
+
 Stack traces and internal error details should never be exposed to API clients in production environments, as they reveal implementation details and potential vulnerabilities.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Full stack trace in production response
+// ❌ Full stack trace in production response
 {
   "error": "Cannot read property 'id' of undefined",
   "stack": "TypeError: Cannot read property 'id' of undefined\n    at getUserOrders (/app/src/controllers/orders.js:45:23)\n    at Layer.handle [as handle_request] (/app/node_modules/express/lib/router/layer.js:95:5)\n    at next (/app/node_modules/express/lib/router/route.js:137:13)\n    at authenticate (/app/src/middleware/auth.js:28:5)\n    at /app/node_modules/express/lib/router/index.js:284:15"
 }
 
-// Anti-pattern: Database error details exposed
+// ❌ Database error details exposed
 {
   "error": "SequelizeConnectionError: Connection refused to host 'db.internal.company.com' port 5432",
   "sql": "SELECT * FROM users WHERE id = 1 AND deleted_at IS NULL"
 }
 
-// Anti-pattern: Internal paths and configuration
+// ❌ Internal paths and configuration
 {
   "error": "ENOENT: no such file or directory, open '/var/app/config/secrets.json'"
 }
 ```
 
 ```javascript
-// Dangerous: Exposing all error details
+// ❌ Exposing all error details
 app.use((err, req, res, next) => {
   res.status(500).json({
     error: err.message,
@@ -41,12 +43,19 @@ app.use((err, req, res, next) => {
 });
 ```
 
-## Good Example
+**Problems:**
+- Stack traces reveal file paths, dependencies, and code structure attackers can exploit
+- Database error messages may expose schemas, connection strings, or query logic
+- Internal file paths reveal server configuration and directory structure
+- Framework and version information helps attackers find known vulnerabilities
+- Violates security standards like PCI-DSS and SOC 2
+
+## Correct
 
 ```javascript
+// ✅ Secure error handler
 const isProduction = process.env.NODE_ENV === 'production';
 
-// Secure error handler
 app.use((err, req, res, next) => {
   // Log full error internally
   logger.error('Request error', {
@@ -126,7 +135,7 @@ app.get('/users/:id', async (req, res, next) => {
 ```
 
 ```python
-# FastAPI with secure error handling
+# ✅ FastAPI with secure error handling
 import logging
 import traceback
 from fastapi import FastAPI, Request
@@ -192,7 +201,7 @@ async def generic_error_handler(request: Request, exc: Exception):
 ```
 
 ```json
-// Production error response (safe)
+// ✅ Production error response (safe)
 {
   "error": {
     "code": "internal_error",
@@ -201,7 +210,7 @@ async def generic_error_handler(request: Request, exc: Exception):
   }
 }
 
-// Development error response (with debug info)
+// ✅ Development error response (with debug info)
 {
   "error": {
     "code": "internal_error",
@@ -235,18 +244,12 @@ async def generic_error_handler(request: Request, exc: Exception):
 | User ID | Yes | No |
 | Timestamps | Yes | Optional |
 
-## Why
+**Benefits:**
+- Prevents attackers from exploiting revealed file paths, dependencies, and code structure
+- Protects database schemas, API keys, and other secrets from leaking
+- Hides framework versions that could expose known vulnerabilities
+- Clean error messages present a professional API to consumers
+- Meets compliance requirements for PCI-DSS, SOC 2, and similar standards
+- Request IDs enable correlation between client reports and internal logs
 
-1. **Security**: Stack traces reveal file paths, dependencies, and code structure attackers can exploit.
-
-2. **Information Disclosure**: Internal error messages may expose database schemas, API keys, or other secrets.
-
-3. **Attack Surface**: Knowing which frameworks and versions you use helps attackers find known vulnerabilities.
-
-4. **Professionalism**: Clean error messages present a polished API to consumers.
-
-5. **Compliance**: Many security standards (PCI-DSS, SOC 2) require hiding internal error details.
-
-6. **Debugging**: Request IDs allow correlation between client reports and internal logs.
-
-7. **Development Experience**: Debug info in development helps during development without production risk.
+Reference: [OWASP Improper Error Handling](https://owasp.org/www-community/Improper_Error_Handling)

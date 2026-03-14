@@ -1,18 +1,20 @@
 ---
 title: Enforce HTTPS Only
 impact: CRITICAL
-impactDescription: Protects data in transit from interception
+impactDescription: "Protects data in transit from interception"
 tags: security, https, encryption, tls
 ---
 
 ## Enforce HTTPS Only
 
+**Impact: CRITICAL (Protects data in transit from interception)**
+
 All API traffic must use HTTPS to encrypt data in transit. Never allow unencrypted HTTP connections for APIs.
 
-## Bad Example
+## Incorrect
 
 ```javascript
-// Anti-pattern: HTTP server without TLS
+// ❌ HTTP server without TLS
 const http = require('http');
 const app = require('./app');
 
@@ -21,18 +23,18 @@ http.createServer(app).listen(80, () => {
   // Credentials transmitted in plain text!
 });
 
-// Anti-pattern: Optional HTTPS
+// ❌ Optional HTTPS
 if (process.env.USE_HTTPS === 'true') {
   // HTTPS is optional, not enforced
 }
 
-// Anti-pattern: No redirect from HTTP to HTTPS
+// ❌ No redirect from HTTP to HTTPS
 app.get('/', (req, res) => {
   // Allows HTTP access
   res.json({ message: 'Welcome' });
 });
 
-// Anti-pattern: Insecure cookie settings
+// ❌ Insecure cookie settings
 res.cookie('session', token, {
   secure: false,  // Sent over HTTP!
   httpOnly: true
@@ -40,7 +42,7 @@ res.cookie('session', token, {
 ```
 
 ```json
-// Anti-pattern: HTTP URLs in responses
+// ❌ HTTP URLs in responses
 {
   "user": {
     "id": 123,
@@ -50,9 +52,17 @@ res.cookie('session', token, {
 }
 ```
 
-## Good Example
+**Problems:**
+- Credentials and tokens transmitted in plain text can be intercepted
+- Man-in-the-middle attacks can modify data in transit
+- Cookies without the secure flag are sent over unencrypted connections
+- HTTP URLs in responses encourage insecure client behavior
+- Violates compliance requirements (PCI-DSS, HIPAA, GDPR)
+
+## Correct
 
 ```javascript
+// ✅ HTTPS with security headers
 const https = require('https');
 const fs = require('fs');
 const express = require('express');
@@ -115,7 +125,7 @@ http.createServer((req, res) => {
 ```
 
 ```python
-# FastAPI with HTTPS enforcement
+# ✅ FastAPI with HTTPS enforcement
 from fastapi import FastAPI, Request
 from fastapi.middleware.httpsredirect import HTTPSRedirectMiddleware
 from fastapi.middleware.trustedhost import TrustedHostMiddleware
@@ -162,7 +172,7 @@ async def login(credentials: Credentials):
 ```
 
 ```nginx
-# Nginx HTTPS configuration
+# ✅ Nginx HTTPS configuration
 server {
     listen 80;
     server_name api.example.com;
@@ -197,7 +207,7 @@ server {
 ```
 
 ```yaml
-# Docker Compose with Traefik for automatic HTTPS
+# ✅ Docker Compose with Traefik for automatic HTTPS
 version: '3.8'
 services:
   traefik:
@@ -238,18 +248,12 @@ services:
 | Certificate | Valid, not self-signed |
 | Certificate chain | Complete |
 
-## Why
+**Benefits:**
+- HTTPS encrypts all data in transit, protecting credentials and sensitive data
+- TLS certificates verify server identity, preventing MITM attacks
+- Data integrity ensures content is not modified in transit
+- Meets compliance requirements for PCI-DSS, HIPAA, and GDPR
+- HTTP/2 and many modern web APIs require HTTPS
+- Secure cookies only work over HTTPS connections
 
-1. **Encryption**: HTTPS encrypts all data in transit, protecting credentials and sensitive data.
-
-2. **Authentication**: TLS certificates verify server identity, preventing MITM attacks.
-
-3. **Integrity**: HTTPS ensures data isn't modified in transit.
-
-4. **Compliance**: PCI-DSS, HIPAA, and GDPR require encryption of data in transit.
-
-5. **SEO/Trust**: Browsers mark HTTP as "Not Secure," damaging user trust.
-
-6. **Modern Features**: HTTP/2 and many web APIs require HTTPS.
-
-7. **Cookie Security**: Secure cookies only work over HTTPS.
+Reference: [OWASP Transport Layer Protection](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html)

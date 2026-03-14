@@ -1,31 +1,33 @@
 ---
 title: Handle Non-CRUD Actions on Resources
-impact: HIGH
-impactDescription: Proper handling of complex operations and state transitions
+impact: CRITICAL
+impactDescription: "Proper handling of complex operations and state transitions"
 tags: rest, actions, state-transitions, workflows
 ---
 
 ## Handle Non-CRUD Actions on Resources
 
+**Impact: CRITICAL (Proper handling of complex operations and state transitions)**
+
 Some operations don't fit standard CRUD patterns. Use sub-resources or action endpoints for operations that represent state transitions or complex actions.
 
-## Bad Example
+## Incorrect
 
 ```json
-// Anti-pattern: Verbs in main resource path
+// ❌ Verbs in main resource path
 POST /activateUser/123
 POST /deactivateUser/123
 POST /sendEmailToUser/123
 POST /approveOrder/456
 POST /shipOrder/456
 
-// Anti-pattern: Query parameters for actions
+// ❌ Query parameters for actions
 POST /users/123?action=activate
 POST /orders/456?action=ship&tracking=ABC123
 ```
 
 ```javascript
-// Anti-pattern: Complex PATCH with action semantics
+// ❌ Complex PATCH with action semantics
 app.patch('/orders/:id', (req, res) => {
   // Trying to use PATCH for everything
   if (req.body.status === 'shipped') {
@@ -36,10 +38,18 @@ app.patch('/orders/:id', (req, res) => {
 });
 ```
 
-## Good Example
+**Problems:**
+- Verb-based paths break RESTful naming conventions
+- Query parameter actions are unpredictable and hard to document
+- Overloaded PATCH endpoints hide complex business logic and side effects
+- Difficult to apply fine-grained authorization per action
+- State transition validation gets tangled in a single handler
+- No clear audit trail of specific operations performed
+
+## Correct
 
 ```javascript
-// Sub-resource actions (noun-based)
+// ✅ Sub-resource actions (noun-based)
 const router = express.Router();
 
 // User lifecycle actions
@@ -71,7 +81,7 @@ router.post('/orders/:id/cancel', async (req, res) => {
 ```
 
 ```python
-# FastAPI with action endpoints
+# ✅ FastAPI with action endpoints
 from fastapi import APIRouter, HTTPException
 from enum import Enum
 
@@ -148,7 +158,7 @@ async def bulk_ship_orders(request: BulkShipRequest):
 ```
 
 ```yaml
-# OpenAPI spec for actions
+# ✅ OpenAPI spec for actions
 openapi: 3.0.0
 paths:
   /orders/{orderId}/ship:
@@ -209,18 +219,12 @@ paths:
 | Batch operation | POST /resources/bulk-action | POST /orders/bulk-ship |
 | Controller action | POST /action (no resource ID) | POST /search, POST /calculate |
 
-## Why
+**Benefits:**
+- Action endpoints explicitly show what operation is being performed
+- Each action can have specific validation rules and business logic
+- Complex state transitions are better modeled as explicit actions than PATCH
+- Side effects (notifications, payments) get dedicated endpoints
+- Fine-grained authorization (can ship orders vs. can cancel orders)
+- Each action creates a clear, auditable record of what happened
 
-1. **Clear Intent**: Action endpoints explicitly show what operation is being performed.
-
-2. **Validation**: Each action can have specific validation rules and business logic.
-
-3. **State Machines**: Complex state transitions are better modeled as explicit actions than PATCH operations.
-
-4. **Side Effects**: Actions that trigger notifications, payments, or other side effects deserve dedicated endpoints.
-
-5. **Documentation**: OpenAPI/Swagger can document each action with specific parameters and responses.
-
-6. **Permissions**: Fine-grained authorization (can ship orders vs. can cancel orders).
-
-7. **Audit Trail**: Each action creates a clear, auditable record of what happened.
+Reference: [REST API Design - Actions](https://restfulapi.net/rest-api-design-tutorial-with-example/)
