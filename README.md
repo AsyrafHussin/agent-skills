@@ -1,21 +1,59 @@
 # Agent Skills
 
-A collection of skills for AI coding agents, designed for Claude Code.
+A collection of skills for AI coding agents. Works with Claude Code, Cursor, Codex, Windsurf, and [40+ agents](https://github.com/vercel-labs/skills#supported-agents).
 
-Skills follow the [Agent Skills](https://agentskills.io/) format.
+Skills follow the [Agent Skills](https://agentskills.io/) specification. Discover more at [skills.sh](https://skills.sh).
 
 ## Installation
 
-Install all skills at once:
+### Using npx (recommended)
 
 ```bash
+# Install all skills
 npx skills add AsyrafHussin/agent-skills
+
+# Install a specific skill
+npx skills add AsyrafHussin/agent-skills --skill laravel-best-practices
+
+# Install multiple skills
+npx skills add AsyrafHussin/agent-skills --skill laravel-best-practices --skill seo-best-practices
+
+# Install globally (available across all projects)
+npx skills add AsyrafHussin/agent-skills -g
+
+# Install to a specific agent
+npx skills add AsyrafHussin/agent-skills -a claude-code
+
+# List available skills without installing
+npx skills add AsyrafHussin/agent-skills --list
 ```
 
-Or install a specific skill:
+| Scope | Flag | Location | Use Case |
+|-------|------|----------|----------|
+| Project | (default) | `.claude/skills/` | Shared with team via git |
+| Global | `-g` | `~/.claude/skills/` | Available across all projects |
+
+### Manual installation
 
 ```bash
-npx skills add AsyrafHussin/agent-skills --skill laravel-owasp-security
+git clone https://github.com/AsyrafHussin/agent-skills.git
+
+# Copy all skills
+cp -r agent-skills/skills/* .claude/skills/
+
+# Or copy a single skill
+cp -r agent-skills/skills/laravel-best-practices .claude/skills/
+```
+
+Each skill contains `SKILL.md`, `AGENTS.md`, `rules/`, and `metadata.json`.
+
+### Managing skills
+
+```bash
+npx skills list              # List installed skills
+npx skills find laravel      # Search for skills
+npx skills remove            # Remove installed skills
+npx skills update            # Update all skills to latest
 ```
 
 ## Available Skills
