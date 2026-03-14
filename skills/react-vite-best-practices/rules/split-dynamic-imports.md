@@ -1,7 +1,7 @@
 ---
 title: Use Dynamic Imports for Heavy Components
 impact: CRITICAL
-impactDescription: 30-50% reduction in initial bundle
+impactDescription: "30-50% reduction in initial bundle"
 tags: split, dynamic-imports, lazy-loading, code-splitting, react
 ---
 
@@ -9,12 +9,12 @@ tags: split, dynamic-imports, lazy-loading, code-splitting, react
 
 **Impact: CRITICAL (30-50% reduction in initial bundle)**
 
-Heavy components like charts, editors, and complex forms shouldn't be loaded until needed. Dynamic imports allow loading code on-demand, reducing initial bundle size.
+Heavy components like charts, editors, and complex forms should not be loaded until needed. Dynamic imports allow loading code on-demand, reducing initial bundle size.
 
 ## Incorrect
 
 ```typescript
-// All heavy libraries loaded upfront
+// ❌ Bad: All heavy libraries loaded upfront
 import { Chart } from 'chart.js'
 import ReactQuill from 'react-quill'
 import { PDFViewer } from '@react-pdf/renderer'
@@ -32,14 +32,18 @@ function Dashboard() {
 }
 ```
 
-**Problem:** Chart.js, React Quill, PDF renderer, and Monaco are all loaded even if never used.
+**Problems:**
+- Chart.js, React Quill, PDF renderer, and Monaco are all loaded even if never used
+- Initial bundle bloated with hundreds of KBs of library code
+- Slower Time to Interactive for all users regardless of feature usage
+- Heavy parsing blocks the main thread on mobile devices
 
 ## Correct
 
 ```typescript
+// ✅ Good: Lazy load heavy components
 import { lazy, Suspense, useState } from 'react'
 
-// Lazy load heavy components
 const Chart = lazy(() => import('./components/Chart'))
 const Editor = lazy(() => import('./components/Editor'))
 const PDFViewer = lazy(() => import('./components/PDFViewer'))
@@ -69,14 +73,10 @@ function Dashboard() {
 }
 ```
 
-## Conditional Dynamic Import
-
 ```typescript
-// Load library only when feature is activated
+// ✅ Good: Conditional dynamic import for libraries
 async function exportToPDF() {
-  // pdf-lib is only loaded when user clicks export
   const { PDFDocument } = await import('pdf-lib')
-
   const pdfDoc = await PDFDocument.create()
   // ... generate PDF
 }
@@ -98,15 +98,13 @@ function ExportButton() {
 }
 ```
 
-## Preload on Interaction
-
 ```typescript
+// ✅ Good: Preload on interaction intent
 const HeavyModal = lazy(() => import('./HeavyModal'))
 
 function ModalTrigger() {
   const [isOpen, setIsOpen] = useState(false)
 
-  // Preload when user shows intent
   const preload = () => {
     import('./HeavyModal')
   }
@@ -131,10 +129,8 @@ function ModalTrigger() {
 }
 ```
 
-## Feature Flag Based Loading
-
 ```typescript
-// Only load admin features for admin users
+// ✅ Good: Feature flag based loading
 function App({ user }) {
   const AdminPanel = user.isAdmin
     ? lazy(() => import('./AdminPanel'))
@@ -153,7 +149,12 @@ function App({ user }) {
 }
 ```
 
-## Heavy Library Examples
+**Benefits:**
+- Initial bundle can be 50%+ smaller by deferring heavy libraries
+- Faster Time to Interactive since only critical code is parsed upfront
+- Better user experience on slow connections and mobile devices
+- Preloading on hover makes subsequent loads feel instant
+- Feature-flag loading avoids shipping admin code to regular users
 
 Libraries that should typically be dynamically imported:
 - Chart libraries (Chart.js, Recharts, D3)
@@ -164,8 +165,4 @@ Libraries that should typically be dynamically imported:
 - Map libraries (Mapbox, Google Maps)
 - Markdown renderers
 
-## Impact
-
-- Initial bundle can be 50%+ smaller
-- Faster Time to Interactive
-- Better user experience on slow connections
+Reference: [Vite Dynamic Import](https://vitejs.dev/guide/features.html#dynamic-import) | [React lazy](https://react.dev/reference/react/lazy)

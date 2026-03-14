@@ -1,7 +1,7 @@
 ---
 title: Configure Optimal Minification Settings
 impact: CRITICAL
-impactDescription: 30-50% smaller bundles
+impactDescription: "30-50% smaller bundles"
 tags: build, minification, optimization, compression, vite
 ---
 
@@ -11,7 +11,7 @@ tags: build, minification, optimization, compression, vite
 
 Configure optimal minification settings in Vite to reduce bundle size while maintaining debugging capabilities when needed.
 
-## Bad Example
+## Incorrect
 
 ```tsx
 // vite.config.ts - Disabled or suboptimal minification
@@ -28,7 +28,7 @@ export default defineConfig({
 ```
 
 ```tsx
-// Or using less efficient minifier without configuration
+// Or using terser without configuration
 export default defineConfig({
   plugins: [react()],
   build: {
@@ -59,22 +59,27 @@ function Component() {
 }
 ```
 
-## Good Example
+**Problems:**
+- Disabled minification ships bloated bundles to production
+- Unconfigured terser uses suboptimal defaults and is slower than OXC
+- String property access patterns prevent effective mangling
+- Console and debugger statements leak into production
+
+## Correct
 
 ```tsx
-// vite.config.ts - Optimized minification with esbuild (default)
+// vite.config.ts - Using OXC minification (Vite default)
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
   build: {
-    // esbuild is the default and fastest option
-    minify: 'esbuild',
+    // OXC is the default minifier — fastest option, no config needed
+    // minify: 'oxc',
     // Remove console and debugger in production
     esbuild: {
       drop: ['console', 'debugger'],
-      // Keep legal comments
       legalComments: 'none',
     },
   },
@@ -82,7 +87,7 @@ export default defineConfig({
 ```
 
 ```tsx
-// vite.config.ts - Advanced minification with terser for maximum compression
+// vite.config.ts - Terser for maximum compression (slower builds)
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -92,30 +97,21 @@ export default defineConfig({
     minify: 'terser',
     terserOptions: {
       compress: {
-        // Remove console.* calls
         drop_console: true,
-        // Remove debugger statements
         drop_debugger: true,
-        // Inline single-use functions
         inline: 2,
-        // Remove unreachable code
         dead_code: true,
-        // Optimize boolean expressions
         booleans_as_integers: true,
-        // Multiple optimization passes
         passes: 2,
       },
       mangle: {
-        // Mangle property names (use with caution)
         properties: {
           // Only mangle properties starting with underscore
           regex: /^_/,
         },
       },
       format: {
-        // Remove comments
         comments: false,
-        // Produce ASCII output
         ascii_only: true,
       },
     },
@@ -170,27 +166,11 @@ function processData(data: Data) {
 }
 ```
 
-## Why
+**Benefits:**
+- OXC (default) provides the fastest minification with excellent compression
+- Terser produces 2-5% smaller bundles when every KB matters
+- Removing console/debugger prevents information leakage in production
+- Private class fields (`#`) enable better property mangling
+- Environment-aware logging keeps errors visible while stripping debug logs
 
-Proper minification is essential for production applications:
-
-1. **Significant Size Reduction**: Minification typically reduces JavaScript bundle size by 50-70%, directly improving load times
-
-2. **Faster Parse Time**: Shorter variable names and removed whitespace mean browsers can parse the code faster
-
-3. **Bandwidth Savings**: Smaller files reduce server bandwidth costs and improve performance on slow connections
-
-4. **Code Obfuscation**: While not a security measure, minification makes reverse engineering slightly harder
-
-5. **Console Cleanup**: Removing console statements prevents information leakage and improves runtime performance
-
-Minification Options Compared:
-- **esbuild** (Vite default): Extremely fast, good compression, ideal for development and most production builds
-- **terser**: Slower but produces slightly smaller bundles (2-5% smaller), better for maximum optimization
-
-Best Practices:
-- Use esbuild for faster builds during development
-- Consider terser for production if every KB matters
-- Remove console/debugger statements in production
-- Use private class fields (`#`) for better property mangling
-- Avoid patterns that prevent minification (string property access, `eval`)
+Reference: [Vite Build Options - minify](https://vitejs.dev/config/build-options.html#build-minify)

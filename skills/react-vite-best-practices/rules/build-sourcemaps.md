@@ -1,55 +1,49 @@
 ---
 title: Configure Source Maps for Production Debugging
-impact: MEDIUM
-impactDescription: Better error tracking without exposing source
+impact: CRITICAL
+impactDescription: "Better error tracking without exposing source"
 tags: build, sourcemaps, debugging, production, vite
 ---
 
 ## Configure Source Maps for Production Debugging
 
-**Impact: MEDIUM (Better error tracking without exposing source)**
+**Impact: CRITICAL (Better error tracking without exposing source)**
 
 Configure source maps appropriately for debugging in development and error tracking in production without exposing source code.
 
-## Bad Example
+## Incorrect
 
 ```tsx
-// vite.config.ts - Source maps disabled or misconfigured
+// vite.config.ts - Source maps disabled
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
   build: {
-    // Source maps completely disabled - makes debugging production issues impossible
+    // ❌ Bad: Makes debugging production issues impossible
     sourcemap: false,
   },
 });
 ```
 
 ```tsx
-// Or exposing full source maps in production
+// ❌ Bad: Exposing full source maps in production
 export default defineConfig({
   plugins: [react()],
   build: {
-    // Full source maps accessible to everyone
     sourcemap: true, // Creates .map files served publicly
   },
 });
 ```
 
-```tsx
-// Deployment exposing source maps publicly
-// server.ts
-import express from 'express';
+**Problems:**
+- Disabled source maps make production debugging impossible
+- Full source maps expose your original source code publicly
+- No integration with error tracking services like Sentry
+- Missing CSS source maps in development slows styling work
 
-const app = express();
-
-// BAD: Serves everything including .map files
-app.use(express.static('dist'));
-```
-
-## Good Example
+## Correct
 
 ```tsx
 // vite.config.ts - Environment-appropriate source map configuration
@@ -59,57 +53,18 @@ import react from '@vitejs/plugin-react';
 export default defineConfig(({ mode }) => ({
   plugins: [react()],
   build: {
-    // Use 'hidden' for production - generates maps but doesn't link them in bundles
-    // Use 'true' for staging - full debugging capability
-    sourcemap: mode === 'production' ? 'hidden' : true,
-  },
-}));
-```
-
-```tsx
-// vite.config.ts - Advanced source map configuration
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
-export default defineConfig(({ mode }) => ({
-  plugins: [react()],
-  build: {
+    // ✅ Good: 'hidden' for production, full maps for staging
     sourcemap: mode === 'production' ? 'hidden' : true,
     rollupOptions: {
       output: {
-        sourcemapExcludeSources: mode === 'production', // Exclude source content
+        sourcemapExcludeSources: mode === 'production',
       },
     },
   },
   css: {
-    devSourcemap: true, // CSS source maps in development
+    devSourcemap: true,
   },
 }));
-```
-
-```tsx
-// Upload source maps to error tracking service
-// scripts/upload-sourcemaps.ts
-import { execSync } from 'child_process';
-
-const SENTRY_AUTH_TOKEN = process.env.SENTRY_AUTH_TOKEN;
-const SENTRY_ORG = process.env.SENTRY_ORG;
-const SENTRY_PROJECT = process.env.SENTRY_PROJECT;
-const RELEASE_VERSION = process.env.RELEASE_VERSION;
-
-// Upload source maps to Sentry
-execSync(`
-  sentry-cli releases files ${RELEASE_VERSION} upload-sourcemaps ./dist \
-    --auth-token ${SENTRY_AUTH_TOKEN} \
-    --org ${SENTRY_ORG} \
-    --project ${SENTRY_PROJECT} \
-    --url-prefix '~/'
-`);
-
-// Delete source maps after upload (don't deploy them)
-execSync('find ./dist -name "*.map" -delete');
-
-console.log('Source maps uploaded and deleted from build');
 ```
 
 ```tsx
@@ -130,7 +85,6 @@ export default defineConfig(({ mode }) => ({
       },
       sourcemaps: {
         assets: './dist/**',
-        // Delete source maps after upload
         filesToDeleteAfterUpload: './dist/**/*.map',
       },
     }),
@@ -147,34 +101,20 @@ server {
     listen 80;
     root /var/www/app/dist;
 
-    # Block access to source maps
     location ~* \.map$ {
-        # Only allow from internal IPs
         allow 10.0.0.0/8;
         allow 192.168.0.0/16;
         deny all;
-
-        # Or return 404 entirely
-        # return 404;
     }
 }
 ```
 
-## Why
+**Benefits:**
+- Hidden source maps enable error tracking without exposing source code
+- Sentry integration provides detailed production error reports with original file names
+- CSS source maps in development speed up styling work
+- Server-level blocking adds a second layer of source map protection
 
-Proper source map configuration is critical for both debugging and security:
-
-1. **Production Debugging**: Source maps enable readable stack traces from minified code, making it possible to debug production errors
-
-2. **Security**: Full source maps expose your original source code. Using 'hidden' source maps prevents this while still enabling error tracking
-
-3. **Error Tracking Integration**: Services like Sentry can use uploaded source maps to provide detailed error reports with original file names and line numbers
-
-4. **Development Experience**: Full source maps in development enable seamless debugging with browser DevTools
-
-5. **Legal Protection**: Keeping source maps private protects your intellectual property
-
-Source Map Options in Vite:
 | Option | Description | Use Case |
 |--------|-------------|----------|
 | `false` | No source maps | Not recommended |
@@ -182,9 +122,4 @@ Source Map Options in Vite:
 | `'inline'` | Embeds maps in bundles | Development only |
 | `'hidden'` | Generates .map files without link | Production |
 
-Best Practices:
-- Use `hidden` source maps for production builds
-- Upload source maps to error tracking services before deployment
-- Delete source maps from production deployments
-- Configure server to block public access to any remaining .map files
-- Enable CSS source maps in development for easier styling debug
+Reference: [Vite Build Options - sourcemap](https://vitejs.dev/config/build-options.html#build-sourcemap)

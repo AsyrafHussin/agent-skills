@@ -1,7 +1,7 @@
 ---
 title: Use React.lazy() for Route-Based Splitting
 impact: CRITICAL
-impactDescription: 50-80% smaller initial bundle
+impactDescription: "50-80% smaller initial bundle"
 tags: split, lazy, routes, code-splitting, react
 ---
 
@@ -14,10 +14,8 @@ Loading all route components upfront delays initial page load. Users download co
 ## Incorrect
 
 ```typescript
-// App.tsx
+// ❌ Bad: All imports are eager - loaded immediately
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-
-// All imports are eager - loaded immediately
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import Settings from './pages/Settings'
@@ -39,23 +37,25 @@ function App() {
 }
 ```
 
-**Problem:** All 5 page components are bundled together and loaded on initial page load, even if user only visits the home page.
+**Problems:**
+- All 5 page components are bundled together and loaded on initial page load
+- Users download code for pages they may never visit
+- Larger initial bundle means slower Time to Interactive
+- No benefit from caching individual route chunks
 
 ## Correct
 
 ```typescript
-// App.tsx
+// ✅ Good: Lazy load route components
 import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-// Lazy load route components
 const Home = lazy(() => import('./pages/Home'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Settings = lazy(() => import('./pages/Settings'))
 const Profile = lazy(() => import('./pages/Profile'))
 const Admin = lazy(() => import('./pages/Admin'))
 
-// Loading component
 function PageLoader() {
   return (
     <div className="flex items-center justify-center min-h-screen">
@@ -81,23 +81,8 @@ function App() {
 }
 ```
 
-## With Named Chunks
-
 ```typescript
-// Better debugging with named chunks
-const Dashboard = lazy(() =>
-  import(/* webpackChunkName: "dashboard" */ './pages/Dashboard')
-)
-
-// Vite native way (recommended)
-const Settings = lazy(() => import('./pages/Settings'))
-// Vite automatically names chunks based on file path
-```
-
-## With Preloading
-
-```typescript
-// Preload on hover for instant navigation
+// ✅ Good: Preload on hover for instant navigation
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 
 function NavLink() {
@@ -117,8 +102,11 @@ function NavLink() {
 }
 ```
 
-## Impact
-
-- Initial bundle can be reduced by 50-80%
+**Benefits:**
+- Initial bundle reduced by 50-80% since only the current route is loaded
 - Time to Interactive significantly improved
-- Each route loads only when needed
+- Each route loads only when navigated to
+- Vite automatically names chunks based on file path — no magic comments needed
+- Preloading on hover makes navigation feel instant
+
+Reference: [React lazy](https://react.dev/reference/react/lazy) | [Vite Code Splitting](https://vitejs.dev/guide/build.html#chunking-strategy)

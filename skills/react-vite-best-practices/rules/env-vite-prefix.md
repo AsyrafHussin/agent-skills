@@ -1,7 +1,7 @@
 ---
 title: Use VITE_ Prefix for Environment Variables
 impact: MEDIUM
-impactDescription: Security and proper configuration
+impactDescription: "Security and proper configuration"
 tags: env, configuration, security, vite, environment-variables
 ---
 
@@ -14,24 +14,35 @@ Vite only exposes environment variables prefixed with `VITE_` to client-side cod
 ## Incorrect
 
 ```env
-# .env
+# ❌ Bad: .env
 API_KEY=secret123
 DATABASE_URL=postgres://...
 APP_TITLE=My App
 ```
 
 ```typescript
-// This won't work - variables not exposed
+// ❌ Bad: Variables not exposed - returns undefined
 const apiKey = import.meta.env.API_KEY // undefined
 const title = import.meta.env.APP_TITLE // undefined
 ```
 
-**Problem:** Variables without `VITE_` prefix are not available in client code.
+```env
+# ❌ Bad: Sensitive data with VITE_ prefix (exposed to browser!)
+VITE_DATABASE_URL=postgres://...
+VITE_API_SECRET=secret123
+VITE_PRIVATE_KEY=...
+```
+
+**Problems:**
+- Variables without `VITE_` prefix are not available in client code
+- Sensitive data with `VITE_` prefix is embedded in the bundle and visible to anyone
+- No type safety leads to runtime errors from undefined variables
+- No separation between client-safe and server-only configuration
 
 ## Correct
 
 ```env
-# .env
+# ✅ Good: .env
 # Client-side variables (exposed to browser)
 VITE_API_URL=https://api.example.com
 VITE_APP_TITLE=My App
@@ -43,7 +54,7 @@ API_SECRET=secret123
 ```
 
 ```typescript
-// Access client-side variables
+// ✅ Good: Access client-side variables
 const apiUrl = import.meta.env.VITE_API_URL
 const appTitle = import.meta.env.VITE_APP_TITLE
 const enableAnalytics = import.meta.env.VITE_ENABLE_ANALYTICS === 'true'
@@ -55,9 +66,8 @@ const mode = import.meta.env.MODE
 const baseUrl = import.meta.env.BASE_URL
 ```
 
-## Type-Safe Environment Variables
-
 ```typescript
+// ✅ Good: Type-safe environment variables
 // src/vite-env.d.ts
 /// <reference types="vite/client" />
 
@@ -65,7 +75,6 @@ interface ImportMetaEnv {
   readonly VITE_API_URL: string
   readonly VITE_APP_TITLE: string
   readonly VITE_ENABLE_ANALYTICS: string
-  // Add more as needed
 }
 
 interface ImportMeta {
@@ -73,16 +82,8 @@ interface ImportMeta {
 }
 ```
 
-## Environment Files
-
-```
-.env                # Loaded in all cases
-.env.local          # Loaded in all cases, ignored by git
-.env.[mode]         # Only loaded in specified mode
-.env.[mode].local   # Only loaded in specified mode, ignored by git
-```
-
 ```env
+# ✅ Good: Environment-specific files
 # .env.development
 VITE_API_URL=http://localhost:8000/api
 
@@ -93,12 +94,9 @@ VITE_API_URL=https://api.example.com
 VITE_API_URL=https://staging-api.example.com
 ```
 
-## Runtime Configuration
-
-For values that need to change without rebuild:
-
 ```typescript
-// public/config.js (loaded at runtime)
+// ✅ Good: Runtime configuration for values that change without rebuild
+// public/config.js
 window.APP_CONFIG = {
   apiUrl: 'https://api.example.com',
 }
@@ -109,27 +107,11 @@ export const config = {
 }
 ```
 
-```html
-<!-- index.html -->
-<script src="/config.js"></script>
-```
+**Benefits:**
+- Prevents accidental exposure of secrets like database URLs and API keys
+- Clear separation between client-safe and server-only configuration
+- TypeScript declarations catch undefined variable access at compile time
+- Environment-specific files allow different configs per deployment target
+- Runtime configuration enables config changes without rebuilding
 
-## Never Expose
-
-```env
-# WRONG - These should NEVER have VITE_ prefix
-VITE_DATABASE_URL=...     # Server-only
-VITE_API_SECRET=...       # Server-only
-VITE_PRIVATE_KEY=...      # Server-only
-
-# RIGHT - Keep sensitive data without prefix
-DATABASE_URL=...
-API_SECRET=...
-PRIVATE_KEY=...
-```
-
-## Impact
-
-- Prevents accidental exposure of secrets
-- Clear separation of client/server config
-- Type safety catches undefined variables
+Reference: [Vite Env Variables](https://vitejs.dev/guide/env-and-mode.html)

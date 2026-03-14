@@ -1,7 +1,7 @@
 ---
 title: Optimize Image Loading and Format
 impact: HIGH
-impactDescription: 40-70% reduction in image payload
+impactDescription: "40-70% reduction in image payload"
 tags: asset, images, optimization, webp, lazy-loading
 ---
 
@@ -14,7 +14,7 @@ Unoptimized images are often the largest assets, significantly impacting page lo
 ## Incorrect
 
 ```typescript
-// Large images loaded eagerly
+// ❌ Bad: Large images loaded eagerly with no optimization
 function Gallery() {
   return (
     <div>
@@ -28,14 +28,16 @@ function Gallery() {
 ```
 
 **Problems:**
-- No lazy loading
-- No responsive images
-- No explicit dimensions (layout shift)
-- Potentially oversized images
+- No lazy loading — all images downloaded immediately
+- No responsive images — oversized images on small screens
+- No explicit dimensions — causes Cumulative Layout Shift (CLS)
+- Unoptimized PNG format — WebP/AVIF are significantly smaller
+- Missing alt attributes — accessibility violation
 
 ## Correct
 
 ```typescript
+// ✅ Good: Optimized image loading
 function Gallery() {
   return (
     <div>
@@ -70,13 +72,11 @@ function Gallery() {
 }
 ```
 
-## Responsive Images
-
 ```typescript
+// ✅ Good: Responsive images with format fallback
 function ResponsiveImage() {
   return (
     <picture>
-      {/* WebP for modern browsers */}
       <source
         srcSet="/images/hero-480.webp 480w,
                 /images/hero-768.webp 768w,
@@ -86,7 +86,6 @@ function ResponsiveImage() {
                (max-width: 768px) 768px,
                1200px"
       />
-      {/* Fallback for older browsers */}
       <img
         src="/images/hero-1200.jpg"
         alt="Hero image"
@@ -99,13 +98,8 @@ function ResponsiveImage() {
 }
 ```
 
-## Vite Image Optimization Plugin
-
-```bash
-npm install vite-plugin-image-optimizer -D
-```
-
 ```typescript
+// ✅ Good: Vite image optimization plugin
 // vite.config.ts
 import { defineConfig } from 'vite'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
@@ -113,24 +107,16 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer'
 export default defineConfig({
   plugins: [
     ViteImageOptimizer({
-      png: {
-        quality: 80,
-      },
-      jpeg: {
-        quality: 80,
-      },
-      webp: {
-        lossless: true,
-      },
+      png: { quality: 80 },
+      jpeg: { quality: 80 },
+      webp: { lossless: true },
     }),
   ],
 })
 ```
 
-## Image Component Pattern
-
 ```typescript
-// components/Image.tsx
+// ✅ Good: Reusable Image component
 interface ImageProps {
   src: string
   alt: string
@@ -161,33 +147,18 @@ export function Image({
     />
   )
 }
-
-// Usage
-<Image
-  src="/hero.webp"
-  alt="Hero"
-  width={1200}
-  height={600}
-  priority
-/>
 ```
 
-## Inline Small Images
-
 ```typescript
+// ✅ Good: Inline small images and use URL imports for backgrounds
 // vite.config.ts
 export default defineConfig({
   build: {
-    // Inline images smaller than 4kb as base64
-    assetsInlineLimit: 4096,
+    assetsInlineLimit: 4096, // Inline images < 4KB as base64
   },
 })
-```
 
-## Background Images
-
-```typescript
-// For CSS background images, use ?url suffix
+// For CSS background images
 import heroImage from './images/hero.webp?url'
 
 function Hero() {
@@ -200,8 +171,11 @@ function Hero() {
 }
 ```
 
-## Impact
+**Benefits:**
+- 40-70% reduction in image payload with modern formats (WebP, AVIF)
+- Better LCP (Largest Contentful Paint) with priority loading for hero images
+- Reduced CLS (Cumulative Layout Shift) by specifying explicit dimensions
+- Lazy loading defers off-screen images, speeding up initial page load
+- Automatic inlining of small images eliminates extra HTTP requests
 
-- 40-70% reduction in image payload
-- Better LCP (Largest Contentful Paint)
-- Reduced CLS (Cumulative Layout Shift)
+Reference: [Vite Static Asset Handling](https://vitejs.dev/guide/assets.html) | [web.dev Image Optimization](https://web.dev/fast/#optimize-your-images)

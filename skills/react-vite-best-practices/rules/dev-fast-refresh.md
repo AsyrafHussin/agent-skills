@@ -1,7 +1,7 @@
 ---
 title: Structure Components for Fast Refresh
 impact: HIGH
-impactDescription: Instant updates without losing state
+impactDescription: "Instant updates without losing state"
 tags: dev, fast-refresh, hmr, react, development
 ---
 
@@ -11,12 +11,10 @@ tags: dev, fast-refresh, hmr, react, development
 
 Structure components to take full advantage of React Fast Refresh for instant updates during development.
 
-## Bad Example
+## Incorrect
 
 ```tsx
-// App.tsx - Patterns that break Fast Refresh
-
-// Named exports can break Fast Refresh in some cases
+// ❌ Bad: Named exports can break Fast Refresh in some cases
 export const App = () => {
   return <div>App</div>;
 };
@@ -28,10 +26,9 @@ export const Sidebar = () => <aside>Sidebar</aside>;
 ```
 
 ```tsx
-// UserProfile.tsx - Component with side effects at module level
+// ❌ Bad: Module-level side effects break Fast Refresh
 import { fetchUser } from './api';
 
-// Side effect at module level - breaks Fast Refresh
 const initialUser = await fetchUser('current');
 
 export default function UserProfile() {
@@ -41,7 +38,7 @@ export default function UserProfile() {
 ```
 
 ```tsx
-// Counter.tsx - Mixing components with non-component exports
+// ❌ Bad: Mixing components with non-component exports
 export default function Counter() {
   const [count, setCount] = useState(0);
   return (
@@ -51,27 +48,27 @@ export default function Counter() {
   );
 }
 
-// Non-component export in same file - may break Fast Refresh
 export const MAX_COUNT = 100;
 export const formatCount = (n: number) => n.toLocaleString();
 ```
 
 ```tsx
-// Anonymous component - Fast Refresh can't identify it
-export default function() {
-  return <div>Anonymous</div>;
-}
-
-// Arrow function without name
+// ❌ Bad: Anonymous component - Fast Refresh can't identify it
 export default () => {
-  return <div>Also anonymous</div>;
+  return <div>Anonymous</div>;
 };
 ```
 
-## Good Example
+**Problems:**
+- Multiple components per file may cause full page reloads instead of hot updates
+- Module-level side effects re-execute on every edit, breaking state
+- Non-component exports in component files trigger full module replacement
+- Anonymous components cannot be tracked by Fast Refresh
+
+## Correct
 
 ```tsx
-// App.tsx - Default export for main component
+// ✅ Good: Default export for main component, one per file
 export default function App() {
   return (
     <div>
@@ -86,62 +83,38 @@ export default function App() {
 ```
 
 ```tsx
-// components/Header.tsx - One component per file
-export default function Header() {
-  const { user } = useAuth();
-
-  return (
-    <header className="header">
-      <Logo />
-      <Navigation />
-      <UserMenu user={user} />
-    </header>
-  );
-}
-```
-
-```tsx
-// constants/counter.ts - Separate file for constants
+// ✅ Good: Separate file for constants
+// constants/counter.ts
 export const MAX_COUNT = 100;
 export const MIN_COUNT = 0;
-export const STEP = 1;
 
-// utils/format.ts - Separate file for utilities
+// utils/format.ts
 export function formatCount(n: number): string {
   return n.toLocaleString();
 }
 
 // components/Counter.tsx - Pure component file
 import { useState } from 'react';
-import { MAX_COUNT, MIN_COUNT, STEP } from '../constants/counter';
+import { MAX_COUNT, MIN_COUNT } from '../constants/counter';
 import { formatCount } from '../utils/format';
 
 export default function Counter() {
   const [count, setCount] = useState(0);
 
-  const increment = () => {
-    setCount((c) => Math.min(c + STEP, MAX_COUNT));
-  };
-
-  const decrement = () => {
-    setCount((c) => Math.max(c - STEP, MIN_COUNT));
-  };
-
   return (
     <div className="counter">
-      <button onClick={decrement}>-</button>
+      <button onClick={() => setCount(c => Math.max(c - 1, MIN_COUNT))}>-</button>
       <span>{formatCount(count)}</span>
-      <button onClick={increment}>+</button>
+      <button onClick={() => setCount(c => Math.min(c + 1, MAX_COUNT))}>+</button>
     </div>
   );
 }
 ```
 
 ```tsx
-// UserProfile.tsx - Proper data fetching pattern
+// ✅ Good: Proper data fetching with hooks instead of module-level side effects
 import { useQuery } from '@tanstack/react-query';
 import { fetchUser } from '../api/users';
-import { Skeleton } from './ui/Skeleton';
 
 export default function UserProfile() {
   const { data: user, isLoading, error } = useQuery({
@@ -163,73 +136,17 @@ export default function UserProfile() {
 ```
 
 ```tsx
-// hooks/useCounter.ts - Custom hooks in separate files
-import { useState, useCallback } from 'react';
-
-interface UseCounterOptions {
-  initialValue?: number;
-  min?: number;
-  max?: number;
-  step?: number;
-}
-
-export function useCounter(options: UseCounterOptions = {}) {
-  const { initialValue = 0, min = -Infinity, max = Infinity, step = 1 } = options;
-
-  const [count, setCount] = useState(initialValue);
-
-  const increment = useCallback(() => {
-    setCount((c) => Math.min(c + step, max));
-  }, [step, max]);
-
-  const decrement = useCallback(() => {
-    setCount((c) => Math.max(c - step, min));
-  }, [step, min]);
-
-  const reset = useCallback(() => {
-    setCount(initialValue);
-  }, [initialValue]);
-
-  return { count, increment, decrement, reset, setCount };
-}
-
-// components/Counter.tsx - Component using the hook
-import { useCounter } from '../hooks/useCounter';
-
-export default function Counter() {
-  const { count, increment, decrement, reset } = useCounter({
-    min: 0,
-    max: 100,
-  });
-
-  return (
-    <div>
-      <button onClick={decrement}>-</button>
-      <span>{count}</span>
-      <button onClick={increment}>+</button>
-      <button onClick={reset}>Reset</button>
-    </div>
-  );
-}
-```
-
-```tsx
-// Higher-order components - Preserve display names
-import { ComponentType } from 'react';
-
+// ✅ Good: Set displayName on HOCs for Fast Refresh and DevTools
 export function withAuth<P extends object>(
   WrappedComponent: ComponentType<P>
 ) {
   function WithAuth(props: P) {
     const { user, isLoading } = useAuth();
-
     if (isLoading) return <LoadingSpinner />;
     if (!user) return <Navigate to="/login" />;
-
     return <WrappedComponent {...props} />;
   }
 
-  // Important: Set display name for Fast Refresh and DevTools
   WithAuth.displayName = `WithAuth(${
     WrappedComponent.displayName || WrappedComponent.name || 'Component'
   })`;
@@ -238,21 +155,11 @@ export function withAuth<P extends object>(
 }
 ```
 
-## Why
-
-React Fast Refresh provides instant feedback during development, but requires specific patterns:
-
-1. **State Preservation**: Fast Refresh keeps component state intact during edits, so you don't lose form inputs or scroll position
-
-2. **Quick Iteration**: Changes reflect in ~50ms, enabling rapid UI development and experimentation
-
-3. **Error Recovery**: When errors occur, fixing them restores the previous state without full reload
-
-4. **Accurate Updates**: Only changed components re-render, maintaining the accuracy of your development view
-
-5. **Better DX**: Developers can focus on code changes without managing browser state
-
-Fast Refresh Requirements:
+**Benefits:**
+- State preserved across edits — no losing form inputs or scroll position
+- Changes reflect in ~50ms, enabling rapid UI iteration
+- Error recovery restores previous state without full reload
+- Only changed components re-render, keeping the rest of the app intact
 
 | Pattern | Fast Refresh | Notes |
 |---------|--------------|-------|
@@ -261,12 +168,5 @@ Fast Refresh Requirements:
 | Anonymous function | Fails | Always name components |
 | Multiple components/file | May break | One component per file |
 | Non-component exports | May break | Separate into utility files |
-| Class components | Limited | Function components preferred |
 
-Best Practices:
-- One React component per file
-- Use default exports for components
-- Always name your components (no anonymous functions)
-- Keep constants and utilities in separate files
-- Use hooks for data fetching instead of module-level side effects
-- Set displayName on HOCs and forwardRef components
+Reference: [React Fast Refresh](https://react.dev/learn/editor-setup#your-editor) | [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/tree/main/packages/plugin-react)

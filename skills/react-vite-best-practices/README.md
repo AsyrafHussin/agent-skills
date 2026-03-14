@@ -1,74 +1,48 @@
-# React + Vite Best Practices
+# React + Vite Best Practices v2.0.0
 
-Performance optimization guidelines for React applications built with Vite.
+Performance optimization guide for React applications built with Vite.
 
 ## Overview
 
-This skill provides comprehensive guidance for:
-- Vite configuration optimization
-- Build output optimization
-- Code splitting strategies
-- Development experience improvements
-- Asset handling best practices
+- Build optimization (manual chunks, minification with OXC, tree shaking, compression)
+- Code splitting (React.lazy, Suspense, dynamic imports, prefetch hints)
+- Development performance (dependency prebundling, HMR, Fast Refresh)
+- Asset handling (images, SVGs, fonts, public directory)
+- Environment configuration (VITE_ prefix, modes, secrets)
+- Bundle analysis (rollup-plugin-visualizer)
+- 23 rules across 6 categories
 
 ## Categories
 
 ### 1. Build Optimization (Critical)
-Configure Vite's build process for optimal production output.
+Manual chunks, minification, build targets, sourcemaps, tree shaking, compression, asset hashing.
 
 ### 2. Code Splitting (Critical)
-Implement effective code splitting with React.lazy and dynamic imports.
+Route-based lazy loading, Suspense boundaries, dynamic imports, component lazy loading, prefetch hints.
 
-### 3. Development Performance (High)
-Optimize the development server and HMR for faster iteration.
+### 3. Development (High)
+Dependency prebundling, React Fast Refresh, HMR configuration.
 
 ### 4. Asset Handling (High)
-Handle images, fonts, and other assets efficiently.
+Image optimization, SVG components, font loading, public directory usage.
 
-### 5. Environment Configuration (Medium)
-Manage environment variables securely and type-safely.
+### 5. Environment Config (Medium)
+VITE_ prefix, mode-specific env files, sensitive data protection.
 
-### 6. HMR Optimization (Medium)
-Ensure Hot Module Replacement works smoothly.
-
-### 7. Bundle Analysis (Low-Medium)
-Analyze and optimize bundle composition.
-
-### 8. Advanced Patterns (Low)
-SSR, library mode, and other advanced configurations.
-
-## Quick Start
-
-```typescript
-// vite.config.ts
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    target: 'esnext',
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['react', 'react-dom'],
-        },
-      },
-    },
-  },
-})
-```
+### 6. Bundle Analysis (Medium)
+Bundle visualization with rollup-plugin-visualizer.
 
 ## Usage
 
-This skill triggers automatically when:
-- Configuring Vite projects
-- Optimizing React performance
-- Setting up code splitting
-- Reviewing build output
+```
+Optimize this Vite build config
+Review code splitting in my React app
+Set up lazy loading for routes
+Analyze my bundle size
+```
 
 ## References
 
-- [Vite Documentation](https://vitejs.dev/)
-- [React Documentation](https://react.dev/)
-- [Rollup Output Options](https://rollupjs.org/configuration-options/)
+- [Vite Documentation](https://vite.dev)
+- [React Documentation](https://react.dev)
+- [Rollup Documentation](https://rollupjs.org)

@@ -1,20 +1,20 @@
 ---
 title: Configure Build-Time Compression
-impact: HIGH
-impactDescription: 60-80% smaller asset size
+impact: CRITICAL
+impactDescription: "60-80% smaller asset size"
 tags: build, compression, gzip, brotli, optimization
 ---
 
 ## Configure Build-Time Compression
 
-**Impact: HIGH (60-80% smaller asset size)**
+**Impact: CRITICAL (60-80% smaller asset size)**
 
 Configure build-time compression to serve pre-compressed assets, reducing server load and improving delivery speed.
 
-## Bad Example
+## Incorrect
 
 ```tsx
-// vite.config.ts - No compression configured
+// ❌ Bad: No compression configured
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -28,22 +28,27 @@ export default defineConfig({
 ```
 
 ```tsx
-// server.ts - Runtime compression adds latency
+// ❌ Bad: Runtime compression adds latency
 import express from 'express';
 import compression from 'compression';
 
 const app = express();
 
 // Compresses every response on-the-fly
-// This adds latency and CPU usage
 app.use(compression());
 app.use(express.static('dist'));
 ```
 
-## Good Example
+**Problems:**
+- Server-side runtime compression adds CPU overhead and latency to every request
+- Lower compression levels used at runtime to keep latency acceptable
+- No Brotli support in most runtime compression middleware
+- Compression work repeated for every request instead of done once at build time
+
+## Correct
 
 ```tsx
-// vite.config.ts - Pre-compress assets during build
+// ✅ Good: Pre-compress assets during build
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteCompression from 'vite-plugin-compression';
@@ -56,7 +61,7 @@ export default defineConfig({
       algorithm: 'gzip',
       ext: '.gz',
       threshold: 1024, // Only compress files > 1KB
-      deleteOriginFile: false, // Keep original files
+      deleteOriginFile: false,
     }),
     // Also generate Brotli compressed files for modern browsers
     viteCompression({
@@ -66,15 +71,13 @@ export default defineConfig({
     }),
   ],
   build: {
-    // Ensure assets are optimized before compression
     cssMinify: true,
-    minify: 'esbuild',
   },
 });
 ```
 
 ```tsx
-// vite.config.ts - Advanced compression with custom options
+// ✅ Good: Advanced compression with maximum quality
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import viteCompression from 'vite-plugin-compression';
@@ -83,7 +86,6 @@ import { constants as zlibConstants } from 'zlib';
 export default defineConfig({
   plugins: [
     react(),
-    // Gzip with optimal settings
     viteCompression({
       algorithm: 'gzip',
       ext: '.gz',
@@ -93,7 +95,6 @@ export default defineConfig({
       },
       filter: /\.(js|css|html|json|svg|txt|xml|wasm)$/i,
     }),
-    // Brotli with optimal settings
     viteCompression({
       algorithm: 'brotliCompress',
       ext: '.br',
@@ -115,19 +116,13 @@ server {
     listen 80;
     root /var/www/app/dist;
 
-    # Enable gzip and brotli static serving
     gzip_static on;
     brotli_static on;
 
     location ~* \.(js|css|html|json|svg|txt|xml|wasm)$ {
-        # Try to serve pre-compressed file first
         gzip_static on;
         brotli_static on;
-
-        # Fallback to original if compressed version doesn't exist
         try_files $uri $uri/ =404;
-
-        # Add proper cache headers
         add_header Cache-Control "public, max-age=31536000, immutable";
         add_header Vary "Accept-Encoding";
     }
@@ -135,17 +130,15 @@ server {
 ```
 
 ```tsx
-// express server with pre-compressed file serving
-// server.ts
+// ✅ Good: Express server with pre-compressed file serving
 import express from 'express';
 import expressStaticGzip from 'express-static-gzip';
 
 const app = express();
 
-// Serve pre-compressed files with proper content negotiation
 app.use('/', expressStaticGzip('dist', {
   enableBrotli: true,
-  orderPreference: ['br', 'gzip'], // Prefer Brotli over gzip
+  orderPreference: ['br', 'gzip'],
   serveStatic: {
     maxAge: '1y',
     immutable: true,
@@ -155,29 +148,16 @@ app.use('/', expressStaticGzip('dist', {
 app.listen(3000);
 ```
 
-## Why
+**Benefits:**
+- Pre-compressed files eliminate on-the-fly compression overhead
+- Maximum compression levels achievable without impacting response latency
+- Brotli offers 15-25% better compression than gzip for text-based content
+- Faster Time to First Byte with no compression overhead per request
+- Both gzip and Brotli versions provide maximum browser compatibility
 
-Build-time compression provides significant benefits:
-
-1. **Reduced Server CPU Usage**: Pre-compressed files eliminate the need for on-the-fly compression, freeing server resources for handling more requests
-
-2. **Consistent Compression Quality**: Build-time compression can use maximum compression levels without impacting response latency
-
-3. **Better Compression Ratios**: Higher compression levels achieve 10-20% better compression than real-time compression with reasonable latency
-
-4. **Brotli Support**: Brotli offers 15-25% better compression than gzip, especially for text-based content
-
-5. **Faster Time to First Byte**: No compression overhead means the server can start sending data immediately
-
-Compression Comparison:
 | Format | Browser Support | Typical Ratio | Best For |
 |--------|-----------------|---------------|----------|
 | Gzip | 95%+ | 70-80% | Universal fallback |
 | Brotli | 90%+ | 80-90% | Modern browsers |
 
-Best Practices:
-- Generate both gzip and Brotli versions for maximum compatibility
-- Set threshold to avoid compressing small files (overhead > benefit)
-- Exclude already-compressed formats (images, videos, fonts)
-- Configure server to serve pre-compressed files with proper Content-Encoding headers
-- Use maximum compression levels during build (slower build, faster delivery)
+Reference: [vite-plugin-compression](https://github.com/vbenjs/vite-plugin-compression)

@@ -1,15 +1,66 @@
 {
-  "version": "1.0.0",
-  "organization": "agent-skills",
-  "date": "January 2026",
-  "abstract": "Comprehensive performance optimization guide for React applications built with Vite, designed for AI agents and LLMs. Contains 27+ rules across 8 categories, prioritized by impact from critical (build optimization, code splitting) to incremental (advanced patterns). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations, and specific impact metrics to guide automated refactoring and code generation.",
+  "name": "React + Vite Best Practices",
+  "version": "2.0.0",
+  "description": "Performance optimization guide for React applications built with Vite. Contains 23 rules across 6 categories covering build optimization, code splitting, development, asset handling, environment config, and bundle analysis.",
+  "framework": "React + Vite",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "categories": [
+    {
+      "name": "Build Optimization",
+      "prefix": "build",
+      "impact": "CRITICAL",
+      "ruleCount": 7
+    },
+    {
+      "name": "Code Splitting",
+      "prefix": "split",
+      "impact": "CRITICAL",
+      "ruleCount": 5
+    },
+    {
+      "name": "Development",
+      "prefix": "dev",
+      "impact": "HIGH",
+      "ruleCount": 3
+    },
+    {
+      "name": "Asset Handling",
+      "prefix": "asset",
+      "impact": "HIGH",
+      "ruleCount": 4
+    },
+    {
+      "name": "Environment Config",
+      "prefix": "env",
+      "impact": "MEDIUM",
+      "ruleCount": 3
+    },
+    {
+      "name": "Bundle Analysis",
+      "prefix": "bundle",
+      "impact": "MEDIUM",
+      "ruleCount": 1
+    }
+  ],
   "references": [
-    "https://vitejs.dev",
+    "https://vite.dev",
     "https://react.dev",
-    "https://github.com/vitejs/vite",
-    "https://github.com/vitejs/vite-plugin-react",
-    "https://rollupjs.org",
-    "https://esbuild.github.io",
-    "https://terser.org"
-  ]
+    "https://rollupjs.org"
+  ],
+  "keywords": [
+    "react",
+    "vite",
+    "performance",
+    "build-optimization",
+    "code-splitting",
+    "lazy-loading",
+    "hmr",
+    "bundle-size"
+  ],
+  "rulesTotal": 23,
+  "lastUpdated": "2026-03-14"
 }

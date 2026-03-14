@@ -8,39 +8,29 @@ The section ID (in parentheses) is the filename prefix used to group rules.
 ## 1. Build Optimization (build)
 
 **Impact:** CRITICAL
-**Description:** Optimizing Vite build configuration and output has the highest impact on production bundle size, load time, and caching efficiency. These rules ensure minimal bundle size and optimal delivery.
+**Description:** Vite build configuration for production. Manual chunk splitting, minification (OXC default, Terser for max compression), modern browser targets, sourcemap configuration, tree shaking, gzip/Brotli compression, and content-based asset hashing.
 
 ## 2. Code Splitting (split)
 
 **Impact:** CRITICAL
-**Description:** Strategic code splitting reduces initial bundle size by 50-80%, dramatically improving Time to Interactive and First Contentful Paint. Load only what's needed, when it's needed.
+**Description:** Route-based and component-level code splitting with React.lazy() and Suspense. Dynamic imports for heavy libraries, strategic Suspense boundary placement, and prefetch hints for anticipated navigation.
 
-## 3. Development Performance (dev)
+## 3. Development (dev)
 
 **Impact:** HIGH
-**Description:** Fast development iteration with instant feedback loops. Optimizing Vite's dev server, dependency pre-bundling, and HMR reduces build times and improves developer productivity.
+**Description:** Development server performance. Dependency pre-bundling with optimizeDeps, React Fast Refresh patterns for reliable HMR, and server configuration for HMR overlay, Docker, and proxy setups.
 
 ## 4. Asset Handling (asset)
 
 **Impact:** HIGH
-**Description:** Proper asset optimization (images, SVGs, fonts) reduces page weight by 40-70% and improves Core Web Vitals. Critical for performance on slower networks.
+**Description:** Static asset optimization. Image lazy loading and responsive formats, SVG-as-React-components with SVGR, self-hosted web fonts with preloading, and correct usage of the public directory vs JavaScript imports.
 
-## 5. Environment Configuration (env)
-
-**Impact:** MEDIUM
-**Description:** Proper environment variable handling ensures security (no leaked secrets) and correct configuration across development, staging, and production environments.
-
-## 6. HMR Optimization (hmr)
+## 5. Environment Config (env)
 
 **Impact:** MEDIUM
-**Description:** React Fast Refresh and HMR optimization preserve component state during development, enabling instant visual feedback without full page reloads.
+**Description:** Environment variable management. The VITE_ prefix for client-side exposure, mode-specific env files (.env.production, .env.staging), and protecting sensitive data from being embedded in the client bundle.
 
-## 7. Bundle Analysis (bundle)
+## 6. Bundle Analysis (bundle)
 
-**Impact:** LOW-MEDIUM
-**Description:** Tools and techniques for analyzing bundle composition, identifying bloat, and ensuring proper tree shaking. Essential for maintaining long-term bundle health.
-
-## 8. Advanced Patterns (advanced)
-
-**Impact:** LOW
-**Description:** Specialized patterns for SSR, library mode, multi-page apps, Web Workers, and WebAssembly. Apply only when these specific use cases are required.
+**Impact:** MEDIUM
+**Description:** Bundle size analysis and monitoring. Using rollup-plugin-visualizer to identify large dependencies and optimization opportunities.

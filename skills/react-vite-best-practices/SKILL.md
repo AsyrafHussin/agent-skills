@@ -4,12 +4,19 @@ description: React and Vite performance optimization guidelines. Use when writin
 license: MIT
 metadata:
   author: agent-skills
-  version: "1.0.0"
+  version: "2.0.0"
 ---
 
 # React + Vite Best Practices
 
-Comprehensive performance optimization guide for React applications built with Vite. Contains 40+ rules across 8 categories, prioritized by impact to guide code generation and refactoring.
+Comprehensive performance optimization guide for React applications built with Vite. Contains 23 rules across 6 categories for build optimization, code splitting, development performance, asset handling, environment configuration, and bundle analysis.
+
+## Metadata
+
+- **Version:** 2.0.0
+- **Framework:** React + Vite
+- **Rule Count:** 23 rules across 6 categories
+- **License:** MIT
 
 ## When to Apply
 
@@ -17,8 +24,10 @@ Reference these guidelines when:
 - Configuring Vite for React projects
 - Implementing code splitting and lazy loading
 - Optimizing build output and bundle size
-- Setting up development environment
-- Reviewing code for performance issues
+- Setting up development environment and HMR
+- Handling images, fonts, SVGs, and static assets
+- Managing environment variables across environments
+- Analyzing bundle size and dependencies
 
 ## Rule Categories by Priority
 
@@ -26,80 +35,53 @@ Reference these guidelines when:
 |----------|----------|--------|--------|
 | 1 | Build Optimization | CRITICAL | `build-` |
 | 2 | Code Splitting | CRITICAL | `split-` |
-| 3 | Development Performance | HIGH | `dev-` |
+| 3 | Development | HIGH | `dev-` |
 | 4 | Asset Handling | HIGH | `asset-` |
 | 5 | Environment Config | MEDIUM | `env-` |
-| 6 | HMR Optimization | MEDIUM | `hmr-` |
-| 7 | Bundle Analysis | LOW-MEDIUM | `bundle-` |
-| 8 | Advanced Patterns | LOW | `advanced-` |
+| 6 | Bundle Analysis | MEDIUM | `bundle-` |
 
 ## Quick Reference
 
 ### 1. Build Optimization (CRITICAL)
 
 - `build-manual-chunks` - Configure manual chunks for vendor separation
-- `build-minify-terser` - Use Terser for production minification
-- `build-target-modern` - Target modern browsers for smaller bundles
-- `build-sourcemap-production` - Configure sourcemaps appropriately
-- `build-output-structure` - Organize output directory structure
-- `build-chunk-size-limit` - Set appropriate chunk size warnings
+- `build-minification` - Minification with OXC (default) or Terser
+- `build-target-modern` - Target modern browsers (baseline-widely-available)
+- `build-sourcemaps` - Configure sourcemaps per environment
+- `build-tree-shaking` - Ensure proper tree shaking with ESM
+- `build-compression` - Gzip and Brotli compression
+- `build-asset-hashing` - Content-based hashing for cache busting
 
 ### 2. Code Splitting (CRITICAL)
 
-- `split-route-lazy` - Use React.lazy() for route-based splitting
-- `split-suspense-boundaries` - Wrap lazy components with Suspense
-- `split-dynamic-imports` - Use dynamic imports for heavy components
-- `split-preload-critical` - Preload critical chunks on interaction
-- `split-named-chunks` - Use named chunks for better caching
-- `split-vendor-separation` - Separate vendor from application code
+- `split-route-lazy` - Route-based splitting with React.lazy()
+- `split-suspense-boundaries` - Strategic Suspense boundary placement
+- `split-dynamic-imports` - Dynamic import() for heavy components
+- `split-component-lazy` - Lazy load non-critical components
+- `split-prefetch-hints` - Prefetch chunks on hover/idle/viewport
 
-### 3. Development Performance (HIGH)
+### 3. Development (HIGH)
 
-- `dev-dependency-prebundling` - Configure dependency pre-bundling
-- `dev-exclude-large-deps` - Exclude large deps from optimization
-- `dev-warmup-frequent` - Warmup frequently used modules
-- `dev-server-config` - Optimize dev server configuration
-- `dev-hmr-overlay` - Configure HMR error overlay
+- `dev-dependency-prebundling` - Configure optimizeDeps for faster starts
+- `dev-fast-refresh` - React Fast Refresh patterns
+- `dev-hmr-config` - HMR server configuration
 
 ### 4. Asset Handling (HIGH)
 
-- `asset-inline-limit` - Set appropriate asset inline limit
-- `asset-public-dir` - Configure public directory correctly
-- `asset-import-syntax` - Use correct asset import syntax
-- `asset-svg-components` - Handle SVGs as React components
-- `asset-image-optimization` - Optimize image loading
-- `asset-font-loading` - Optimize font loading strategy
+- `asset-image-optimization` - Image optimization and lazy loading
+- `asset-svg-components` - SVGs as React components with SVGR
+- `asset-fonts` - Web font loading strategy
+- `asset-public-dir` - Public directory vs JavaScript imports
 
-### 5. Environment Configuration (MEDIUM)
+### 5. Environment Config (MEDIUM)
 
-- `env-vite-prefix` - Use VITE_ prefix for client variables
-- `env-type-definitions` - Type environment variables
-- `env-mode-specific` - Use mode-specific env files
-- `env-sensitive-data` - Never expose sensitive data
-- `env-build-time` - Understand build-time replacement
+- `env-vite-prefix` - VITE_ prefix for client variables
+- `env-modes` - Mode-specific environment files
+- `env-sensitive-data` - Never expose secrets in client code
 
-### 6. HMR Optimization (MEDIUM)
+### 6. Bundle Analysis (MEDIUM)
 
-- `hmr-fast-refresh` - Ensure Fast Refresh works correctly
-- `hmr-preserve-state` - Preserve component state during HMR
-- `hmr-boundary-setup` - Set up proper HMR boundaries
-- `hmr-custom-handlers` - Implement custom HMR handlers
-
-### 7. Bundle Analysis (LOW-MEDIUM)
-
-- `bundle-visualizer` - Use rollup-plugin-visualizer
-- `bundle-analyze-deps` - Analyze dependency sizes
-- `bundle-tree-shaking` - Ensure proper tree shaking
-- `bundle-dead-code` - Eliminate dead code
-- `bundle-css-splitting` - Configure CSS code splitting
-
-### 8. Advanced Patterns (LOW)
-
-- `advanced-ssr-config` - Configure for SSR if needed
-- `advanced-library-mode` - Build as library
-- `advanced-multi-page` - Multi-page application setup
-- `advanced-worker-threads` - Web Worker integration
-- `advanced-wasm` - WebAssembly integration
+- `bundle-visualizer` - Analyze bundles with rollup-plugin-visualizer
 
 ## Essential Configurations
 
@@ -120,22 +102,14 @@ export default defineConfig({
   },
 
   build: {
-    target: 'esnext',
-    minify: 'terser',
+    target: 'baseline-widely-available',
     sourcemap: false,
     chunkSizeWarningLimit: 500,
     rollupOptions: {
       output: {
         manualChunks: {
           vendor: ['react', 'react-dom'],
-          router: ['react-router-dom'],
         },
-      },
-    },
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true,
       },
     },
   },
@@ -146,7 +120,6 @@ export default defineConfig({
 
   server: {
     port: 3000,
-    open: true,
     hmr: {
       overlay: true,
     },
@@ -158,30 +131,16 @@ export default defineConfig({
 
 ```typescript
 import { lazy, Suspense } from 'react'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-// Lazy load route components
 const Home = lazy(() => import('./pages/Home'))
 const Dashboard = lazy(() => import('./pages/Dashboard'))
 const Settings = lazy(() => import('./pages/Settings'))
 
-// Named chunks for better debugging
-const Profile = lazy(() =>
-  import(/* webpackChunkName: "profile" */ './pages/Profile')
-)
-
 function App() {
   return (
-    <BrowserRouter>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/settings" element={<Settings />} />
-          <Route path="/profile" element={<Profile />} />
-        </Routes>
-      </Suspense>
-    </BrowserRouter>
+    <Suspense fallback={<LoadingSpinner />}>
+      {/* Routes here */}
+    </Suspense>
   )
 }
 ```
@@ -195,19 +154,11 @@ function App() {
 interface ImportMetaEnv {
   readonly VITE_API_URL: string
   readonly VITE_APP_TITLE: string
-  readonly VITE_ENABLE_ANALYTICS: string
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
-```
-
-```typescript
-// Usage
-const apiUrl = import.meta.env.VITE_API_URL
-const isDev = import.meta.env.DEV
-const isProd = import.meta.env.PROD
 ```
 
 ## How to Use
@@ -217,11 +168,15 @@ Read individual rule files for detailed explanations and code examples:
 ```
 rules/build-manual-chunks.md
 rules/split-route-lazy.md
-rules/_sections.md
+rules/env-vite-prefix.md
 ```
 
-Each rule file contains:
-- Brief explanation of why it matters
-- Incorrect code example with explanation
-- Correct code example with explanation
-- Additional context and references
+## References
+
+- [Vite Documentation](https://vite.dev)
+- [React Documentation](https://react.dev)
+- [Rollup Documentation](https://rollupjs.org)
+
+## Full Compiled Document
+
+For the complete guide with all rules expanded: `AGENTS.md`

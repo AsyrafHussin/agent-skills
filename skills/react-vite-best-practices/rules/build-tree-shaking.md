@@ -1,7 +1,7 @@
 ---
 title: Configure Build for Effective Tree Shaking
 impact: CRITICAL
-impactDescription: 15-30% smaller bundles
+impactDescription: "15-30% smaller bundles"
 tags: build, tree-shaking, optimization, dead-code, vite
 ---
 
@@ -11,10 +11,11 @@ tags: build, tree-shaking, optimization, dead-code, vite
 
 Configure your Vite build to effectively eliminate dead code through tree shaking, reducing bundle size significantly.
 
-## Bad Example
+## Incorrect
 
 ```tsx
-// utils/index.ts - Barrel export that prevents tree shaking
+// ❌ Bad: Barrel export that prevents tree shaking
+// utils/index.ts
 export * from './strings';
 export * from './numbers';
 export * from './dates';
@@ -31,12 +32,11 @@ function Component() {
 ```
 
 ```tsx
-// Importing entire libraries
+// ❌ Bad: Importing entire libraries
 import _ from 'lodash';
 import moment from 'moment';
 
 function processData(items: Item[]) {
-  // Using only 2 functions but importing entire library
   return _.uniqBy(items, 'id').map(item => ({
     ...item,
     date: moment(item.date).format('YYYY-MM-DD'),
@@ -45,7 +45,7 @@ function processData(items: Item[]) {
 ```
 
 ```json
-// package.json - Missing sideEffects field
+// ❌ Bad: package.json missing sideEffects field
 {
   "name": "my-app",
   "version": "1.0.0",
@@ -54,10 +54,17 @@ function processData(items: Item[]) {
 }
 ```
 
-## Good Example
+**Problems:**
+- Barrel exports with `export *` pull in entire modules even when only one function is used
+- Namespace imports (`import *`) prevent the bundler from identifying unused exports
+- Libraries like `lodash` (CJS) and `moment` are not tree-shakeable
+- Missing `sideEffects` field forces the bundler to assume all modules have side effects
+
+## Correct
 
 ```tsx
-// utils/index.ts - Named exports for better tree shaking
+// ✅ Good: Named exports for better tree shaking
+// utils/index.ts
 export { formatString, capitalize, truncate } from './strings';
 export { formatNumber, clamp, round } from './numbers';
 export { formatDate, parseDate, isValidDate } from './dates';
@@ -73,7 +80,7 @@ function Component() {
 ```
 
 ```tsx
-// Import only what you need from tree-shakeable libraries
+// ✅ Good: Import only what you need from tree-shakeable libraries
 import uniqBy from 'lodash-es/uniqBy';
 import { format } from 'date-fns';
 
@@ -86,7 +93,7 @@ function processData(items: Item[]) {
 ```
 
 ```json
-// package.json - Proper sideEffects configuration
+// ✅ Good: package.json with proper sideEffects configuration
 {
   "name": "my-app",
   "version": "1.0.0",
@@ -101,7 +108,7 @@ function processData(items: Item[]) {
 ```
 
 ```tsx
-// vite.config.ts - Optimize dependencies for tree shaking
+// ✅ Good: vite.config.ts - Optimize dependencies for tree shaking
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -122,23 +129,11 @@ export default defineConfig({
 });
 ```
 
-## Why
+**Benefits:**
+- Named exports let the bundler eliminate unused functions at build time
+- ESM-compatible libraries (`lodash-es`, `date-fns`) enable per-function tree shaking
+- The `sideEffects` field tells the bundler which files are safe to remove when unused
+- Aggressive treeshake options maximize dead code elimination
+- Use `rollup-plugin-visualizer` to audit bundle contents and verify tree shaking effectiveness
 
-Tree shaking is a critical optimization technique that:
-
-1. **Dramatically Reduces Bundle Size**: Unused exports are eliminated from the final bundle. A library might be 100KB but you only include the 5KB you actually use
-
-2. **Improves Load Performance**: Smaller bundles mean faster downloads, especially on mobile networks
-
-3. **Enables Modular Architecture**: You can organize code in feature-rich modules without worrying about bloating the bundle
-
-4. **Works with ES Modules**: Tree shaking relies on static analysis of ES module imports/exports, which is why ESM-compatible libraries like `lodash-es` and `date-fns` are preferred
-
-5. **Compounds with Code Splitting**: Combined with code splitting, tree shaking ensures each chunk contains only the code it needs
-
-Key practices for effective tree shaking:
-- Use ES modules (`import`/`export`) instead of CommonJS (`require`/`module.exports`)
-- Prefer libraries that ship ES module builds
-- Avoid namespace imports (`import * as`)
-- Configure `sideEffects` in package.json to help bundlers identify pure modules
-- Use named exports instead of default exports where possible
+Reference: [Vite Build Options - rollupOptions](https://vitejs.dev/config/build-options.html#build-rollupoptions) | [Rollup Tree Shaking](https://rollupjs.org/configuration-options/#treeshake)

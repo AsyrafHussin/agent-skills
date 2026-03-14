@@ -1,37 +1,31 @@
 ---
 title: Target Modern Browsers for Smaller Bundles
 impact: CRITICAL
-impactDescription: 10-15% smaller bundles
-tags: build, target, modern, es2020, optimization
+impactDescription: "10-15% smaller bundles"
+tags: build, target, modern, optimization, vite
 ---
 
 ## Target Modern Browsers for Smaller Bundles
 
 **Impact: CRITICAL (10-15% smaller bundles)**
 
-Vite defaults to a broad browser target for compatibility. Modern browsers support ES2020+ features natively. Targeting older browsers includes unnecessary polyfills and transpilation, increasing bundle size.
+Vite defaults to `'baseline-widely-available'`, which targets browser features that are widely available across all major browsers. Explicitly targeting older browsers includes unnecessary polyfills and transpilation, increasing bundle size.
 
 ## Incorrect
 
 ```typescript
-// vite.config.ts
-export default defineConfig({
-  build: {
-    // Default target includes older browsers
-    // Results in larger bundles with polyfills
-  },
-})
-```
-
-Or explicitly targeting old browsers:
-
-```typescript
+// vite.config.ts - Targeting old browsers unnecessarily
 export default defineConfig({
   build: {
     target: 'es2015', // Too old, includes many polyfills
   },
 })
 ```
+
+**Problems:**
+- Targeting es2015 adds polyfills for features all modern browsers support natively
+- Larger bundle size from unnecessary transpilation
+- Slower builds due to extra transformation passes
 
 ## Correct
 
@@ -43,21 +37,18 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   build: {
-    // Target modern browsers
+    // Default is 'baseline-widely-available' — good for most apps
+    // Use 'esnext' for the smallest bundle if you control the browser environment
     target: 'esnext',
 
     // Or be specific about browser versions
-    // target: ['es2020', 'edge88', 'firefox78', 'chrome87', 'safari14'],
+    // target: ['es2022', 'edge88', 'firefox78', 'chrome87', 'safari14'],
   },
 })
 ```
 
-## With Legacy Browser Support
-
-If you need to support older browsers, use the legacy plugin:
-
 ```typescript
-// vite.config.ts
+// vite.config.ts - With legacy browser support
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import legacy from '@vitejs/plugin-legacy'
@@ -77,15 +68,17 @@ export default defineConfig({
 })
 ```
 
-## Target Options
+**Benefits:**
+- `esnext` produces the smallest bundles by using native browser features
+- `baseline-widely-available` (default) balances size with broad compatibility
+- The `@vitejs/plugin-legacy` plugin provides a fallback for older browsers without penalizing modern ones
+- Specific browser version targets give fine-grained control
 
 | Target | Use Case |
 |--------|----------|
 | `esnext` | Latest features, smallest bundle |
+| `baseline-widely-available` | Default — broad modern browser support |
 | `es2022` | Good balance, wide support |
-| `es2020` | Broader support, slightly larger |
 | Custom array | Specific browser versions |
 
-## Impact
-
-Targeting `esnext` vs `es2015` can reduce bundle size by 10-30% depending on the codebase.
+Reference: [Vite Build Options - target](https://vitejs.dev/config/build-options.html#build-target)

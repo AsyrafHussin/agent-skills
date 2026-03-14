@@ -1,7 +1,7 @@
 ---
 title: Configure Manual Chunks for Vendor Separation
 impact: CRITICAL
-impactDescription: Optimal caching and parallel loading
+impactDescription: "Optimal caching and parallel loading"
 tags: build, chunks, vendor, optimization, rollup
 ---
 
@@ -9,10 +9,7 @@ tags: build, chunks, vendor, optimization, rollup
 
 **Impact: CRITICAL (Optimal caching and parallel loading)**
 
-Without manual chunks, Vite bundles all vendor dependencies into a single chunk or mixes them with application code. This leads to:
-- Large initial bundle downloads
-- Poor cache efficiency (vendor code changes with app code)
-- Slower subsequent page loads
+Without manual chunks, Vite bundles all vendor dependencies into a single chunk or mixes them with application code, leading to large initial downloads and poor cache efficiency.
 
 ## Incorrect
 
@@ -27,7 +24,11 @@ export default defineConfig({
 })
 ```
 
-**Problem:** React, React DOM, and other vendors are bundled with your application code. When you update your app, users must re-download everything.
+**Problems:**
+- React, React DOM, and other vendors are bundled with application code
+- When you update your app, users must re-download everything
+- No parallel loading of separate chunks
+- Poor long-term caching — vendor code invalidated with every app change
 
 ## Correct
 
@@ -60,10 +61,8 @@ export default defineConfig({
 })
 ```
 
-## Advanced: Dynamic Manual Chunks
-
 ```typescript
-// vite.config.ts
+// vite.config.ts - Dynamic manual chunks function
 export default defineConfig({
   build: {
     rollupOptions: {
@@ -91,8 +90,12 @@ export default defineConfig({
 })
 ```
 
-## Benefits
+**Benefits:**
+- Vendor chunks cached separately from app code
+- Browser can download multiple chunks simultaneously
+- App changes don't invalidate vendor cache
+- Smaller, more targeted cache invalidation on updates
 
-- **Better caching:** Vendor chunks cached separately from app code
-- **Parallel loading:** Browser can download multiple chunks simultaneously
-- **Smaller updates:** App changes don't invalidate vendor cache
+> **Note:** Vite is transitioning from Rollup to Rolldown as its bundler. When Rolldown is fully integrated, `advancedChunks` will be the recommended replacement for `manualChunks`, offering more powerful and flexible chunking strategies. Keep an eye on Vite release notes for migration guidance.
+
+Reference: [Vite Build Options - rollupOptions](https://vitejs.dev/config/build-options.html#build-rollupoptions)

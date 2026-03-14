@@ -108,7 +108,7 @@ npx skills add AsyrafHussin/agent-skills --skill php-best-practices
 
 ### [react-vite-best-practices](skills/react-vite-best-practices)
 
-React + Vite performance optimization. Contains 27 rules across 8 categories covering build configuration, code splitting, bundle analysis, HMR, and asset handling.
+React + Vite performance optimization. Contains 23 rules across 6 categories covering build config (OXC minification, tree shaking), code splitting (React.lazy, Suspense), asset handling, environment config, and bundle analysis.
 
 **Example:** `Review this React component for performance issues`
 
