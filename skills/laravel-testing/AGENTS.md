@@ -983,3 +983,365 @@ uses(
 
 uses(Tests\TestCase::class)->in('Unit');
 ```
+
+---
+
+title: Fake AI Agent Responses
+impact: HIGH
+impactDescription: Test agent interactions without real API calls
+tags: testing, ai, agent, fake, assert, laravel-ai-sdk
+---
+
+## Fake AI Agent Responses
+
+**Impact: HIGH (Test agent interactions without real API calls)**
+
+Use `Agent::fake()` to prevent real AI provider calls in tests. Fake responses can be static strings, arrays, or dynamic closures. Assert that agents were prompted with expected inputs.
+
+## Bad Example — Pest
+
+```php
+<?php
+
+use App\Ai\Agents\SalesCoach;
+
+test('coach analyzes transcript', function () {
+    // Real API call — slow, expensive, non-deterministic
+    $response = SalesCoach::make()->prompt('Analyze this...');
+
+    // Different response every run, costs money, requires API key in CI
+    expect((string) $response)->toContain('feedback');
+});
+```
+
+## Good Example — Pest
+
+```php
+<?php
+
+use App\Ai\Agents\SalesCoach;
+use Laravel\Ai\Prompts\AgentPrompt;
+
+test('coach analyzes transcript', function () {
+    SalesCoach::fake(['Great job on the opening.']);
+
+    $response = SalesCoach::make()->prompt('Analyze this transcript...');
+
+    expect((string) $response)->toBe('Great job on the opening.');
+
+    SalesCoach::assertPrompted('Analyze this transcript...');
+});
+
+test('coach responds based on prompt content', function () {
+    SalesCoach::fake(function (AgentPrompt $prompt) {
+        return 'Response for: ' . $prompt->prompt;
+    });
+
+    $response = SalesCoach::make()->prompt('Q4 sales data');
+
+    SalesCoach::assertPrompted(fn (AgentPrompt $prompt) => $prompt->contains('Q4'));
+    SalesCoach::assertNotPrompted('Missing prompt');
+});
+
+test('no unexpected agent calls', function () {
+    SalesCoach::fake()->preventStrayPrompts();
+
+    SalesCoach::make()->prompt('Expected call');
+    // Any unfaked agent call would throw
+});
+```
+
+## Good Example — PHPUnit
+
+```php
+<?php
+
+namespace Tests\Feature;
+
+use App\Ai\Agents\SalesCoach;
+use Laravel\Ai\Prompts\AgentPrompt;
+use Tests\TestCase;
+
+class SalesCoachTest extends TestCase
+{
+    public function test_coach_analyzes_transcript(): void
+    {
+        SalesCoach::fake(['Great job on the opening.']);
+
+        $response = SalesCoach::make()->prompt('Analyze this transcript...');
+
+        $this->assertEquals('Great job on the opening.', (string) $response);
+
+        SalesCoach::assertPrompted('Analyze this transcript...');
+    }
+
+    public function test_no_unexpected_agent_calls(): void
+    {
+        SalesCoach::fake()->preventStrayPrompts();
+
+        SalesCoach::make()->prompt('Expected call');
+    }
+}
+```
+
+**Structured output agents auto-generate fake data matching the schema — no manual setup needed.**
+
+## Why It Matters
+
+- **Fast**: No API calls — tests run in milliseconds
+- **Deterministic**: Same response every run
+- **Free**: No API costs in CI/CD pipelines
+- **Safe**: `preventStrayPrompts()` catches accidental real calls
+
+Reference: [Laravel AI SDK — Testing Agents](https://laravel.com/docs/13.x/ai-sdk#testing-agents)
+
+---
+
+title: Fake AI Image, Audio, and Transcription
+impact: HIGH
+impactDescription: Test media generation without real API calls
+tags: testing, ai, image, audio, transcription, fake, assert, laravel-ai-sdk
+---
+
+## Fake AI Image, Audio, and Transcription
+
+**Impact: HIGH (Test media generation without real API calls)**
+
+Use `Image::fake()`, `Audio::fake()`, and `Transcription::fake()` to prevent real generation calls. Assert prompts, aspect ratios, voices, and diarization.
+
+## Bad Example — Pest
+
+```php
+<?php
+
+use Laravel\Ai\Image;
+
+test('generates product image', function () {
+    // Real API call — slow, expensive, different image every run
+    $image = Image::of('Product photo')->landscape()->generate();
+    expect((string) $image)->not->toBeEmpty();
+});
+```
+
+## Good Example — Pest
+
+```php
+<?php
+
+use Laravel\Ai\Audio;
+use Laravel\Ai\Image;
+use Laravel\Ai\Transcription;
+use Laravel\Ai\Prompts\AudioPrompt;
+use Laravel\Ai\Prompts\ImagePrompt;
+use Laravel\Ai\Prompts\TranscriptionPrompt;
+
+test('generates landscape product image', function () {
+    Image::fake();
+
+    Image::of('A sunset over the ocean')->landscape()->generate();
+
+    Image::assertGenerated(function (ImagePrompt $prompt) {
+        return $prompt->contains('sunset') && $prompt->isLandscape();
+    });
+});
+
+test('generates welcome audio', function () {
+    Audio::fake();
+
+    Audio::of('Welcome to our app.')->female()->generate();
+
+    Audio::assertGenerated(function (AudioPrompt $prompt) {
+        return $prompt->contains('Welcome') && $prompt->isFemale();
+    });
+});
+
+test('transcribes uploaded audio with diarization', function () {
+    Transcription::fake(['Meeting transcript text here.']);
+
+    $transcript = Transcription::fromStorage('meeting.mp3')
+        ->diarize()
+        ->generate();
+
+    expect((string) $transcript)->toBe('Meeting transcript text here.');
+
+    Transcription::assertGenerated(function (TranscriptionPrompt $prompt) {
+        return $prompt->isDiarized();
+    });
+});
+
+test('no unexpected media generation', function () {
+    Image::fake()->preventStrayImages();
+    Audio::fake()->preventStrayAudio();
+    Transcription::fake()->preventStrayTranscriptions();
+});
+```
+
+## Good Example — PHPUnit
+
+```php
+<?php
+
+namespace Tests\Feature;
+
+use Laravel\Ai\Image;
+use Laravel\Ai\Prompts\ImagePrompt;
+use Tests\TestCase;
+
+class ImageGenerationTest extends TestCase
+{
+    public function test_generates_landscape_product_image(): void
+    {
+        Image::fake();
+
+        Image::of('A sunset over the ocean')->landscape()->generate();
+
+        Image::assertGenerated(function (ImagePrompt $prompt) {
+            return $prompt->contains('sunset') && $prompt->isLandscape();
+        });
+    }
+}
+```
+
+## Why It Matters
+
+- **Fast**: No image/audio generation — tests complete in milliseconds
+- **Deterministic**: Controlled fake responses every run
+- **Assertable**: Verify prompts, aspect ratios, voices, and diarization settings
+- **Prevent leaks**: `preventStray*()` methods catch accidental real API calls
+
+Reference: [Laravel AI SDK — Testing](https://laravel.com/docs/13.x/ai-sdk#testing)
+
+---
+
+title: Fake AI Embeddings, Reranking, Files, and Vector Stores
+impact: HIGH
+impactDescription: Test AI data operations without real API calls
+tags: testing, ai, embeddings, reranking, files, vector-stores, fake, assert, laravel-ai-sdk
+---
+
+## Fake AI Embeddings, Reranking, Files, and Vector Stores
+
+**Impact: HIGH (Test AI data operations without real API calls)**
+
+Use `Embeddings::fake()`, `Reranking::fake()`, `Files::fake()`, and `Stores::fake()` to test data operations without provider connections.
+
+## Bad Example — Pest
+
+```php
+<?php
+
+use Illuminate\Support\Str;
+
+test('stores document with embedding', function () {
+    // Real API call to generate embedding — slow, costs money
+    $embedding = Str::of($content)->toEmbeddings();
+    Document::create(['content' => $content, 'embedding' => $embedding]);
+});
+```
+
+## Good Example — Pest
+
+```php
+<?php
+
+use Laravel\Ai\Embeddings;
+use Laravel\Ai\Files;
+use Laravel\Ai\Files\Document;
+use Laravel\Ai\Reranking;
+use Laravel\Ai\Stores;
+use Laravel\Ai\Contracts\Files\StorableFile;
+use Laravel\Ai\Prompts\EmbeddingsPrompt;
+use Laravel\Ai\Prompts\RerankingPrompt;
+
+test('generates document embeddings', function () {
+    Embeddings::fake();
+
+    Embeddings::for(['Laravel is great.'])->generate();
+
+    Embeddings::assertGenerated(function (EmbeddingsPrompt $prompt) {
+        return $prompt->contains('Laravel');
+    });
+});
+
+test('reranks search results', function () {
+    Reranking::fake();
+
+    Reranking::of(['Doc A', 'Doc B'])->rerank('query');
+
+    Reranking::assertReranked(function (RerankingPrompt $prompt) {
+        return $prompt->contains('query');
+    });
+});
+
+test('stores document with provider', function () {
+    Files::fake();
+
+    Document::fromString('Hello, Laravel!', mimeType: 'text/plain')
+        ->as('hello.txt')
+        ->put();
+
+    Files::assertStored(fn (StorableFile $file) =>
+        (string) $file === 'Hello, Laravel!'
+    );
+});
+
+test('creates vector store and adds files', function () {
+    Stores::fake(); // Also fakes file operations
+
+    $store = Stores::create('Knowledge Base');
+    Stores::assertCreated('Knowledge Base');
+
+    $store->add(Document::fromString('Content', 'text/plain')->as('doc.txt'));
+    $store->assertAdded(fn (StorableFile $file) => $file->name() === 'doc.txt');
+});
+
+test('no unexpected data operations', function () {
+    Embeddings::fake()->preventStrayEmbeddings();
+    Files::fake();
+    Stores::fake();
+});
+```
+
+## Good Example — PHPUnit
+
+```php
+<?php
+
+namespace Tests\Feature;
+
+use Laravel\Ai\Embeddings;
+use Laravel\Ai\Prompts\EmbeddingsPrompt;
+use Tests\TestCase;
+
+class EmbeddingTest extends TestCase
+{
+    public function test_generates_document_embeddings(): void
+    {
+        Embeddings::fake();
+
+        Embeddings::for(['Laravel is great.'])->generate();
+
+        Embeddings::assertGenerated(function (EmbeddingsPrompt $prompt) {
+            return $prompt->contains('Laravel');
+        });
+    }
+}
+```
+
+## Why It Matters
+
+- **Fast**: No embedding API calls or provider connections
+- **Deterministic**: `Embeddings::fake()` auto-generates vectors of proper dimensions
+- **Comprehensive**: `Stores::fake()` also fakes file operations automatically
+- **Assertable**: Verify what was generated, stored, added, and removed
+
+Reference: [Laravel AI SDK — Testing](https://laravel.com/docs/13.x/ai-sdk#testing)
+
+---
+
+## How to Use This Guide
+
+1. **For AI Agents**: Reference specific rules by category and rule name when generating or reviewing test code
+2. **For Developers**: Use as a comprehensive reference for Laravel 13 testing best practices
+3. **For Code Review**: Check test implementations against these patterns
+4. **For CI/CD**: Ensure all AI SDK features are properly faked in test suites
