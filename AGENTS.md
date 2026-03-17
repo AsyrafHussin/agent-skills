@@ -3,7 +3,7 @@
 This repository contains comprehensive skills for AI coding agents, optimized for:
 - React + Vite
 - React + TypeScript
-- Laravel 12 + Inertia.js + React
+- Laravel 13 + Inertia.js + React
 - Tailwind CSS
 - React Query + Zustand
 - PHP 8.x
@@ -15,7 +15,7 @@ This repository contains comprehensive skills for AI coding agents, optimized fo
 |-------|-------|----------------|
 | react-vite-best-practices | 40+ | Build optimization, code splitting |
 | typescript-react-patterns | 35+ | Type safety, generics |
-| laravel-best-practices | 45+ | Architecture, Eloquent, security |
+| laravel-best-practices | 31 | Architecture, Eloquent, security |
 | laravel-inertia-react | 30+ | Page components, forms |
 | laravel-testing | 21+ | Pest PHP 4 & PHPUnit 11, HTTP tests, factories, faking |
 | tailwind-best-practices | 35+ | Responsive, dark mode |

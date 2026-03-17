@@ -227,6 +227,21 @@ Response structure is consistent:
 }
 ```
 
+## JSON:API Resources (Laravel 13+)
+
+Laravel 13 adds first-party JSON:API resource support for APIs that need JSON:API specification compliance. Use these when building APIs that must follow the [JSON:API spec](https://jsonapi.org/); for standard APIs, `JsonResource` above remains the recommended approach.
+
+```php
+// JSON:API resources handle:
+// - Resource object serialization with type/id/attributes
+// - Relationship inclusion (included member)
+// - Sparse fieldsets (?fields[users]=name,email)
+// - JSON:API-compliant links and response headers
+
+// Use JsonResource for most APIs.
+// Use JSON:API resources only when clients require JSON:API compliance.
+```
+
 ## Why
 
 - **Consistency**: Same model always produces same JSON structure

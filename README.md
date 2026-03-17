@@ -60,7 +60,7 @@ npx skills update            # Update all skills to latest
 
 ### [laravel-best-practices](skills/laravel-best-practices)
 
-Laravel 12 conventions and architecture. Contains 29 rules across 7 categories.
+Laravel 13 conventions and architecture. Contains 31 rules across 7 categories.
 
 **Example:** `Review this Laravel controller for best practices`
 

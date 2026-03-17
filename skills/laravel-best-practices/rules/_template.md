@@ -9,7 +9,7 @@ tags: tag1, tag2, tag3
 
 **Impact: MEDIUM (optional impact description)**
 
-Brief explanation of the rule and why it matters in Laravel 12 applications. This should be clear and concise, explaining the performance, maintainability, or security implications. Focus on Laravel-specific context and patterns.
+Brief explanation of the rule and why it matters in Laravel 13 applications. This should be clear and concise, explaining the performance, maintainability, or security implications. Focus on Laravel-specific context and patterns.
 
 ## Bad Example
 
@@ -33,7 +33,7 @@ class BadExample
 <?php
 
 // Good code example here
-// Shows the recommended Laravel 12 pattern
+// Shows the recommended Laravel 13 pattern
 class GoodExample
 {
     public function __construct(
@@ -43,7 +43,7 @@ class GoodExample
     public function goodMethod(): ReturnType
     {
         // This demonstrates the correct approach
-        // Using modern PHP 8.3 and Laravel 12 features
+        // Using modern PHP 8.3 and Laravel 13 features
     }
 }
 ```
@@ -55,7 +55,7 @@ class GoodExample
 
 // Alternative patterns or edge cases
 // Advanced usage examples
-// Laravel 12 specific features
+// Laravel 13 specific features
 ```
 
 ## Why It Matters
@@ -64,4 +64,4 @@ class GoodExample
 - **Benefit 2**: Performance/security/maintainability improvement
 - **Benefit 3**: How it helps in real-world Laravel applications
 
-Reference: [Laravel 12 Documentation](https://laravel.com/docs/12.x)
+Reference: [Laravel 13 Documentation](https://laravel.com/docs/13.x)

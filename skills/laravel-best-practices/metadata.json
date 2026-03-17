@@ -1,20 +1,21 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "organization": "Laravel Community",
   "date": "March 2026",
-  "laravelVersion": "12.x",
+  "laravelVersion": "13.x",
   "phpVersion": "8.3+",
-  "rulesTotal": 29,
-  "abstract": "Comprehensive Laravel 12 best practices guide designed for AI agents and LLMs. Contains 29 rules across 7 categories, prioritized by impact from critical (architecture and database patterns) to incremental (performance optimization). Each rule includes detailed explanations, real-world examples with bad and good implementations using PHP 8.3 and Laravel 12 features, and specific impact metrics to guide automated refactoring and code generation. Focuses on modern Laravel patterns including typed properties, constructor property promotion, enums, and readonly properties.",
+  "rulesTotal": 31,
+  "abstract": "Comprehensive Laravel 13 best practices guide designed for AI agents and LLMs. Contains 31 rules across 7 categories, prioritized by impact from critical (architecture and database patterns) to incremental (performance optimization). Each rule includes detailed explanations, real-world examples with bad and good implementations using PHP 8.3 and Laravel 13 features, and specific impact metrics to guide automated refactoring and code generation. Focuses on modern Laravel patterns including typed properties, constructor property promotion, enums, readonly properties, PHP attributes, and vector search.",
   "references": [
     "https://laravel.com",
-    "https://laravel.com/docs/12.x",
-    "https://laravel.com/docs/12.x/eloquent",
-    "https://laravel.com/docs/12.x/controllers",
-    "https://laravel.com/docs/12.x/validation",
-    "https://laravel.com/docs/12.x/eloquent-relationships",
-    "https://laravel.com/docs/12.x/queries",
-    "https://laravel.com/docs/12.x/security",
+    "https://laravel.com/docs/13.x",
+    "https://laravel.com/docs/13.x/eloquent",
+    "https://laravel.com/docs/13.x/controllers",
+    "https://laravel.com/docs/13.x/validation",
+    "https://laravel.com/docs/13.x/eloquent-relationships",
+    "https://laravel.com/docs/13.x/queries",
+    "https://laravel.com/docs/13.x/security",
+    "https://laravel.com/docs/13.x/queues",
     "https://php.net/manual/en/language.types.declarations.php",
     "https://github.com/laravel/laravel"
   ],
@@ -71,6 +72,9 @@
     "Mass assignment protection",
     "API resources for response transformation",
     "Modern PHP 8.3 syntax (readonly properties, constructor promotion)",
-    "Laravel 12 patterns and conventions"
+    "Laravel 13 patterns and conventions",
+    "PHP attributes for middleware and authorization (Laravel 13)",
+    "Vector / semantic search with pgvector (Laravel 13)",
+    "Centralized queue routing (Laravel 13)"
   ]
 }

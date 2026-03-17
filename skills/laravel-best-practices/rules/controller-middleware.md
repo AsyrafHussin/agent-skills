@@ -61,7 +61,39 @@ class AdminController extends Controller
 ## Good Example
 
 ```php
-// Middleware using HasMiddleware interface (Laravel 11+)
+// PHP Attributes (Laravel 13+) — preferred declarative approach
+use App\Models\Comment;
+use App\Models\Post;
+use Illuminate\Routing\Attributes\Controllers\Authorize;
+use Illuminate\Routing\Attributes\Controllers\Middleware;
+
+#[Middleware('auth')]
+#[Middleware('admin')]
+class AdminController extends Controller
+{
+    public function index()
+    {
+        return view('admin.dashboard');
+    }
+
+    #[Middleware('verified')]
+    #[Authorize('manage', [Post::class])]
+    public function posts()
+    {
+        return view('admin.posts');
+    }
+
+    #[Middleware('subscribed')]
+    #[Authorize('create', [Comment::class, 'post'])]
+    public function store(Post $post)
+    {
+        // ...
+    }
+}
+```
+
+```php
+// HasMiddleware interface (Laravel 11+) — still supported
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 
@@ -194,4 +226,5 @@ $middleware->group('api', [
 - **Separation of concerns**: Controllers focus on business logic
 - **Composability**: Stack multiple middleware for complex requirements
 - **Testability**: Middleware tested independently
-- **Declarative**: Clear what protection is applied just by looking at the route/controller
+- **Declarative**: PHP attributes (Laravel 13+) make middleware and authorization visible at the class/method level
+- **Colocated**: `#[Authorize]` keeps policy checks next to the method they protect

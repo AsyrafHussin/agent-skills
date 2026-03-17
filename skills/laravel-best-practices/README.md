@@ -1,6 +1,6 @@
-# Laravel 12 Best Practices
+# Laravel 13 Best Practices
 
-Comprehensive best practices for Laravel 12 applications.
+Comprehensive best practices for Laravel 13 applications.
 
 ## Overview
 

@@ -1,14 +1,14 @@
-# Laravel 12 Best Practices - Complete Guide
+# Laravel 13 Best Practices - Complete Guide
 
-**Version:** 2.0.0
-**Laravel Version:** 12.x
+**Version:** 2.1.0
+**Laravel Version:** 13.x
 **PHP Version:** 8.3+
 **Organization:** Laravel Community
 **Date:** March 2026
 
 ## Overview
 
-Comprehensive best practices guide for Laravel 12 applications, designed for AI agents and LLMs. Contains 30+ rules across 7 categories, prioritized by impact from critical (architecture and database patterns) to incremental (performance optimization). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations using PHP 8.3 and Laravel 12 features, and specific impact metrics to guide automated refactoring and code generation.
+Comprehensive best practices guide for Laravel 13 applications, designed for AI agents and LLMs. Contains 31 rules across 7 categories, prioritized by impact from critical (architecture and database patterns) to incremental (performance optimization). Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations using PHP 8.3 and Laravel 13 features, and specific impact metrics to guide automated refactoring and code generation.
 
 ### Key Features
 
@@ -20,7 +20,7 @@ Comprehensive best practices guide for Laravel 12 applications, designed for AI 
 - Mass assignment protection
 - API resources for response transformation
 - Modern PHP 8.3 syntax (readonly properties, constructor promotion)
-- Laravel 12 patterns and conventions
+- Laravel 13 patterns and conventions
 
 ## Categories
 
@@ -36,10 +36,10 @@ This guide is organized into 7 categories, prioritized by their impact on applic
 
 ### References
 
-- [Laravel 12 Documentation](https://laravel.com/docs/12.x)
-- [Laravel Eloquent](https://laravel.com/docs/12.x/eloquent)
-- [Laravel Controllers](https://laravel.com/docs/12.x/controllers)
-- [Laravel Validation](https://laravel.com/docs/12.x/validation)
+- [Laravel 13 Documentation](https://laravel.com/docs/13.x)
+- [Laravel Eloquent](https://laravel.com/docs/13.x/eloquent)
+- [Laravel Controllers](https://laravel.com/docs/13.x/controllers)
+- [Laravel Validation](https://laravel.com/docs/13.x/validation)
 - [PHP Type Declarations](https://php.net/manual/en/language.types.declarations.php)
 
 ---
@@ -5828,7 +5828,7 @@ public function test_cannot_mass_assign_user_id()
 ## How to Use This Guide
 
 1. **For AI Agents**: Reference specific rules by category and rule name when generating or reviewing code
-2. **For Developers**: Use as a comprehensive reference for Laravel 12 best practices
+2. **For Developers**: Use as a comprehensive reference for Laravel 13 best practices
 3. **For Code Review**: Check implementations against these patterns
 4. **For Refactoring**: Identify patterns to improve existing code
 

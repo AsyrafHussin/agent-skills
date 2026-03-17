@@ -1,17 +1,17 @@
 ---
 name: laravel-best-practices
-description: Laravel 12 conventions and best practices. Use when creating controllers, models, migrations, validation, services, or structuring Laravel applications. Triggers on tasks involving Laravel architecture, Eloquent, database, API development, or PHP patterns.
+description: Laravel 13 conventions and best practices. Use when creating controllers, models, migrations, validation, services, or structuring Laravel applications. Triggers on tasks involving Laravel architecture, Eloquent, database, API development, or PHP patterns.
 license: MIT
 metadata:
   author: Laravel Community
-  version: "2.0.0"
-  laravelVersion: "12.x"
+  version: "2.1.0"
+  laravelVersion: "13.x"
   phpVersion: "8.3+"
 ---
 
-# Laravel 12 Best Practices
+# Laravel 13 Best Practices
 
-Comprehensive best practices guide for Laravel 12 applications. Contains 29 rules across 7 categories for building scalable, maintainable Laravel applications.
+Comprehensive best practices guide for Laravel 13 applications. Contains 31 rules across 7 categories for building scalable, maintainable Laravel applications.
 
 ## When to Apply
 
@@ -45,6 +45,7 @@ Reference these guidelines when:
 - `arch-value-objects` - Encapsulate domain concepts
 - `arch-event-driven` - Decouple with events and listeners
 - `arch-feature-folders` - Organize by domain/feature
+- `arch-queue-routing` - Centralized job queue routing (Laravel 13+)
 
 ### 2. Eloquent & Database (CRITICAL)
 
@@ -57,6 +58,7 @@ Reference these guidelines when:
 - `eloquent-accessors-mutators` - Transform attributes
 - `eloquent-soft-deletes` - Safe deletion with recovery
 - `eloquent-pruning` - Automatic cleanup of old records
+- `eloquent-vector-search` - Semantic search with pgvector (Laravel 13+)
 
 ### 3. Controllers & Routing (HIGH)
 
@@ -347,7 +349,7 @@ Each rule file contains:
 - Brief explanation of why it matters
 - Bad Example with explanation
 - Good Example with explanation
-- Laravel 12 and PHP 8.3 specific context and references
+- Laravel 13 and PHP 8.3 specific context and references
 
 ## Full Compiled Document
 
