@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "organization": "Laravel Community",
+  "date": "March 2026",
+  "laravelVersion": "13.x",
+  "phpVersion": "8.3+",
+  "rulesTotal": 7,
+  "abstract": "Comprehensive Laravel MCP guide for AI agents and LLMs. Contains 7 rules across 5 categories covering MCP server creation, tool development with schemas and responses, prompt and resource definitions, authentication with OAuth and Sanctum, and unit testing. All examples use PHP 8.3 syntax and Laravel 13 conventions.",
+  "references": [
+    "https://laravel.com/docs/13.x/mcp",
+    "https://modelcontextprotocol.io/docs/getting-started/intro",
+    "https://github.com/laravel/mcp"
+  ],
+  "categories": [
+    {
+      "name": "Servers",
+      "prefix": "server",
+      "impact": "CRITICAL",
+      "description": "Creating and registering MCP servers"
+    },
+    {
+      "name": "Tools",
+      "prefix": "tool",
+      "impact": "HIGH",
+      "description": "Building tools with schemas, validation, and responses"
+    },
+    {
+      "name": "Prompts & Resources",
+      "prefix": "prompt, resource",
+      "impact": "MEDIUM",
+      "description": "Reusable prompt templates and data resources for AI clients"
+    },
+    {
+      "name": "Authentication",
+      "prefix": "auth",
+      "impact": "HIGH",
+      "description": "Protecting MCP servers with OAuth 2.1, Sanctum, or custom auth"
+    },
+    {
+      "name": "Testing",
+      "prefix": "test",
+      "impact": "HIGH",
+      "description": "Testing MCP servers with Inspector and unit tests"
+    }
+  ],
+  "keyFeatures": [
+    "MCP server creation with web and local transport",
+    "Tool development with JSON input/output schemas",
+    "Tool annotations (IsReadOnly, IsDestructive, IsIdempotent, IsOpenWorld)",
+    "Structured and streaming tool responses",
+    "Prompt templates with arguments and validation",
+    "Resources and resource templates with URI patterns",
+    "OAuth 2.1 authentication via Passport",
+    "Sanctum token-based authentication",
+    "Authorization with request user context",
+    "MCP Inspector for interactive debugging",
+    "Unit tests with assertOk, assertSee, assertHasErrors"
+  ]
+}

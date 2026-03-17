@@ -42,11 +42,11 @@ This guide is organized into 7 categories, prioritized by their impact on AI-pow
 
 ---
 
-
 title: Create and Configure Agents
 impact: CRITICAL
 impactDescription: Foundation for all AI interactions in Laravel
 tags: agent, create, configure, attributes, provider, model
+---
 
 ## Create and Configure Agents
 
@@ -181,6 +181,7 @@ title: Prompting Agents and Conversation Context
 impact: CRITICAL
 impactDescription: Core interaction pattern for all AI agent usage
 tags: agent, prompt, conversation, context, remember
+---
 
 ## Prompting Agents and Conversation Context
 
@@ -311,6 +312,7 @@ title: Structured Output with JSON Schema
 impact: HIGH
 impactDescription: Type-safe, parseable AI responses
 tags: agent, structured-output, schema, json
+---
 
 ## Structured Output with JSON Schema
 
@@ -383,6 +385,7 @@ title: Streaming, Broadcasting, and Queueing
 impact: HIGH
 impactDescription: Real-time and background AI processing
 tags: agent, streaming, broadcast, queue, sse, vercel
+---
 
 ## Streaming, Broadcasting, and Queueing
 
@@ -494,6 +497,7 @@ title: Agent Middleware
 impact: MEDIUM
 impactDescription: Intercept and modify prompts before they reach the provider
 tags: agent, middleware, logging, pipeline
+---
 
 ## Agent Middleware
 
@@ -581,6 +585,7 @@ title: Anonymous Agents
 impact: MEDIUM
 impactDescription: Quick AI interactions without dedicated agent classes
 tags: agent, anonymous, inline, ad-hoc
+---
 
 ## Anonymous Agents
 
@@ -658,6 +663,7 @@ title: Create Custom Tools
 impact: HIGH
 impactDescription: Give agents abilities beyond text generation
 tags: tool, create, schema, handle, agent
+---
 
 ## Create Custom Tools
 
@@ -717,6 +723,9 @@ class RandomNumberGenerator implements Tool
 ```php
 // Register tools on an agent
 use App\Ai\Tools\RandomNumberGenerator;
+use Laravel\Ai\Contracts\Agent;
+use Laravel\Ai\Contracts\HasTools;
+use Laravel\Ai\Promptable;
 
 class SalesCoach implements Agent, HasTools
 {
@@ -786,6 +795,7 @@ title: Provider Tools
 impact: HIGH
 impactDescription: Built-in web search, URL fetching, file search, and similarity search
 tags: tool, provider, web-search, web-fetch, file-search, similarity-search, rag
+---
 
 ## Provider Tools
 
@@ -911,6 +921,7 @@ title: Generate and Cache Embeddings
 impact: HIGH
 impactDescription: Foundation for semantic search and RAG features
 tags: embeddings, vector, generate, cache, pgvector, search
+---
 
 ## Generate and Cache Embeddings
 
@@ -1025,6 +1036,7 @@ title: Rerank Documents by Relevance
 impact: MEDIUM
 impactDescription: Improve search quality with semantic reranking
 tags: rerank, search, relevance, collection, cohere, jina
+---
 
 ## Rerank Documents by Relevance
 
@@ -1108,6 +1120,7 @@ title: Image Generation
 impact: MEDIUM
 impactDescription: Generate images from text prompts
 tags: image, generate, store, queue, openai, gemini
+---
 
 ## Image Generation
 
@@ -1196,6 +1209,7 @@ title: Audio Generation and Transcription
 impact: MEDIUM
 impactDescription: Text-to-speech and speech-to-text
 tags: audio, tts, transcription, stt, voice, diarize
+---
 
 ## Audio Generation and Transcription
 
@@ -1298,6 +1312,7 @@ title: Files and Vector Stores for RAG
 impact: MEDIUM
 impactDescription: Store files with providers and build searchable knowledge bases
 tags: files, vector-stores, rag, document, storage
+---
 
 ## Files and Vector Stores for RAG
 
@@ -1411,6 +1426,7 @@ title: Provider Failover
 impact: MEDIUM
 impactDescription: Automatic fallback when AI providers fail
 tags: failover, provider, resilience, fallback
+---
 
 ## Provider Failover
 
@@ -1501,6 +1517,7 @@ title: Testing Agents
 impact: HIGH
 impactDescription: Fake agent responses and assert prompts in tests
 tags: testing, agent, fake, assert, mock
+---
 
 ## Testing Agents
 
@@ -1623,6 +1640,7 @@ title: Testing Images, Audio, and Transcriptions
 impact: HIGH
 impactDescription: Fake media generation in tests
 tags: testing, image, audio, transcription, fake, assert
+---
 
 ## Testing Images, Audio, and Transcriptions
 
@@ -1742,6 +1760,7 @@ title: Testing Embeddings, Reranking, Files, and Vector Stores
 impact: HIGH
 impactDescription: Fake data operations in tests
 tags: testing, embeddings, reranking, files, vector-stores, fake, assert
+---
 
 ## Testing Embeddings, Reranking, Files, and Vector Stores
 
@@ -1879,4 +1898,3 @@ Reference: [Laravel AI SDK — Testing](https://laravel.com/docs/13.x/ai-sdk#tes
 2. **For Developers**: Use as a comprehensive reference for Laravel AI SDK best practices
 3. **For Code Review**: Check implementations against these patterns
 4. **For Testing**: Use faking patterns to test all AI features without real API calls
-

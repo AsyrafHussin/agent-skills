@@ -27,6 +27,7 @@ This repository contains comprehensive skills for AI coding agents, optimized fo
 | git-workflow | 25+ | Commits, branching, PRs |
 | testing-best-practices | 35+ | Unit tests, mocking, coverage |
 | laravel-ai-sdk | 17 | Agents, tools, embeddings, testing |
+| laravel-mcp | 7 | MCP servers, tools, prompts, resources |
 
 ## Usage
 

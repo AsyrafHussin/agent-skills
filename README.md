@@ -262,6 +262,18 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-ai-sdk
 
 ---
 
+### [laravel-mcp](skills/laravel-mcp)
+
+Laravel MCP server development. Contains 7 rules across 5 categories covering server creation, tools with schemas, prompts, resources, authentication (OAuth/Sanctum), and testing.
+
+**Example:** `Create an MCP tool that exposes weather data to AI clients`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill laravel-mcp
+```
+
+---
+
 ## License
 
 MIT
