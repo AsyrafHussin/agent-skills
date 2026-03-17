@@ -250,6 +250,18 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-database-optimization
 
 ---
 
+### [laravel-ai-sdk](skills/laravel-ai-sdk)
+
+Laravel AI SDK for building AI-powered features. Contains 17 rules across 7 categories covering agents, tools, structured output, streaming, images, audio, embeddings, vector stores, and testing with fakes.
+
+**Example:** `Create an AI agent that analyzes sales transcripts`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill laravel-ai-sdk
+```
+
+---
+
 ## License
 
 MIT

@@ -1,0 +1,72 @@
+{
+  "version": "1.0.0",
+  "organization": "Laravel Community",
+  "date": "March 2026",
+  "laravelVersion": "13.x",
+  "phpVersion": "8.3+",
+  "rulesTotal": 17,
+  "abstract": "Comprehensive Laravel AI SDK guide for AI agents and LLMs. Contains 17 rules across 7 categories covering agent creation and configuration, custom and provider tools, embeddings and vector search, image and audio generation, file and vector store management, and testing with fakes and assertions. All examples use PHP 8.3 syntax and Laravel 13 conventions.",
+  "references": [
+    "https://laravel.com/docs/13.x/ai-sdk",
+    "https://laravel.com/docs/13.x/queries#vector-similarity-clauses",
+    "https://github.com/laravel/ai"
+  ],
+  "categories": [
+    {
+      "name": "Agents",
+      "prefix": "agent",
+      "impact": "CRITICAL",
+      "description": "Creating, configuring, and prompting AI agents"
+    },
+    {
+      "name": "Tools",
+      "prefix": "tool",
+      "impact": "HIGH",
+      "description": "Custom tools and provider tools for agents"
+    },
+    {
+      "name": "Embeddings & Search",
+      "prefix": "embed",
+      "impact": "HIGH",
+      "description": "Vector embeddings, similarity search, and reranking"
+    },
+    {
+      "name": "Media Generation",
+      "prefix": "media",
+      "impact": "MEDIUM",
+      "description": "Image generation, text-to-speech, and transcription"
+    },
+    {
+      "name": "Files & Storage",
+      "prefix": "files",
+      "impact": "MEDIUM",
+      "description": "File storage with providers and vector stores for RAG"
+    },
+    {
+      "name": "Infrastructure",
+      "prefix": "infra",
+      "impact": "MEDIUM",
+      "description": "Provider failover and resilience patterns"
+    },
+    {
+      "name": "Testing",
+      "prefix": "test",
+      "impact": "HIGH",
+      "description": "Faking AI responses and asserting prompts in tests"
+    }
+  ],
+  "keyFeatures": [
+    "Agent classes with instructions, tools, and structured output",
+    "Conversation context with RemembersConversations",
+    "Streaming responses with SSE and Vercel AI SDK protocol",
+    "Custom tools with JSON schema validation",
+    "Provider tools: WebSearch, WebFetch, FileSearch, SimilaritySearch",
+    "Image generation with storage and queueing",
+    "Audio TTS and speech-to-text transcription",
+    "Vector embeddings with caching",
+    "Document reranking for search relevance",
+    "File and vector store management for RAG",
+    "Provider failover for resilience",
+    "Comprehensive faking and assertion API for testing"
+  ]
+}
