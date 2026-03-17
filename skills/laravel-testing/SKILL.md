@@ -1,23 +1,23 @@
 ---
 name: laravel-testing
-description: Laravel 12 testing with Pest PHP 4 or PHPUnit 11. Use when writing feature tests, unit tests, or any test code in a Laravel application. Triggers on tasks involving HTTP tests, model factories, database assertions, mocking facades, authentication testing, or test organisation patterns.
+description: Laravel 13 testing with Pest PHP 4 or PHPUnit 12. Use when writing feature tests, unit tests, or any test code in a Laravel application. Triggers on tasks involving HTTP tests, model factories, database assertions, mocking facades, authentication testing, or test organisation patterns.
 license: MIT
 metadata:
   author: Laravel Community
-  version: "1.0.0"
-  laravelVersion: "12.x"
+  version: "1.1.0"
+  laravelVersion: "13.x"
   phpVersion: "8.3+"
   pestVersion: "4.x"
-  phpunitVersion: "11.x"
+  phpunitVersion: "12.x"
 ---
 
-# Laravel 12 Testing — Pest PHP 4 & PHPUnit 11
+# Laravel 13 Testing — Pest PHP 4 & PHPUnit 12
 
-> **Supports both Pest PHP 4 and PHPUnit 11.** See Framework Detection below.
+> **Supports both Pest PHP 4 and PHPUnit 12.** See Framework Detection below.
 >
-> **PHPUnit version note:** Laravel 12 ships with `phpunit/phpunit: ^11.5.50` in its default `composer.json`. PHPUnit 12 and 13 exist but are not the Laravel 12 default — to use them, manually update the constraint. All patterns in this skill are compatible with PHPUnit 11, 12, and 13.
+> **PHPUnit version note:** Laravel 13 ships with `phpunit/phpunit: ^12.5.12` in its default `composer.json`. All patterns in this skill are compatible with PHPUnit 11, 12, and 13.
 
-Comprehensive testing guide for Laravel 12 applications. Contains 21 rules across 6 categories for writing fast, readable, and reliable tests. Supports both **Pest PHP 4** and **PHPUnit 11** (Laravel 12 default).
+Comprehensive testing guide for Laravel 13 applications. Contains 24 rules across 6 categories for writing fast, readable, and reliable tests. Supports both **Pest PHP 4** and **PHPUnit 12** (Laravel 13 default).
 
 ## Framework Detection
 
@@ -52,12 +52,12 @@ Comprehensive testing guide for Laravel 12 applications. Contains 21 rules acros
 | | Pest | PHPUnit |
 |--|------|---------|
 | Test function | `test('...', fn() => ...)` | `public function test_...(): void` |
-| Readable name | `it('...', fn() => ...)` | `/** @test */ public function it_...()` |
+| Readable name | `it('...', fn() => ...)` | `#[Test] public function it_...()` |
 | Grouping | `describe('...', fn() => ...)` | Test class name / nested classes |
 | Trait application | `uses(RefreshDatabase::class)` | `use RefreshDatabase;` inside class |
 | Before each | `beforeEach(fn() => ...)` | `protected function setUp(): void` |
 | After each | `afterEach(fn() => ...)` | `protected function tearDown(): void` |
-| Parameterised | `->with([...])` | `@dataProvider` method |
+| Parameterised | `->with([...])` | `#[DataProvider]` attribute |
 | Global setup | `uses(...)->in('Feature')` in `Pest.php` | Base `TestCase` class |
 
 ### Core assertions (identical in both frameworks)
@@ -117,6 +117,9 @@ Reference these guidelines when:
 - `fake-notification` - Notification::fake(), assertSentTo, assertCount
 - `fake-event` - Event::fake(), assertDispatched, assertNotDispatched
 - `fake-storage` - Storage::fake(), UploadedFile::fake(), assertExists
+- `fake-ai-agent` - Agent::fake(), assertPrompted, preventStrayPrompts (Laravel 13+)
+- `fake-ai-media` - Image::fake(), Audio::fake(), Transcription::fake() (Laravel 13+)
+- `fake-ai-data` - Embeddings::fake(), Reranking::fake(), Files::fake(), Stores::fake() (Laravel 13+)
 
 ### 5. Authentication Testing (HIGH)
 
@@ -126,7 +129,7 @@ Reference these guidelines when:
 ### 6. Test Organisation Patterns (MEDIUM)
 
 - `pest-describe-it` - describe()/it() (Pest) or test class organisation (PHPUnit)
-- `pest-datasets` - with() datasets (Pest) or @dataProvider (PHPUnit)
+- `pest-datasets` - with() datasets (Pest) or #[DataProvider] (PHPUnit)
 - `pest-hooks` - beforeEach/afterEach (Pest) or setUp/tearDown (PHPUnit)
 
 ## Essential Patterns
@@ -191,7 +194,7 @@ Each rule file contains:
 - Brief explanation of why it matters
 - Bad Example with explanation
 - Good Example with both Pest and PHPUnit where syntax differs
-- Laravel 12 specific context and references
+- Laravel 13 specific context and references
 
 ## Full Compiled Document
 

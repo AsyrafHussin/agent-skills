@@ -111,4 +111,4 @@ test('post marked as featured has featured flag', function () {
 - **Readability**: Fluent chain reads like English — clear intent, no noise
 - **Flexibility**: `etc()` prevents over-constraining when only a subset matters
 
-Reference: [Laravel HTTP Tests — Fluent JSON Testing](https://laravel.com/docs/12.x/http-tests#fluent-json-testing)
+Reference: [Laravel HTTP Tests — Fluent JSON Testing](https://laravel.com/docs/13.x/http-tests#fluent-json-testing)

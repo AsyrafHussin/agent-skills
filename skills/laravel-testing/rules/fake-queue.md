@@ -134,4 +134,4 @@ test('notification job is faked but audit job runs', function () {
 - **Fast**: No queue worker needed — tests run synchronously at full speed
 - **Dispatch verified**: Confirms the controller/service dispatches jobs at the right time
 
-Reference: [Laravel Mocking — Queue Fake](https://laravel.com/docs/12.x/mocking#queue-fake)
+Reference: [Laravel Mocking — Queue Fake](https://laravel.com/docs/13.x/mocking#queue-fake)

@@ -1,6 +1,6 @@
-# Laravel 12 Testing — Pest PHP 4 & PHPUnit 11
+# Laravel 13 Testing — Pest PHP 4 & PHPUnit 12
 
-Comprehensive testing guide for Laravel 12 applications. Supports both **Pest PHP 4** and **PHPUnit 11**. 21 rules across 6 categories.
+Comprehensive testing guide for Laravel 13 applications. Supports both **Pest PHP 4** and **PHPUnit 12**. 24 rules across 6 categories.
 
 ## Framework Detection
 
@@ -9,7 +9,7 @@ Before applying rules, the skill detects which framework is in use:
 2. Checks if `tests/Pest.php` exists → Pest
 3. If unclear → asks the user to choose Pest or PHPUnit
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 ## Overview
 
@@ -40,7 +40,7 @@ Use actingAs() for session-based tests and Sanctum::actingAs() for API token tes
 
 ### 6. Test Organisation Patterns (Medium)
 Pest: describe/it blocks, datasets, beforeEach/afterEach hooks.
-PHPUnit: test class organisation, @dataProvider, setUp/tearDown.
+PHPUnit: test class organisation, #[DataProvider], setUp/tearDown.
 
 ## Rules
 
@@ -62,6 +62,9 @@ PHPUnit: test class organisation, @dataProvider, setUp/tearDown.
 | `fake-notification` | Faking Services | HIGH |
 | `fake-event` | Faking Services | HIGH |
 | `fake-storage` | Faking Services | HIGH |
+| `fake-ai-agent` | Faking Services | HIGH |
+| `fake-ai-media` | Faking Services | HIGH |
+| `fake-ai-data` | Faking Services | HIGH |
 | `auth-acting-as` | Authentication Testing | HIGH |
 | `auth-sanctum` | Authentication Testing | HIGH |
 | `pest-describe-it` | Test Organisation Patterns | MEDIUM |

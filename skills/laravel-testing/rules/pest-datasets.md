@@ -1,17 +1,17 @@
 ---
-title: Parameterised Testing — Datasets (Pest) or @dataProvider (PHPUnit)
+title: Parameterised Testing — Datasets (Pest) or DataProvider (PHPUnit)
 impact: MEDIUM
 impactDescription: Replaces repeated tests with a single parameterised test, improving coverage without duplication
 tags: pest, phpunit, datasets, dataProvider, parameterised, with, data-driven
 ---
 
-## Parameterised Testing — Datasets (Pest) or @dataProvider (PHPUnit)
+## Parameterised Testing — Datasets (Pest) or DataProvider (PHPUnit)
 
 **Impact: MEDIUM (Replaces repeated tests with a single parameterised test, improving coverage without duplication)**
 
 **Pest:** Use `->with()` to supply datasets. Pest runs the test once per entry, injecting values as function arguments.
 
-**PHPUnit:** Use `#[DataProvider]` attribute (PHPUnit 10+) or `@dataProvider` annotation pointing to a static method that returns arrays of arguments.
+**PHPUnit:** Use `#[DataProvider]` attribute pointing to a static method that returns arrays of arguments. Note: the `@dataProvider` annotation was removed in PHPUnit 12 — use the attribute instead.
 
 ## Bad Example
 
@@ -155,4 +155,4 @@ class PostValidationTest extends TestCase
 - **Coverage**: Add cases by appending to the dataset/provider — no new test function needed
 - **Clear output**: Both Pest and PHPUnit label each run with the dataset key, making failures locatable
 
-Reference: [Pest PHP — Datasets](https://pestphp.com/docs/datasets) · [PHPUnit — Data Providers](https://docs.phpunit.de/en/11.0/writing-tests-for-phpunit.html#data-providers)
+Reference: [Pest PHP — Datasets](https://pestphp.com/docs/datasets) · [PHPUnit — Data Providers](https://docs.phpunit.de/en/12.0/writing-tests-for-phpunit.html#data-providers)

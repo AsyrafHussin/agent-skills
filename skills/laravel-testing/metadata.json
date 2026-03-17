@@ -1,26 +1,26 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "organization": "Laravel Community",
   "date": "March 2026",
-  "laravelVersion": "12.x",
+  "laravelVersion": "13.x",
   "phpVersion": "8.3+",
   "pestVersion": "4.x",
-  "phpunitVersion": "11.x",
-  "rulesTotal": 21,
-  "abstract": "Comprehensive Laravel 12 testing guide for AI agents and LLMs, supporting both Pest PHP 4 and PHPUnit 11. Contains 21 rules across 6 categories covering HTTP feature tests, model factories, database assertions, facade faking, authentication testing, and test organisation patterns. Includes framework detection logic: checks composer.json and tests/Pest.php to determine the framework, asks the user if unclear. Framework-specific rules (describe/it, datasets, hooks) show both Pest and PHPUnit syntax side by side.",
+  "phpunitVersion": "12.x",
+  "rulesTotal": 24,
+  "abstract": "Comprehensive Laravel 13 testing guide for AI agents and LLMs, supporting both Pest PHP 4 and PHPUnit 12. Contains 21 rules across 6 categories covering HTTP feature tests, model factories, database assertions, facade faking, authentication testing, and test organisation patterns. Includes framework detection logic: checks composer.json and tests/Pest.php to determine the framework, asks the user if unclear. Framework-specific rules (describe/it, datasets, hooks) show both Pest and PHPUnit syntax side by side.",
   "references": [
-    "https://laravel.com/docs/12.x/testing",
-    "https://laravel.com/docs/12.x/http-tests",
-    "https://laravel.com/docs/12.x/database-testing",
-    "https://laravel.com/docs/12.x/eloquent-factories",
-    "https://laravel.com/docs/12.x/mocking",
-    "https://laravel.com/docs/12.x/notifications",
-    "https://laravel.com/docs/12.x/queues",
-    "https://laravel.com/docs/12.x/mail",
-    "https://laravel.com/docs/12.x/console-tests",
+    "https://laravel.com/docs/13.x/testing",
+    "https://laravel.com/docs/13.x/http-tests",
+    "https://laravel.com/docs/13.x/database-testing",
+    "https://laravel.com/docs/13.x/eloquent-factories",
+    "https://laravel.com/docs/13.x/mocking",
+    "https://laravel.com/docs/13.x/notifications",
+    "https://laravel.com/docs/13.x/queues",
+    "https://laravel.com/docs/13.x/mail",
+    "https://laravel.com/docs/13.x/console-tests",
     "https://pestphp.com/docs/writing-tests",
     "https://pestphp.com/docs/datasets",
-    "https://docs.phpunit.de/en/11.0/writing-tests-for-phpunit.html"
+    "https://docs.phpunit.de/en/12.0/writing-tests-for-phpunit.html"
   ],
   "categories": [
     {
@@ -68,6 +68,7 @@
     "actingAs() and Sanctum::actingAs() for authentication",
     "assertJson with fluent AssertableJson closures",
     "Parameterized testing with Pest datasets",
-    "Modern PHP 8.3 syntax in all examples"
+    "Modern PHP 8.3 syntax in all examples",
+    "AI SDK faking: Agent::fake(), Image::fake(), Audio::fake(), Embeddings::fake()"
   ]
 }

@@ -134,4 +134,4 @@ test('only PostPublished is faked', function () {
 - **Focused**: Tests only verify that the correct event was dispatched, not what listeners do
 - **Precise**: Closure assertions confirm event payload without coupling to listener logic
 
-Reference: [Laravel Events — Testing](https://laravel.com/docs/12.x/events#testing)
+Reference: [Laravel Events — Testing](https://laravel.com/docs/13.x/events#testing)

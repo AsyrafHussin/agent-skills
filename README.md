@@ -84,7 +84,7 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-inertia-react
 
 ### [laravel-testing](skills/laravel-testing)
 
-Laravel 12 testing with Pest PHP 4 and PHPUnit 11. Contains 21 rules across 6 categories covering HTTP feature tests, model factories, database assertions, facade faking (Mail, Queue, Notification, Event, Storage), authentication testing, and test organisation patterns. Detects Pest or PHPUnit automatically from `composer.json`.
+Laravel 13 testing with Pest PHP 4 and PHPUnit 12. Contains 24 rules across 6 categories covering HTTP feature tests, model factories, database assertions, facade faking (Mail, Queue, Notification, Event, Storage, AI SDK), authentication testing, and test organisation patterns. Detects Pest or PHPUnit automatically from `composer.json`.
 
 **Example:** `Write feature tests for this Laravel controller`
 

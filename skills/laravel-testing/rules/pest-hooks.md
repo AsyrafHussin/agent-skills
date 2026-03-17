@@ -230,4 +230,4 @@ class PostControllerTest extends AuthenticatedTestCase
 - **Consistency**: All tests in the block/class start from the same known state
 - **Portability**: Logic is identical — only the wrapper syntax differs between frameworks
 
-Reference: [Pest PHP — Setup & Teardown](https://pestphp.com/docs/writing-tests#setup-and-teardown) · [PHPUnit — setUp/tearDown](https://docs.phpunit.de/en/11.0/fixtures.html)
+Reference: [Pest PHP — Setup & Teardown](https://pestphp.com/docs/writing-tests#setup-and-teardown) · [PHPUnit — setUp/tearDown](https://docs.phpunit.de/en/12.0/fixtures.html)

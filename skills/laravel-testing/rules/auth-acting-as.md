@@ -104,4 +104,4 @@ test('authenticated user with session flash can see message', function () {
 - **Comprehensive**: Test both authenticated and guest paths to catch missing middleware
 - **Policy testing**: The only reliable way to test policies is through full HTTP requests with `actingAs`
 
-Reference: [Laravel HTTP Tests — Authentication](https://laravel.com/docs/12.x/http-tests#authentication)
+Reference: [Laravel HTTP Tests — Authentication](https://laravel.com/docs/13.x/http-tests#authentication)

@@ -137,4 +137,4 @@ test('weekly digest is sent to all subscribers', function () {
 - **Targeting verified**: Confirms the right user receives the notification, not just that one was sent
 - **Payload checked**: Closure assertions verify the notification carries the correct data
 
-Reference: [Laravel Notifications — Testing](https://laravel.com/docs/12.x/notifications#testing)
+Reference: [Laravel Notifications — Testing](https://laravel.com/docs/13.x/notifications#testing)

@@ -1,15 +1,15 @@
-# Laravel 12 Testing — Pest PHP 4 & PHPUnit 11 — Complete Guide
+# Laravel 13 Testing — Pest PHP 4 & PHPUnit 12 — Complete Guide
 
-**Version:** 1.0.0
-**Laravel Version:** 12.x
+**Version:** 1.1.0
+**Laravel Version:** 13.x
 **PHP Version:** 8.3+
-**Pest Version:** 4.x | **PHPUnit Version:** 11.x (Laravel 12 default: `^11.5.50`; PHPUnit 12/13 compatible with manual constraint bump)
+**Pest Version:** 4.x | **PHPUnit Version:** 12.x (Laravel 13 default: `^12.5.12`; PHPUnit 11 and 13 also compatible)
 **Organization:** Laravel Community
 **Date:** March 2026
 
 ## Overview
 
-Comprehensive testing guide for Laravel 12 applications using Pest PHP 4. Contains 21 rules across 6 categories covering HTTP feature tests, model factories, database assertions, facade faking, authentication testing, and Pest-specific patterns. All examples use PHP 8.3 syntax and Laravel 12 APIs.
+Comprehensive testing guide for Laravel 13 applications using Pest PHP 4. Contains 24 rules across 6 categories covering HTTP feature tests, model factories, database assertions, facade faking (including AI SDK), authentication testing, and Pest-specific patterns. All examples use PHP 8.3 syntax and Laravel 13 APIs.
 
 ### Key Features
 
@@ -47,7 +47,7 @@ Before writing or reviewing any test code, detect which framework the project us
 | | Pest | PHPUnit |
 |--|------|---------|
 | Test function | `test('...', fn() => ...)` | `public function test_...(): void` |
-| Readable name | `it('...', fn() => ...)` | `/** @test */ public function it_...()` |
+| Readable name | `it('...', fn() => ...)` | `#[Test] public function it_...()` |
 | Grouping | `describe('...', fn() => ...)` | Test class / nested class |
 | Trait application | `uses(RefreshDatabase::class)` | `use RefreshDatabase;` in class |
 | Before each | `beforeEach(fn() => ...)` | `protected function setUp(): void` |
@@ -59,11 +59,11 @@ Before writing or reviewing any test code, detect which framework the project us
 
 ### References
 
-- [Laravel 12 Testing](https://laravel.com/docs/12.x/testing)
-- [Laravel HTTP Tests](https://laravel.com/docs/12.x/http-tests)
-- [Laravel Database Testing](https://laravel.com/docs/12.x/database-testing)
-- [Laravel Eloquent Factories](https://laravel.com/docs/12.x/eloquent-factories)
-- [Laravel Mocking](https://laravel.com/docs/12.x/mocking)
+- [Laravel 13 Testing](https://laravel.com/docs/13.x/testing)
+- [Laravel HTTP Tests](https://laravel.com/docs/13.x/http-tests)
+- [Laravel Database Testing](https://laravel.com/docs/13.x/database-testing)
+- [Laravel Eloquent Factories](https://laravel.com/docs/13.x/eloquent-factories)
+- [Laravel Mocking](https://laravel.com/docs/13.x/mocking)
 - [Pest PHP Docs](https://pestphp.com/docs/writing-tests)
 
 ---

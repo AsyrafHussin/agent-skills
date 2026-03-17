@@ -107,4 +107,4 @@ test('updating a post changes both response and database', function () {
 - **Targeted**: `assertDatabaseHas` checks only the relevant columns, ignoring others
 - **Clear intent**: `assertModelExists($model)` reads naturally compared to manual `find()`
 
-Reference: [Laravel Database Testing — Assertions](https://laravel.com/docs/12.x/database-testing#available-assertions)
+Reference: [Laravel Database Testing — Assertions](https://laravel.com/docs/13.x/database-testing#available-assertions)

@@ -94,4 +94,4 @@ test('deleting user removes their posts', function () {
 - **Cascade check**: `assertDatabaseMissing` verifies pivot/related records are also cleaned up
 - **Explicit intent**: `assertModelMissing` clearly communicates what the test is verifying
 
-Reference: [Laravel Database Testing — assertDatabaseMissing](https://laravel.com/docs/12.x/database-testing#assert-database-missing)
+Reference: [Laravel Database Testing — assertDatabaseMissing](https://laravel.com/docs/13.x/database-testing#assert-database-missing)

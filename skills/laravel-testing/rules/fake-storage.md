@@ -131,4 +131,4 @@ UploadedFile::fake()->create('doc.pdf', 1024, 'application/pdf') // with MIME
 - **CI-safe**: No dependency on local filesystem paths or cloud credentials
 - **Assertions**: Explicitly verify that files are created at the expected paths
 
-Reference: [Laravel Mocking — Storage Fake](https://laravel.com/docs/12.x/mocking#storage-fake)
+Reference: [Laravel Mocking — Storage Fake](https://laravel.com/docs/13.x/mocking#storage-fake)

@@ -114,4 +114,4 @@ test('index returns all users', function () {
 - **Single source of truth**: Factory definition lives once — changes propagate everywhere
 - **Realistic data**: Faker generates varied, realistic values that expose edge cases raw data misses
 
-Reference: [Laravel Eloquent Factories — Defining Factories](https://laravel.com/docs/12.x/eloquent-factories#defining-model-factories)
+Reference: [Laravel Eloquent Factories — Defining Factories](https://laravel.com/docs/13.x/eloquent-factories#defining-model-factories)

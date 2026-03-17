@@ -100,4 +100,4 @@ test('membership is soft deleted on cancellation', function () {
 - **Built-in**: `trashed()` factory state is available on all models with `SoftDeletes` automatically
 - **Completeness**: Tests both the delete (soft) and restore paths
 
-Reference: [Laravel Database Testing — assertSoftDeleted](https://laravel.com/docs/12.x/database-testing#assert-soft-deleted)
+Reference: [Laravel Database Testing — assertSoftDeleted](https://laravel.com/docs/13.x/database-testing#assert-soft-deleted)

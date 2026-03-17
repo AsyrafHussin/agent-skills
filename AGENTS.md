@@ -17,7 +17,7 @@ This repository contains comprehensive skills for AI coding agents, optimized fo
 | typescript-react-patterns | 35+ | Type safety, generics |
 | laravel-best-practices | 31 | Architecture, Eloquent, security |
 | laravel-inertia-react | 30+ | Page components, forms |
-| laravel-testing | 21+ | Pest PHP 4 & PHPUnit 11, HTTP tests, factories, faking |
+| laravel-testing | 24 | Pest PHP 4 & PHPUnit 12, HTTP tests, factories, faking, AI SDK |
 | tailwind-best-practices | 35+ | Responsive, dark mode |
 | state-management | 40+ | React Query, Zustand |
 | web-design-guidelines | 50+ | Accessibility, UX |

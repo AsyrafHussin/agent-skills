@@ -127,4 +127,4 @@ test('post tags appear in response', function () {
 - **No duplicates**: `recycle()` prevents unnecessary records that slow down tests
 - **Encapsulated setup**: `afterCreating()` keeps pivot/join setup inside the factory
 
-Reference: [Laravel Eloquent Factories — Relationships](https://laravel.com/docs/12.x/eloquent-factories#factory-relationships)
+Reference: [Laravel Eloquent Factories — Relationships](https://laravel.com/docs/13.x/eloquent-factories#factory-relationships)

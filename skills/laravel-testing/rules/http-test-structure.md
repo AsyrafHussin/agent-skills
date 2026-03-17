@@ -161,4 +161,4 @@ class PostPolicyTest extends TestCase
 - **Behavioral focus**: Testing outcomes rather than internals means refactoring is safe
 - **Maintainability**: Changing implementation never breaks tests that only verify behavior
 
-Reference: [Laravel HTTP Tests](https://laravel.com/docs/12.x/http-tests)
+Reference: [Laravel HTTP Tests](https://laravel.com/docs/13.x/http-tests)

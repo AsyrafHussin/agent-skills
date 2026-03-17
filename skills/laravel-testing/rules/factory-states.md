@@ -129,4 +129,4 @@ test('suspended admin is also locked out', function () {
 - **Resilient**: Renaming a database column only requires updating the factory state
 - **Composable**: Multiple states can be chained to build complex scenarios
 
-Reference: [Laravel Eloquent Factories — Factory States](https://laravel.com/docs/12.x/eloquent-factories#factory-states)
+Reference: [Laravel Eloquent Factories — Factory States](https://laravel.com/docs/13.x/eloquent-factories#factory-states)

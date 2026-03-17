@@ -117,4 +117,4 @@ test('order stats show correct counts by status', function () {
 - **Explicit**: The data pattern is visible in the test — the reader understands the scenario
 - **Realistic**: Varied statuses, dates, and types create meaningful filtering/sorting tests
 
-Reference: [Laravel Eloquent Factories — Sequences](https://laravel.com/docs/12.x/eloquent-factories#sequences)
+Reference: [Laravel Eloquent Factories — Sequences](https://laravel.com/docs/13.x/eloquent-factories#sequences)

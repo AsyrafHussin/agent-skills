@@ -152,4 +152,4 @@ Mail::assertQueued(OrderShipped::class);
 - **Behaviour verified**: Tests confirm mail is triggered at the right time, to the right address
 - **Fast**: No SMTP round-trip — tests run at full speed
 
-Reference: [Laravel Mocking — Mail Fake](https://laravel.com/docs/12.x/mocking#mail-fake)
+Reference: [Laravel Mocking — Mail Fake](https://laravel.com/docs/13.x/mocking#mail-fake)

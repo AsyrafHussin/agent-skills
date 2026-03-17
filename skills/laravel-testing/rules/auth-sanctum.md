@@ -115,4 +115,4 @@ test('user cannot update another users post via api', function () {
 - **Ability testing**: Pass specific abilities to test scope restrictions without creating real tokens
 - **Stateless**: Works correctly with `EnsureFrontendRequestsAreStateful` excluded from API routes
 
-Reference: [Laravel Sanctum — Testing](https://laravel.com/docs/12.x/sanctum#testing)
+Reference: [Laravel Sanctum — Testing](https://laravel.com/docs/13.x/sanctum#testing)

@@ -143,4 +143,4 @@ test('order is placed', function () {
 - **Reliability**: Eliminates "passes locally, fails in CI" issues caused by leftover data
 - **Simplicity**: No manual teardown needed — the framework handles cleanup automatically
 
-Reference: [Laravel Database Testing — Resetting the Database](https://laravel.com/docs/12.x/database-testing#resetting-the-database-after-each-test)
+Reference: [Laravel Database Testing — Resetting the Database](https://laravel.com/docs/13.x/database-testing#resetting-the-database-after-each-test)

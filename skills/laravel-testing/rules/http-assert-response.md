@@ -119,4 +119,4 @@ test('post response contains correct author', function () {
 - **Regression safety**: Shape assertions catch API contract breakages before production
 - **Validation coverage**: `assertJsonValidationErrors` ensures form rules are applied
 
-Reference: [Laravel HTTP Tests — Available Assertions](https://laravel.com/docs/12.x/http-tests#available-assertions)
+Reference: [Laravel HTTP Tests — Available Assertions](https://laravel.com/docs/13.x/http-tests#available-assertions)
