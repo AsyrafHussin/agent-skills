@@ -214,6 +214,18 @@ npx skills add AsyrafHussin/agent-skills --skill git-workflow
 
 ---
 
+### [prd-writing](skills/prd-writing)
+
+Step-by-step workflow for writing Product Requirements Documents. 6-step process: assess project state, ask clarifying questions (with lettered options), draft using 12-section template, review, revise, and save. Contains 25 rules across 7 categories as supporting knowledge.
+
+**Example:** `Write a PRD for this feature`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill prd-writing
+```
+
+---
+
 ### [testing-best-practices](skills/testing-best-practices)
 
 Unit, integration, and E2E testing with TypeScript/Vitest. Contains 34 rules across 7 categories covering test structure (AAA), isolation, assertions, test data factories, mocking, coverage strategy, and test performance.

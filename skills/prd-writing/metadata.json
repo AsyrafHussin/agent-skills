@@ -1,0 +1,74 @@
+{
+  "name": "PRD Writing",
+  "version": "1.0.0",
+  "description": "Step-by-step workflow for writing clear, actionable Product Requirements Documents. 6-step process with 25 rules across 7 categories as supporting knowledge.",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "categories": [
+    {
+      "name": "Discovery",
+      "prefix": "disc",
+      "impact": "CRITICAL",
+      "ruleCount": 4
+    },
+    {
+      "name": "Structure",
+      "prefix": "struct",
+      "impact": "CRITICAL",
+      "ruleCount": 5
+    },
+    {
+      "name": "Requirements",
+      "prefix": "req",
+      "impact": "HIGH",
+      "ruleCount": 4
+    },
+    {
+      "name": "Scope",
+      "prefix": "scope",
+      "impact": "HIGH",
+      "ruleCount": 3
+    },
+    {
+      "name": "Metrics",
+      "prefix": "metric",
+      "impact": "HIGH",
+      "ruleCount": 3
+    },
+    {
+      "name": "Technical",
+      "prefix": "tech",
+      "impact": "MEDIUM",
+      "ruleCount": 4
+    },
+    {
+      "name": "Quality",
+      "prefix": "quality",
+      "impact": "MEDIUM",
+      "ruleCount": 2
+    }
+  ],
+  "references": [
+    "https://www.lennysnewsletter.com/p/how-to-write-a-great-prd",
+    "https://www.svpg.com/product-discovery/",
+    "https://basecamp.com/shapeup",
+    "https://www.manning.com/books/writing-great-specifications",
+    "https://www.atlassian.com/agile/product-management/requirements"
+  ],
+  "keywords": [
+    "prd",
+    "product-requirements",
+    "specification",
+    "user-stories",
+    "acceptance-criteria",
+    "discovery",
+    "feature-spec",
+    "product-management",
+    "requirements-document"
+  ],
+  "rulesTotal": 25,
+  "lastUpdated": "2026-03-24"
+}
