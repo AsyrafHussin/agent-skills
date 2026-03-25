@@ -13,21 +13,25 @@ This repository contains comprehensive skills for AI coding agents, optimized fo
 
 | Skill | Rules | Priority Focus |
 |-------|-------|----------------|
-| react-vite-best-practices | 40+ | Build optimization, code splitting |
-| typescript-react-patterns | 35+ | Type safety, generics |
-| laravel-best-practices | 31 | Architecture, Eloquent, security |
-| laravel-inertia-react | 30+ | Page components, forms |
-| laravel-testing | 24 | Pest PHP 4 & PHPUnit 12, HTTP tests, factories, faking, AI SDK |
-| tailwind-best-practices | 35+ | Responsive, dark mode |
-| state-management | 40+ | React Query, Zustand |
-| web-design-guidelines | 50+ | Accessibility, UX |
-| php-best-practices | 45+ | PHP 8.x, PSR, SOLID |
-| clean-code-principles | 40+ | SOLID, DRY, design patterns |
-| api-design-patterns | 35+ | REST, error handling, pagination |
-| git-workflow | 25+ | Commits, branching, PRs |
-| testing-best-practices | 35+ | Unit tests, mocking, coverage |
+| api-design-patterns | 38 | REST, error handling, pagination |
+| clean-code-principles | 23 | SOLID, DRY, design patterns |
+| git-workflow | 31 | Commits, branching, PRs |
 | laravel-ai-sdk | 17 | Agents, tools, embeddings, testing |
+| laravel-best-practices | 31 | Architecture, Eloquent, security |
+| laravel-database-optimization | 33 | Eloquent queries, indexing, caching, N+1 |
+| laravel-inertia-react | 24 | Page components, forms |
 | laravel-mcp | 7 | MCP servers, tools, prompts, resources |
+| laravel-owasp-security | 8 | OWASP Top 10, secure coding, auth |
+| laravel-testing | 24 | Pest PHP 4 & PHPUnit 12, HTTP tests, factories, faking, AI SDK |
+| php-best-practices | 51 | PHP 8.x, PSR, SOLID |
+| prd-writing | 25 | PRD workflow, feature specs, requirements |
+| react-vite-best-practices | 23 | Build optimization, code splitting |
+| seo-best-practices | 31 | Meta tags, structured data, Core Web Vitals |
+| state-management | 26 | React Query, Zustand |
+| tailwind-best-practices | 29 | Responsive, dark mode |
+| testing-best-practices | 34 | Unit tests, mocking, coverage |
+| typescript-react-patterns | 33 | Type safety, generics |
+| web-design-guidelines | 23 | Accessibility, UX |
 
 ## Usage
 
