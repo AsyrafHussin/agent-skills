@@ -240,6 +240,18 @@ npx skills add AsyrafHussin/agent-skills --skill testing-best-practices
 
 ---
 
+### [e2e-playwright-testing](skills/e2e-playwright-testing)
+
+End-to-end browser testing with Playwright. Contains 8 rules across 6 categories covering locator strategies, authentication reuse (storageState), React form gotchas (date inputs, sr-only checkboxes), web-first assertions, test organization, and reliability. Includes stack detection for React/Inertia/Vue projects.
+
+**Example:** `Write E2E tests for this login flow` or `Set up Playwright for this project`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill e2e-playwright-testing
+```
+
+---
+
 ### [seo-best-practices](skills/seo-best-practices)
 
 SEO patterns for Laravel Blade and Laravel + Inertia.js + React. Contains 31 rules across 8 categories covering Core Web Vitals, meta tags, structured data (JSON-LD), Open Graph, performance, and mobile-first indexing. Supports SEO audit mode with PASS/FAIL checklist output. Auto-detects project type.

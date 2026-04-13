@@ -1,0 +1,79 @@
+{
+  "name": "E2E Playwright Testing",
+  "version": "1.0.0",
+  "description": "End-to-end testing with Playwright for web applications. Covers locator strategies, authentication reuse, form testing, assertions, test organization, and debugging. Triggers on tasks involving E2E tests, browser testing, Playwright, form submission testing, or user flow testing.",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "categories": [
+    {
+      "name": "Locators",
+      "prefix": "loc",
+      "impact": "CRITICAL",
+      "ruleCount": 2
+    },
+    {
+      "name": "Authentication",
+      "prefix": "auth",
+      "impact": "CRITICAL",
+      "ruleCount": 1
+    },
+    {
+      "name": "Assertions",
+      "prefix": "assert",
+      "impact": "HIGH",
+      "ruleCount": 1
+    },
+    {
+      "name": "Forms & Inputs",
+      "prefix": "form",
+      "impact": "HIGH",
+      "ruleCount": 2
+    },
+    {
+      "name": "Test Organization",
+      "prefix": "org",
+      "impact": "MEDIUM",
+      "ruleCount": 1
+    },
+    {
+      "name": "Reliability",
+      "prefix": "rel",
+      "impact": "MEDIUM",
+      "ruleCount": 1
+    }
+  ],
+  "references": [
+    "https://playwright.dev",
+    "https://playwright.dev/docs/best-practices",
+    "https://playwright.dev/docs/locators",
+    "https://playwright.dev/docs/auth",
+    "https://playwright.dev/docs/test-assertions"
+  ],
+  "keywords": [
+    "playwright",
+    "e2e",
+    "end-to-end",
+    "browser-testing",
+    "automation",
+    "locators",
+    "assertions",
+    "form-testing",
+    "react",
+    "inertia",
+    "spa"
+  ],
+  "keyFeatures": [
+    "Stack detection (Playwright vs Cypress, React/Inertia/Vue, session vs token auth)",
+    "Role-based locator priority (getByRole > getByLabel > getByText > CSS)",
+    "Auth storageState reuse via setup project pattern",
+    "React date/time input handling with keyboard.type()",
+    "Custom sr-only checkbox interaction patterns",
+    "Strict mode disambiguation strategies",
+    "Parallelism decision guide (shared DB vs independent tests)"
+  ],
+  "rulesTotal": 8,
+  "lastUpdated": "2026-04-13"
+}
