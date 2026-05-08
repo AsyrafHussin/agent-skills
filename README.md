@@ -228,6 +228,18 @@ npx skills add AsyrafHussin/agent-skills --skill prd-writing
 
 ---
 
+### [operational-prompting](skills/operational-prompting)
+
+Repo-owned operational prompting for coding agents. Contains 8 rules across 4 categories covering instruction hierarchy, scope contracts, validation contracts, evidence-first outputs, and portable skill manifests.
+
+**Example:** `Audit this repo's Copilot instructions and agent prompts`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill operational-prompting
+```
+
+---
+
 ### [testing-best-practices](skills/testing-best-practices)
 
 Unit, integration, and E2E testing with TypeScript/Vitest. Contains 34 rules across 7 categories covering test structure (AAA), isolation, assertions, test data factories, mocking, coverage strategy, and test performance.

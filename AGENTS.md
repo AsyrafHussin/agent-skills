@@ -89,6 +89,7 @@ Load only the skills that match the detected stack and user request. Use the tab
 | `laravel-ai-sdk` | Code uses `Laravel\Ai` namespace or AI SDK features |
 | `laravel-mcp` | Building or consuming MCP servers |
 | `php-best-practices` | Any PHP code (applies on top of Laravel skill) |
+| `operational-prompting` | Designing AGENTS.md, Copilot/Codex instructions, task contracts, or portable agent manifests |
 | `react-vite-best-practices` | React + Vite project (build config, code splitting) |
 | `typescript-react-patterns` | TypeScript files in a React project |
 | `tailwind-best-practices` | Tailwind CSS classes appear in the code |
@@ -160,6 +161,7 @@ Before finalizing any response, verify:
 | laravel-mcp | 7 | MCP servers, tools, prompts, resources |
 | laravel-owasp-security | 8 | OWASP Top 10, secure coding, auth |
 | laravel-testing | 24 | Pest PHP 4 & PHPUnit 12, HTTP tests, factories, faking, AI SDK |
+| operational-prompting | 8 | Repo-owned instructions, validation, portable skills |
 | php-best-practices | 56 | PHP 8.x, static analysis, design |
 | prd-writing | 25 | PRD workflow, feature specs, requirements |
 | react-vite-best-practices | 23 | Build optimization, code splitting |
