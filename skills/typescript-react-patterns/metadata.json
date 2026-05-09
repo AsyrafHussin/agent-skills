@@ -1,6 +1,23 @@
 {
-  "name": "TypeScript React Patterns",
   "version": "2.0.0",
+  "skill": {
+    "name": "typescript-react-patterns",
+    "version": "2.0.0",
+    "description": "TypeScript best practices for React development. Use when writing typed React components, hooks, events, refs, or generic components. Triggers on tasks involving TypeScript errors, type definitions, props typing, or type-safe React patterns.",
+    "author": "Agent Skills Contributors",
+    "license": "MIT",
+    "keywords": [
+      "typescript",
+      "react",
+      "typed-components",
+      "hooks",
+      "generics",
+      "events",
+      "refs",
+      "context"
+    ]
+  },
+  "name": "TypeScript React Patterns",
   "description": "Type-safe React with TypeScript. Contains 33 rules across 7 categories covering component typing, hooks, event handling, refs, generics, context, and utility types.",
   "license": "MIT",
   "author": {
@@ -8,13 +25,48 @@
     "url": "https://github.com/AsyrafHussin/agent-skills"
   },
   "categories": [
-    { "name": "Component Typing", "prefix": "comp", "impact": "CRITICAL", "ruleCount": 8 },
-    { "name": "Hook Typing", "prefix": "hook", "impact": "CRITICAL", "ruleCount": 8 },
-    { "name": "Event Handling", "prefix": "event", "impact": "HIGH", "ruleCount": 4 },
-    { "name": "Ref Typing", "prefix": "ref", "impact": "HIGH", "ruleCount": 3 },
-    { "name": "Generic Components", "prefix": "generic", "impact": "MEDIUM", "ruleCount": 4 },
-    { "name": "Context & State", "prefix": "ctx", "impact": "MEDIUM", "ruleCount": 3 },
-    { "name": "Utility Types", "prefix": "util", "impact": "LOW", "ruleCount": 3 }
+    {
+      "name": "Component Typing",
+      "prefix": "comp",
+      "impact": "CRITICAL",
+      "ruleCount": 8
+    },
+    {
+      "name": "Hook Typing",
+      "prefix": "hook",
+      "impact": "CRITICAL",
+      "ruleCount": 8
+    },
+    {
+      "name": "Event Handling",
+      "prefix": "event",
+      "impact": "HIGH",
+      "ruleCount": 4
+    },
+    {
+      "name": "Ref Typing",
+      "prefix": "ref",
+      "impact": "HIGH",
+      "ruleCount": 3
+    },
+    {
+      "name": "Generic Components",
+      "prefix": "generic",
+      "impact": "MEDIUM",
+      "ruleCount": 4
+    },
+    {
+      "name": "Context & State",
+      "prefix": "ctx",
+      "impact": "MEDIUM",
+      "ruleCount": 3
+    },
+    {
+      "name": "Utility Types",
+      "prefix": "util",
+      "impact": "LOW",
+      "ruleCount": 3
+    }
   ],
   "references": [
     "https://react-typescript-cheatsheet.netlify.app",
@@ -32,5 +84,20 @@
     "context"
   ],
   "rulesTotal": 33,
-  "lastUpdated": "2026-03-14"
+  "lastUpdated": "2026-03-14",
+  "meta": {
+    "created": "2026-03-14",
+    "last_updated": "2026-03-14",
+    "rule_count": 33,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

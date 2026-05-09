@@ -1,5 +1,12 @@
 {
   "version": "1.1.0",
+  "skill": {
+    "name": "laravel-testing",
+    "version": "1.1.0",
+    "description": "Laravel 13 testing with Pest PHP 4 or PHPUnit 12. Use when writing feature tests, unit tests, or any test code in a Laravel application. Triggers on tasks involving HTTP tests, model factories, database assertions, mocking facades, authentication testing, or test organisation patterns.",
+    "author": "Laravel Community",
+    "license": "MIT"
+  },
   "organization": "Laravel Community",
   "date": "March 2026",
   "laravelVersion": "13.x",
@@ -70,5 +77,20 @@
     "Parameterized testing with Pest datasets",
     "Modern PHP 8.3 syntax in all examples",
     "AI SDK faking: Agent::fake(), Image::fake(), Audio::fake(), Embeddings::fake()"
-  ]
+  ],
+  "meta": {
+    "created": "2026-03-01",
+    "last_updated": "2026-03-01",
+    "rule_count": 24,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

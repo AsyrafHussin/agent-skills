@@ -1,6 +1,23 @@
 {
-  "name": "Testing Best Practices",
   "version": "2.0.0",
+  "skill": {
+    "name": "testing-best-practices",
+    "version": "2.0.0",
+    "description": "Unit testing, integration testing, and test-driven development principles. Use when writing tests, reviewing test code, improving test coverage, or setting up testing strategy. Triggers on \"write tests\", \"review tests\", \"testing best practices\", or \"TDD\".",
+    "author": "Agent Skills Contributors",
+    "license": "MIT",
+    "keywords": [
+      "testing",
+      "unit-tests",
+      "integration-tests",
+      "tdd",
+      "vitest",
+      "jest",
+      "mocking",
+      "coverage"
+    ]
+  },
+  "name": "Testing Best Practices",
   "description": "Unit testing, integration testing, and TDD principles for reliable, maintainable test suites. Contains 34 rules across 7 categories using TypeScript with Jest/Vitest.",
   "license": "MIT",
   "author": {
@@ -68,5 +85,20 @@
     "coverage"
   ],
   "rulesTotal": 34,
-  "lastUpdated": "2026-03-14"
+  "lastUpdated": "2026-03-14",
+  "meta": {
+    "created": "2026-03-14",
+    "last_updated": "2026-03-14",
+    "rule_count": 34,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

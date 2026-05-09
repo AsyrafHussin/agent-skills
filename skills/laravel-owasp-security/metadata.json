@@ -1,5 +1,12 @@
 {
   "version": "1.0.3",
+  "skill": {
+    "name": "laravel-owasp-security",
+    "version": "1.0.3",
+    "description": "OWASP Top 10 security audit and secure coding guidelines for Laravel + React/Inertia.js applications. Use when auditing for vulnerabilities (\"run OWASP audit\", \"security review\", \"check my app security\") or writing secure Laravel code involving auth, payments, file uploads, or API design. Triggers on security-related tasks, payment handling, authentication, or any request to audit a Laravel codebase.",
+    "author": "AsyrafHussin",
+    "license": "MIT"
+  },
   "organization": "AsyrafHussin",
   "date": "March 2026",
   "laravelVersion": "13.x",
@@ -106,5 +113,20 @@
     "DOMPurify integration for dangerouslySetInnerHTML",
     "Inertia data-page exposure detection",
     "CSP nonce-based Content-Security-Policy guidance"
-  ]
+  ],
+  "meta": {
+    "created": "2026-03-01",
+    "last_updated": "2026-03-01",
+    "rule_count": 8,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

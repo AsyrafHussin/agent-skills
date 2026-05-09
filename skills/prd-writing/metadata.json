@@ -1,6 +1,24 @@
 {
-  "name": "PRD Writing",
   "version": "1.0.0",
+  "skill": {
+    "name": "prd-writing",
+    "version": "1.0.0",
+    "description": "Step-by-step workflow for writing Product Requirements Documents. Use when creating PRDs, documenting features, writing specifications, or planning new products. Triggers on \"write PRD\", \"create PRD\", \"document requirements\", \"feature spec\", or \"product requirements\".",
+    "author": "Agent Skills Contributors",
+    "license": "MIT",
+    "keywords": [
+      "prd",
+      "product-requirements",
+      "specification",
+      "user-stories",
+      "acceptance-criteria",
+      "discovery",
+      "feature-spec",
+      "product-management",
+      "requirements-document"
+    ]
+  },
+  "name": "PRD Writing",
   "description": "Step-by-step workflow for writing clear, actionable Product Requirements Documents. 6-step process with 25 rules across 7 categories as supporting knowledge.",
   "license": "MIT",
   "author": {
@@ -70,5 +88,20 @@
     "requirements-document"
   ],
   "rulesTotal": 25,
-  "lastUpdated": "2026-03-24"
+  "lastUpdated": "2026-03-24",
+  "meta": {
+    "created": "2026-03-24",
+    "last_updated": "2026-03-24",
+    "rule_count": 25,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

@@ -174,9 +174,9 @@ Before finalizing any response, verify:
 
 Each skill lives in `skills/<skill-name>/` and contains:
 - `SKILL.md` — Main skill definition with YAML frontmatter
-- `AGENTS.md` — Operational rules and examples for agents
+- `AGENTS.md` — Operational rules and examples for agents, including the shared operational contract
 - `rules/` — Individual rule files (loaded on demand)
-- `metadata.json` — Structured metadata and references
+- `metadata.json` — Structured metadata, canonical `skill` info, and `meta` compatibility fields
 
 ---
 

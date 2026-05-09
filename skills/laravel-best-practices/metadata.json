@@ -1,5 +1,12 @@
 {
   "version": "2.1.0",
+  "skill": {
+    "name": "laravel-best-practices",
+    "version": "2.1.0",
+    "description": "Laravel 13 conventions and best practices. Use when creating controllers, models, migrations, validation, services, or structuring Laravel applications. Triggers on tasks involving Laravel architecture, Eloquent, database, API development, or PHP patterns.",
+    "author": "Laravel Community",
+    "license": "MIT"
+  },
   "organization": "Laravel Community",
   "date": "March 2026",
   "laravelVersion": "13.x",
@@ -76,5 +83,20 @@
     "PHP attributes for middleware and authorization (Laravel 13)",
     "Vector / semantic search with pgvector (Laravel 13)",
     "Centralized queue routing (Laravel 13)"
-  ]
+  ],
+  "meta": {
+    "created": "2026-03-01",
+    "last_updated": "2026-03-01",
+    "rule_count": 31,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

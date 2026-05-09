@@ -5,6 +5,19 @@
 **Date:** March 2026
 **License:** MIT
 
+## Operational Contract
+
+When applying this skill, agents must:
+- Treat this skill as repo-owned guidance and defer to repository or task-specific instructions when they conflict.
+- Limit work to the smallest relevant file and rule set for the current request.
+- Stop and ask when the stack, validation command, or requirement is missing or contradictory.
+- Prefer machine-readable evidence first, then summarize files reviewed, commands run, failures, and unresolved risks.
+
+## Validation & Evidence
+
+- Run the repository's existing validation commands in documented order when code changes are requested.
+- If this repository does not define a validation command for the current task, say so instead of inventing one.
+
 ## Abstract
 
 Comprehensive SEO patterns for web applications built with React and Laravel. Contains 31 rules across 8 categories covering Core Web Vitals, technical SEO, on-page optimization, structured data, performance, social sharing, React/SPA SEO, and mobile-first indexing. Supports SEO audit mode with PASS/FAIL checklist output. Each rule includes incorrect and correct code examples with practical HTML, React (Inertia.js), and Laravel implementations.
@@ -4470,4 +4483,3 @@ Reference: [Mobile usability report](https://support.google.com/webmasters/answe
 
 
 ---
-

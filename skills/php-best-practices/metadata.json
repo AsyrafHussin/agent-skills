@@ -1,5 +1,12 @@
 {
   "version": "3.0.0",
+  "skill": {
+    "name": "php-best-practices",
+    "version": "3.0.0",
+    "description": "PHP 8.x strict typing, modern language features, type safety, RCA + Kanban workflow, PHPStan + php-cs-fixer validation, value objects, no-magic design, and legacy migration. 56 rules across 9 sections. Use when reviewing PHP code, checking type safety, auditing code quality, or ensuring PHP best practices. Triggers on \"review PHP\", \"check PHP code\", \"audit PHP\", \"PHP best practices\", or \"PHP static analysis\".",
+    "author": "php-community",
+    "license": "MIT"
+  },
   "organization": "PHP Community",
   "date": "March 2026",
   "phpVersion": "8.0 - 8.5",
@@ -108,5 +115,20 @@
     "Legacy migration: PHPStan baseline, Rector transforms, Strangler Fig pattern (legacy-migration)",
     "Mandatory PHPStan + php-cs-fixer validation loop with CI integration (tooling-phpstan-cs-fixer)",
     "Response Template for structured PHP task responses"
-  ]
+  ],
+  "meta": {
+    "created": "2026-03-01",
+    "last_updated": "2026-03-01",
+    "rule_count": 56,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }
