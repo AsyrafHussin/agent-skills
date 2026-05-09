@@ -48,6 +48,8 @@ cp -r agent-skills/skills/laravel-best-practices .claude/skills/
 ```
 
 Each skill contains `SKILL.md`, `AGENTS.md`, `rules/`, and `metadata.json`.
+Each `AGENTS.md` now includes a shared operational contract for scope, stop/ask behavior, and evidence reporting, while each `metadata.json` exposes canonical `skill` and `meta` blocks for consistent machine parsing.
+Some metadata files also keep legacy top-level fields for backward compatibility with existing consumers, but the canonical source of operational identity is the nested `skill` block.
 
 ### Managing skills
 
@@ -224,6 +226,18 @@ Step-by-step workflow for writing Product Requirements Documents. 6-step process
 
 ```bash
 npx skills add AsyrafHussin/agent-skills --skill prd-writing
+```
+
+---
+
+### [operational-prompting](skills/operational-prompting)
+
+Repo-owned operational prompting for coding agents. Contains 8 rules across 4 categories covering instruction hierarchy, scope contracts, validation contracts, evidence-first outputs, and portable skill manifests.
+
+**Example:** `Audit this repo's Copilot instructions and agent prompts`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill operational-prompting
 ```
 
 ---

@@ -1,6 +1,28 @@
 {
-  "name": "laravel-database-optimization",
   "version": "1.1.1",
+  "skill": {
+    "name": "laravel-database-optimization",
+    "version": "1.1.1",
+    "description": "Laravel database optimization patterns. Use when writing Eloquent queries, creating migrations, configuring caching, debugging slow queries, or optimizing database performance. Triggers on tasks involving N+1 queries, indexing, Redis caching, pagination, or database transactions.",
+    "author": "agent-skills",
+    "license": "MIT",
+    "keywords": [
+      "database",
+      "optimization",
+      "N+1",
+      "eager loading",
+      "indexing",
+      "caching",
+      "Redis",
+      "pagination",
+      "transactions",
+      "migrations",
+      "query builder",
+      "Eloquent",
+      "performance"
+    ]
+  },
+  "name": "laravel-database-optimization",
   "description": "Comprehensive Laravel 13 database optimization guide designed for AI agents and LLMs. Contains 33 rules across 9 categories covering query performance, indexing strategies, Eloquent optimization, Redis caching, pagination, transactions, migrations, naming conventions, and query debugging.",
   "framework": "Laravel 13.x",
   "phpVersion": "8.3+",
@@ -106,5 +128,20 @@
     "indexing",
     "queries",
     "migrations"
-  ]
+  ],
+  "meta": {
+    "created": "2026-03-26",
+    "last_updated": "2026-03-26",
+    "rule_count": 33,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

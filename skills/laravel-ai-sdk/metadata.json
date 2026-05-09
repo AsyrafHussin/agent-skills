@@ -1,5 +1,21 @@
 {
   "version": "1.0.0",
+  "skill": {
+    "name": "laravel-ai-sdk",
+    "version": "1.0.0",
+    "description": "Laravel AI SDK for building AI-powered features. Use when creating agents, generating images or audio, working with embeddings, vector search, or testing AI features. Triggers on tasks involving laravel/ai, AI agents, tool-calling, structured output, streaming, embeddings, reranking, or AI faking in tests.",
+    "author": "Laravel Community",
+    "license": "MIT",
+    "keywords": [
+      "laravel",
+      "ai",
+      "sdk",
+      "agents",
+      "embeddings",
+      "vector-search",
+      "tool-calling"
+    ]
+  },
   "organization": "Laravel Community",
   "date": "March 2026",
   "laravelVersion": "13.x",
@@ -68,5 +84,20 @@
     "File and vector store management for RAG",
     "Provider failover for resilience",
     "Comprehensive faking and assertion API for testing"
-  ]
+  ],
+  "meta": {
+    "created": "2026-03-01",
+    "last_updated": "2026-03-01",
+    "rule_count": 17,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

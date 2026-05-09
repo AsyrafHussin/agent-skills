@@ -5,6 +5,19 @@
 **Date:** March 2026
 **License:** MIT
 
+## Operational Contract
+
+When applying this skill, agents must:
+- Treat this skill as repo-owned guidance and defer to repository or task-specific instructions when they conflict.
+- Limit work to the smallest relevant file and rule set for the current request.
+- Stop and ask when the stack, validation command, or requirement is missing or contradictory.
+- Prefer machine-readable evidence first, then summarize files reviewed, commands run, failures, and unresolved risks.
+
+## Validation & Evidence
+
+- Run the repository's existing validation commands in documented order when code changes are requested.
+- If this repository does not define a validation command for the current task, say so instead of inventing one.
+
 ## Abstract
 
 Comprehensive database optimization patterns for Laravel 13 applications. Contains 33 rules across 9 categories covering N+1 query prevention, indexing strategies, Eloquent optimization, Redis caching, pagination, transactions, migrations, naming conventions, and query debugging. Each rule includes incorrect and correct code examples with practical Laravel implementations.
@@ -2693,4 +2706,3 @@ Reference: [Laravel Migrations](https://laravel.com/docs/13.x/migrations)
 
 
 ---
-

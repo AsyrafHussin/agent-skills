@@ -1,5 +1,21 @@
 {
   "version": "1.1.0",
+  "skill": {
+    "name": "state-management",
+    "version": "1.1.0",
+    "description": "React Query and Zustand patterns for state management. Use when implementing data fetching, caching, mutations, or client-side state. Triggers on tasks involving useQuery, useMutation, Zustand stores, caching, or state management.",
+    "author": "agent-skills",
+    "license": "MIT",
+    "keywords": [
+      "react-query",
+      "zustand",
+      "state-management",
+      "caching",
+      "mutations",
+      "optimistic-updates",
+      "stores"
+    ]
+  },
   "organization": "State Management Patterns",
   "date": "March 2026",
   "abstract": "Comprehensive guide for TanStack Query v5 and Zustand v5 state management patterns, designed for AI agents and LLMs. Contains 26+ rules across 6 categories, prioritized by impact from critical (query fundamentals, mutations, stores) to medium (advanced patterns, caching strategies). All patterns verified against v5 APIs including gcTime, placeholderData, useSuspenseQuery, and useShallow. Covers server state with TanStack Query (data fetching, caching, mutations, optimistic updates) and client state with Zustand (stores, secure persistence, selectors). Security: never persist auth tokens to localStorage — use HttpOnly cookies. Optimized for automated refactoring and state management best practices.",
@@ -54,5 +70,20 @@
     "TypeScript patterns for type-safe stores and queries",
     "Secure persistence with zustand/middleware (partialize to exclude sensitive data)",
     "v5 API compatibility: gcTime, placeholderData, useSuspenseQuery, useShallow"
-  ]
+  ],
+  "meta": {
+    "created": "2026-03-01",
+    "last_updated": "2026-03-01",
+    "rule_count": 26,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

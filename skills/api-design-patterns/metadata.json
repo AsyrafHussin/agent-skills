@@ -1,6 +1,25 @@
 {
-  "name": "API Design Patterns",
   "version": "2.0.0",
+  "skill": {
+    "name": "api-design-patterns",
+    "version": "2.0.0",
+    "description": "RESTful API design, error handling, versioning, and best practices. Use when designing APIs, reviewing endpoints, implementing error responses, or setting up API structure. Triggers on \"design API\", \"review API\", \"REST best practices\", or \"API patterns\".",
+    "author": "Agent Skills Contributors",
+    "license": "MIT",
+    "keywords": [
+      "api",
+      "rest",
+      "restful",
+      "http",
+      "error-handling",
+      "pagination",
+      "versioning",
+      "security",
+      "openapi",
+      "swagger"
+    ]
+  },
+  "name": "API Design Patterns",
   "description": "RESTful API design principles for building consistent, developer-friendly APIs. Contains 38 rules across 7 categories covering resource design, error handling, security, pagination, versioning, response format, and documentation.",
   "license": "MIT",
   "author": {
@@ -71,5 +90,20 @@
     "swagger"
   ],
   "rulesTotal": 38,
-  "lastUpdated": "2026-03-14"
+  "lastUpdated": "2026-03-14",
+  "meta": {
+    "created": "2026-03-14",
+    "last_updated": "2026-03-14",
+    "rule_count": 38,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

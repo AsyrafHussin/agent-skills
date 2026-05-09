@@ -7,6 +7,19 @@
 **Organization:** Laravel Community
 **Date:** March 2026
 
+## Operational Contract
+
+When applying this skill, agents must:
+- Treat this skill as repo-owned guidance and defer to repository or task-specific instructions when they conflict.
+- Limit work to the smallest relevant file and rule set for the current request.
+- Stop and ask when the stack, validation command, or requirement is missing or contradictory.
+- Prefer machine-readable evidence first, then summarize files reviewed, commands run, failures, and unresolved risks.
+
+## Validation & Evidence
+
+- Run the repository's existing validation commands in documented order when code changes are requested.
+- If this repository does not define a validation command for the current task, say so instead of inventing one.
+
 ## Overview
 
 Comprehensive testing guide for Laravel 13 applications using Pest PHP 4. Contains 24 rules across 6 categories covering HTTP feature tests, model factories, database assertions, facade faking (including AI SDK), authentication testing, and Pest-specific patterns. All examples use PHP 8.3 syntax and Laravel 13 APIs.

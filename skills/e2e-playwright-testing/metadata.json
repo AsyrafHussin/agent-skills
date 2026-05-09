@@ -1,6 +1,26 @@
 {
-  "name": "E2E Playwright Testing",
   "version": "1.0.0",
+  "skill": {
+    "name": "e2e-playwright-testing",
+    "version": "1.0.0",
+    "description": "End-to-end testing with Playwright for web applications. Use when writing E2E tests, browser automation, form submission testing, or user flow testing. Triggers on \"playwright\", \"e2e test\", \"browser test\", \"end-to-end\", \"form flow testing\", or test files in tests/e2e/.",
+    "author": "Agent Skills Contributors",
+    "license": "MIT",
+    "keywords": [
+      "playwright",
+      "e2e",
+      "end-to-end",
+      "browser-testing",
+      "automation",
+      "locators",
+      "assertions",
+      "form-testing",
+      "react",
+      "inertia",
+      "spa"
+    ]
+  },
+  "name": "E2E Playwright Testing",
   "description": "End-to-end testing with Playwright for web applications. Covers locator strategies, authentication reuse, form testing, assertions, test organization, and debugging. Triggers on tasks involving E2E tests, browser testing, Playwright, form submission testing, or user flow testing.",
   "license": "MIT",
   "author": {
@@ -75,5 +95,20 @@
     "Parallelism decision guide (shared DB vs independent tests)"
   ],
   "rulesTotal": 8,
-  "lastUpdated": "2026-04-13"
+  "lastUpdated": "2026-04-13",
+  "meta": {
+    "created": "2026-04-13",
+    "last_updated": "2026-04-13",
+    "rule_count": 8,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }
