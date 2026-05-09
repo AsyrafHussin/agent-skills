@@ -7,6 +7,13 @@ tags: tag1, tag2, tag3
 
 # Rule Title Here
 
+## Impact level guide
+
+- **CRITICAL** — Safety, repo-owned control, task boundaries, or stop/ask rules that must hold before any other guidance.
+- **HIGH** — Validation, evidence, or workflow rules that materially affect correctness, reviewability, or reproducibility.
+- **MEDIUM** — Portability, maintainability, or structure rules that improve consistency without changing the core safety contract.
+- **LOW** — Optional polish, wording, or convenience guidance with limited operational risk.
+
 ## Why it matters
 
 One short paragraph on what becomes unreliable, unreviewable, or hard to verify when this rule is ignored.

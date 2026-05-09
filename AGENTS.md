@@ -178,6 +178,8 @@ Each skill lives in `skills/<skill-name>/` and contains:
 - `rules/` — Individual rule files (loaded on demand)
 - `metadata.json` — Structured metadata, canonical `skill` info, and `meta` compatibility fields
 
+When a skill keeps legacy top-level metadata for compatibility, treat the nested `skill` block as the canonical identity block and `meta` as the canonical lifecycle/compatibility block.
+
 ---
 
 ## Contributing

@@ -49,6 +49,7 @@ cp -r agent-skills/skills/laravel-best-practices .claude/skills/
 
 Each skill contains `SKILL.md`, `AGENTS.md`, `rules/`, and `metadata.json`.
 Each `AGENTS.md` now includes a shared operational contract for scope, stop/ask behavior, and evidence reporting, while each `metadata.json` exposes canonical `skill` and `meta` blocks for consistent machine parsing.
+Some metadata files also keep legacy top-level fields for backward compatibility with existing consumers, but the canonical source of operational identity is the nested `skill` block.
 
 ### Managing skills
 
