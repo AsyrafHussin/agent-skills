@@ -5,7 +5,16 @@
     "version": "2.1.0",
     "description": "Laravel 13 conventions and best practices. Use when creating controllers, models, migrations, validation, services, or structuring Laravel applications. Triggers on tasks involving Laravel architecture, Eloquent, database, API development, or PHP patterns.",
     "author": "Laravel Community",
-    "license": "MIT"
+    "license": "MIT",
+    "keywords": [
+      "laravel",
+      "php",
+      "eloquent",
+      "validation",
+      "controllers",
+      "services",
+      "architecture"
+    ]
   },
   "organization": "Laravel Community",
   "date": "March 2026",

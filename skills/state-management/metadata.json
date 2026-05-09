@@ -5,7 +5,16 @@
     "version": "1.1.0",
     "description": "React Query and Zustand patterns for state management. Use when implementing data fetching, caching, mutations, or client-side state. Triggers on tasks involving useQuery, useMutation, Zustand stores, caching, or state management.",
     "author": "agent-skills",
-    "license": "MIT"
+    "license": "MIT",
+    "keywords": [
+      "react-query",
+      "zustand",
+      "state-management",
+      "caching",
+      "mutations",
+      "optimistic-updates",
+      "stores"
+    ]
   },
   "organization": "State Management Patterns",
   "date": "March 2026",

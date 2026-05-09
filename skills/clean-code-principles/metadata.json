@@ -23,6 +23,13 @@
       "clean architecture"
     ]
   },
+  "name": "clean-code-principles",
+  "description": "SOLID principles, design patterns, DRY, KISS, and clean code fundamentals for writing maintainable, scalable software",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
   "tags": [
     "SOLID",
     "clean-code",

@@ -5,7 +5,16 @@
     "version": "1.0.0",
     "description": "Laravel AI SDK for building AI-powered features. Use when creating agents, generating images or audio, working with embeddings, vector search, or testing AI features. Triggers on tasks involving laravel/ai, AI agents, tool-calling, structured output, streaming, embeddings, reranking, or AI faking in tests.",
     "author": "Laravel Community",
-    "license": "MIT"
+    "license": "MIT",
+    "keywords": [
+      "laravel",
+      "ai",
+      "sdk",
+      "agents",
+      "embeddings",
+      "vector-search",
+      "tool-calling"
+    ]
   },
   "organization": "Laravel Community",
   "date": "March 2026",

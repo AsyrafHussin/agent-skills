@@ -5,7 +5,16 @@
     "version": "3.0.0",
     "description": "PHP 8.x strict typing, modern language features, type safety, RCA + Kanban workflow, PHPStan + php-cs-fixer validation, value objects, no-magic design, and legacy migration. 56 rules across 9 sections. Use when reviewing PHP code, checking type safety, auditing code quality, or ensuring PHP best practices. Triggers on \"review PHP\", \"check PHP code\", \"audit PHP\", \"PHP best practices\", or \"PHP static analysis\".",
     "author": "php-community",
-    "license": "MIT"
+    "license": "MIT",
+    "keywords": [
+      "php",
+      "strict-types",
+      "static-analysis",
+      "psr",
+      "value-objects",
+      "refactoring",
+      "performance"
+    ]
   },
   "organization": "PHP Community",
   "date": "March 2026",
