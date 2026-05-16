@@ -1,0 +1,129 @@
+{
+  "name": "Project Documentation",
+  "version": "1.0.0",
+  "description": "End-to-end documentation lifecycle for PHP/Laravel and Node/TypeScript/React projects. Covers folder structure, naming conventions, essential files, freshness, and cleanup of accumulated AI-generated junk. Supports bootstrap, audit, and reference modes.",
+  "framework": "PHP / Laravel + Node / TypeScript / React",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "keywords": [
+    "documentation",
+    "docs",
+    "markdown",
+    "readme",
+    "changelog",
+    "adr",
+    "architecture-decision-record",
+    "project-setup",
+    "bootstrap",
+    "audit",
+    "cleanup",
+    "naming-conventions",
+    "folder-structure",
+    "lifecycle",
+    "diataxis",
+    "ai-slop",
+    "conciseness",
+    "content-quality"
+  ],
+  "categories": [
+    {
+      "id": "structure",
+      "name": "Structure",
+      "priority": "CRITICAL",
+      "description": "Folder layout: root-level files, docs/ subfolders (architecture, adr, guides, runbooks, archive)",
+      "ruleCount": 3
+    },
+    {
+      "id": "naming",
+      "name": "Naming",
+      "priority": "CRITICAL",
+      "description": "UPPERCASE root files, kebab-case in docs/, numbered ADRs, anti-patterns to avoid",
+      "ruleCount": 4
+    },
+    {
+      "id": "essential-files",
+      "name": "Essential Files",
+      "priority": "HIGH",
+      "description": "README, CHANGELOG, LICENSE, CONTRIBUTING, SECURITY",
+      "ruleCount": 5
+    },
+    {
+      "id": "quality",
+      "name": "Quality",
+      "priority": "HIGH",
+      "description": "Conciseness, AI-slop detection in content, heading hierarchy, code blocks, links",
+      "ruleCount": 5
+    },
+    {
+      "id": "cleanup",
+      "name": "Cleanup",
+      "priority": "HIGH",
+      "description": "AI-generated junk files, duplicates, orphans, empty stubs",
+      "ruleCount": 4
+    },
+    {
+      "id": "lifecycle",
+      "name": "Lifecycle",
+      "priority": "MEDIUM",
+      "description": "Freshness dates, archive workflow, ADR process, CHANGELOG discipline",
+      "ruleCount": 4
+    }
+  ],
+  "references": [
+    {
+      "title": "Keep a Changelog",
+      "url": "https://keepachangelog.com/",
+      "type": "guide"
+    },
+    {
+      "title": "Semantic Versioning",
+      "url": "https://semver.org/",
+      "type": "reference"
+    },
+    {
+      "title": "Architecture Decision Records (ADR)",
+      "url": "https://adr.github.io/",
+      "type": "guide"
+    },
+    {
+      "title": "Diátaxis — documentation framework",
+      "url": "https://diataxis.fr/",
+      "type": "guide"
+    },
+    {
+      "title": "Choose a License",
+      "url": "https://choosealicense.com/",
+      "type": "tool"
+    },
+    {
+      "title": "Markdownlint",
+      "url": "https://github.com/DavidAnson/markdownlint",
+      "type": "tool"
+    },
+    {
+      "title": "Lychee — link checker",
+      "url": "https://github.com/lycheeverse/lychee",
+      "type": "tool"
+    }
+  ],
+  "tags": [
+    "documentation",
+    "project-setup",
+    "markdown",
+    "readme",
+    "changelog",
+    "adr",
+    "cleanup",
+    "conventions",
+    "lifecycle"
+  ],
+  "lastUpdated": "2026-05-17",
+  "rulesTotal": 25
+}
