@@ -84,18 +84,6 @@ npx skills add AsyrafHussin/agent-skills --skill technical-debt
 
 ---
 
-### [project-docs](skills/project-docs)
-
-Documentation lifecycle for **PHP/Laravel and Node/TypeScript/React**. Contains 25 rules across 6 categories (structure, naming, essential files, quality, cleanup, lifecycle). Supports bootstrap, audit, and reference modes — including AI-slop detection in both file names (PLAN.md, IMPLEMENTATION-SUMMARY.md) and content (filler phrases, generic praise, closing sign-offs).
-
-**Example:** `Set up docs for this project` or `Audit the markdown files in this repo`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill project-docs
-```
-
----
-
 ### [code-slop](skills/code-slop)
 
 Code-quality enforcement for **PHP/Laravel and TypeScript/React** — catches the sloppy patterns that pass every metric but degrade the codebase: narration comments, generic names, premature interfaces, defensive overdose, mock-everything tests. Most devs use AI now, so these patterns are common; this skill is how you keep code clean regardless of who (or what) wrote it. 24 rules across 6 categories. Verdicts: CLEAN / SUSPICIOUS / INFLATED / CRITICAL.
@@ -115,6 +103,18 @@ Run **both** for a full audit — taste check (`code-slop`) catches what metrics
 
 ```bash
 npx skills add AsyrafHussin/agent-skills --skill code-slop
+```
+
+---
+
+### [project-docs](skills/project-docs)
+
+Documentation lifecycle for **PHP/Laravel and Node/TypeScript/React**. Contains 25 rules across 6 categories (structure, naming, essential files, quality, cleanup, lifecycle). Supports bootstrap, audit, and reference modes — including AI-slop detection in both file names (PLAN.md, IMPLEMENTATION-SUMMARY.md) and content (filler phrases, generic praise, closing sign-offs).
+
+**Example:** `Set up docs for this project` or `Audit the markdown files in this repo`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill project-docs
 ```
 
 ---
