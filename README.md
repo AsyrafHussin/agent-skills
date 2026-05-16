@@ -74,7 +74,7 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-best-practices
 
 ### [technical-debt](skills/technical-debt)
 
-Technical debt inventory, prioritization, and audit for **PHP/Laravel (MySQL) and Node/TypeScript/React** projects. Contains 42 rules across 10 categories covering code, security, design, dependency, test, performance, data, documentation, infrastructure (incl. observability), and process debt (incl. feature flags). Produces a ranked debt ledger (effort × impact, P0–P3) so teams know what to pay down first. Supports audit mode with PASS/FAIL/N/A checklist output.
+Technical debt audit and prioritization for **PHP/Laravel (MySQL) and Node/TypeScript/React**. Contains 42 rules across 10 categories. Produces a ranked debt ledger (effort × impact, P0–P3) and supports audit mode with PASS/FAIL/N/A output.
 
 **Example:** `Audit technical debt in this project` or `What should we refactor first?`
 
