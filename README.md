@@ -323,6 +323,18 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-database-optimization
 
 ---
 
+### [laravel-queues](skills/laravel-queues)
+
+Production-grade queue patterns for **Laravel 13 (MySQL + Redis)**. 20 rules across 6 categories: driver choice (database/redis/sqs), job design (`ShouldQueue`, IDs-not-models, idempotency), retry & failure (`#[Backoff]`, `#[FailOnTimeout]`, `failed()`), worker scaling and Supervisor config, `Bus::batch` vs `Bus::chain`, and when to adopt Horizon.
+
+**Example:** `Audit our queue setup` or `Review this job class`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill laravel-queues
+```
+
+---
+
 ### [laravel-ai-sdk](skills/laravel-ai-sdk)
 
 Laravel AI SDK for building AI-powered features. Contains 17 rules across 7 categories covering agents, tools, structured output, streaming, images, audio, embeddings, vector stores, and testing with fakes.
