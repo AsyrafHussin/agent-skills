@@ -1,0 +1,105 @@
+{
+  "name": "Code Slop Detection",
+  "version": "1.0.0",
+  "description": "Taste-level review of code for AI-generated patterns in PHP/Laravel and TypeScript/React projects. Catches code that passes every metric but reads like a tutorial \u2014 not human-written. Complements technical-debt's quantitative metrics with qualitative review.",
+  "framework": "PHP / Laravel + Node / TypeScript / React",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "keywords": [
+    "ai-slop",
+    "code-quality",
+    "code-review",
+    "ai-generated-code",
+    "code-smells",
+    "llm-code-patterns",
+    "clean-code",
+    "anti-patterns",
+    "comments",
+    "naming-conventions",
+    "over-engineering",
+    "defensive-programming",
+    "test-quality",
+    "code-taste",
+    "human-readable"
+  ],
+  "categories": [
+    {
+      "id": "comments",
+      "name": "Comments",
+      "priority": "CRITICAL",
+      "description": "Narration, empty docblocks, placeholder TODOs, closing-brace labels",
+      "ruleCount": 4
+    },
+    {
+      "id": "naming",
+      "name": "Naming",
+      "priority": "CRITICAL",
+      "description": "Generic placeholders, over-descriptive run-ons, suffix abuse, type-in-name",
+      "ruleCount": 4
+    },
+    {
+      "id": "over-engineering",
+      "name": "Over-engineering",
+      "priority": "HIGH",
+      "description": "Premature interfaces, single-method classes, useless wrappers, dependency creep",
+      "ruleCount": 4
+    },
+    {
+      "id": "defensive-overdose",
+      "name": "Defensive overdose",
+      "priority": "HIGH",
+      "description": "Generic catch blocks, impossible null checks, defensive in wrong places",
+      "ruleCount": 3
+    },
+    {
+      "id": "test-slop",
+      "name": "Test slop",
+      "priority": "HIGH",
+      "description": "Mock-everything tests, doesn't-throw asserts, mirror-implementation, snapshot abuse",
+      "ruleCount": 4
+    },
+    {
+      "id": "style-fingerprints",
+      "name": "Style fingerprints",
+      "priority": "MEDIUM",
+      "description": "Hyper-consistent formatting, as-any escapes, no HACK scars, debug artifacts, trivial boilerplate",
+      "ruleCount": 5
+    }
+  ],
+  "references": [
+    {
+      "title": "arXiv 2510.03029 \u2014 Investigating the Smells of LLM-Generated Code",
+      "url": "https://arxiv.org/abs/2510.03029",
+      "type": "research"
+    },
+    {
+      "title": "hardikpandya/stop-slop \u2014 prose-slop checklist",
+      "url": "https://github.com/hardikpandya/stop-slop",
+      "type": "reference"
+    },
+    {
+      "title": "flamehaven01/AI-SLOP-Detector \u2014 Python AST scanner",
+      "url": "https://github.com/flamehaven01/AI-SLOP-Detector",
+      "type": "tool"
+    }
+  ],
+  "tags": [
+    "ai-slop",
+    "code-quality",
+    "code-review",
+    "clean-code",
+    "anti-patterns",
+    "ai-generated-code",
+    "code-taste",
+    "human-readable"
+  ],
+  "lastUpdated": "2026-05-17",
+  "rulesTotal": 24
+}
