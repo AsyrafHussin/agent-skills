@@ -1,0 +1,132 @@
+{
+  "version": "1.0.0",
+  "skill": {
+    "name": "code-review-error-handling",
+    "version": "1.0.0",
+    "description": "Error-handling and resilience review lens for catching swallowed failures, unbounded I/O, missing timeouts, retry hazards, and partial-failure bugs during code review.",
+    "author": "Agent Skills Team",
+    "license": "MIT",
+    "keywords": [
+      "code-review",
+      "code-review-error-handling",
+      "error-handling-review",
+      "partial-failure",
+      "resilience-review",
+      "retry-logic",
+      "review-lens",
+      "timeout-discipline"
+    ]
+  },
+  "name": "code-review-error-handling",
+  "description": "Resilience-focused review lens for signalling, propagation, retries, cleanup, and observable failure behavior.",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Team",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "tags": [
+    "code-review",
+    "err-defensive-overreach",
+    "err-exception-hygiene",
+    "err-observability",
+    "err-partial-failure",
+    "err-resource-cleanup",
+    "err-retry-semantics",
+    "err-signalling-discipline",
+    "err-timeout-cancellation",
+    "review-lens"
+  ],
+  "categories": [
+    {
+      "id": "err-signalling-discipline",
+      "name": "Error Signalling Discipline",
+      "priority": "critical",
+      "prefix": "err-signalling-discipline",
+      "count": 1,
+      "description": "Ignored return codes, unchecked fallible operations, and silent partial-success paths"
+    },
+    {
+      "id": "err-exception-hygiene",
+      "name": "Exception & Error Hygiene",
+      "priority": "critical",
+      "prefix": "err-exception-hygiene",
+      "count": 1,
+      "description": "Overbroad catches, swallowed errors, and lost causal context"
+    },
+    {
+      "id": "err-timeout-cancellation",
+      "name": "Timeout & Cancellation Discipline",
+      "priority": "critical",
+      "prefix": "err-timeout-cancellation",
+      "count": 1,
+      "description": "Explicit timeouts, cancellation propagation, and bounded waits"
+    },
+    {
+      "id": "err-retry-semantics",
+      "name": "Retry Semantics",
+      "priority": "high",
+      "prefix": "err-retry-semantics",
+      "count": 1,
+      "description": "Max attempts, backoff, idempotency, and retryable error classes"
+    },
+    {
+      "id": "err-partial-failure",
+      "name": "Partial-Failure Handling",
+      "priority": "high",
+      "prefix": "err-partial-failure",
+      "count": 1,
+      "description": "Batch safety, compensation, and caller-visible partial-success contracts"
+    },
+    {
+      "id": "err-observability",
+      "name": "Error-Context Observability",
+      "priority": "medium",
+      "prefix": "err-observability",
+      "count": 1,
+      "description": "Logs, trackers, correlation IDs, and actionable context"
+    },
+    {
+      "id": "err-resource-cleanup",
+      "name": "Resource Cleanup on Error Paths",
+      "priority": "high",
+      "prefix": "err-resource-cleanup",
+      "count": 1,
+      "description": "Scoped release patterns for files, locks, sockets, and transactions"
+    },
+    {
+      "id": "err-defensive-overreach",
+      "name": "Defensive-Programming Overreach",
+      "priority": "low",
+      "prefix": "err-defensive-overreach",
+      "count": 1,
+      "description": "Unnecessary guards and catches that add noise without resilience value"
+    }
+  ],
+  "references": [
+    {
+      "title": "Pi Ensemble error-handling lens",
+      "url": "https://raw.githubusercontent.com/randomm/pi-ensemble/main/skill/code-review-error-handling/SKILL.md",
+      "type": "source"
+    },
+    {
+      "title": "Release It! patterns",
+      "url": "https://pragprog.com/titles/mnee2/release-it-second-edition/",
+      "type": "reference"
+    }
+  ],
+  "meta": {
+    "created": "2026-05-26",
+    "last_updated": "2026-05-26",
+    "rule_count": 8,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
+}

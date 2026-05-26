@@ -1,0 +1,114 @@
+{
+  "version": "1.0.0",
+  "skill": {
+    "name": "code-review-security",
+    "version": "1.0.0",
+    "description": "Security-focused review lens for identifying injection risks, auth flaws, secret exposure, unsafe configuration, and missing validation during code review.",
+    "author": "Agent Skills Team",
+    "license": "MIT",
+    "keywords": [
+      "auth-review",
+      "check-for-vulnerabilities",
+      "code-review",
+      "code-review-security",
+      "injection-risks",
+      "review-lens",
+      "secure-code-review",
+      "security-review"
+    ]
+  },
+  "name": "code-review-security",
+  "description": "Security review lens for vulnerabilities, input validation, data protection, auth/authz, and secure defaults.",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Team",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "tags": [
+    "code-review",
+    "review-lens",
+    "sec-auth-authorization",
+    "sec-configuration-security",
+    "sec-data-protection",
+    "sec-dependency-security",
+    "sec-injection-vulnerabilities",
+    "sec-input-validation"
+  ],
+  "categories": [
+    {
+      "id": "sec-injection-vulnerabilities",
+      "name": "Injection Vulnerabilities",
+      "priority": "critical",
+      "prefix": "sec-injection-vulnerabilities",
+      "count": 1,
+      "description": "SQL, command, XSS, template, and path traversal injection risks"
+    },
+    {
+      "id": "sec-auth-authorization",
+      "name": "Authentication & Authorization",
+      "priority": "critical",
+      "prefix": "sec-auth-authorization",
+      "count": 1,
+      "description": "Identity checks, session handling, access control, and token safety"
+    },
+    {
+      "id": "sec-data-protection",
+      "name": "Data Protection",
+      "priority": "high",
+      "prefix": "sec-data-protection",
+      "count": 1,
+      "description": "Secrets, PII, encryption, logs, and exposure boundaries"
+    },
+    {
+      "id": "sec-input-validation",
+      "name": "Input Validation",
+      "priority": "high",
+      "prefix": "sec-input-validation",
+      "count": 1,
+      "description": "Whitelisting, bounds checks, sanitization, and schema validation"
+    },
+    {
+      "id": "sec-dependency-security",
+      "name": "Dependency Security",
+      "priority": "medium",
+      "prefix": "sec-dependency-security",
+      "count": 1,
+      "description": "Known vulnerable packages and supply-chain exposure"
+    },
+    {
+      "id": "sec-configuration-security",
+      "name": "Configuration Security",
+      "priority": "high",
+      "prefix": "sec-configuration-security",
+      "count": 1,
+      "description": "Hardcoded secrets, insecure defaults, debug exposure, and CORS/security headers"
+    }
+  ],
+  "references": [
+    {
+      "title": "Pi Ensemble security lens",
+      "url": "https://raw.githubusercontent.com/randomm/pi-ensemble/main/skill/code-review-security/SKILL.md",
+      "type": "source"
+    },
+    {
+      "title": "OWASP Top 10",
+      "url": "https://owasp.org/www-project-top-ten/",
+      "type": "reference"
+    }
+  ],
+  "meta": {
+    "created": "2026-05-26",
+    "last_updated": "2026-05-26",
+    "rule_count": 6,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
+}

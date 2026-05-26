@@ -194,6 +194,79 @@ npx skills add AsyrafHussin/agent-skills --skill clean-code-principles
 
 ---
 
+
+### [code-review-architecture](skills/code-review-architecture)
+
+Architecture review lens for targeted code reviews. Contains 8 rules across 8 categories covering coupling, separation of concerns, module boundaries, abstraction quality, and transaction-boundary invariants.
+
+**Example:** `Review this diff for architecture issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-architecture
+```
+
+---
+
+### [code-review-error-handling](skills/code-review-error-handling)
+
+Error-handling and resilience review lens. Contains 8 rules across 8 categories covering failure signalling, timeout discipline, retries, cleanup, observability, and partial-failure safety.
+
+**Example:** `Review this diff for error-handling and resilience issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-error-handling
+```
+
+---
+
+### [code-review-performance](skills/code-review-performance)
+
+Performance review lens for code review. Contains 7 rules across 7 categories covering algorithmic complexity, database efficiency, network I/O, memory use, caching, concurrency, and payload optimization.
+
+**Example:** `Review this diff for performance regressions`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-performance
+```
+
+---
+
+### [code-review-security](skills/code-review-security)
+
+Security review lens for targeted code reviews. Contains 6 rules across 6 categories covering injection risks, auth/authz, data protection, validation, dependency security, and secure configuration.
+
+**Example:** `Review this diff for security issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-security
+```
+
+---
+
+### [code-review-simplicity](skills/code-review-simplicity)
+
+Simplicity review lens for maintainability-focused code review. Contains 8 rules across 8 categories covering readability, cognitive load, unnecessary abstraction, duplicated logic, and bound-range collapse checks.
+
+**Example:** `Review this diff for simplicity and maintainability issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-simplicity
+```
+
+---
+
+### [code-review-type-safety](skills/code-review-type-safety)
+
+Type-safety review lens for focused code review. Contains 4 rules across 4 categories covering type coverage, correctness, unsafe coercions, runtime validation, and generic discipline.
+
+**Example:** `Review this diff for type-safety issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-type-safety
+```
+
+---
+
 ### [api-design-patterns](skills/api-design-patterns)
 
 RESTful API design patterns. Contains 38 rules across 7 categories covering resource design, error handling, security, pagination, versioning, response format, and OpenAPI documentation.
