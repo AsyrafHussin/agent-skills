@@ -74,6 +74,53 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-best-practices
 
 ---
 
+### [technical-debt](skills/technical-debt)
+
+Technical debt audit and prioritization for **PHP/Laravel (MySQL) and Node/TypeScript/React**. Contains 42 rules across 10 categories. Produces a ranked debt ledger (effort × impact, P0–P3) and supports audit mode with PASS/FAIL/N/A output.
+
+**Example:** `Audit technical debt in this project` or `What should we refactor first?`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill technical-debt
+```
+
+---
+
+### [code-slop](skills/code-slop)
+
+Code-quality enforcement for **PHP/Laravel and TypeScript/React** — catches the sloppy patterns that pass every metric but degrade the codebase: narration comments, generic names, premature interfaces, defensive overdose, mock-everything tests. Most devs use AI now, so these patterns are common; this skill is how you keep code clean regardless of who (or what) wrote it. 24 rules across 6 categories. Verdicts: CLEAN / SUSPICIOUS / INFLATED / CRITICAL.
+
+**`code-slop` vs `technical-debt` — which to pick?**
+
+| Use `code-slop` when… | Use `technical-debt` when… |
+|---|---|
+| Reviewing a PR — keeping the bar for clean code | Auditing the codebase for ranked debt to pay down |
+| Concern is **taste**: comments, naming, over-engineering, defensive overdose, test quality | Concern is **metrics**: complexity, duplication, CVEs, missing indexes, N+1 queries |
+| Question: "Is this clean code or sloppy patterns to reject?" | Question: "What should we refactor first?" |
+| Output: classified diff verdicts (CLEAN / SUSPICIOUS / INFLATED / CRITICAL) | Output: ranked debt ledger (P0–P3) |
+
+Run **both** for a full audit — taste check (`code-slop`) catches what metrics miss; metric audit (`technical-debt`) catches what taste-review misses.
+
+**Example:** `Review this PR for code quality` or `Find sloppy patterns in app/Services/`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-slop
+```
+
+---
+
+### [project-docs](skills/project-docs)
+
+Documentation lifecycle for **PHP/Laravel and Node/TypeScript/React**. Contains 25 rules across 6 categories (structure, naming, essential files, quality, cleanup, lifecycle). Supports bootstrap, audit, and reference modes — including AI-slop detection in both file names (PLAN.md, IMPLEMENTATION-SUMMARY.md) and content (filler phrases, generic praise, closing sign-offs).
+
+**Example:** `Set up docs for this project` or `Audit the markdown files in this repo`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill project-docs
+```
+
+---
+
 ### [laravel-inertia-react](skills/laravel-inertia-react)
 
 Laravel 13 + Inertia.js + React 18 full-stack patterns. Covers page components, form handling, layouts, file uploads, and real-time features.
@@ -359,6 +406,18 @@ Laravel 13 database optimization. Contains 33 rules across 9 categories covering
 
 ```bash
 npx skills add AsyrafHussin/agent-skills --skill laravel-database-optimization
+```
+
+---
+
+### [laravel-queues](skills/laravel-queues)
+
+Production-grade queue patterns for **Laravel 13 (MySQL + Redis)**. 20 rules across 6 categories: driver choice (database/redis/sqs), job design (`ShouldQueue`, IDs-not-models, idempotency), retry & failure (`#[Backoff]`, `#[FailOnTimeout]`, `failed()`), worker scaling and Supervisor config, `Bus::batch` vs `Bus::chain`, and when to adopt Horizon.
+
+**Example:** `Audit our queue setup` or `Review this job class`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill laravel-queues
 ```
 
 ---

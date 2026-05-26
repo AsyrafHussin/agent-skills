@@ -1,0 +1,191 @@
+{
+  "name": "Technical Debt",
+  "version": "1.0.0",
+  "description": "Technical debt inventory, prioritization, and audit framework for PHP/Laravel (MySQL) and Node/TypeScript/React projects. Produces a ranked debt ledger (effort × impact) covering code, security, design, dependency, test, performance, data, documentation, infrastructure, and process debt. Supports audit mode with PASS/FAIL/N/A output and priority ranking (P0–P3).",
+  "framework": "PHP / Laravel (MySQL) + Node / TypeScript / React",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "keywords": [
+    "technical-debt",
+    "tech-debt",
+    "code-health",
+    "refactoring",
+    "code-quality",
+    "debt-inventory",
+    "debt-prioritization",
+    "audit",
+    "code-smells",
+    "legacy-code",
+    "maintainability",
+    "complexity",
+    "duplication",
+    "dependency-management",
+    "test-debt",
+    "documentation-debt",
+    "security-debt",
+    "performance-debt",
+    "data-debt",
+    "n-plus-one",
+    "bundle-size",
+    "schema-drift",
+    "secrets-management",
+    "caching",
+    "observability",
+    "feature-flags",
+    "mysql"
+  ],
+  "categories": [
+    {
+      "id": "code-debt",
+      "name": "Code Debt",
+      "priority": "CRITICAL",
+      "description": "Duplication, complexity, long functions, god classes, dead code, magic numbers, long parameter lists",
+      "ruleCount": 7
+    },
+    {
+      "id": "security-debt",
+      "name": "Security Debt",
+      "priority": "CRITICAL",
+      "description": "Secrets in source, missing input validation, outdated auth and missing hardening",
+      "ruleCount": 3
+    },
+    {
+      "id": "design-debt",
+      "name": "Design Debt",
+      "priority": "HIGH",
+      "description": "Tight coupling, circular dependencies, leaky abstractions, shotgun surgery",
+      "ruleCount": 4
+    },
+    {
+      "id": "dependency-debt",
+      "name": "Dependency Debt",
+      "priority": "HIGH",
+      "description": "Outdated versions, abandoned packages, CVEs, unused dependencies",
+      "ruleCount": 4
+    },
+    {
+      "id": "test-debt",
+      "name": "Test Debt",
+      "priority": "HIGH",
+      "description": "Coverage gaps, flaky tests, disabled tests, slow suites",
+      "ruleCount": 4
+    },
+    {
+      "id": "performance-debt",
+      "name": "Performance Debt",
+      "priority": "HIGH",
+      "description": "N+1 queries, unbounded result sets, frontend bundle bloat, missing caching",
+      "ruleCount": 4
+    },
+    {
+      "id": "data-debt",
+      "name": "Data Debt",
+      "priority": "HIGH",
+      "description": "Schema drift, missing indexes, orphaned records and referential gaps",
+      "ruleCount": 3
+    },
+    {
+      "id": "documentation-debt",
+      "name": "Documentation Debt",
+      "priority": "MEDIUM",
+      "description": "Stale comments, outdated architecture docs, undocumented APIs",
+      "ruleCount": 3
+    },
+    {
+      "id": "infrastructure-debt",
+      "name": "Infrastructure Debt",
+      "priority": "MEDIUM",
+      "description": "EOL runtimes, deprecated framework APIs, build warnings, secrets management, observability gaps",
+      "ruleCount": 5
+    },
+    {
+      "id": "process-debt",
+      "name": "Process Debt",
+      "priority": "MEDIUM",
+      "description": "Aging TODOs, undated @deprecated markers, untracked debt, code without owners, lingering feature flags",
+      "ruleCount": 5
+    }
+  ],
+  "references": [
+    {
+      "title": "Martin Fowler — Technical Debt Quadrant",
+      "url": "https://martinfowler.com/bliki/TechnicalDebtQuadrant.html",
+      "type": "guide"
+    },
+    {
+      "title": "Ward Cunningham — The Debt Metaphor",
+      "url": "https://www.youtube.com/watch?v=pqeJFYwnkjE",
+      "type": "guide"
+    },
+    {
+      "title": "SonarQube Technical Debt Model",
+      "url": "https://docs.sonarsource.com/sonarqube/latest/user-guide/metric-definitions/",
+      "type": "reference"
+    },
+    {
+      "title": "OWASP Top 10",
+      "url": "https://owasp.org/www-project-top-ten/",
+      "type": "reference"
+    },
+    {
+      "title": "OWASP Dependency-Check",
+      "url": "https://owasp.org/www-project-dependency-check/",
+      "type": "tool"
+    },
+    {
+      "title": "Snyk Vulnerability Database",
+      "url": "https://security.snyk.io/",
+      "type": "tool"
+    },
+    {
+      "title": "npm audit",
+      "url": "https://docs.npmjs.com/cli/v10/commands/npm-audit",
+      "type": "tool"
+    },
+    {
+      "title": "Composer audit",
+      "url": "https://getcomposer.org/doc/03-cli.md#audit",
+      "type": "tool"
+    },
+    {
+      "title": "gitleaks",
+      "url": "https://github.com/gitleaks/gitleaks",
+      "type": "tool"
+    },
+    {
+      "title": "Use the Index, Luke",
+      "url": "https://use-the-index-luke.com/",
+      "type": "guide"
+    },
+    {
+      "title": "PHPStan",
+      "url": "https://phpstan.org/",
+      "type": "tool"
+    }
+  ],
+  "tags": [
+    "technical-debt",
+    "code-quality",
+    "maintainability",
+    "refactoring",
+    "audit",
+    "dependency-management",
+    "testing",
+    "documentation",
+    "security",
+    "performance",
+    "database",
+    "infrastructure",
+    "code-smells",
+    "legacy-code"
+  ],
+  "lastUpdated": "2026-05-16",
+  "rulesTotal": 42
+}

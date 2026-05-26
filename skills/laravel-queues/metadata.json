@@ -1,0 +1,109 @@
+{
+  "name": "Laravel Queues & Jobs",
+  "version": "1.0.0",
+  "description": "Production-grade queue patterns for Laravel 13 (MySQL + Redis). Covers driver choice, job design (ShouldQueue, idempotency, serialisation), retry and failure handling, worker scaling and Supervisor config, Bus batching and chaining, queue testing, and when to adopt Horizon.",
+  "framework": "Laravel 13.x (PHP 8.3+) + MySQL + Redis",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Contributors",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "keywords": [
+    "laravel",
+    "laravel-13",
+    "queues",
+    "jobs",
+    "background-jobs",
+    "horizon",
+    "redis",
+    "supervisor",
+    "idempotency",
+    "retry",
+    "failed-jobs",
+    "bus-batch",
+    "bus-chain",
+    "scheduling",
+    "queue-testing"
+  ],
+  "categories": [
+    {
+      "id": "config",
+      "name": "Driver & Config",
+      "priority": "CRITICAL",
+      "description": "Driver choice (database/redis/sqs), after_commit, failed-jobs storage",
+      "ruleCount": 3
+    },
+    {
+      "id": "design",
+      "name": "Job Design",
+      "priority": "CRITICAL",
+      "description": "ShouldQueue, IDs not models, idempotency, constructor vs handle",
+      "ruleCount": 4
+    },
+    {
+      "id": "retry",
+      "name": "Retry & Failure",
+      "priority": "HIGH",
+      "description": "Tries and backoff, failed() method, transient vs permanent, FailOnTimeout",
+      "ruleCount": 4
+    },
+    {
+      "id": "scaling",
+      "name": "Scaling & Workers",
+      "priority": "HIGH",
+      "description": "Supervisor config, multi-queue priority, worker recycling",
+      "ruleCount": 3
+    },
+    {
+      "id": "bus",
+      "name": "Batching & Chaining",
+      "priority": "HIGH",
+      "description": "Bus::batch vs Bus::chain, failure handling, chunking large sets",
+      "ruleCount": 3
+    },
+    {
+      "id": "ops",
+      "name": "Testing & Operations",
+      "priority": "MEDIUM",
+      "description": "Queue::fake / Bus::fake, scheduled jobs, when to adopt Horizon",
+      "ruleCount": 3
+    }
+  ],
+  "references": [
+    {
+      "title": "Laravel 13 — Queues",
+      "url": "https://laravel.com/docs/13.x/queues",
+      "type": "official"
+    },
+    {
+      "title": "Laravel 13 — Horizon",
+      "url": "https://laravel.com/docs/13.x/horizon",
+      "type": "official"
+    },
+    {
+      "title": "Laravel 13 — Task Scheduling",
+      "url": "https://laravel.com/docs/13.x/scheduling",
+      "type": "official"
+    },
+    {
+      "title": "Supervisor — A Process Control System",
+      "url": "http://supervisord.org/",
+      "type": "tool"
+    }
+  ],
+  "tags": [
+    "laravel",
+    "queues",
+    "jobs",
+    "horizon",
+    "redis",
+    "supervisor",
+    "production"
+  ],
+  "lastUpdated": "2026-05-17",
+  "rulesTotal": 20
+}
