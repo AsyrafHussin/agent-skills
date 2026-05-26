@@ -1,0 +1,132 @@
+{
+  "version": "1.0.0",
+  "skill": {
+    "name": "code-review-architecture",
+    "version": "1.0.0",
+    "description": "Architecture-focused review lens for assessing coupling, module boundaries, abstraction quality, and rollback-safe design during code review. Use when reviewing design quality, separation of concerns, transaction boundaries, or structural maintainability.",
+    "author": "Agent Skills Team",
+    "license": "MIT",
+    "keywords": [
+      "architecture-review",
+      "code-review",
+      "code-review-architecture",
+      "module-boundaries",
+      "review-architecture",
+      "review-lens",
+      "separation-of-concerns",
+      "transaction-boundary"
+    ]
+  },
+  "name": "code-review-architecture",
+  "description": "Architecture review lens for design quality, coupling, cohesion, module boundaries, and rollback-safe side effects.",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Team",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "tags": [
+    "arch-abstraction-interfaces",
+    "arch-coupling-cohesion",
+    "arch-data-flow",
+    "arch-design-patterns",
+    "arch-extensibility-maintainability",
+    "arch-module-boundaries",
+    "arch-separation-concerns",
+    "arch-transaction-boundaries",
+    "code-review",
+    "review-lens"
+  ],
+  "categories": [
+    {
+      "id": "arch-coupling-cohesion",
+      "name": "Coupling & Cohesion",
+      "priority": "critical",
+      "prefix": "arch-coupling-cohesion",
+      "count": 1,
+      "description": "Tight coupling, low cohesion, circular dependencies, dependency inversion issues"
+    },
+    {
+      "id": "arch-separation-concerns",
+      "name": "Separation of Concerns",
+      "priority": "critical",
+      "prefix": "arch-separation-concerns",
+      "count": 1,
+      "description": "Business logic placement, layering, and single-responsibility boundaries"
+    },
+    {
+      "id": "arch-abstraction-interfaces",
+      "name": "Abstraction & Interfaces",
+      "priority": "high",
+      "prefix": "arch-abstraction-interfaces",
+      "count": 1,
+      "description": "Abstraction levels, interface quality, and leaky boundaries"
+    },
+    {
+      "id": "arch-module-boundaries",
+      "name": "Module Boundaries",
+      "priority": "high",
+      "prefix": "arch-module-boundaries",
+      "count": 1,
+      "description": "API contracts, visibility, and boundary enforcement"
+    },
+    {
+      "id": "arch-design-patterns",
+      "name": "Design Patterns",
+      "priority": "medium",
+      "prefix": "arch-design-patterns",
+      "count": 1,
+      "description": "Appropriate pattern use, anti-patterns, and consistency"
+    },
+    {
+      "id": "arch-data-flow",
+      "name": "Data Flow",
+      "priority": "medium",
+      "prefix": "arch-data-flow",
+      "count": 1,
+      "description": "Clear data movement, state handling, and persistence separation"
+    },
+    {
+      "id": "arch-extensibility-maintainability",
+      "name": "Extensibility & Maintainability",
+      "priority": "medium",
+      "prefix": "arch-extensibility-maintainability",
+      "count": 1,
+      "description": "Configurability, duplication, and future change safety"
+    },
+    {
+      "id": "arch-transaction-boundaries",
+      "name": "Transaction Boundary Invariants",
+      "priority": "critical",
+      "prefix": "arch-transaction-boundaries",
+      "count": 1,
+      "description": "Transactional writes versus external side effects and lifecycle-hook safety"
+    }
+  ],
+  "references": [
+    {
+      "title": "Pi Ensemble architecture lens",
+      "url": "https://raw.githubusercontent.com/randomm/pi-ensemble/main/skill/code-review-architecture/SKILL.md",
+      "type": "source"
+    },
+    {
+      "title": "Martin Fowler on refactoring",
+      "url": "https://refactoring.com/",
+      "type": "reference"
+    }
+  ],
+  "meta": {
+    "created": "2026-05-26",
+    "last_updated": "2026-05-26",
+    "rule_count": 8,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
+}

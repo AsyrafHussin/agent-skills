@@ -1,0 +1,132 @@
+{
+  "version": "1.0.0",
+  "skill": {
+    "name": "code-review-simplicity",
+    "version": "1.0.0",
+    "description": "Simplicity-focused review lens for identifying unnecessary complexity, dead logic, unclear naming, duplicated behavior, and maintainability drag during code review.",
+    "author": "Agent Skills Team",
+    "license": "MIT",
+    "keywords": [
+      "code-clarity",
+      "code-review",
+      "code-review-simplicity",
+      "maintainability-review",
+      "readability-review",
+      "reduce-complexity",
+      "review-lens",
+      "simplicity-review"
+    ]
+  },
+  "name": "code-review-simplicity",
+  "description": "Simplicity review lens for readability, cognitive load, unnecessary abstraction, duplication, and dead-range logic.",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Team",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "tags": [
+    "code-review",
+    "review-lens",
+    "simp-code-duplication",
+    "simp-cognitive-load",
+    "simp-colliding-bounds",
+    "simp-documentation-comments",
+    "simp-naming-conventions",
+    "simp-readability-clarity",
+    "simp-testing-debugging",
+    "simp-unnecessary-complexity"
+  ],
+  "categories": [
+    {
+      "id": "simp-readability-clarity",
+      "name": "Readability & Clarity",
+      "priority": "high",
+      "prefix": "simp-readability-clarity",
+      "count": 1,
+      "description": "Naming, magic values, nesting, boolean complexity, and long functions"
+    },
+    {
+      "id": "simp-cognitive-load",
+      "name": "Cognitive Load",
+      "priority": "high",
+      "prefix": "simp-cognitive-load",
+      "count": 1,
+      "description": "Parameter count, responsibility load, inheritance depth, and mental model cost"
+    },
+    {
+      "id": "simp-unnecessary-complexity",
+      "name": "Unnecessary Complexity",
+      "priority": "critical",
+      "prefix": "simp-unnecessary-complexity",
+      "count": 1,
+      "description": "Over-engineering, premature abstraction, and patterns without value"
+    },
+    {
+      "id": "simp-colliding-bounds",
+      "name": "Colliding or Redundant Bounds",
+      "priority": "critical",
+      "prefix": "simp-colliding-bounds",
+      "count": 1,
+      "description": "Bound-range collapse, dead-range logic, and constant-output paths"
+    },
+    {
+      "id": "simp-code-duplication",
+      "name": "Code Duplication",
+      "priority": "medium",
+      "prefix": "simp-code-duplication",
+      "count": 1,
+      "description": "Copy-paste logic and repeated structures that should converge"
+    },
+    {
+      "id": "simp-documentation-comments",
+      "name": "Documentation & Comments",
+      "priority": "low",
+      "prefix": "simp-documentation-comments",
+      "count": 1,
+      "description": "Missing, outdated, or contradictory explanation"
+    },
+    {
+      "id": "simp-naming-conventions",
+      "name": "Naming Conventions",
+      "priority": "medium",
+      "prefix": "simp-naming-conventions",
+      "count": 1,
+      "description": "Non-descriptive, inconsistent, or misleading names"
+    },
+    {
+      "id": "simp-testing-debugging",
+      "name": "Testing & Debugging Simplicity",
+      "priority": "low",
+      "prefix": "simp-testing-debugging",
+      "count": 1,
+      "description": "Hidden side effects, difficult debugging, and hard-to-test design"
+    }
+  ],
+  "references": [
+    {
+      "title": "Pi Ensemble simplicity lens",
+      "url": "https://raw.githubusercontent.com/randomm/pi-ensemble/main/skill/code-review-simplicity/SKILL.md",
+      "type": "source"
+    },
+    {
+      "title": "Refactoring Guru code smells",
+      "url": "https://refactoring.guru/refactoring/smells",
+      "type": "reference"
+    }
+  ],
+  "meta": {
+    "created": "2026-05-26",
+    "last_updated": "2026-05-26",
+    "rule_count": 8,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
+}

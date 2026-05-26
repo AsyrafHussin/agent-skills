@@ -97,6 +97,12 @@ Load only the skills that match the detected stack and user request. Use the tab
 | `web-design-guidelines` | UI/UX work, accessibility, responsive layout |
 | `api-design-patterns` | Designing or reviewing REST API endpoints |
 | `clean-code-principles` | Architecture review, refactoring, design decisions |
+| `code-review-architecture` | Targeted architecture review or multi-lens design analysis |
+| `code-review-error-handling` | Reviewing failure paths, retries, timeouts, or resilience behavior |
+| `code-review-performance` | Investigating bottlenecks, scalability risks, or resource-heavy diffs |
+| `code-review-security` | Reviewing vulnerabilities, validation, auth, or secret handling |
+| `code-review-simplicity` | Reviewing readability, complexity, duplication, or dead-range logic |
+| `code-review-type-safety` | Reviewing typings, schema alignment, and unsafe coercions |
 | `testing-best-practices` | Any test code (language-agnostic patterns) |
 | `git-workflow` | Reviewing commits, branch names, PR descriptions |
 | `seo-best-practices` | Public-facing pages, meta tags, structured data |
@@ -153,6 +159,12 @@ Before finalizing any response, verify:
 |-------|-------|----------------|
 | api-design-patterns | 38 | REST, error handling, pagination |
 | clean-code-principles | 23 | SOLID, DRY, design patterns |
+| code-review-architecture | 8 | Coupling, boundaries, rollback-safe design |
+| code-review-error-handling | 8 | Timeouts, retries, cleanup, observability |
+| code-review-performance | 7 | Cost, queries, caching, concurrency |
+| code-review-security | 6 | Injection, auth, validation, data protection |
+| code-review-simplicity | 8 | Readability, complexity, duplication, bounds |
+| code-review-type-safety | 4 | Typing, runtime validation, generics |
 | git-workflow | 31 | Commits, branching, PRs |
 | laravel-ai-sdk | 17 | Agents, tools, embeddings, testing |
 | laravel-best-practices | 31 | Architecture, Eloquent, security |

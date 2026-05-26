@@ -1,0 +1,123 @@
+{
+  "version": "1.0.0",
+  "skill": {
+    "name": "code-review-performance",
+    "version": "1.0.0",
+    "description": "Performance-focused review lens for identifying inefficiencies, high-cost query shapes, resource waste, and worst-case scalability issues during code review.",
+    "author": "Agent Skills Team",
+    "license": "MIT",
+    "keywords": [
+      "code-review",
+      "code-review-performance",
+      "find-bottlenecks",
+      "n+1-review",
+      "performance-review",
+      "resource-usage",
+      "review-lens",
+      "scalability-review"
+    ]
+  },
+  "name": "code-review-performance",
+  "description": "Performance review lens for algorithmic cost, data access, caching, concurrency, and worst-case resource usage.",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Team",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "tags": [
+    "code-review",
+    "perf-algorithmic-complexity",
+    "perf-asset-optimization",
+    "perf-caching-strategy",
+    "perf-concurrency",
+    "perf-database-performance",
+    "perf-memory-management",
+    "perf-network-io",
+    "review-lens"
+  ],
+  "categories": [
+    {
+      "id": "perf-algorithmic-complexity",
+      "name": "Algorithmic Complexity",
+      "priority": "critical",
+      "prefix": "perf-algorithmic-complexity",
+      "count": 1,
+      "description": "Complexity growth, nested loops, and expensive recomputation"
+    },
+    {
+      "id": "perf-database-performance",
+      "name": "Database Performance",
+      "priority": "critical",
+      "prefix": "perf-database-performance",
+      "count": 1,
+      "description": "N+1 queries, indexes, joins, and query-shape efficiency"
+    },
+    {
+      "id": "perf-network-io",
+      "name": "Network I/O",
+      "priority": "high",
+      "prefix": "perf-network-io",
+      "count": 1,
+      "description": "Batching, pagination, parallelism, timeouts, and unnecessary round trips"
+    },
+    {
+      "id": "perf-memory-management",
+      "name": "Memory Management",
+      "priority": "high",
+      "prefix": "perf-memory-management",
+      "count": 1,
+      "description": "Leaks, retention, object copying, and unbounded collections"
+    },
+    {
+      "id": "perf-caching-strategy",
+      "name": "Caching Strategy",
+      "priority": "medium",
+      "prefix": "perf-caching-strategy",
+      "count": 1,
+      "description": "Cacheability, invalidation, key design, and cold-path cost"
+    },
+    {
+      "id": "perf-concurrency",
+      "name": "Concurrency",
+      "priority": "high",
+      "prefix": "perf-concurrency",
+      "count": 1,
+      "description": "Blocking work, pool exhaustion, async behavior, and race-related throughput loss"
+    },
+    {
+      "id": "perf-asset-optimization",
+      "name": "Asset & Payload Optimization",
+      "priority": "low",
+      "prefix": "perf-asset-optimization",
+      "count": 1,
+      "description": "Bundles, images, compression, and lazy loading opportunities"
+    }
+  ],
+  "references": [
+    {
+      "title": "Pi Ensemble performance lens",
+      "url": "https://raw.githubusercontent.com/randomm/pi-ensemble/main/skill/code-review-performance/SKILL.md",
+      "type": "source"
+    },
+    {
+      "title": "Google Web Performance",
+      "url": "https://web.dev/explore/fast",
+      "type": "reference"
+    }
+  ],
+  "meta": {
+    "created": "2026-05-26",
+    "last_updated": "2026-05-26",
+    "rule_count": 7,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
+}
