@@ -1,0 +1,97 @@
+{
+  "version": "1.0.0",
+  "skill": {
+    "name": "operational-prompting",
+    "version": "1.0.0",
+    "description": "Repo-owned operational prompting, instruction hierarchy, validation contracts, evidence-first outputs, and portable agent skill manifests",
+    "author": "Agent Skills Team",
+    "license": "MIT",
+    "keywords": [
+      "agent-instructions",
+      "operational-prompting",
+      "copilot",
+      "codex",
+      "agents",
+      "skills",
+      "validation",
+      "repo-owned-prompts",
+      "deterministic-output"
+    ]
+  },
+  "categories": [
+    {
+      "id": "repo-owned-control",
+      "name": "Repo-Owned Control",
+      "priority": "critical",
+      "description": "Repository files, not persona prompts, own durable agent behavior",
+      "rule_count": 2
+    },
+    {
+      "id": "task-contracts",
+      "name": "Task Contracts",
+      "priority": "critical",
+      "description": "Explicit scope, task boundaries, and stop/ask conditions",
+      "rule_count": 2
+    },
+    {
+      "id": "validation-evidence",
+      "name": "Validation & Evidence",
+      "priority": "high",
+      "description": "Exact commands, deterministic outputs, and auditable summaries",
+      "rule_count": 3
+    },
+    {
+      "id": "portability",
+      "name": "Portability",
+      "priority": "medium",
+      "description": "Vendor-neutral manifests and reusable task recipes",
+      "rule_count": 1
+    }
+  ],
+  "references": [
+    {
+      "title": "GitHub Copilot repository custom instructions",
+      "url": "https://docs.github.com/en/copilot/customizing-copilot/adding-repository-custom-instructions-for-github-copilot",
+      "description": "Repository-scoped instruction files for GitHub Copilot",
+      "type": "official"
+    },
+    {
+      "title": "Agent Skills specification",
+      "url": "https://agentskills.io/",
+      "description": "Portable skill specification for AI coding agents",
+      "type": "specification"
+    },
+    {
+      "title": "voku/slop-scan portable agent skills commit",
+      "url": "https://github.com/voku/slop-scan/commit/11e5d7d6d5094b57fdd1d52e7c7410458337a3d6",
+      "description": "Example of repo-owned, vendor-neutral skill manifests and task recipes",
+      "type": "example"
+    }
+  ],
+  "configurations": {
+    "github": {
+      "repo_instructions": ".github/copilot-instructions.md",
+      "path_instructions": "**/*.instructions.md",
+      "agents": "AGENTS.md"
+    },
+    "portable_skills": {
+      "manifest": ".ai/skills/manifest.yaml",
+      "skill_file": ".ai/skills/<skill>.yaml"
+    }
+  },
+  "meta": {
+    "created": "2026-05-08",
+    "last_updated": "2026-05-08",
+    "rule_count": 8,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
+}

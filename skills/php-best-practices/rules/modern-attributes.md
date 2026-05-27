@@ -1,138 +1,146 @@
 ---
 title: PHP Attributes
-impact: HIGH
-impactDescription: Type-safe metadata with IDE support, replaces annotations
-tags: modern-features, attributes, metadata, php8
+impact: CRITICAL
+impactDescription: Modern PHP 8.x language features
+tags: php, modern-php, php8
 ---
 
 # PHP Attributes
 
-Use native attributes for metadata instead of docblock annotations (PHP 8.0+).
+## Why it matters
+Docblock annotations are unparsed strings — typos silently do nothing, IDEs cannot autocomplete them, and static analysis cannot validate their arguments. PHP 8 native attributes are real classes with typed constructors, giving you compile-time safety and full tooling support at zero runtime cost.
 
-## Bad Example
+## Rule
+Use `#[Attribute]` classes for machine-readable metadata. Reserve docblocks for human-readable documentation only.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Using docblock annotations - parsed as strings, no type safety
 class UserController
 {
     /**
-     * @Route("/users/{id}", methods={"GET"})
+     * @Route("/users", methods={"GET"})
      * @Cache(maxage=3600)
-     * @Security("is_granted('VIEW', user)")
      */
-    public function show(int $id)
+    public function index(): void
     {
-        // Annotations are just comments - no IDE support for validation
+        // @Route and @Cache are plain strings — a typo or wrong key is invisible
     }
-}
-
-// Validation using docblocks
-class CreateUserRequest
-{
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     */
-    public string $email;
-
-    /**
-     * @Assert\NotBlank()
-     * @Assert\Length(min=8)
-     */
-    public string $password;
 }
 ```
 
-## Good Example
+## Better
+```php
+<?php
+
+declare(strict_types=1);
+
+#[Attribute]
+final class Route
+{
+    public function __construct(
+        public readonly string $path,
+        public readonly array $methods = ['GET'],
+    ) {}
+}
+
+class UserController
+{
+    #[Route('/users', methods: ['GET'])]
+    public function index(): void {}
+}
+```
+
+## Best
+```php
+<?php
+
+declare(strict_types=1);
+
+#[Attribute(Attribute::TARGET_METHOD)]
+final class Route
+{
+    public function __construct(
+        public readonly string $path,
+        public readonly array $methods = ['GET'],
+    ) {}
+}
+
+#[Attribute(Attribute::TARGET_METHOD)]
+final class Cache
+{
+    public function __construct(
+        public readonly int $maxAge = 3600,
+    ) {}
+}
+
+class UserController
+{
+    #[Route('/users', methods: ['GET'])]
+    #[Cache(maxAge: 600)]
+    public function index(): void {}
+}
+
+// Reading at runtime via reflection
+function resolveRoutes(object $controller): array
+{
+    $routes = [];
+
+    foreach ((new \ReflectionClass($controller))->getMethods() as $method) {
+        foreach ($method->getAttributes(Route::class) as $attr) {
+            $route = $attr->newInstance();
+            $routes[] = [$route->path, $route->methods, $method->getName()];
+        }
+    }
+
+    return $routes;
+}
+```
+
+## Exceptions / trade-offs
+Not every metadata concern needs an attribute. If the metadata is only human-readable documentation (e.g., `@param`, `@return`, `@throws`), docblocks are the right tool — they require no reflection overhead and are understood by every IDE and static analyser.
+
+## Attribute target flags
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Define custom attributes
-#[Attribute(Attribute::TARGET_METHOD)]
-class Route
-{
-    public function __construct(
-        public string $path,
-        public array $methods = ['GET'],
-        public ?string $name = null,
-    ) {}
-}
-
-#[Attribute(Attribute::TARGET_METHOD)]
-class Cache
-{
-    public function __construct(
-        public int $maxAge = 0,
-        public bool $public = true,
-    ) {}
-}
-
-#[Attribute(Attribute::TARGET_PROPERTY)]
-class Validate
-{
-    public function __construct(
-        public array $rules = [],
-    ) {}
-}
-
+// TARGET restricts where the attribute may be placed
 #[Attribute(Attribute::TARGET_CLASS)]
-class Entity
+final class Entity
 {
     public function __construct(
-        public string $table,
+        public readonly string $table,
     ) {}
 }
 
 #[Attribute(Attribute::TARGET_PROPERTY)]
-class Column
+final class Column
 {
     public function __construct(
-        public string $name,
-        public string $type = 'string',
-        public bool $nullable = false,
+        public readonly string $name,
+        public readonly string $type = 'string',
+        public readonly bool $nullable = false,
     ) {}
 }
 
-// Using attributes on a controller
-class UserController
+#[Attribute(Attribute::TARGET_PROPERTY | Attribute::TARGET_PARAMETER)]
+final class Validate
 {
-    #[Route('/users/{id}', methods: ['GET'], name: 'user.show')]
-    #[Cache(maxAge: 3600)]
-    public function show(int $id): Response
-    {
-        return new Response($this->userService->find($id));
-    }
-
-    #[Route('/users', methods: ['POST'], name: 'user.create')]
-    public function create(CreateUserRequest $request): Response
-    {
-        return new Response($this->userService->create($request));
-    }
+    /** @param list<string> $rules */
+    public function __construct(
+        public readonly array $rules = [],
+    ) {}
 }
 
-// Using attributes for validation
-class CreateUserRequest
-{
-    #[Validate(rules: ['required', 'email', 'unique:users'])]
-    public string $email;
-
-    #[Validate(rules: ['required', 'min:8', 'confirmed'])]
-    public string $password;
-
-    #[Validate(rules: ['required', 'string', 'max:255'])]
-    public string $name;
-}
-
-// Entity with ORM attributes
+// Using ORM-style attributes on an entity
 #[Entity(table: 'users')]
-class User
+final class User
 {
     #[Column(name: 'id', type: 'integer')]
     public int $id;
@@ -141,21 +149,27 @@ class User
     public string $email;
 
     #[Column(name: 'created_at', type: 'datetime', nullable: true)]
-    public ?DateTimeImmutable $createdAt;
+    public ?DateTimeImmutable $createdAt = null;
 }
+```
 
-// Reading attributes via reflection
-function getRoutes(object $controller): array
+## Reading attributes at runtime
+
+```php
+<?php
+
+declare(strict_types=1);
+
+/** @return list<array{path: string, methods: list<string>, handler: array{0: object, 1: string}}> */
+function resolveRoutes(object $controller): array
 {
     $routes = [];
-    $reflection = new ReflectionClass($controller);
 
-    foreach ($reflection->getMethods() as $method) {
-        $attributes = $method->getAttributes(Route::class);
-        foreach ($attributes as $attribute) {
-            $route = $attribute->newInstance();
+    foreach ((new \ReflectionClass($controller))->getMethods() as $method) {
+        foreach ($method->getAttributes(Route::class) as $attr) {
+            $route = $attr->newInstance();
             $routes[] = [
-                'path' => $route->path,
+                'path'    => $route->path,
                 'methods' => $route->methods,
                 'handler' => [$controller, $method->getName()],
             ];
@@ -166,11 +180,12 @@ function getRoutes(object $controller): array
 }
 ```
 
-## Why
+## Static-analysis notes
+PHPStan and Psalm type-check attribute constructor arguments, validate `TARGET_*` flags, and report unknown attributes. IDEs provide autocompletion and navigation into attribute class definitions.
 
-- **Type Safety**: Attributes are real classes with typed constructors
-- **IDE Support**: Full autocompletion, refactoring, and navigation
-- **Validation**: Invalid attribute usage caught by static analysis tools
-- **Native Feature**: Built into PHP, no external parser needed
-- **Performance**: Faster than parsing docblocks at runtime
-- **Named Arguments**: Clear parameter names in attribute usage
+## Version notes
+`PHP 8.0+`
+
+## Related topics
+- [modern-named-arguments.md](modern-named-arguments.md) — named arguments make attribute constructors self-documenting
+- [modern-override-attribute.md](modern-override-attribute.md) — practical built-in attribute example

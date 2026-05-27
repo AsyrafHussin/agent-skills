@@ -1,15 +1,19 @@
 ---
 title: PSR-12 Coding Style
 impact: HIGH
-impactDescription: Consistent formatting, improved readability and collaboration
-tags: psr, coding-style, formatting, php-fig
+impactDescription: PSR standards and code structure conventions
+tags: php, psr, coding-standards
 ---
 
 # PSR-12 Coding Style
 
-Follow PSR-12 extended coding style for consistent, readable code.
+## Why it matters
+Inconsistent formatting is a tax on every code review. Debating brace placement, spacing around operators, and import ordering consumes reviewer attention that should go to correctness and design. A machine can enforce formatting; humans should not waste time on it. Code formatted inconsistently across a codebase also makes `git diff` harder to read — a pure formatting change pollutes a meaningful change.
 
-## Bad Example
+## Rule
+One automated style, zero bike-shedding. Use `php-cs-fixer` or PHP_CodeSniffer with the PSR-12 preset. Run it in CI as a non-negotiable check. Nobody should ever debate brace placement in a code review again.
+
+## Bad
 
 ```php
 <?php
@@ -18,25 +22,21 @@ use App\Models\User;use App\Repositories\UserRepository;
 
 class UserService{
     private $repository;
-
     public function __construct(UserRepository $repo){
         $this->repository=$repo;
     }
-
     public function find($id){
         if($id<1){return null;}
         return $this->repository->find($id);
     }
-
-    public function create($data)
-    {
+    public function create($data){
         if(!isset($data['email'])||!isset($data['name'])){throw new \Exception('Missing data');}
         return $this->repository->create($data);
     }
 }
 ```
 
-## Good Example
+## Better
 
 ```php
 <?php
@@ -72,151 +72,86 @@ class UserService
 
         return $this->repository->create($data);
     }
-
-    public function update(
-        int $id,
-        array $data,
-        bool $validate = true,
-    ): User {
-        $user = $this->find($id);
-
-        if ($user === null) {
-            throw new UserNotFoundException($id);
-        }
-
-        if ($validate) {
-            $this->validate($data);
-        }
-
-        return $this->repository->update($user, $data);
-    }
 }
 ```
 
-### Key PSR-12 Rules
+## Best
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-namespace App\Example;
+namespace App\Services;
 
-use App\Contracts\ServiceInterface;
-use App\Exceptions\CustomException;
+use App\Contracts\OrderServiceInterface;
+use App\Domain\Order\Order;
+use App\Domain\Order\OrderId;
+use App\Domain\Order\OrderRepository;
+use App\Exceptions\OrderNotFoundException;
 use Psr\Log\LoggerInterface;
 
-// One blank line after namespace and use blocks
-class ExampleService implements ServiceInterface
+final class OrderService implements OrderServiceInterface
 {
-    // Opening brace on its own line for classes
-    private const MAX_RETRIES = 3;
-
     public function __construct(
-        private LoggerInterface $logger,
-        private int $timeout = 30,
-    ) {
-        // Constructor body
-    }
+        private readonly OrderRepository $repository,
+        private readonly LoggerInterface $logger,
+    ) {}
 
-    // One blank line between methods
-    public function process(
-        string $input,
-        array $options = [],
-    ): string {
-        // Multi-line: closing paren, return type, and brace on same line
-        $result = '';
-
-        // Space after control structure keywords
-        if ($input === '') {
-            return $result;
-        }
-
-        // Operators surrounded by spaces
-        $length = strlen($input) + 1;
-
-        // Foreach with proper spacing
-        foreach ($options as $key => $value) {
-            $result .= "{$key}: {$value}\n";
-        }
-
-        // Switch statement formatting
-        switch ($input[0]) {
-            case 'a':
-                $result = 'starts with a';
-                break;
-            case 'b':
-                $result = 'starts with b';
-                break;
-            default:
-                $result = 'other';
-                break;
-        }
-
-        // Try-catch formatting
-        try {
-            $this->validate($input);
-        } catch (CustomException $e) {
-            $this->logger->error($e->getMessage());
-            throw $e;
-        } finally {
-            $this->cleanup();
-        }
-
-        return $result;
-    }
-
-    // Closure formatting
-    public function withCallback(callable $callback): array
+    public function findOrFail(OrderId $id): Order
     {
-        $items = [1, 2, 3];
+        $order = $this->repository->find($id);
 
-        // Short closure
-        $doubled = array_map(fn($n) => $n * 2, $items);
+        if ($order === null) {
+            throw new OrderNotFoundException($id);
+        }
 
-        // Multi-line closure
-        $processed = array_filter(
-            $items,
-            function (int $item) use ($callback): bool {
-                return $callback($item) > 0;
-            }
-        );
+        return $order;
+    }
 
-        return $processed;
+    public function ship(
+        OrderId $id,
+        string $trackingNumber,
+        bool $notifyCustomer = true,
+    ): Order {
+        $order = $this->findOrFail($id);
+        $order->markAsShipped($trackingNumber);
+        $this->repository->save($order);
+
+        $this->logger->info('Order shipped', [
+            'order_id' => $id->value,
+            'tracking' => $trackingNumber,
+        ]);
+
+        return $order;
+    }
+
+    public function cancel(OrderId $id, string $reason): Order
+    {
+        $order = $this->findOrFail($id);
+
+        match ($order->status()) {
+            OrderStatus::Pending  => $order->cancel($reason),
+            OrderStatus::Shipped  => throw new \DomainException('Cannot cancel a shipped order'),
+            OrderStatus::Canceled => throw new \DomainException('Order is already canceled'),
+        };
+
+        $this->repository->save($order);
+
+        return $order;
     }
 }
 ```
 
-### Interface and Trait
+## Exceptions / trade-offs
+Legacy codebases with thousands of files may need a phased rollout: configure php-cs-fixer to run only on modified files first, then batch-format the rest in a dedicated commit with no logic changes. Template/stub files used by generators may intentionally deviate from formatting to produce correct output — exclude them from the linter.
 
-```php
-<?php
+## Static-analysis notes
+`php-cs-fixer` with `@PSR12` rule set is the canonical enforcement tool. Add `--dry-run --diff` in CI to fail on violations without auto-fixing. For IDE integration, `.php-cs-fixer.dist.php` in the repo root enables on-save formatting in PhpStorm and VS Code. PHP_CodeSniffer with `phpcs --standard=PSR12` is the alternative if your project uses it.
 
-declare(strict_types=1);
+## Version notes
+PSR-12 was finalized in 2019 and supersedes PSR-2. It is the current standard for all new PHP projects. PHP 8.x additions (named arguments, match expressions, readonly properties, enums) are not yet covered by PSR-12 formally — follow php-cs-fixer's `@PHP81Migration` or `@PHP82Migration` rule sets for those.
 
-namespace App\Contracts;
-
-interface ServiceInterface
-{
-    public function process(string $input, array $options = []): string;
-
-    public function withCallback(callable $callback): array;
-}
-
-trait LoggableTrait
-{
-    protected function log(string $message): void
-    {
-        // Trait method implementation
-    }
-}
-```
-
-## Why
-
-- **Consistency**: All code looks the same regardless of author
-- **Readability**: Standardized formatting is easier to read
-- **Tooling**: PHP CS Fixer and IDE formatters can enforce automatically
-- **Collaboration**: Reduces friction in code reviews
-- **Industry Standard**: Most PHP projects and frameworks follow PSR-12
-- **Professionalism**: Demonstrates attention to code quality
+## Related topics
+- [psr-file-structure.md](psr-file-structure.md) — file-level ordering that PSR-12 depends on
+- [psr-namespace-usage.md](psr-namespace-usage.md) — import ordering enforced by php-cs-fixer

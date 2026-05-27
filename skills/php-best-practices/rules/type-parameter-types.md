@@ -1,15 +1,19 @@
 ---
 title: Parameter Type Declarations
 impact: CRITICAL
-impactDescription: Prevents invalid arguments, improves code clarity
-tags: type-system, parameter-types, type-safety, php7
+impactDescription: Strong type safety across all PHP code
+tags: php, types, strict-types, type-safety
 ---
 
 # Parameter Type Declarations
 
-Always declare types for all function and method parameters.
+## Why it matters
+Untyped parameters are an open door: any caller can pass an integer where an object is expected, an array where a string is required, or `null` where neither is valid. The bug surfaces deep inside the method body — or worse, in a downstream system — rather than at the call site where it was introduced. Typed parameters shift that error boundary to the earliest possible moment.
 
-## Bad Example
+## Rule
+Every function and method parameter must carry a native type declaration. Use PHPDoc (`@param`) only when the native type system cannot express the constraint (e.g., generic array shapes).
+
+## Bad
 
 ```php
 <?php
@@ -18,22 +22,20 @@ declare(strict_types=1);
 
 class OrderService
 {
-    // No parameter types - anything could be passed
+    // $user could be an ID, an array, an object — impossible to know
     public function createOrder($user, $items, $discount)
     {
-        // What is $user? An ID? An object? An array?
-        // What format should $items be?
-        // Is $discount a percentage or fixed amount?
+        // type assumptions buried inside the method
     }
 
     public function processPayment($amount, $method)
     {
-        // Type assumptions lead to bugs
+        // silent failure when wrong types arrive
     }
 }
 ```
 
-## Good Example
+## Better
 
 ```php
 <?php
@@ -42,36 +44,89 @@ declare(strict_types=1);
 
 class OrderService
 {
+    /**
+     * @param list<array{sku: string, qty: int}> $items
+     */
     public function createOrder(
         User $user,
         array $items,
-        float $discountPercentage = 0.0
+        float $discountPercentage = 0.0,
     ): Order {
         $order = new Order($user);
 
         foreach ($items as $item) {
-            $order->addItem($item);
+            $order->addItem($item['sku'], $item['qty']);
         }
 
         $order->applyDiscount($discountPercentage);
 
         return $order;
     }
+}
+```
+
+## Best
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Commerce;
+
+use App\Models\Order;
+use App\Models\User;
+use App\ValueObjects\Discount;
+use App\ValueObjects\OrderItem;
+
+final class OrderService
+{
+    public function __construct(
+        private readonly OrderRepository $orders,
+        private readonly PaymentGateway $gateway,
+    ) {}
+
+    /**
+     * @param list<OrderItem> $items
+     */
+    public function createOrder(
+        User $user,
+        array $items,
+        Discount $discount,
+    ): Order {
+        $order = Order::for($user);
+
+        foreach ($items as $item) {
+            $order->add($item);
+        }
+
+        $order->apply($discount);
+
+        return $this->orders->save($order);
+    }
 
     public function processPayment(
-        Money $amount,
-        PaymentMethod $method
+        Order $order,
+        PaymentMethod $method,
     ): PaymentResult {
-        return $this->paymentGateway->charge($amount, $method);
+        return $this->gateway->charge($order->total(), $method);
     }
 }
 ```
 
-## Why
+## Exceptions / trade-offs
+- **Callback parameters**: When passing a `callable`, its internal signature cannot be expressed natively — use `\Closure` for strict callables or PHPDoc `@param callable(Foo): Bar` for shape documentation.
+- **Generic collections**: Native PHP cannot express `array<string, User>`; use PHPDoc `@param` alongside the native `array` type declaration.
+- **Framework magic**: Some framework base classes inject dependencies through untyped magic methods (e.g., older Laravel traits). Add the type where you control the code; leave framework internals alone.
 
-- **Clear Contracts**: Parameters define the method's expected input
-- **Early Error Detection**: Type errors are caught immediately at call site
-- **Self-Documenting**: Types eliminate guesswork about expected inputs
-- **Refactoring Safety**: Changes to parameter types are caught by static analysis
-- **IDE Intelligence**: Enables parameter hints and autocompletion
-- **Defensive Programming**: Prevents invalid data from entering your methods
+## Static-analysis notes
+PHPStan (level 5+) and Psalm flag untyped parameters as errors. With `strict_types=1`, wrong-type call sites are also caught at runtime. PhpStorm provides full parameter-hint autocompletion only when types are declared. Use `@param` PHPDoc for array shapes that PHPStan's `array<K, V>` syntax can verify.
+
+## Version notes
+`PHP 7.0+` — scalar type declarations (`int`, `string`, `float`, `bool`) require PHP 7.0.
+
+## Related topics
+- [type-strict-mode.md](type-strict-mode.md) — strict mode enforces parameter types at runtime
+- [type-return-types.md](type-return-types.md) — pair every typed parameter with a typed return
+- [type-nullable-types.md](type-nullable-types.md) — when null is a valid parameter value
+- [type-union-types.md](type-union-types.md) — when a parameter accepts multiple concrete types

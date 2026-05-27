@@ -1,144 +1,84 @@
 ---
 title: Named Arguments
-impact: MEDIUM
-impactDescription: Self-documenting calls, skip optional parameters
-tags: modern-features, named-arguments, readability, php8
+impact: CRITICAL
+impactDescription: Modern PHP 8.x language features
+tags: php, modern-php, php8
 ---
 
 # Named Arguments
 
-Use named arguments for clarity and flexibility (PHP 8.0+).
+## Why it matters
+Positional boolean and integer flags at call sites are invisible — `setCookie('id', $val, 0, '', '', true, true)` communicates nothing without reading the signature. Named arguments embed that context directly in the call, eliminating a constant source of review mistakes and misread documentation.
 
-## Bad Example
+## Rule
+Use named arguments when the call site becomes materially clearer, and only for functions whose parameter names are under your control (not third-party APIs).
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Hard to understand what each argument means
-$user = new User(
-    1,
-    'John',
-    'Doe',
-    'john@example.com',
-    null,
-    true,
-    false,
-    'America/New_York'
-);
+// What does true, true mean here?
+setcookie('token', $value, 0, '', '', true, true);
 
-// What do these booleans mean?
-$result = $validator->validate($data, true, false, true);
-
-// Must pass all preceding optional arguments
-$query = $repository->findAll(null, null, null, 100);
-
-// Confusing function calls
-setcookie('session', $value, 0, '/', '', true, true);
+// Which argument is the needle and which is the haystack?
+$pos = strpos($haystack, $needle, 0);
 ```
 
-## Good Example
-
+## Better
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Clear what each argument represents
-$user = new User(
-    id: 1,
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'john@example.com',
-    phone: null,
-    isActive: true,
-    isAdmin: false,
-    timezone: 'America/New_York',
-);
-
-// Self-documenting boolean parameters
-$result = $validator->validate(
-    data: $data,
-    strict: true,
-    allowEmpty: false,
-    throwOnError: true,
-);
-
-// Skip optional parameters - only pass what you need
-$query = $repository->findAll(limit: 100);
-
-// Much clearer
+// Named args document the intent
 setcookie(
-    name: 'session',
+    name: 'token',
     value: $value,
     secure: true,
     httponly: true,
 );
+```
 
-// Mix positional and named (positional must come first)
-function createNotification(
-    string $message,
-    string $title = 'Notice',
-    string $type = 'info',
-    bool $persistent = false,
-    ?int $timeout = null,
-): Notification {
-    return new Notification($message, $title, $type, $persistent, $timeout);
-}
+## Best
+```php
+<?php
 
-// Can skip defaults and only specify what differs
-$notification = createNotification(
-    'Your order has shipped!',
-    type: 'success',
-    persistent: true,
-);
+declare(strict_types=1);
 
-// Perfect for configuration objects
-class DatabaseConfig
+final class Mailer
 {
-    public function __construct(
-        public string $host = 'localhost',
-        public int $port = 3306,
-        public string $database = '',
-        public string $username = '',
-        public string $password = '',
-        public string $charset = 'utf8mb4',
-        public bool $persistent = false,
-        public int $timeout = 30,
-    ) {}
+    public function send(
+        string $to,
+        string $subject,
+        string $body,
+        bool $html = false,
+        int $priority = 3,
+    ): void {}
 }
 
-$config = new DatabaseConfig(
-    host: 'db.example.com',
-    database: 'myapp',
-    username: 'admin',
-    password: 'secret',
-    timeout: 60,
-);
+$mailer = new Mailer();
 
-// Variadic functions with named arguments
-function logMessage(
-    string $message,
-    string $level = 'info',
-    array ...$context
-): void {
-    // Implementation
-}
-
-logMessage(
-    message: 'User logged in',
-    level: 'info',
-    user: ['id' => 1, 'name' => 'John'],
-    ip: ['address' => '192.168.1.1'],
+// Skip defaults explicitly; self-documenting
+$mailer->send(
+    to: 'user@example.com',
+    subject: 'Welcome',
+    body: $html,
+    html: true,
+    // priority intentionally omitted — default is fine
 );
 ```
 
-## Why
+## Exceptions / trade-offs
+Do **not** use named arguments when calling third-party library functions or any public API where parameter names are not part of the versioned contract. A library rename of `$haystack` to `$string` (as PHP itself did in 8.0 for several functions) silently breaks named-argument call sites. Restrict named arguments to code you own and control.
 
-- **Self-Documenting**: Argument purpose is clear at call site
-- **Skip Defaults**: Only pass arguments that differ from defaults
-- **Order Independence**: Arguments can be in any order when named
-- **Boolean Clarity**: Named booleans are much clearer than positional
-- **Refactoring Safe**: Reordering parameters won't break named calls
-- **IDE Support**: Full autocompletion for parameter names
+## Static-analysis notes
+PHPStan and Psalm validate named argument names against the function or method signature and report typos or mismatches as errors. This means named-argument call sites are safer in code you own than positional ones.
+
+## Version notes
+`PHP 8.0+`
+
+## Related topics
+- [modern-constructor-promotion.md](modern-constructor-promotion.md) — promoted parameters work naturally with named arguments
+- [modern-attributes.md](modern-attributes.md) — attribute constructors benefit from named arguments

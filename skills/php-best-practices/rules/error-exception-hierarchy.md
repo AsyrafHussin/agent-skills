@@ -1,22 +1,25 @@
 ---
-title: Exception Hierarchy
+title: Keep Exception Hierarchies Shallow and Purposeful
 impact: HIGH
-impactDescription: Proper inheritance enables layered catch blocks and consistent error handling
-tags: error-handling, exceptions, hierarchy, php8
+impactDescription: Robust error handling and exception design
+tags: php, error-handling, exceptions
 ---
 
-# Exception Hierarchy
+# Keep Exception Hierarchies Shallow and Purposeful
 
-Organize exceptions into a meaningful hierarchy so callers can catch at different levels of specificity.
+## Why it matters
+A six-level exception tree feels architectural but creates real costs: callers must know which level to catch, new developers must read the whole tree before writing a single `catch`, and renaming a node is a breaking change. Hierarchies only pay off when callers actually catch at an intermediate level.
 
-## Bad Example
+## Rule
+Use at most three levels: one root domain exception, a small number of semantically distinct families (not-found, validation, infrastructure), and concrete leaf types where callers need them. Add a level only when a real catch site needs it.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Flat, unrelated exceptions - no hierarchy
+// Flat — no hierarchy, forces callers to catch each type individually
 class UserNotFoundException extends \Exception {}
 class OrderNotFoundException extends \Exception {}
 class ProductNotFoundException extends \Exception {}
@@ -24,46 +27,45 @@ class InvalidEmailException extends \Exception {}
 class InvalidPriceException extends \Exception {}
 class DatabaseConnectionException extends \Exception {}
 class ApiTimeoutException extends \Exception {}
-
-// Caller must catch each one individually
-try {
-    $order = $service->processOrder($data);
-} catch (UserNotFoundException $e) {
-    // handle
-} catch (OrderNotFoundException $e) {
-    // handle (same logic as above)
-} catch (ProductNotFoundException $e) {
-    // handle (same logic again)
-}
 ```
 
-## Good Example
-
+## Better
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Base exception for the application
+// Better: groups exist, but rooted at \Exception not \RuntimeException
+class AppException extends \Exception {}
+class NotFoundException extends AppException {}
+class UserNotFoundException extends NotFoundException {}
+class ValidationException extends AppException {}
+class InfrastructureException extends AppException {}
+```
+
+## Best
+```php
+<?php
+
+declare(strict_types=1);
+
+// Root — extend RuntimeException (unchecked, no forced catch)
 class AppException extends \RuntimeException {}
 
-// Not-found family
+// Family: not-found — callers can catch the family or a leaf
 class NotFoundException extends AppException
 {
     public function __construct(
         private readonly string $entity,
-        private readonly string|int $identifier,
+        private readonly string|int $id,
     ) {
-        parent::__construct("{$entity} not found: {$identifier}");
+        parent::__construct("{$entity} not found: {$id}");
     }
 
-    public function getEntity(): string
-    {
-        return $this->entity;
-    }
+    public function entity(): string { return $this->entity; }
 }
 
-class UserNotFoundException extends NotFoundException
+final class UserNotFoundException extends NotFoundException
 {
     public function __construct(string|int $id)
     {
@@ -71,7 +73,7 @@ class UserNotFoundException extends NotFoundException
     }
 }
 
-class OrderNotFoundException extends NotFoundException
+final class OrderNotFoundException extends NotFoundException
 {
     public function __construct(string|int $id)
     {
@@ -79,47 +81,43 @@ class OrderNotFoundException extends NotFoundException
     }
 }
 
-// Validation family
-class ValidationException extends AppException
+// Family: validation
+final class ValidationException extends AppException
 {
     /** @param array<string, string> $errors */
-    public function __construct(
-        private readonly array $errors = [],
-    ) {
+    public function __construct(private readonly array $errors = [])
+    {
         parent::__construct('Validation failed');
     }
 
     /** @return array<string, string> */
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }
+    public function errors(): array { return $this->errors; }
 }
 
-// Infrastructure family
+// Family: infrastructure — both DB and API resolve to 503
 class InfrastructureException extends AppException {}
-class DatabaseException extends InfrastructureException {}
-class ExternalApiException extends InfrastructureException {}
+final class DatabaseException extends InfrastructureException {}
+final class ExternalApiException extends InfrastructureException {}
 
-// Callers can catch at any level
+// Callers catch at the level they care about
 try {
-    $order = $service->processOrder($data);
+    $service->processOrder($data);
 } catch (NotFoundException $e) {
-    // Catches UserNotFound, OrderNotFound, ProductNotFound
     return response()->json(['error' => $e->getMessage()], 404);
 } catch (ValidationException $e) {
-    return response()->json(['errors' => $e->getErrors()], 422);
+    return response()->json(['errors' => $e->errors()], 422);
 } catch (InfrastructureException $e) {
-    // Catches Database, ExternalApi - log and show generic error
     $logger->error($e->getMessage());
     return response()->json(['error' => 'Service unavailable'], 503);
 }
 ```
 
-## Why
+## Exceptions / trade-offs
+Cross-cutting concerns (e.g. a `RetryableException` interface) are better expressed as interfaces than as hierarchy levels. If only one leaf exists under a family, skip the intermediate class until a second leaf is needed.
 
-- **Layered Catching**: Catch broad categories or specific exceptions as needed
-- **DRY Error Handling**: One catch block for all "not found" cases
-- **Consistent Structure**: Shared base provides common interface
-- **Extensible**: Add new exceptions without changing existing catch blocks
-- **Use RuntimeException**: Extend `\RuntimeException` for errors that can't be recovered from programmatically
+## Static-analysis notes
+PHPStan and Psalm both understand inheritance-based catch broadening. Marking leaf classes `final` prevents accidental extension and lets tools confirm exhaustive coverage.
+
+## Related topics
+- [error-custom-exceptions.md](error-custom-exceptions.md) — when to create a custom exception at all
+- [error-try-catch-specific.md](error-try-catch-specific.md) — catching at the right level

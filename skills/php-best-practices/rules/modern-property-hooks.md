@@ -1,140 +1,109 @@
 ---
 title: Property Hooks
-impact: HIGH
-impactDescription: Replaces verbose getter/setter boilerplate with clean property-level logic
-tags: modern-features, property-hooks, getters, setters, php84
-phpVersion: "8.4+"
+impact: CRITICAL
+impactDescription: Modern PHP 8.x language features
+tags: php, modern-php, php8
 ---
 
 # Property Hooks
 
-Use property hooks to define get/set logic directly on properties (PHP 8.4+).
+## Why it matters
+Separate getter and setter methods scatter access logic away from the property definition, making it harder to see what a property actually does at a glance. PHP 8.4 property hooks co-locate that logic directly with the property declaration, reducing boilerplate without hiding behaviour — as long as hooks stay pure.
 
-## Bad Example
+## Rule
+Use property hooks for focused, pure access logic (normalisation, formatting, computed values) co-located with the property. Never put side effects inside a hook.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Verbose getter/setter boilerplate
-class User
+final class User
 {
+    private string $email;
     private string $firstName;
     private string $lastName;
-    private string $email;
 
-    public function __construct(string $firstName, string $lastName, string $email)
+    public function getEmail(): string        { return $this->email; }
+    public function setEmail(string $email): void
     {
-        $this->setFirstName($firstName);
-        $this->setLastName($lastName);
-        $this->setEmail($email);
+        $this->email = strtolower(trim($email));
     }
 
-    public function getFirstName(): string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $value): void
-    {
-        $this->firstName = ucfirst(strtolower($value));
-    }
-
-    public function getLastName(): string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $value): void
-    {
-        if (strlen($value) < 2) {
-            throw new \InvalidArgumentException('Too short');
-        }
-        $this->lastName = $value;
-    }
-
-    public function getFullName(): string
-    {
-        return $this->firstName . ' ' . $this->lastName;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $value): void
-    {
-        $this->email = strtolower($value);
-    }
+    public function getFirstName(): string    { return $this->firstName; }
+    public function getLastName(): string     { return $this->lastName; }
+    public function getFullName(): string     { return "{$this->firstName} {$this->lastName}"; }
 }
 ```
 
-## Good Example
-
+## Better
 ```php
 <?php
 
 declare(strict_types=1);
 
-class User
+final class User
 {
-    // Short hook syntax for simple transforms
-    public string $firstName {
-        set => ucfirst(strtolower($value));
-    }
-
-    // Full hook syntax for validation
-    public string $lastName {
-        set {
-            if (strlen($value) < 2) {
-                throw new \InvalidArgumentException('Too short');
-            }
-            $this->lastName = $value;
+    public string $email {
+        set(string $value) {
+            $this->email = strtolower(trim($value));
         }
     }
 
-    // Virtual property (get-only, no stored value)
-    public string $fullName {
-        get => $this->firstName . ' ' . $this->lastName;
-    }
-
-    // Transform on set
-    public string $email {
-        set => strtolower($value);
-    }
-
     public function __construct(
-        string $firstName,
-        string $lastName,
-        string $email,
-    ) {
-        $this->firstName = $firstName;
-        $this->lastName = $lastName;
-        $this->email = $email;
-    }
-}
-
-$user = new User('PETER', 'Peterson', 'PETER@EXAMPLE.COM');
-echo $user->firstName;  // "Peter"
-echo $user->fullName;   // "Peter Peterson"
-echo $user->email;      // "peter@example.com"
-
-// Works with constructor promotion too
-class Product
-{
-    public function __construct(
-        public string $name { set => trim($value); },
-        public float $price { set => max(0, $value); },
+        public readonly string $firstName,
+        public readonly string $lastName,
     ) {}
 }
+
+$user = new User('Alice', 'Smith');
+$user->email = '  ALICE@EXAMPLE.COM  ';
+echo $user->email;  // alice@example.com
 ```
 
-## Why
+## Best
+```php
+<?php
 
-- **Less Boilerplate**: Eliminates separate getter/setter methods
-- **Co-located Logic**: Validation and transformation live with the property
-- **Virtual Properties**: Computed values without storing data
-- **Direct Access**: Use `$obj->prop` instead of `$obj->getProp()`
-- **Constructor Compatible**: Works with constructor property promotion
+declare(strict_types=1);
+
+final class User
+{
+    // set hook normalises input; get hook is implicit (returns stored value)
+    public string $email {
+        set(string $value) {
+            $this->email = strtolower(trim($value));
+        }
+    }
+
+    // Virtual computed property — no backing storage, no setter
+    public string $fullName {
+        get => "{$this->firstName} {$this->lastName}";
+    }
+
+    public function __construct(
+        public readonly string $firstName,
+        public readonly string $lastName,
+    ) {}
+}
+
+$user = new User('Alice', 'Smith');
+$user->email = '  ALICE@EXAMPLE.COM  ';
+
+echo $user->email;    // alice@example.com
+echo $user->fullName; // Alice Smith  (computed, no stored field)
+```
+
+## Exceptions / trade-offs
+Do **not** put side effects inside hooks — no database queries, HTTP requests, event dispatching, or logging. Hooks fire on every property access, and hidden I/O in a property access is a debugging and performance trap. For side effects, use explicit methods. Property hooks also cannot be used on `readonly` properties.
+
+## Static-analysis notes
+PHPStan and Psalm 8.4+ understand property hooks, infer the type of virtual (get-only) properties, and report type mismatches in hook bodies. IDEs provide navigation directly into hook bodies and show hook presence in property tooltips.
+
+## Version notes
+`PHP 8.4+`
+
+## Related topics
+- [modern-asymmetric-visibility.md](modern-asymmetric-visibility.md) — for read-public / write-private without logic
+- [modern-readonly-properties.md](modern-readonly-properties.md) — for fully immutable properties

@@ -1,102 +1,73 @@
 ---
 title: Pipe Operator
-impact: HIGH
-impactDescription: Enables readable left-to-right function chaining for data transformation
-tags: modern-features, pipe-operator, functional, chaining, php85
-phpVersion: "8.5+"
+impact: CRITICAL
+impactDescription: Modern PHP 8.x language features
+tags: php, modern-php, php8
 ---
 
 # Pipe Operator
 
-Use the pipe operator (`|>`) for readable function chaining (PHP 8.5+).
+## Why it matters
+> **⚠ PHP 8.5+ only.** PHP 8.5 is not yet universally available. Only adopt the pipe operator if your entire deployment pipeline — dev, CI, staging, and production — runs PHP 8.5. Enabling it prematurely on older runtimes causes a parse error.
 
-## Bad Example
+Deeply nested function calls must be read inside-out, which is the opposite of how the transformation actually flows. Temporary variables reduce nesting but litter the scope. The `|>` pipe operator expresses a linear data transformation in the order it happens, left-to-right, top-to-bottom.
 
+## Rule
+Use `|>` for pure, linear data transformation chains where readability genuinely improves. Do not use it across codebases that must support PHP < 8.5.
+
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Deeply nested function calls - read inside-out
-$result = htmlspecialchars(
-    strtolower(
-        trim(
-            $input
-        )
-    )
-);
-
-// Temporary variables - cluttered
-$step1 = trim($input);
-$step2 = strtolower($step1);
-$step3 = htmlspecialchars($step2);
-$result = $step3;
-
-// Array processing - hard to follow
-$slugs = array_unique(
-    array_filter(
-        array_map(
-            fn(string $tag) => strtolower(trim($tag)),
-            explode(',', $tags)
-        ),
-        fn(string $tag) => $tag !== ''
-    )
-);
+// Read inside-out to understand the flow: trim → lower → escape
+$result = htmlspecialchars(strtolower(trim($input)));
 ```
 
-## Good Example
-
+## Better
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Pipe operator - read left-to-right, top-to-bottom
+// Temporary variables clarify order but clutter scope
+$trimmed  = trim($input);
+$lowered  = strtolower($trimmed);
+$result   = htmlspecialchars($lowered);
+```
+
+## Best
+```php
+<?php
+
+declare(strict_types=1);
+
+// PHP 8.5+ — requires deployment on PHP 8.5+
 $result = $input
     |> trim(...)
     |> strtolower(...)
     |> htmlspecialchars(...);
 
-// Chain with first-class callables
-$length = "Hello World"
-    |> trim(...)
-    |> strlen(...);
-
-// Use arrow functions for multi-argument functions
-$slugs = $tags
-    |> (fn(string $s) => explode(',', $s))
-    |> (fn(array $a) => array_map(fn(string $t) => strtolower(trim($t)), $a))
-    |> (fn(array $a) => array_filter($a, fn(string $t) => $t !== ''))
-    |> array_unique(...);
-
-// Practical example: building a slug
+// Multi-argument steps use arrow functions (pipe always passes one argument)
 $slug = $title
     |> trim(...)
     |> strtolower(...)
     |> (fn(string $s) => preg_replace('/[^a-z0-9]+/', '-', $s))
     |> (fn(string $s) => trim($s, '-'));
-
-// Practical example: processing user input
-$sanitized = $request->input('comment')
-    |> trim(...)
-    |> strip_tags(...)
-    |> htmlspecialchars(...);
 ```
 
-## Important
+## Exceptions / trade-offs
+- **Deployment gate**: Do not use `|>` unless PHP 8.5+ is guaranteed in every environment. There is no polyfill — the operator simply does not parse on earlier versions.
+- The operator passes exactly one argument (the left-hand value) to the right-hand callable. For functions with multiple required arguments, wrap them in closures or arrow functions.
+- Do not use `|>` for chains that include side effects (logging, I/O) — those should remain explicit sequential statements.
 
-The pipe operator passes the left-hand value as the **sole argument** to the right-hand callable. `$x |> foo(...)` is equivalent to `foo($x)`. For multi-argument functions, wrap in an arrow function:
+## Static-analysis notes
+PHPStan and Psalm support for `|>` is expected to follow the PHP 8.5 release. IDE support will require plugin updates. Until tooling catches up, some editors may show false-positive parse warnings.
 
-```php
-// str_replace has 3 args - wrap in arrow function
-$clean = $input |> (fn(string $s) => str_replace(' ', '-', $s));
-```
+## Version notes
+`PHP 8.5+`
 
-## Why
-
-- **Readable Flow**: Data transformations read left-to-right, top-to-bottom
-- **No Nesting**: Eliminates deeply nested function calls
-- **No Temp Variables**: Avoids cluttering scope with intermediate values
-- **Functional Style**: Encourages composable, single-purpose functions
-- **Sole Argument**: `$x |> fn(...)` is equivalent to `fn($x)` — wrap in closures for multi-argument functions
-- **Pairs with First-Class Callables**: `trim(...)` syntax works naturally with `|>`
+## Related topics
+- [modern-arrow-functions.md](modern-arrow-functions.md) — arrow functions compose naturally with pipe
+- [modern-first-class-callables.md](modern-first-class-callables.md) — `trim(...)` syntax is the idiomatic right-hand operand

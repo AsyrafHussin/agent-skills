@@ -1,103 +1,147 @@
 ---
-title: Lazy Loading
+title: Lazy-Load Only Genuinely Expensive Dependencies
 impact: MEDIUM
-impactDescription: Defer expensive operations until actually needed to save memory and time
-tags: performance, lazy-loading, optimization, php8
+impactDescription: Runtime performance and memory efficiency
+tags: php, performance, optimization
 ---
 
-# Lazy Loading
+# Lazy-Load Only Genuinely Expensive Dependencies
 
-Load resources and perform expensive operations only when they are actually needed, not at construction time.
+## Why it matters
+A constructor that queries the database, initializes a PDF renderer, and loads configuration from disk makes the class slow to instantiate for every caller — including unit tests, health checks, and code paths that never touch those resources. But over-engineering lazy loading adds null-tracking, initializer methods, and indirection that obscures intent without measurable benefit for cheap dependencies.
 
-## Bad Example
+## Rule
+Lazy-load only dependencies or data whose initialization cost is real and measurable: heavy I/O, large dataset retrieval, or resource-intensive object construction. Use `??=` for simple lazy initialization. Inject cheap services eagerly via the constructor.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-class ReportService
+final class ReportService
 {
     private array $allUsers;
     private array $allOrders;
-    private PDFGenerator $pdf;
+    private PdfRenderer $pdf;
 
     public function __construct(
-        private readonly UserRepository $userRepo,
-        private readonly OrderRepository $orderRepo,
+        private readonly UserRepository  $users,
+        private readonly OrderRepository $orders,
     ) {
-        // Loads everything upfront even if not all methods are called
-        $this->allUsers = $this->userRepo->findAll();
-        $this->allOrders = $this->orderRepo->findAll();
-        $this->pdf = new PDFGenerator(); // Expensive initialization
+        // Runs for every instantiation — even for getUserCount()
+        $this->allUsers  = $this->users->findAll();   // SELECT * FROM users
+        $this->allOrders = $this->orders->findAll();  // SELECT * FROM orders
+        $this->pdf       = new PdfRenderer();         // loads fonts, templates
     }
 
     public function getUserCount(): int
     {
         return count($this->allUsers);
     }
-
-    public function generateReport(): string
-    {
-        return $this->pdf->generate($this->allOrders);
-    }
 }
-
-// Just calling getUserCount() loads ALL orders and initializes PDF engine
-$report = new ReportService($userRepo, $orderRepo);
-echo $report->getUserCount();
 ```
 
-## Good Example
-
+## Better
 ```php
 <?php
 
 declare(strict_types=1);
 
-class ReportService
+final class ReportService
 {
-    private ?array $users = null;
-    private ?PDFGenerator $pdf = null;
+    private ?array $allOrders = null;
+    private ?PdfRenderer $pdf = null;
 
     public function __construct(
-        private readonly UserRepository $userRepo,
-        private readonly OrderRepository $orderRepo,
+        private readonly UserRepository  $users,
+        private readonly OrderRepository $orders,
     ) {}
 
     public function getUserCount(): int
     {
-        return $this->userRepo->count(); // Query only what's needed
+        // Uses a targeted query instead of loading all users
+        return $this->users->count();
     }
 
     public function generateReport(): string
     {
-        $orders = $this->orderRepo->findAll(); // Load when needed
-        return $this->getPdf()->generate($orders);
+        $this->allOrders ??= $this->orders->findAll();
+        $this->pdf       ??= new PdfRenderer();
+
+        return $this->pdf->render($this->allOrders);
+    }
+}
+```
+
+## Best
+```php
+<?php
+
+declare(strict_types=1);
+
+final class ReportService
+{
+    private ?PdfRenderer $pdf = null;
+
+    public function __construct(
+        private readonly UserRepository  $users,
+        private readonly OrderRepository $orders,
+    ) {}
+
+    public function getUserCount(): int
+    {
+        return $this->users->count(); // single COUNT query, no data transfer
     }
 
-    private function getPdf(): PDFGenerator
+    public function generateReport(): string
     {
-        // Lazy initialization - created only on first use
-        return $this->pdf ??= new PDFGenerator();
+        // Orders loaded only when generateReport() is actually called
+        $orders = $this->orders->findAll();
+
+        return $this->getPdf()->render($orders);
     }
 
-    /** @return array<User> */
-    private function getUsers(): array
+    // PdfRenderer is expensive (font loading, template compilation)
+    // Lazy-initialize with ??= — created once, reused on repeated calls
+    private function getPdf(): PdfRenderer
     {
-        return $this->users ??= $this->userRepo->findAll();
+        return $this->pdf ??= new PdfRenderer();
     }
 }
 
-// getUserCount() only runs a COUNT query - no data loaded
-$report = new ReportService($userRepo, $orderRepo);
-echo $report->getUserCount();
+// Pattern: closure-based lazy value for a standalone computation
+final class LazyValue
+{
+    private mixed $value = null;
+    private bool $initialized = false;
+
+    public function __construct(private readonly \Closure $initializer) {}
+
+    public function get(): mixed
+    {
+        if (!$this->initialized) {
+            $this->value       = ($this->initializer)();
+            $this->initialized = true;
+        }
+        return $this->value;
+    }
+}
 ```
 
-## Why
+## Exceptions / trade-offs
+PHP 8.4 introduces lazy object proxies via `ReflectionClass::newLazyProxy()` / `newLazyGhost()`, which can defer the entire construction of an object until first property access. This is the correct tool for DI containers that must instantiate objects at graph-build time but only use a subset at runtime.
 
-- **Faster Startup**: Constructor does minimal work
-- **Less Memory**: Only loads data that's actually used
-- **Null Coalescing Assignment**: `??=` provides clean lazy init pattern
-- **Query Optimization**: Use COUNT queries instead of loading all records
-- **Pay for What You Use**: Expensive resources created only when needed
+Do not lazy-load something that is always needed — you pay the complexity cost without the benefit. Prefer passing an already-constructed dependency through the constructor (DI) over lazy initialization inside the class.
+
+## Static-analysis notes
+PHPStan tracks nullable property types and can warn if you access `$this->pdf` without a null check. Using `??=` eliminates the null check concern inside the initializer method; PHPStan understands this operator.
+
+## Version notes
+`??=` (null coalescing assignment) — PHP 7.4+
+Lazy objects (`ReflectionClass::newLazyProxy`) — PHP 8.4+
+
+## Related topics
+- [perf-generators.md](perf-generators.md) — deferred data loading for large sequences
+- [perf-avoid-globals.md](perf-avoid-globals.md) — inject dependencies rather than pulling them lazily from global state
+- [solid-dip.md](solid-dip.md) — dependency inversion; inject abstractions rather than constructing concretions

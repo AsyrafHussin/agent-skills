@@ -1,139 +1,123 @@
 ---
 title: Arrow Functions
-impact: MEDIUM
-impactDescription: Concise closures with automatic variable capture
-tags: modern-features, arrow-functions, closures, php74
+impact: CRITICAL
+impactDescription: Modern PHP 8.x language features
+tags: php, modern-php, php8
 ---
 
 # Arrow Functions
 
-Use arrow functions for short, single-expression closures (PHP 7.4+).
+## Why it matters
+Verbose closures with `use` capture lists add noise that buries the actual transform. Arrow functions eliminate the `use` clause by capturing the outer scope implicitly, making simple expression-level transforms read as clearly as the math they represent. The danger is the opposite failure: packing multi-statement logic into an arrow function to avoid naming it, producing unreadable one-liners.
 
-## Bad Example
+## Rule
+Use arrow functions only for tiny, single-expression transforms with no side effects. Anything with branching, multiple statements, or side effects belongs in a named method or a regular closure.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Verbose closures for simple operations
-$numbers = [1, 2, 3, 4, 5];
-
-$doubled = array_map(function ($n) {
-    return $n * 2;
-}, $numbers);
-
-$evens = array_filter($numbers, function ($n) {
-    return $n % 2 === 0;
-});
-
-// Must explicitly use `use` to capture outer scope
 $multiplier = 3;
-$multiplied = array_map(function ($n) use ($multiplier) {
-    return $n * $multiplier;
-}, $numbers);
 
-// Nested verbose closures
-$users = [/* ... */];
-$activeEmails = array_map(function ($user) {
-    return $user->getEmail();
-}, array_filter($users, function ($user) {
-    return $user->isActive();
-}));
+// Verbose closure — $multiplier capture is boilerplate noise
+$result = array_map(
+    function (int $n) use ($multiplier): int {
+        return $n * $multiplier;
+    },
+    $numbers,
+);
 ```
 
-## Good Example
+## Better
+```php
+<?php
+
+declare(strict_types=1);
+
+$multiplier = 3;
+
+// Arrow function: outer scope captured implicitly, expression is clear
+$result = array_map(
+    fn (int $n): int => $n * $multiplier,
+    $numbers,
+);
+```
+
+## Best
+```php
+<?php
+
+declare(strict_types=1);
+
+// GOOD: arrow function for a clean, focused transform
+$multiplier = 3;
+$result = array_map(fn (int $n): int => $n * $multiplier, $numbers);
+
+// BAD: do NOT do this — complex logic forced into an arrow function
+$processed = array_map(
+    fn (Order $o): string => $o->isPaid()
+        ? ($o->isShipped() ? 'delivered' : 'processing')
+        : ($o->isCancelled() ? 'cancelled' : 'pending'),
+    $orders,
+);
+
+// BETTER: extract to a named method when logic is non-trivial
+$processed = array_map(fn (Order $o): string => $o->statusLabel(), $orders);
+```
+
+## Exceptions / trade-offs
+- Any logic with side effects, I/O, or more than one expression — use a named method or a regular closure instead.
+- Arrow functions cannot contain `return` statements; if you need early returns or guards, use a closure or a method.
+- Multi-step pipelines may benefit from named methods over chained arrow functions to keep stack traces readable.
+
+## Practical array operation patterns
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-$numbers = [1, 2, 3, 4, 5];
-
-// Concise arrow functions
-$doubled = array_map(fn($n) => $n * 2, $numbers);
-
-$evens = array_filter($numbers, fn($n) => $n % 2 === 0);
-
-// Automatic capture of outer scope - no `use` needed
 $multiplier = 3;
-$multiplied = array_map(fn($n) => $n * $multiplier, $numbers);
+$numbers    = [1, 2, 3, 4, 5];
 
-// Chained operations are more readable
-$users = [/* ... */];
+// Map, filter, sort with captured outer scope
+$tripled = array_map(fn (int $n): int => $n * $multiplier, $numbers);
+$evens   = array_filter($numbers, fn (int $n): bool => $n % 2 === 0);
+
+// Sorting
+/** @var list<User> $users */
+usort($users, fn (User $a, User $b): int => $a->name <=> $b->name);
+
+/** @var list<Product> $products */
+usort($products, fn (Product $a, Product $b): int => $a->price() <=> $b->price());
+
+// Collection extraction
 $activeEmails = array_map(
-    fn($user) => $user->getEmail(),
-    array_filter($users, fn($user) => $user->isActive())
+    fn (User $u): string => $u->email(),
+    array_filter($users, fn (User $u): bool => $u->isActive()),
 );
 
-// With type hints
-$prices = [10.5, 20.0, 15.75];
-$withTax = array_map(
-    fn(float $price): float => $price * 1.1,
-    $prices
-);
-
-// Collection operations
-class UserCollection
+// Higher-order factory: return an arrow function from a function
+function multiplierOf(int $factor): \Closure
 {
-    /** @var User[] */
-    private array $users;
-
-    public function getActiveUsers(): array
-    {
-        return array_filter($this->users, fn($u) => $u->isActive());
-    }
-
-    public function getEmails(): array
-    {
-        return array_map(fn($u) => $u->getEmail(), $this->users);
-    }
-
-    public function findByRole(string $role): array
-    {
-        return array_filter($this->users, fn($u) => $u->getRole() === $role);
-    }
-
-    public function getTotalBalance(): float
-    {
-        return array_sum(array_map(fn($u) => $u->getBalance(), $this->users));
-    }
+    return fn (int $n): int => $n * $factor;
 }
 
-// Sorting with arrow functions
-$products = [/* ... */];
-usort($products, fn($a, $b) => $a->getPrice() <=> $b->getPrice());
+$double = multiplierOf(2);
+$triple = multiplierOf(3);
 
-// Callbacks and event handlers
-$button->onClick(fn() => $controller->handleClick());
-$form->onSubmit(fn($data) => $controller->processForm($data));
-
-// Validation rules
-$rules = [
-    'email' => fn($v) => filter_var($v, FILTER_VALIDATE_EMAIL) !== false,
-    'age' => fn($v) => is_numeric($v) && $v >= 18,
-    'name' => fn($v) => strlen($v) >= 2 && strlen($v) <= 100,
-];
-
-// Higher-order functions
-function createMultiplier(int $factor): Closure
-{
-    return fn(int $n): int => $n * $factor;
-}
-
-$double = createMultiplier(2);
-$triple = createMultiplier(3);
-
-echo $double(5); // 10
-echo $triple(5); // 15
+array_map($double, $numbers); // [2, 4, 6, 8, 10]
+array_map($triple, $numbers); // [3, 6, 9, 12, 15]
 ```
 
-## Why
+## Static-analysis notes
+PHPStan and Psalm infer the return type from the arrow function body expression. Explicit return type annotations (`: int`, `: string`) are recommended for public APIs and non-obvious transforms; they are optional for trivially obvious cases.
 
-- **Concise**: Single expression without braces or return keyword
-- **Auto-Capture**: Variables from outer scope captured automatically
-- **Readable**: Better for functional programming patterns
-- **Type Support**: Full support for parameter and return types
-- **Immutable Capture**: Captured variables are by-value (safe)
-- **Perfect For**: Callbacks, array functions, short lambdas
+## Version notes
+`PHP 7.4+`
+
+## Related topics
+- [modern-first-class-callables.md](modern-first-class-callables.md) — reference existing methods as callables without a wrapping arrow function
+- [modern-pipe-operator.md](modern-pipe-operator.md) — composing transforms in sequence

@@ -1,57 +1,70 @@
 ---
-title: Finally for Cleanup
-impact: MEDIUM
-impactDescription: Guarantees resource cleanup regardless of success or failure
-tags: error-handling, finally, cleanup, resources, php8
+title: Use `finally` for Guaranteed Cleanup, Not Control Flow
+impact: HIGH
+impactDescription: Robust error handling and exception design
+tags: php, error-handling, exceptions
 ---
 
-# Finally for Cleanup
+# Use `finally` for Guaranteed Cleanup, Not Control Flow
 
-Use `finally` blocks to guarantee cleanup code runs whether an exception occurs or not.
+## Why it matters
+Resources left open after an exception — file handles, database locks, connections, temporary state — cause correctness bugs and resource exhaustion that are difficult to reproduce. Duplicating cleanup in both `try` and `catch` creates drift: one copy gets updated, the other does not.
 
-## Bad Example
+## Rule
+Use `finally` to guarantee cleanup runs regardless of the execution path. Do not use it for branching, returning calculated values, or normal business logic — that makes control flow hard to follow.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
+// Cleanup duplicated; skipped entirely if an unexpected exception occurs
 function processFile(string $path): array
 {
     $handle = fopen($path, 'r');
 
     try {
         $data = parseContents($handle);
-        fclose($handle); // Skipped if parseContents throws
+        fclose($handle); // skipped if parseContents throws
         return $data;
     } catch (ParseException $e) {
-        fclose($handle); // Duplicated cleanup
+        fclose($handle); // duplicated
         throw $e;
+        // any other exception leaks the handle
     }
-    // If an unexpected exception occurs, handle is never closed
-}
-
-// Lock without guaranteed release
-function updateInventory(int $productId, int $quantity): void
-{
-    $lock = Cache::lock("product:{$productId}", 10);
-    $lock->get();
-
-    $product = Product::find($productId);
-    $product->stock -= $quantity;
-    $product->save();
-
-    $lock->release(); // Never called if save() throws
 }
 ```
 
-## Good Example
-
+## Better
 ```php
 <?php
 
 declare(strict_types=1);
 
+// Finally added, but catch block re-closes unnecessarily
+function processFile(string $path): array
+{
+    $handle = fopen($path, 'r');
+
+    try {
+        return parseContents($handle);
+    } catch (ParseException $e) {
+        fclose($handle); // redundant — finally will run anyway
+        throw $e;
+    } finally {
+        fclose($handle);
+    }
+}
+```
+
+## Best
+```php
+<?php
+
+declare(strict_types=1);
+
+// File handle: finally closes regardless of success or any exception
 function processFile(string $path): array
 {
     $handle = fopen($path, 'r');
@@ -59,42 +72,25 @@ function processFile(string $path): array
     try {
         return parseContents($handle);
     } finally {
-        fclose($handle); // Always runs, even if exception thrown
+        fclose($handle);
     }
 }
 
-// Lock with guaranteed release
-function updateInventory(int $productId, int $quantity): void
+// Distributed lock: always released
+function updateInventory(PDO $pdo, int $productId, int $delta): void
 {
-    $lock = Cache::lock("product:{$productId}", 10);
-    $lock->get();
+    $lock = Cache::lock("product:{$productId}", ttl: 10);
+    $lock->acquire();
 
     try {
-        $product = Product::find($productId);
-        $product->stock -= $quantity;
-        $product->save();
+        $stmt = $pdo->prepare('UPDATE products SET stock = stock + ? WHERE id = ?');
+        $stmt->execute([$delta, $productId]);
     } finally {
-        $lock->release(); // Always released
+        $lock->release();
     }
 }
 
-// Database transaction with guaranteed cleanup
-function transferFunds(Account $from, Account $to, float $amount): void
-{
-    $pdo = getConnection();
-    $pdo->beginTransaction();
-
-    try {
-        $from->debit($amount);
-        $to->credit($amount);
-        $pdo->commit();
-    } catch (\Throwable $e) {
-        $pdo->rollBack();
-        throw $e;
-    }
-}
-
-// Temporary state restoration
+// Locale: always restored after the callback
 function withLocale(string $locale, callable $callback): mixed
 {
     $original = setlocale(LC_ALL, '0');
@@ -103,14 +99,32 @@ function withLocale(string $locale, callable $callback): mixed
         setlocale(LC_ALL, $locale);
         return $callback();
     } finally {
-        setlocale(LC_ALL, $original); // Always restored
+        setlocale(LC_ALL, $original);
+    }
+}
+
+// Transaction: explicit rollback on failure, then rethrow
+function transferFunds(PDO $pdo, int $fromId, int $toId, float $amount): void
+{
+    $pdo->beginTransaction();
+
+    try {
+        debit($pdo, $fromId, $amount);
+        credit($pdo, $toId, $amount);
+        $pdo->commit();
+    } catch (\Throwable $e) {
+        $pdo->rollBack();
+        throw $e;
     }
 }
 ```
 
-## Why
+## Exceptions / trade-offs
+`finally` runs even when the `try` block calls `return`, which is usually correct for cleanup. Avoid putting a `return` statement inside `finally` itself — it silently discards exceptions and overrides the `try` return value.
 
-- **Guaranteed Execution**: `finally` runs whether try succeeds, catch fires, or exception propagates
-- **No Duplication**: Write cleanup once instead of in both try and catch
-- **Resource Safety**: File handles, locks, connections always released
-- **State Restoration**: Temporary changes always reverted
+## Static-analysis notes
+PHPStan can flag unreachable code after `return` inside `try` when `finally` also returns. Neither PHPStan nor Psalm currently warn about `return` inside `finally`, so enforce that via code review.
+
+## Related topics
+- [error-try-catch-specific.md](error-try-catch-specific.md) — catching exceptions at the right scope
+- [error-never-suppress.md](error-never-suppress.md) — other patterns that hide failures

@@ -6,6 +6,19 @@ OWASP Top 10 security audit checklist and secure coding reference for Laravel 13
 
 ---
 
+## Operational Contract
+
+When applying this skill, agents must:
+- Treat this skill as repo-owned guidance and defer to repository or task-specific instructions when they conflict.
+- Limit work to the smallest relevant file and rule set for the current request.
+- Stop and ask when the stack, validation command, or requirement is missing or contradictory.
+- Prefer machine-readable evidence first, then summarize files reviewed, commands run, failures, and unresolved risks.
+
+## Validation & Evidence
+
+- Run the repository's existing validation commands in documented order when code changes are requested.
+- If this repository does not define a validation command for the current task, say so instead of inventing one.
+
 ## How to Run an Audit
 
 ### Step 1: Detect Stack

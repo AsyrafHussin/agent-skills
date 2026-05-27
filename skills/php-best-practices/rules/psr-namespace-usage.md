@@ -1,164 +1,96 @@
 ---
-title: Namespace Usage
+title: PSR Namespace Usage
 impact: HIGH
-impactDescription: Proper code organization, avoids naming conflicts
-tags: psr, namespaces, organization, php-fig
+impactDescription: PSR standards and code structure conventions
+tags: php, psr, coding-standards
 ---
 
-# Namespace Usage
+# PSR Namespace Usage
 
-Use namespaces properly to organize code and avoid naming conflicts.
+## Why it matters
+Namespaces that mirror directories without carrying domain meaning (`App\Http\Controllers\Api\V1`) describe where a file lives, not what it is. When the directory is reorganized, every import breaks. Namespaces should express bounded context and domain concepts so that `use App\Payment\Invoice` is self-documenting and stable across refactors.
 
-## Bad Example
+## Rule
+Namespaces should reflect domain or bounded context, not directory trivia. `App\Payment\Invoice` is a domain concept. `App\Http\Controllers\Api\V1\PaymentController` is a locator path — valid as a technical namespace but should not be mistaken for domain design. Always import at the top; never use fully qualified names inline.
+
+## Bad
 
 ```php
 <?php
 
-// No namespace - global scope pollution
-class User
-{
-}
+// No namespace — pollutes global scope
+class UserService {}
 
-class UserService
-{
-}
-
-// Wrong: Using namespace as prefix only
+// Redundant prefix
 namespace MyApp;
+class MyApp_User {}
 
-class MyApp_User // Redundant prefix
+// Fully qualified names used inline — cluttered and fragile
+final class OrderService
 {
-}
-
-// Wrong: Too deep/specific namespaces
-namespace App\Domain\User\Entity\Model\Base;
-
-class User
-{
-}
-
-// Wrong: Using fully qualified names everywhere
-class UserService
-{
-    public function find(int $id): \App\Domain\User\User
+    public function find(int $id): \App\Domain\Order\Order
     {
-        return $this->repository->find($id);
+        return $this->repo->find($id);
     }
 
-    public function create(\App\Domain\User\CreateUserDto $dto): \App\Domain\User\User
+    public function create(\App\Domain\Order\CreateOrderDto $dto): \App\Domain\Order\Order
     {
-        // Cluttered and hard to read
+        // ...
     }
 }
 ```
 
-## Good Example
+## Better
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-namespace App\Domain\User;
+namespace App\Domain\Order;
 
-// Import classes at the top
-use App\Domain\Shared\ValueObject;
 use DateTimeImmutable;
 
-class User
+final class Order
 {
     public function __construct(
-        private UserId $id,
-        private Email $email,
-        private DateTimeImmutable $createdAt,
+        private readonly OrderId $id,
+        private readonly CustomerId $customerId,
+        private readonly DateTimeImmutable $createdAt,
     ) {}
 }
-
-// Service in separate namespace
-// File: src/Application/Services/UserService.php
-namespace App\Application\Services;
-
-use App\Domain\User\User;
-use App\Domain\User\UserId;
-use App\Domain\User\UserRepository;
-use App\Application\Dto\CreateUserDto;
-
-class UserService
-{
-    public function __construct(
-        private UserRepository $repository,
-    ) {}
-
-    public function find(UserId $id): ?User
-    {
-        return $this->repository->find($id);
-    }
-
-    public function create(CreateUserDto $dto): User
-    {
-        // Clean and readable
-    }
-}
 ```
-
-### Namespace Organization Patterns
-
-```php
-<?php
-
-// Domain Layer
-namespace App\Domain\User;           // User aggregate
-namespace App\Domain\Order;          // Order aggregate
-namespace App\Domain\Shared;         // Shared value objects
-
-// Application Layer
-namespace App\Application\Services;  // Application services
-namespace App\Application\Commands;  // Command objects
-namespace App\Application\Queries;   // Query objects
-namespace App\Application\Dto;       // Data transfer objects
-
-// Infrastructure Layer
-namespace App\Infrastructure\Persistence;      // Database implementations
-namespace App\Infrastructure\Http\Controllers; // HTTP controllers
-namespace App\Infrastructure\Http\Middleware;  // HTTP middleware
-namespace App\Infrastructure\Queue;            // Queue workers
-namespace App\Infrastructure\Cache;            // Cache implementations
-
-// Tests
-namespace Tests\Unit\Domain\User;
-namespace Tests\Integration\Application;
-namespace Tests\Functional\Http;
-```
-
-### Handling Name Conflicts
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Application\Order;
 
-// Aliasing to avoid conflicts
-use App\Domain\User\User;
-use App\External\Payment\User as PaymentUser;
-use DateTimeImmutable as DateTime;
+use App\Domain\Order\CreateOrderDto;
+use App\Domain\Order\Order;
+use App\Domain\Order\OrderRepository;
 
-// Or use more descriptive aliases
-use App\Domain\User\User as DomainUser;
-use App\Http\Resources\User as UserResource;
-use App\Database\Models\User as UserModel;
-
-class UserSyncService
+final class OrderService
 {
-    public function sync(DomainUser $domainUser): UserModel
+    public function __construct(
+        private readonly OrderRepository $repository,
+    ) {}
+
+    public function find(OrderId $id): ?Order
     {
-        // Clear which User class is being used
+        return $this->repository->find($id);
+    }
+
+    public function create(CreateOrderDto $dto): Order
+    {
+        // Clean, imported at top
     }
 }
 ```
 
-### Grouping Related Imports
+## Best
 
 ```php
 <?php
@@ -167,32 +99,34 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
-// Group 1: PHP built-in
+// Group 1: PHP native
 use DateTimeImmutable;
 use InvalidArgumentException;
 
-// Group 2: Framework classes
+// Group 2: Framework
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 
-// Group 3: External packages
-use League\Fractal\Manager;
-use Psr\Log\LoggerInterface;
+// Group 3: Application
+use App\Application\Order\OrderService;
+use App\Domain\Order\OrderId;
+use App\Http\Requests\CreateOrderRequest;
+use App\Http\Resources\OrderResource;
 
-// Group 4: Application classes
-use App\Application\Services\UserService;
-use App\Domain\User\UserId;
-use App\Http\Requests\CreateUserRequest;
-use App\Http\Resources\UserResource;
-
-class UserController extends Controller
+final class OrderController extends Controller
 {
-    // ...
+    public function __construct(
+        private readonly OrderService $service,
+    ) {}
+
+    public function show(int $id): JsonResponse
+    {
+        $order = $this->service->find(new OrderId((string) $id));
+        return new JsonResponse(new OrderResource($order));
+    }
 }
 ```
-
-### Function and Constant Imports
 
 ```php
 <?php
@@ -201,36 +135,76 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-// Import specific functions
-use function array_map;
-use function array_filter;
-use function sprintf;
+// Alias to resolve name collision between domain User and HTTP resource User
+use App\Domain\User\User as DomainUser;
+use App\Http\Resources\User as UserResource;
 
-// Import constants
-use const PHP_EOL;
-use const SORT_REGULAR;
-
-// Or use namespace functions/constants directly with prefix
-class DataProcessor
+final class UserSyncService
 {
-    public function process(array $data): string
+    public function toResource(DomainUser $user): UserResource
     {
-        // Imported function
-        $filtered = array_filter($data, fn($v) => $v !== null);
-
-        // With namespace prefix (also valid)
-        \sort($filtered, SORT_REGULAR); // sort() modifies in place, returns bool
-
-        return \implode(PHP_EOL, $filtered);
+        return new UserResource($user);
     }
 }
 ```
 
-## Why
+## Exceptions / trade-offs
+Deep technical namespaces like `App\Infrastructure\Persistence\Doctrine` are fine for infrastructure code — they don't need to carry domain meaning. The rule about domain namespaces applies to entities, value objects, services, and repositories in the domain/application layers. Aliases are a last resort; if you need many aliases, the namespace design probably needs rethinking.
 
-- **Organization**: Namespaces group related code logically
-- **Autoloading**: PSR-4 maps namespaces to directories
-- **Conflict Prevention**: Same class name can exist in different namespaces
-- **Readability**: Import statements make class origins clear
-- **IDE Support**: Enables better autocompletion and navigation
-- **Maintainability**: Clear boundaries between modules
+## Namespace layer conventions
+
+```
+Domain layer:
+  App\Domain\User          — User aggregate (Entity, ValueObject, Event)
+  App\Domain\Order         — Order aggregate
+  App\Domain\Shared        — Shared value objects across aggregates
+
+Application layer:
+  App\Application\Command  — Command objects
+  App\Application\Query    — Query objects
+  App\Application\Dto      — Data transfer objects
+  App\Application\Handler  — Command and query handlers
+
+Infrastructure layer:
+  App\Infrastructure\Persistence    — Database implementations
+  App\Infrastructure\Http           — HTTP controllers, middleware, resources
+  App\Infrastructure\Queue          — Queue workers and jobs
+  App\Infrastructure\Cache          — Cache implementations
+
+Tests:
+  Tests\Unit\Domain\User
+  Tests\Integration\Application
+  Tests\Feature\Http
+```
+
+## Resolving name conflicts with aliases
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Application\Sync;
+
+// Alias to resolve collision between domain User and API resource User
+use App\Domain\User\User as DomainUser;
+use App\Http\Resources\User as UserResource;
+
+// Or use more descriptive aliases
+use App\External\Payment\User as PaymentUser;
+
+final class UserSyncService
+{
+    public function toResource(DomainUser $user): UserResource
+    {
+        return new UserResource($user);
+    }
+}
+```
+
+## Static-analysis notes
+PHPStan and Psalm will error on undefined class names from missing or incorrect imports. PHP-CS-Fixer's `ordered_imports` and `no_unused_imports` rules keep import blocks tidy automatically. Deptrac can enforce that domain namespaces do not import from infrastructure namespaces.
+
+## Related topics
+- [psr-file-structure.md](psr-file-structure.md) — imports must appear in the declared position in the file
+- [psr-4-autoloading.md](psr-4-autoloading.md) — namespace structure must match directory structure for autoloading

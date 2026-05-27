@@ -1,101 +1,84 @@
 ---
 title: Typed Class Constants
-impact: HIGH
-impactDescription: Prevents type errors in class constants and improves static analysis
-tags: modern-features, typed-constants, type-safety, php83
-phpVersion: "8.3+"
+impact: CRITICAL
+impactDescription: Modern PHP 8.x language features
+tags: php, modern-php, php8
 ---
 
 # Typed Class Constants
 
-Use typed class constants to enforce type safety on constant values (PHP 8.3+).
+## Why it matters
+An untyped class constant is an implicit `mixed` — a child class can silently override it with a value of a different type, breaking code that relies on the constant's type contract. Typed constants enforce the contract at class-load time and give static analysis something concrete to verify.
 
-## Bad Example
+## Rule
+Type class constants whenever the constant's type contract matters or the constant can be overridden in subclasses. This is cheap to add and prevents a whole class of silent type-coercion bugs.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Untyped constants - no type checking
-class PaymentGateway
+class PaymentStatus
 {
-    public const TIMEOUT = 30;
-    public const CURRENCY = 'USD';
-    public const RETRY_LIMIT = 3;
-    public const ENABLED = true;
+    const PENDING  = 'pending';
+    const COMPLETE = 'complete';
 }
 
-// Child class can accidentally change the type
-class StripeGateway extends PaymentGateway
+class LegacyPaymentStatus extends PaymentStatus
 {
-    public const TIMEOUT = '30'; // Changed from int to string - no error!
-    public const ENABLED = 1;    // Changed from bool to int - no error!
-}
-
-interface HasVersion
-{
-    public const VERSION = '1.0.0';
-}
-
-class App implements HasVersion
-{
-    public const VERSION = 100; // Type changed silently - no error!
+    const PENDING = 1;  // silently changed to int — callers expecting string break at runtime
 }
 ```
 
-## Good Example
-
+## Better
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Typed constants enforce type safety
-class PaymentGateway
+class PaymentStatus
 {
-    public const int TIMEOUT = 30;
-    public const string CURRENCY = 'USD';
-    public const int RETRY_LIMIT = 3;
-    public const bool ENABLED = true;
-
-    // Array constants with typed declaration
-    public const array SUPPORTED_CURRENCIES = ['USD', 'EUR', 'GBP'];
+    const string PENDING  = 'pending';
+    const string COMPLETE = 'complete';
 }
 
-// Child class cannot change the type
-class StripeGateway extends PaymentGateway
+class ModernPaymentStatus extends PaymentStatus
 {
-    public const int TIMEOUT = 60;        // OK - same type
-    // public const string TIMEOUT = '60'; // TypeError!
-}
-
-// Interfaces with typed constants
-interface HasVersion
-{
-    public const string VERSION = '1.0.0';
-}
-
-class App implements HasVersion
-{
-    public const string VERSION = '2.0.0'; // OK - same type
-    // public const int VERSION = 2;        // TypeError!
-}
-
-// Enums with typed constants
-enum Status: string
-{
-    public const string DEFAULT = 'pending';
-
-    case Pending = 'pending';
-    case Active = 'active';
+    // const string PENDING = 1;  // Fatal error — type mismatch caught at class load
 }
 ```
 
-## Why
+## Best
+```php
+<?php
 
-- **Type Safety**: Constants are validated when the class is loaded
-- **Inheritance Protection**: Child classes cannot change constant types
-- **Interface Contracts**: Typed constants in interfaces enforce implementation types
-- **Static Analysis**: Tools like PHPStan and Psalm can validate constant usage
-- **Self-Documenting**: Type declaration makes intent clear
+declare(strict_types=1);
+
+interface HasStatus
+{
+    const string PENDING  = 'pending';
+    const string COMPLETE = 'complete';
+    const string FAILED   = 'failed';
+}
+
+final class Order implements HasStatus
+{
+    public function isPending(): bool
+    {
+        return $this->status === self::PENDING;  // type guaranteed: always string
+    }
+}
+```
+
+## Exceptions / trade-offs
+Constants whose type is obvious from context and that are never overridden do not urgently need explicit types — but adding types is cheap and worth doing. The main payoff comes in class hierarchies where subclasses can override constants. For `enum` values, use actual `enum` types instead of typed constants.
+
+## Static-analysis notes
+PHPStan and Psalm validate typed constants and report type mismatches in subclasses as hard errors. Type mismatches that would previously surface only at runtime become CI failures.
+
+## Version notes
+`PHP 8.3+`
+
+## Related topics
+- [modern-enums.md](modern-enums.md) — for sets of named values, enums are a stronger alternative

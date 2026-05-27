@@ -1,51 +1,62 @@
 ---
 title: Rule Title Here
 impact: MEDIUM
-impactDescription: Brief description of impact (e.g., "Reduces bugs by 50%")
-tags: category, subtopic, php-version
+impactDescription: Optional description of impact
+tags: tag1, tag2, tag3
 ---
 
-## Rule Title Here
+# Rule Title Here
 
-**Impact: MEDIUM (optional impact description)**
+## Why it matters
 
-Brief explanation of the rule and why it matters. This should be clear and concise, explaining the benefits and rationale.
+One short paragraph on the real engineering cost of getting this wrong. Be specific about what breaks, what hides, or what becomes unanalyzable when this rule is ignored.
 
-## Bad Example
+## Rule
 
-```php
-<?php
+A blunt, testable recommendation in one or two sentences.
 
-declare(strict_types=1);
-
-// Bad code example here
-// Show common anti-patterns
-class BadExample
-{
-    // Demonstrate the problem
-}
-```
-
-## Good Example
+## Bad
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Good code example here
-// Show best practices
-class GoodExample
-{
-    // Demonstrate the solution
-}
+// Minimal bad example — show the anti-pattern, not an essay
 ```
 
-## Why
+## Better
 
-- **Benefit 1**: Explanation of first major benefit
-- **Benefit 2**: Explanation of second benefit
-- **Benefit 3**: Explanation of third benefit
-- **PHP Version**: Specify PHP version requirement if applicable
+```php
+<?php
 
-Reference: [PHP Documentation](https://www.php.net/manual/en/) | [PSR Standards](https://www.php-fig.org/psr/)
+declare(strict_types=1);
+
+// Improved — addresses the worst problem but may still have gaps
+```
+
+## Best
+
+```php
+<?php
+
+declare(strict_types=1);
+
+// Preferred modern approach — idiomatic, analyzable, copy-pasteable
+```
+
+## Exceptions / trade-offs
+
+Where the rule does not apply, with concrete limits. Keep this honest — not every rule applies everywhere.
+
+## Static-analysis notes
+
+What PHPStan / Psalm / IDEs can verify automatically with this pattern in place.
+
+## Version notes
+
+Exact PHP version floor if the feature is version-specific. Use format: `PHP 8.x+`
+
+## Related topics
+
+- [related-rule.md](related-rule.md) — one-line description of the relationship

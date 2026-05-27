@@ -1,77 +1,98 @@
 ---
-title: Output Escaping
+title: Escape by Output Context
 impact: CRITICAL
-impactDescription: Unescaped output enables XSS attacks and data corruption
-tags: security, xss, output-escaping, htmlspecialchars, php8
+impactDescription: Security best practices and input safety
+tags: php, security, validation
 ---
 
-# Output Escaping
+# Escape by Output Context
 
-Always escape output based on the context where it will be used to prevent XSS and injection attacks.
+## Why it matters
+XSS attacks execute because data is inserted into a context without the escaping rules that context requires. Applying HTML escaping to a JavaScript string literal does not prevent XSS; it just changes which payload the attacker uses. Context-wrong escaping is functionally equivalent to no escaping.
 
-## Bad Example
+## Rule
+Escape by the context where the value will appear: HTML text, HTML attribute, JavaScript, URL query parameter, or shell argument. Apply the correct function for each context at the point of output.
+Escaping is not an input-normalization strategy and not a storage format. Do not pre-escape values before persistence or business comparisons.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Raw user data in HTML - XSS vulnerable
-echo "<h1>Welcome, {$user->name}</h1>";
-echo "<p>{$user->bio}</p>";
-
-// Raw data in HTML attributes
-echo "<input value='{$searchTerm}'>";
-
-// Raw data in JavaScript context
-echo "<script>var name = '{$user->name}';</script>";
-
-// Raw data in URL
-echo "<a href='/search?q={$query}'>Search</a>";
+// Raw user values in multiple contexts — XSS in all of them
+echo "<h1>Hello {$user->name}</h1>";
+echo "<input value='{$query}'>";
+echo "<script>var q = '{$query}';</script>";
+echo "<a href='/search?q={$query}'>Go</a>";
 ```
 
-## Good Example
-
+## Better
 ```php
 <?php
 
 declare(strict_types=1);
 
-// HTML context - htmlspecialchars with ENT_QUOTES
+// HTML context escaped, but other contexts still raw
 $safeName = htmlspecialchars($user->name, ENT_QUOTES, 'UTF-8');
-echo "<h1>Welcome, {$safeName}</h1>";
+echo "<h1>Hello {$safeName}</h1>";
 
-// HTML attributes - same escaping
-$safeSearch = htmlspecialchars($searchTerm, ENT_QUOTES, 'UTF-8');
-echo "<input value=\"{$safeSearch}\">";
+// JavaScript and URL contexts still unsafe
+echo "<script>var q = '{$query}';</script>";       // still vulnerable
+echo "<a href='/search?q={$query}'>Go</a>";        // still vulnerable
+```
 
-// JavaScript context - json_encode
-$jsonName = json_encode($user->name, JSON_HEX_TAG | JSON_HEX_AMP);
-echo "<script>var name = {$jsonName};</script>";
+## Best
+```php
+<?php
 
-// URL context - urlencode
-$safeQuery = urlencode($query);
-echo "<a href=\"/search?q={$safeQuery}\">Search</a>";
+declare(strict_types=1);
 
-// Helper function for consistent escaping
+// Convenience wrapper — use everywhere for HTML text/attributes
 function e(string $value): string
 {
     return htmlspecialchars($value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-echo "<p>" . e($user->bio) . "</p>";
+// HTML body text
+echo '<h1>Hello ' . e($user->name) . '</h1>';
 
-// In templating engines (Blade, Twig) - auto-escaping is default
-// Blade: {{ $user->name }}         - escaped
-// Blade: {!! $trustedHtml !!}      - raw (only for trusted content)
-// Twig:  {{ user.name }}           - escaped
-// Twig:  {{ user.name|raw }}       - raw (only for trusted content)
+// HTML attribute (double-quoted)
+echo '<input value="' . e($query) . '">';
+
+// JavaScript string literal — json_encode is the correct escaper
+$jsValue = json_encode($user->name, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT);
+echo "<script>var name = {$jsValue};</script>";
+
+// URL query parameter
+echo '<a href="/search?q=' . urlencode($query) . '">Go</a>';
+
+// Full URL — validate scheme before embedding
+$url = filter_var($redirectUrl, FILTER_VALIDATE_URL);
+if ($url === false || !str_starts_with($url, 'https://')) {
+    throw new \InvalidArgumentException('Invalid redirect URL');
+}
+echo '<a href="' . e($url) . '">Continue</a>';
+
+// Shell argument — escapeshellarg wraps in single quotes
+$escaped = escapeshellarg($filename);
+exec("convert {$escaped} output.png");
+
+// Template engines handle this automatically when used correctly:
+// Blade: {{ $name }}          → HTML-escaped
+// Blade: {!! $trustedHtml !!} → raw (use only for pre-sanitized HTML)
+// Twig:  {{ name }}           → HTML-escaped
 ```
 
-## Why
+## Exceptions / trade-offs
+CMS systems that store and render rich HTML need to emit raw content — restrict that to a `{!! !!}` / `|raw` path and ensure the stored content passed through a trusted HTML sanitizer (e.g. HTMLPurifier) at save time, not at render time.
 
-- **Prevents XSS**: Malicious scripts can't execute through escaped output
-- **Context-Aware**: HTML, JavaScript, URL, and CSS each need different escaping
-- **ENT_QUOTES**: Escapes both single and double quotes
-- **UTF-8**: Always specify encoding to prevent multi-byte attacks
-- **Template Engines**: Use frameworks with auto-escaping (Blade, Twig)
+## Static-analysis notes
+PHPStan and Psalm do not track taint by default; the `psalm/plugin-taint-analysis` package (Psalm) or Taint extensions add data-flow tracking that can flag unescaped output paths.
+
+## Security notes
+`htmlspecialchars` without `ENT_QUOTES` leaves single-quoted attributes vulnerable. Always pass `ENT_QUOTES | ENT_SUBSTITUTE` and an explicit encoding. Never use `htmlentities` — it encodes characters that do not need escaping and may behave inconsistently across encodings.
+
+## Related topics
+- [sec-input-validation.md](sec-input-validation.md) — validation and escaping are complementary layers
+- [sec-sql-prepared.md](sec-sql-prepared.md) — context-specific protection for SQL

@@ -1,15 +1,19 @@
 ---
 title: Intersection Types
-impact: MEDIUM
-impactDescription: Enforces multiple interface implementations for composition
-tags: type-system, intersection-types, interfaces, php81
+impact: CRITICAL
+impactDescription: Strong type safety across all PHP code
+tags: php, types, strict-types, type-safety
 ---
 
 # Intersection Types
 
-Use intersection types when a value must implement multiple interfaces (PHP 8.1+).
+## Why it matters
+Without intersection types, a method that requires an object to satisfy two interfaces must choose one as the parameter type and either document the other in a comment (unenforced) or add a runtime `instanceof` guard (deferred error). Both approaches let the wrong object past the call site. Intersection types close that gap at the language level.
 
-## Bad Example
+## Rule
+Use an intersection type (`A&B`) when a parameter or return value must simultaneously satisfy multiple contracts. Do not create a new combined interface just to avoid the syntax — keep contracts small and compose them at the call site.
+
+## Bad
 
 ```php
 <?php
@@ -21,28 +25,26 @@ interface Cacheable
     public function getCacheKey(): string;
 }
 
-interface Encodable
+interface Serializable
 {
-    public function encode(): string;
+    public function serialize(): string;
 }
 
-class CacheService
+class CacheStore
 {
     /**
-     * @param Cacheable&Encodable $item
+     * @param Cacheable&Serializable $item   ← docblock only, not enforced
      */
-    public function store($item): void
+    public function store($item): void  // no native type — anything passes
     {
-        // No type enforcement - relies on docblock
-        // Could receive object implementing only one interface
-        $key = $item->getCacheKey();
-        $data = $item->encode();
-        $this->cache->set($key, $data);
+        $key  = $item->getCacheKey();
+        $data = $item->serialize();
+        $this->backend->set($key, $data);
     }
 }
 ```
 
-## Good Example
+## Better
 
 ```php
 <?php
@@ -52,74 +54,122 @@ declare(strict_types=1);
 interface Cacheable
 {
     public function getCacheKey(): string;
-    public function getCacheTtl(): int;
+    public function cacheTtl(): int;
 }
 
-interface Encodable
+interface Serializable
 {
-    public function encode(): string;
-    public function decode(string $data): void;
+    public function serialize(): string;
+    public function unserialize(string $data): void;
 }
 
-class CacheService
+class CacheStore
 {
-    // Object MUST implement both interfaces
-    public function store(Cacheable&Encodable $item): void
+    // enforced at runtime — both interfaces required
+    public function store(Cacheable&Serializable $item): void
     {
-        $key = $item->getCacheKey();
-        $data = $item->encode();
-        $ttl = $item->getCacheTtl();
-
-        $this->cache->set($key, $data, $ttl);
-    }
-
-    public function retrieve(
-        string $key,
-        Cacheable&Encodable $prototype
-    ): Cacheable&Encodable {
-        $data = $this->cache->get($key);
-        $prototype->decode($data);
-        return $prototype;
+        $this->backend->set(
+            $item->getCacheKey(),
+            $item->serialize(),
+            $item->cacheTtl(),
+        );
     }
 }
+```
 
-// Implementation example
-class User implements Cacheable, Encodable
+## Best
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Cache;
+
+interface Cacheable
+{
+    public function cacheKey(): string;
+    public function cacheTtl(): int;
+}
+
+interface JsonSerializable
+{
+    public function toJson(): string;
+    public static function fromJson(string $json): static;
+}
+
+final class RedisStore
 {
     public function __construct(
-        private int $id,
-        private string $name
+        private readonly \Redis $client,
     ) {}
 
-    public function getCacheKey(): string
+    public function put(Cacheable&JsonSerializable $item): void
     {
-        return "user:{$this->id}";
+        $this->client->setex(
+            $item->cacheKey(),
+            $item->cacheTtl(),
+            $item->toJson(),
+        );
     }
 
-    public function getCacheTtl(): int
+    /**
+     * @template T of Cacheable&JsonSerializable
+     * @param T $prototype
+     * @return T|null
+     */
+    public function get(string $key, Cacheable&JsonSerializable $prototype): Cacheable&JsonSerializable|null
+    {
+        $raw = $this->client->get($key);
+
+        return $raw !== false ? $prototype::fromJson($raw) : null;
+    }
+}
+
+// Concrete implementation satisfying both interfaces
+final class UserSession implements Cacheable, JsonSerializable
+{
+    public function __construct(
+        private readonly int $userId,
+        private readonly string $token,
+    ) {}
+
+    public function cacheKey(): string
+    {
+        return "session:{$this->userId}";
+    }
+
+    public function cacheTtl(): int
     {
         return 3600;
     }
 
-    public function encode(): string
+    public function toJson(): string
     {
-        return json_encode(['id' => $this->id, 'name' => $this->name]);
+        return json_encode(['userId' => $this->userId, 'token' => $this->token], JSON_THROW_ON_ERROR);
     }
 
-    public function decode(string $data): void
+    public static function fromJson(string $json): static
     {
-        $decoded = json_decode($data, true);
-        $this->id = $decoded['id'];
-        $this->name = $decoded['name'];
+        $data = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+        return new static($data['userId'], $data['token']);
     }
 }
 ```
 
-## Why
+## Exceptions / trade-offs
+- **Do not merge interfaces**: Resist creating `interface CacheableAndSerializable extends Cacheable, Serializable {}` solely to avoid intersection syntax — it forces classes to implement a combined interface instead of two focused ones.
+- **Intersection with classes**: PHP requires all members of an intersection type to be interfaces or abstract classes — you cannot intersect concrete classes.
+- **Return type intersections**: Returning `A&B` from a method is valid and useful (e.g., factory methods), but the concrete class must implement both interfaces.
+- **DNF types (PHP 8.2+)**: Disjunctive Normal Form allows combining unions and intersections: `(A&B)|null`. Use for nullable intersection parameters.
 
-- **Compound Requirements**: Enforces multiple interface implementations
-- **Type Safety**: PHP enforces all required capabilities at class loading
-- **Composition**: Enables type-safe composition over inheritance
-- **Clear Contracts**: Explicitly states all required behaviors
-- **Better Than Base Classes**: More flexible than requiring a specific base class
-- **Static Analysis**: Full support in PHPStan and Psalm
+## Static-analysis notes
+PHPStan and Psalm fully support intersection types, including `@template T of A&B` for generic intersection constraints. Both tools verify that all interface members are accessible and that concrete types satisfy the intersection at assignment sites.
+
+## Version notes
+`PHP 8.1+` — native intersection types. `PHP 8.2+` — DNF types (`(A&B)|null`).
+
+## Related topics
+- [type-union-types.md](type-union-types.md) — alternative states vs. combined contracts
+- [type-parameter-types.md](type-parameter-types.md) — use intersection at parameter boundaries
+- [type-return-types.md](type-return-types.md) — return intersection types from factory methods

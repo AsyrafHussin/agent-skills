@@ -48,6 +48,8 @@ cp -r agent-skills/skills/laravel-best-practices .claude/skills/
 ```
 
 Each skill contains `SKILL.md`, `AGENTS.md`, `rules/`, and `metadata.json`.
+Each `AGENTS.md` now includes a shared operational contract for scope, stop/ask behavior, and evidence reporting, while each `metadata.json` exposes canonical `skill` and `meta` blocks for consistent machine parsing.
+Some metadata files also keep legacy top-level fields for backward compatibility with existing consumers, but the canonical source of operational identity is the nested `skill` block.
 
 ### Managing skills
 
@@ -157,7 +159,7 @@ npx skills add AsyrafHussin/agent-skills --skill laravel-owasp-security
 
 ### [php-best-practices](skills/php-best-practices)
 
-Modern PHP 8.0–8.5 patterns, type system, PSR standards, and SOLID principles. Contains 51 rules for secure, maintainable code.
+Modern PHP 8.0–8.5 patterns, type system, PSR standards, SOLID principles, PHPStan-style PHPDoc, value objects, legacy migration, and a mandatory static-analysis tooling loop. Contains 56 rules across 9 sections.
 
 **Example:** `Review my PHP class for SOLID principles`
 
@@ -239,6 +241,81 @@ npx skills add AsyrafHussin/agent-skills --skill clean-code-principles
 
 ---
 
+
+### [code-review-architecture](skills/code-review-architecture)
+
+Architecture review lens for targeted code reviews. Contains 8 rules across 8 categories covering coupling, separation of concerns, module boundaries, abstraction quality, and transaction-boundary invariants.
+
+**Example:** `Review this diff for architecture issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-architecture
+```
+
+---
+
+### [code-review-error-handling](skills/code-review-error-handling)
+
+Error-handling and resilience review lens. Contains 8 rules across 8 categories covering failure signalling, timeout discipline, retries, cleanup, observability, and partial-failure safety.
+
+**Example:** `Review this diff for error-handling and resilience issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-error-handling
+```
+
+---
+
+### [code-review-performance](skills/code-review-performance)
+
+Performance review lens for code review. Contains 7 rules across 7 categories covering algorithmic complexity, database efficiency, network I/O, memory use, caching, concurrency, and payload optimization.
+
+**Example:** `Review this diff for performance regressions`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-performance
+```
+
+---
+
+### [code-review-security](skills/code-review-security)
+
+Security review lens for targeted code reviews. Contains 6 rules across 6 categories covering injection risks, auth/authz, data protection, validation, dependency security, and secure configuration.
+
+**Example:** `Review this diff for security issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-security
+```
+
+---
+
+### [code-review-simplicity](skills/code-review-simplicity)
+
+Simplicity review lens for maintainability-focused code review. Contains 8 rules across 8 categories covering readability, cognitive load, unnecessary abstraction, duplicated logic, and bound-range collapse checks.
+
+**Example:** `Review this diff for simplicity and maintainability issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-simplicity
+```
+
+---
+
+### [code-review-type-safety](skills/code-review-type-safety)
+
+Type-safety review lens for focused code review. Contains 4 rules across 4 categories covering type coverage, correctness, unsafe coercions, runtime validation, and generic discipline.
+
+**Example:** `Review this diff for type-safety issues`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill code-review-type-safety
+```
+
+The `code-review-*` skills are intended to be used as targeted lenses, not as a mandatory review swarm. Start with the dominant concern, keep the pass evidence-first, and if another concern becomes primary, hand off to exactly one smaller follow-up lens instead of broadening into a vague multi-lens review.
+
+---
+
 ### [api-design-patterns](skills/api-design-patterns)
 
 RESTful API design patterns. Contains 38 rules across 7 categories covering resource design, error handling, security, pagination, versioning, response format, and OpenAPI documentation.
@@ -271,6 +348,18 @@ Step-by-step workflow for writing Product Requirements Documents. 6-step process
 
 ```bash
 npx skills add AsyrafHussin/agent-skills --skill prd-writing
+```
+
+---
+
+### [operational-prompting](skills/operational-prompting)
+
+Repo-owned operational prompting for coding agents. Contains 8 rules across 4 categories covering instruction hierarchy, scope contracts, validation contracts, evidence-first outputs, and portable skill manifests.
+
+**Example:** `Audit this repo's Copilot instructions and agent prompts`
+
+```bash
+npx skills add AsyrafHussin/agent-skills --skill operational-prompting
 ```
 
 ---

@@ -15,6 +15,27 @@ metadata:
 
 Comprehensive E2E testing guide for web applications. Contains 8 rules across 6 categories covering locator strategies, authentication reuse, form testing (including React/SPA-specific gotchas), assertions, test organization, reliability, and CI/CD configuration.
 
+## Operational Contract
+
+When applying this skill, agents must:
+- Treat this skill as repo-owned guidance and defer to repository or task-specific instructions when they conflict.
+- Limit work to the smallest relevant file and rule set for the current request.
+- Stop and ask when the stack, validation command, or requirement is missing or contradictory.
+- Prefer machine-readable evidence first, then summarize files reviewed, commands run, failures, and unresolved risks.
+
+## Validation & Evidence
+
+- Run the repository's existing validation commands in documented order when code changes are requested.
+- If this repository does not define a validation command for the current task, say so instead of inventing one.
+
+## Flow Discipline
+
+- Start with one concrete end-user path before automating nearby variants.
+- Prefer the narrowest meaningful E2E scope the project tooling supports.
+- When page structure or selectors are unclear, inspect the live DOM before inventing brittle selectors.
+- Assert the visible browser transition first, then verify persistence or backend side effects separately when the repository has a stable way to do that.
+- When role or label locators are not enough, prefer durable app-owned selectors such as explicit test ids, stable input names, or other intentional hooks over styling-driven CSS chains.
+
 ## Stack Detection
 
 **Before writing or reviewing E2E tests, detect the project stack:**
@@ -218,6 +239,14 @@ export default defineConfig({
     ],
 });
 ```
+
+## Browser-First Assertion Order
+
+- wait for the relevant next-step control or ready state
+- perform the action
+- wait for redirect or visible route/content transition
+- assert the target page with URL plus stable visible anchors
+- only then verify persistence or backend side effects if needed
 
 ## References
 

@@ -1,6 +1,30 @@
 {
-  "name": "SEO Best Practices",
   "version": "1.2.0",
+  "skill": {
+    "name": "seo-best-practices",
+    "version": "1.2.0",
+    "description": "SEO patterns, conventions, and audit for web applications. Use when implementing meta tags, structured data, Core Web Vitals, sitemaps, Open Graph, auditing SEO, or optimizing pages for search engines. Triggers on \"audit SEO\", \"check SEO\", \"review SEO\", or tasks involving search optimization, schema markup, or social sharing meta tags.",
+    "author": "Agent Skills Contributors",
+    "license": "MIT",
+    "keywords": [
+      "seo",
+      "search-engine-optimization",
+      "core-web-vitals",
+      "structured-data",
+      "json-ld",
+      "schema-org",
+      "meta-tags",
+      "open-graph",
+      "twitter-cards",
+      "sitemap",
+      "performance",
+      "mobile-first",
+      "react-seo",
+      "laravel-seo",
+      "audit"
+    ]
+  },
+  "name": "SEO Best Practices",
   "description": "Comprehensive SEO patterns for web applications built with React and Laravel. Covers Core Web Vitals, technical SEO, structured data, performance, social sharing, and mobile-first indexing. Supports SEO audit mode with PASS/FAIL checklist output.",
   "framework": "Framework-agnostic (React, Laravel examples)",
   "license": "MIT",
@@ -142,5 +166,20 @@
     "audit"
   ],
   "lastUpdated": "2026-03-26",
-  "rulesTotal": 31
+  "rulesTotal": 31,
+  "meta": {
+    "created": "2026-03-26",
+    "last_updated": "2026-03-26",
+    "rule_count": 31,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

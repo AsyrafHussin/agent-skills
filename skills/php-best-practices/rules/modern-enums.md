@@ -1,152 +1,104 @@
 ---
-title: Type-Safe Enums
+title: Enums
 impact: CRITICAL
-impactDescription: Provides type safety for constants, prevents invalid values
-tags: modern-features, enums, type-safety, php81
+impactDescription: Modern PHP 8.x language features
+tags: php, modern-php, php8
 ---
 
-# Type-Safe Enums
+# Enums
 
-Enums (PHP 8.1+) provide type-safe constants with methods. They prevent invalid values, enable IDE autocompletion, and encapsulate related behavior. Always prefer enums over class constants for finite sets of values.
+## Why it matters
+Class constants typed as `string` or `int` accept any value of that type — passing `'AKTIVE'` instead of `'active'` is a silent runtime bug. Enums create a closed set enforced by the type system: an invalid case literally cannot be constructed, and every match or comparison is checked by static analysis and the runtime.
 
-## Bad Example
+## Rule
+Prefer backed enums over magic strings and class constants for any fixed set of domain states or categories. Use `from()` / `tryFrom()` at the boundary (input parsing) and the enum type everywhere else.
 
+## Bad
 ```php
 <?php
 
-// Class constants - no type safety
-class OrderStatus
+declare(strict_types=1);
+
+final class OrderStatus
 {
-    public const PENDING = 'pending';
-    public const PROCESSING = 'processing';
-    public const SHIPPED = 'shipped';
-    public const DELIVERED = 'delivered';
-    public const CANCELLED = 'cancelled';
+    public const PENDING  = 'pending';
+    public const PAID     = 'paid';
+    public const SHIPPED  = 'shipped';
 }
 
-// Anyone can pass invalid value
-function updateStatus(string $status): void
+// Accepts any string — no compile-time or static-analysis safety
+function shipOrder(string $status): void
 {
-    // 'invalid_status' would be accepted
+    if ($status === OrderStatus::SHIPPED) { /* ... */ }
 }
 
-updateStatus('typo'); // No error!
+shipOrder('shiped'); // typo — no error, wrong branch taken
+```
 
-// Constants scattered or duplicated
-class Order
+## Better
+```php
+<?php
+
+declare(strict_types=1);
+
+enum OrderStatus
 {
-    public const STATUS_PENDING = 1;
-    public const STATUS_ACTIVE = 2;
+    case Pending;
+    case Paid;
+    case Shipped;
 }
 
-class Payment
+// Unit enum: type-safe, but no serialisation value
+function shipOrder(OrderStatus $status): void
 {
-    public const STATUS_PENDING = 1; // Duplicated
-    public const STATUS_COMPLETED = 2;
+    if ($status === OrderStatus::Shipped) { /* ... */ }
 }
 ```
 
-## Good Example
+## Best
+```php
+<?php
 
-### Basic Enum (Unit Enum)
+declare(strict_types=1);
+
+enum OrderStatus: string
+{
+    case Pending  = 'pending';
+    case Paid     = 'paid';
+    case Shipped  = 'shipped';
+}
+
+// Safe boundary conversion — returns null on unknown value
+$status = OrderStatus::tryFrom($request->get('status'));
+
+if ($status === null) {
+    throw new \InvalidArgumentException('Unknown order status.');
+}
+
+// Everywhere else: the type system prevents invalid values
+function shipOrder(OrderStatus $status): void
+{
+    if ($status === OrderStatus::Shipped) { /* ... */ }
+}
+```
+
+## Exceptions / trade-offs
+- Open-ended or user-defined value sets (e.g., user-created tags, plugin-registered types) are not a fixed set — use a validated string or a domain class instead.
+- When the set of valid values is driven entirely by external configuration or a database, enums are the wrong tool.
+
+## Int-backed enums
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Unit enum - no backing value
-enum Direction
-{
-    case North;
-    case South;
-    case East;
-    case West;
-
-    public function opposite(): self
-    {
-        return match($this) {
-            self::North => self::South,
-            self::South => self::North,
-            self::East => self::West,
-            self::West => self::East,
-        };
-    }
-}
-
-$direction = Direction::North;
-$opposite = $direction->opposite(); // Direction::South
-```
-
-### Backed Enum (String or Int)
-
-```php
-<?php
-
-// String-backed enum - for database/API values
-enum OrderStatus: string
-{
-    case Pending = 'pending';
-    case Processing = 'processing';
-    case Shipped = 'shipped';
-    case Delivered = 'delivered';
-    case Cancelled = 'cancelled';
-
-    public function label(): string
-    {
-        return match($this) {
-            self::Pending => 'Awaiting Processing',
-            self::Processing => 'Being Prepared',
-            self::Shipped => 'On the Way',
-            self::Delivered => 'Delivered',
-            self::Cancelled => 'Cancelled',
-        };
-    }
-
-    public function color(): string
-    {
-        return match($this) {
-            self::Pending => 'yellow',
-            self::Processing => 'blue',
-            self::Shipped => 'purple',
-            self::Delivered => 'green',
-            self::Cancelled => 'red',
-        };
-    }
-
-    public function canTransitionTo(self $newStatus): bool
-    {
-        return match($this) {
-            self::Pending => in_array($newStatus, [self::Processing, self::Cancelled]),
-            self::Processing => in_array($newStatus, [self::Shipped, self::Cancelled]),
-            self::Shipped => $newStatus === self::Delivered,
-            self::Delivered, self::Cancelled => false,
-        };
-    }
-}
-
-// Usage
-$status = OrderStatus::Pending;
-$status->value;  // 'pending'
-$status->name;   // 'Pending'
-$status->label(); // 'Awaiting Processing'
-
-// From database/API value
-$status = OrderStatus::from('pending'); // OrderStatus::Pending
-$status = OrderStatus::tryFrom('invalid'); // null (no exception)
-```
-
-### Int-Backed Enum
-
-```php
-<?php
-
-// Int-backed enum - for legacy databases
+// Int-backed enum for priority ordering
 enum Priority: int
 {
-    case Low = 1;
-    case Medium = 2;
-    case High = 3;
+    case Low      = 1;
+    case Medium   = 2;
+    case High     = 3;
     case Critical = 4;
 
     public function isUrgent(): bool
@@ -155,158 +107,188 @@ enum Priority: int
     }
 }
 
-// Comparison
 $priority = Priority::High;
-if ($priority->value > Priority::Medium->value) {
-    // Handle high priority
+if ($priority->isUrgent()) {
+    // escalate
 }
 ```
 
-### Enum with Interface
+## Enums implementing interfaces
 
 ```php
 <?php
 
-interface Labelable
+declare(strict_types=1);
+
+interface HasLabel
 {
     public function label(): string;
 }
 
-enum PaymentMethod: string implements Labelable
+enum PaymentMethod: string implements HasLabel
 {
-    case CreditCard = 'credit_card';
+    case CreditCard   = 'credit_card';
     case BankTransfer = 'bank_transfer';
-    case PayPal = 'paypal';
+    case PayPal       = 'paypal';
 
     public function label(): string
     {
         return match($this) {
-            self::CreditCard => 'Credit Card',
+            self::CreditCard   => 'Credit Card',
             self::BankTransfer => 'Bank Transfer',
-            self::PayPal => 'PayPal',
+            self::PayPal       => 'PayPal',
         };
     }
 
     public function processingFee(): float
     {
         return match($this) {
-            self::CreditCard => 0.029,
-            self::BankTransfer => 0.01,
-            self::PayPal => 0.034,
+            self::CreditCard   => 0.029,
+            self::BankTransfer => 0.010,
+            self::PayPal       => 0.034,
         };
     }
 }
+
+/** @param list<HasLabel> $options */
+function renderOptions(array $options): string
+{
+    return implode(', ', array_map(fn(HasLabel $o) => $o->label(), $options));
+}
 ```
 
-### Enum with Traits
+## Enum traits (shared helpers)
 
 ```php
 <?php
 
-trait EnumHelpers
+declare(strict_types=1);
+
+// Reusable helper methods for backed enums
+trait BackedEnumHelpers
 {
-    /** Only works with backed enums (string/int) */
+    /** @return list<string|int> */
     public static function values(): array
     {
         return array_column(self::cases(), 'value');
     }
 
+    /** @return list<string> */
     public static function names(): array
     {
         return array_column(self::cases(), 'name');
-    }
-
-    public static function options(): array
-    {
-        return array_combine(
-            array_column(self::cases(), 'value'),
-            array_map(fn($case) => $case->label(), self::cases())
-        );
     }
 }
 
 enum Role: string
 {
-    use EnumHelpers;
+    use BackedEnumHelpers;
 
-    case Admin = 'admin';
+    case Admin  = 'admin';
     case Editor = 'editor';
     case Viewer = 'viewer';
 
     public function label(): string
     {
         return match($this) {
-            self::Admin => 'Administrator',
+            self::Admin  => 'Administrator',
             self::Editor => 'Content Editor',
             self::Viewer => 'Read Only',
         };
     }
 
+    /** @return list<string> */
     public function permissions(): array
     {
         return match($this) {
-            self::Admin => ['create', 'read', 'update', 'delete', 'manage'],
+            self::Admin  => ['create', 'read', 'update', 'delete', 'manage'],
             self::Editor => ['create', 'read', 'update'],
             self::Viewer => ['read'],
         };
     }
 }
 
-// Usage
-Role::values();  // ['admin', 'editor', 'viewer']
-Role::options(); // ['admin' => 'Administrator', ...]
+Role::values(); // ['admin', 'editor', 'viewer']
+Role::names();  // ['Admin', 'Editor', 'Viewer']
 ```
 
-### Type-Safe Function Parameters
+## State-machine transitions
 
 ```php
 <?php
 
-// Function accepts only valid enum values
-function updateOrderStatus(Order $order, OrderStatus $newStatus): void
+declare(strict_types=1);
+
+enum OrderStatus: string
 {
-    if (!$order->status->canTransitionTo($newStatus)) {
-        throw new InvalidStatusTransitionException(
-            $order->status,
-            $newStatus
-        );
+    case Pending    = 'pending';
+    case Processing = 'processing';
+    case Shipped    = 'shipped';
+    case Delivered  = 'delivered';
+    case Cancelled  = 'cancelled';
+
+    /** @return list<self> */
+    public function allowedTransitions(): array
+    {
+        return match($this) {
+            self::Pending    => [self::Processing, self::Cancelled],
+            self::Processing => [self::Shipped, self::Cancelled],
+            self::Shipped    => [self::Delivered],
+            self::Delivered,
+            self::Cancelled  => [],
+        };
     }
 
-    $order->status = $newStatus;
+    public function canTransitionTo(self $next): bool
+    {
+        return in_array($next, $this->allowedTransitions(), strict: true);
+    }
 }
 
-// Type safety - invalid values rejected
-updateOrderStatus($order, OrderStatus::Shipped); //
-updateOrderStatus($order, 'shipped'); // TypeError
+function updateOrderStatus(Order $order, OrderStatus $next): void
+{
+    if (!$order->status->canTransitionTo($next)) {
+        throw new \DomainException(
+            "Cannot transition from {$order->status->value} to {$next->value}",
+        );
+    }
+    $order->status = $next;
+}
 ```
 
-### In Eloquent/Database
+## Eloquent / database integration
 
 ```php
 <?php
 
-// Model with enum casting
+declare(strict_types=1);
+
+// Eloquent automatically casts backed enums
 class Order extends Model
 {
+    /** @var array<string, class-string> */
     protected $casts = [
-        'status' => OrderStatus::class,
+        'status'   => OrderStatus::class,
         'priority' => Priority::class,
     ];
 }
 
-// Query with enum
-Order::where('status', OrderStatus::Pending)->get();
+// Query with enum value — type safe at the PHP layer
+Order::where('status', OrderStatus::Pending->value)->get();
 
-// Validation rule
-'status' => ['required', new Enum(OrderStatus::class)],
+// Laravel validation rule
+$request->validate([
+    'status' => ['required', new \Illuminate\Validation\Rules\Enum(OrderStatus::class)],
+]);
 ```
 
-## Why
+## Static-analysis notes
+PHPStan and Psalm enforce exhaustive `match` on enum types, flagging unhandled cases. Attempting to pass a plain string where an enum is expected is a type error. `from()` is typed as returning the enum; `tryFrom()` returns `?EnumType`, forcing explicit null handling. PHPStan recognises backed enum `->value` as `string` or `int` depending on the backing type.
 
-- **Type Safety**: Invalid values caught immediately (TypeError)
-- **IDE Support**: Autocompletion and refactoring support
-- **Encapsulation**: Related behavior lives with the data (methods)
-- **Self-Documenting**: Code clearly shows all valid values
-- **Match Expressions**: Natural pairing with exhaustive match
-- **Database Integration**: Backed enums map to DB values
-- **Safe Conversion**: `from()`/`tryFrom()` for converting from raw values
+## Version notes
+`PHP 8.1+`
+
+## Related topics
+- [modern-enums-methods.md](modern-enums-methods.md) — add behaviour directly to enums
+- [modern-match-expression.md](modern-match-expression.md) — exhaustive matching over enum cases
+- [design-value-objects.md](design-value-objects.md) — enums for finite sets; value objects for validated scalars

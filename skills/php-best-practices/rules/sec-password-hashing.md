@@ -1,93 +1,112 @@
 ---
-title: Password Hashing
+title: Hash Passwords with `password_hash()` and Verify with `password_verify()`
 impact: CRITICAL
-impactDescription: Weak password storage enables mass credential compromise in data breaches
-tags: security, passwords, hashing, bcrypt, argon2, php8
+impactDescription: Security best practices and input safety
+tags: php, security, validation
 ---
 
-# Password Hashing
+# Hash Passwords with `password_hash()` and Verify with `password_verify()`
 
-Always use `password_hash()` and `password_verify()` for password security. Never use MD5, SHA1, or plain text.
+## Why it matters
+Passwords stored with MD5 or SHA1 can be reversed for the entire user base within hours using precomputed tables and consumer GPU hardware. Every breach that exposes an MD5 password database results in mass credential compromise, cross-site account takeover, and regulatory liability. The PHP password API was designed to make the correct choice the easy choice.
 
-## Bad Example
+## Rule
+Use `password_hash()` with `PASSWORD_ARGON2ID` (or `PASSWORD_DEFAULT`) to hash, and `password_verify()` to compare. Never use MD5, SHA1, or bare SHA-256. Rehash on successful login when `password_needs_rehash()` returns true.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Plain text - worst possible
-$password = $_POST['password'];
-$db->insert('users', ['password' => $password]);
+// Plain text — worst possible
+$db->insert('users', ['password' => $_POST['password']]);
 
-// MD5 - trivially crackable
-$hash = md5($password);
+// MD5 — trivially reversed via rainbow tables
+$hash = md5($_POST['password']);
 
-// SHA1 - also trivially crackable
-$hash = sha1($password);
+// SHA1 — equally weak
+$hash = sha1($_POST['password']);
 
-// SHA256 without salt - still vulnerable to rainbow tables
-$hash = hash('sha256', $password);
+// SHA-256 without a per-user salt — still vulnerable to precomputation
+$hash = hash('sha256', $_POST['password']);
 
-// Home-grown "salting" - reinventing the wheel poorly
-$hash = hash('sha256', 'mysalt' . $password);
+// Timing-unsafe comparison
+if ($stored === md5($input)) { /* login */ }
+```
 
-// Comparing hashes with == (timing attack vulnerable)
-if ($storedHash == md5($inputPassword)) {
-    // login
+## Better
+```php
+<?php
+
+declare(strict_types=1);
+
+// bcrypt is better than SHA1, but PASSWORD_DEFAULT is preferred
+// over hardcoding PASSWORD_BCRYPT so the algorithm can evolve
+$hash = password_hash($_POST['password'], PASSWORD_BCRYPT);
+
+if (password_verify($_POST['password'], $stored)) {
+    // logged in — but no rehash check
 }
 ```
 
-## Good Example
-
+## Best
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Hash with bcrypt (default) or Argon2id (recommended)
-$hash = password_hash($password, PASSWORD_ARGON2ID);
-// Or: password_hash($password, PASSWORD_DEFAULT); // bcrypt
-
-// Verify - timing-safe comparison built in
-if (password_verify($inputPassword, $storedHash)) {
-    // Password correct
-
-    // Rehash if algorithm or cost changed
-    if (password_needs_rehash($storedHash, PASSWORD_ARGON2ID)) {
-        $newHash = password_hash($inputPassword, PASSWORD_ARGON2ID);
-        $repository->updatePasswordHash($userId, $newHash);
-    }
-
-    // Regenerate session after login
-    session_regenerate_id(true);
-}
-
-// Custom Argon2id options for high-security applications
-$hash = password_hash($password, PASSWORD_ARGON2ID, [
-    'memory_cost' => 65536,  // 64MB
-    'time_cost' => 4,        // 4 iterations
-    'threads' => 3,          // 3 threads
-]);
-
-// Password validation before hashing
-function validatePassword(string $password): void
+// Hash on registration
+function hashPassword(string $plaintext): string
 {
-    if (mb_strlen($password) < 8) {
-        throw new ValidationException(['password' => 'Minimum 8 characters']);
+    if (mb_strlen($plaintext) < 8) {
+        throw new ValidationException(['password' => 'Minimum 8 characters required']);
     }
-    if (strlen($password) > 72) {
-        // bcrypt truncates at 72 bytes - strlen counts bytes
-        throw new ValidationException(['password' => 'Password too long']);
+    // bcrypt truncates at 72 bytes; validate to avoid silent truncation
+    if (strlen($plaintext) > 72) {
+        throw new ValidationException(['password' => 'Password must not exceed 72 characters']);
     }
+
+    return password_hash($plaintext, PASSWORD_ARGON2ID, [
+        'memory_cost' => 65536, // 64 MB
+        'time_cost'   => 4,
+        'threads'     => 2,
+    ]);
 }
+
+// Verify and rehash on login
+function verifyAndRehash(
+    string $plaintext,
+    string $stored,
+    callable $persistHash,
+): bool {
+    if (!password_verify($plaintext, $stored)) {
+        return false;
+    }
+
+    if (password_needs_rehash($stored, PASSWORD_ARGON2ID)) {
+        $persistHash(password_hash($plaintext, PASSWORD_ARGON2ID));
+    }
+
+    return true;
+}
+
+// Session fixation protection after successful login
+session_regenerate_id(true);
 ```
 
-## Why
+## Exceptions / trade-offs
+`PASSWORD_DEFAULT` is a valid alternative to hardcoding `PASSWORD_ARGON2ID` — it picks the best available algorithm and will change in future PHP versions, triggering automatic rehashing via `password_needs_rehash()`. If the deployment environment lacks the `sodium` or `argon2` extensions, `PASSWORD_BCRYPT` is the fallback.
 
-- **Argon2id**: Memory-hard algorithm resistant to GPU/ASIC attacks
-- **Automatic Salting**: `password_hash` generates a unique salt per password
-- **Timing-Safe**: `password_verify` prevents timing attacks
-- **Future-Proof**: `password_needs_rehash` upgrades hashes when algorithm changes
-- **bcrypt Limit**: bcrypt truncates passwords at 72 bytes - validate max length
-- **PASSWORD_DEFAULT**: Currently bcrypt, will change to best available algorithm
+## Static-analysis notes
+PHPStan and Psalm cannot detect weak hashing algorithms automatically. Enforce this via a custom PHPStan rule or Rector rule that flags calls to `md5`, `sha1`, and `hash` with weak algorithm strings in security-sensitive contexts.
+
+## Security notes
+Argon2id is memory-hard, making GPU/ASIC attacks significantly more expensive than against bcrypt. Tune `memory_cost` upward as hardware improves. `password_verify` is timing-safe by design; never compare hashes with `==` or `===`.
+
+## Version notes
+`PASSWORD_ARGON2ID` — PHP 7.3+
+
+## Related topics
+- [sec-input-validation.md](sec-input-validation.md) — validate password length before hashing
+- [error-never-suppress.md](error-never-suppress.md) — do not suppress errors from `password_hash()`

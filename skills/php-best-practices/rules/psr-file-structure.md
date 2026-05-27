@@ -1,15 +1,19 @@
 ---
-title: File Structure
-impact: MEDIUM
-impactDescription: Predictable file organization, improves readability
-tags: psr, file-structure, organization, php-fig
+title: PSR File Structure
+impact: HIGH
+impactDescription: PSR standards and code structure conventions
+tags: php, psr, coding-standards
 ---
 
-# File Structure
+# PSR File Structure
 
-Organize PHP files with proper ordering of elements and logical grouping.
+## Why it matters
+A PHP file that mixes namespace declarations after class definitions, or opens with scripting code followed by a class, produces fatal errors or silent class-load failures depending on the autoloader. Beyond correctness, inconsistent file structure forces every reader to re-orient before they can read the code. Predictable structure is free documentation.
 
-## Bad Example
+## Rule
+Every PHP file follows this strict order: `<?php` → `declare(strict_types=1);` → namespace → imports → code. One class per file. File purpose is singular. Never mix procedural scripting and class definitions in the same file.
+
+## Bad
 
 ```php
 <?php
@@ -19,169 +23,134 @@ private $repo;
 const MAX = 100;
 public function find($id) {}
 private $logger;
-public const MIN = 1;
 public function __construct($repo, $logger) {
-$this->repo = $repo;
-$this->logger = $logger;
+$this->repo = $repo; $this->logger = $logger;
 }
 }
-namespace App\Services;
+namespace App\Services;        // namespace AFTER the class — fatal
 use App\Repositories\UserRepository;
 ```
 
-## Good Example
+## Better
 
 ```php
 <?php
-
-/**
- * This file is part of the MyApp package.
- *
- * (c) Company Name <email@example.com>
- *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
- */
 
 declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Contracts\UserServiceInterface;
-use App\Domain\User\User;
-use App\Domain\User\UserRepository;
-use App\Events\UserCreated;
-use DateTimeImmutable;
-use InvalidArgumentException;
-use Psr\EventDispatcher\EventDispatcherInterface;
+use App\Repositories\UserRepository;
 use Psr\Log\LoggerInterface;
 
-/**
- * Handles user-related business operations.
- */
-final class UserService implements UserServiceInterface
+class UserService
 {
     use LoggableTrait;
-    use CacheableTrait;
 
-    // Constants - public first, then protected, then private
-    public const DEFAULT_PAGE_SIZE = 20;
-    public const MAX_PAGE_SIZE = 100;
-    protected const CACHE_TTL = 3600;
-    private const LOG_CHANNEL = 'user';
+    private const MAX_PAGE_SIZE = 100;
 
-    // Properties - ordered by visibility
-    public readonly string $version;
-    protected EventDispatcherInterface $dispatcher;
-    private UserRepository $repository;
-    private LoggerInterface $logger;
-    private array $cache = [];
-
-    // Constructor
     public function __construct(
-        UserRepository $repository,
-        LoggerInterface $logger,
-        EventDispatcherInterface $dispatcher,
-    ) {
-        $this->repository = $repository;
-        $this->logger = $logger;
-        $this->dispatcher = $dispatcher;
-        $this->version = '1.0.0';
-    }
+        private UserRepository $repo,
+        private LoggerInterface $logger,
+    ) {}
 
-    // Public methods
     public function find(int $id): ?User
     {
-        return $this->repository->find($id);
-    }
-
-    public function findOrFail(int $id): User
-    {
-        $user = $this->find($id);
-
-        if ($user === null) {
-            throw new UserNotFoundException($id);
-        }
-
-        return $user;
-    }
-
-    public function create(array $data): User
-    {
-        $this->validateCreateData($data);
-
-        $user = $this->repository->create($data);
-
-        $this->dispatcher->dispatch(
-            new UserCreated($user->getId(), new DateTimeImmutable())
-        );
-
-        return $user;
-    }
-
-    public function update(User $user, array $data): User
-    {
-        $this->validateUpdateData($data);
-
-        return $this->repository->update($user, $data);
-    }
-
-    public function delete(User $user): void
-    {
-        $this->repository->delete($user);
-    }
-
-    // Protected methods
-    protected function getCacheKey(int $id): string
-    {
-        return sprintf('user:%d', $id);
-    }
-
-    // Private methods
-    private function validateCreateData(array $data): void
-    {
-        if (empty($data['email'])) {
-            throw new InvalidArgumentException('Email is required');
-        }
-
-        if (empty($data['name'])) {
-            throw new InvalidArgumentException('Name is required');
-        }
-    }
-
-    private function validateUpdateData(array $data): void
-    {
-        // Validation logic
+        return $this->repo->find($id);
     }
 }
 ```
 
-### Standard File Structure Order
+## Best
+
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Services;
+
+// PHP native classes first
+use DateTimeImmutable;
+use InvalidArgumentException;
+
+// External packages
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\Log\LoggerInterface;
+
+// Internal — ordered alphabetically within the group
+use App\Domain\User\User;
+use App\Domain\User\UserId;
+use App\Domain\User\UserRepository;
+use App\Events\UserCreated;
+
+final class UserService
+{
+    // Constants: public → protected → private
+    public const DEFAULT_PAGE_SIZE = 20;
+    private const LOG_CHANNEL = 'user';
+
+    // Constructor promotes properties; no separate property declarations needed
+    public function __construct(
+        private readonly UserRepository $repository,
+        private readonly LoggerInterface $logger,
+        private readonly EventDispatcherInterface $dispatcher,
+    ) {}
+
+    // Public interface first
+    public function find(UserId $id): ?User
+    {
+        return $this->repository->find($id);
+    }
+
+    public function create(array $data): User
+    {
+        $this->guardCreateData($data);
+        $user = User::create($data['name'], $data['email']);
+        $this->repository->save($user);
+        $this->dispatcher->dispatch(new UserCreated($user->getId(), new DateTimeImmutable()));
+        $this->logger->info('User created', ['id' => $user->getId()->value]);
+        return $user;
+    }
+
+    // Private helpers last
+    private function guardCreateData(array $data): void
+    {
+        if (empty($data['email'])) {
+            throw new InvalidArgumentException('Email is required');
+        }
+    }
+}
+```
+
+## Exceptions / trade-offs
+Bootstrap files (e.g., `index.php`, `artisan`) legitimately mix procedural setup with includes — they are entry points, not class files. Migration files and Doctrine fixtures are similar. These are the only acceptable exceptions to "one class per file."
+
+## File structure order (reference)
 
 ```
-1. Opening PHP tag (<?php)
-2. File-level docblock (optional - license, copyright)
-3. declare(strict_types=1)
-4. Blank line
-5. namespace declaration
-6. Blank line
-7. use statements (grouped and sorted)
-   - PHP native classes
-   - External packages
-   - Internal project classes
-8. Blank line
-9. Class/Interface/Trait/Enum docblock
-10. Class/Interface/Trait/Enum declaration
-    a. Traits (use statements)
-    b. Constants (public → protected → private)
-    c. Properties (public → protected → private)
+1.  Opening tag:           <?php
+2.  Strict types:          declare(strict_types=1);
+3.  Blank line
+4.  Namespace:             namespace App\Domain\User;
+5.  Blank line
+6.  Use statements:
+    a. PHP native classes  (DateTimeImmutable, InvalidArgumentException…)
+    b. External packages   (Psr\Log\LoggerInterface, Doctrine\…)
+    c. Internal project    (App\Domain\…, App\Application\…)
+    — alphabetised within each group, blank line between groups
+7.  Blank line
+8.  Class / interface / trait / enum declaration
+    a. Traits              (use LoggableTrait;)
+    b. Constants           (public → protected → private)
+    c. Properties          (public → protected → private)
     d. Constructor
     e. Public methods
     f. Protected methods
     g. Private methods
 ```
 
-### Use Statement Organization
+## Use statement grouping
 
 ```php
 <?php
@@ -190,29 +159,26 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-// PHP native classes
+// Group 1: PHP native
 use DateTimeImmutable;
 use InvalidArgumentException;
 use RuntimeException;
 
-// External packages (alphabetized by vendor)
-use Doctrine\ORM\EntityManagerInterface;
+// Group 2: External packages (alphabetised by vendor)
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Stripe\StripeClient;
 
-// Internal project classes (alphabetized by namespace)
-use App\Contracts\ServiceInterface;
+// Group 3: Internal project (alphabetised by namespace)
 use App\Domain\User\User;
 use App\Domain\User\UserRepository;
 use App\Events\UserCreated;
 use App\Exceptions\UserNotFoundException;
 ```
 
-## Why
+## Static-analysis notes
+PHP-CS-Fixer with `ordered_imports`, `declare_strict_types`, `single_blank_line_before_namespace`, and `no_unused_imports` rules will enforce and autofix the ordering. PHPStan will catch undeclared namespaces and missing imports at level 0+.
 
-- **Predictability**: Developers know where to find things
-- **Readability**: Logical ordering improves code comprehension
-- **Maintenance**: Consistent structure makes updates easier
-- **Code Review**: Standard format reduces review friction
-- **Tooling**: IDE and static analysis tools work better
-- **PSR Compliance**: Follows PHP-FIG recommendations
+## Related topics
+- [psr-4-autoloading.md](psr-4-autoloading.md) — file structure must match namespace-to-path mapping
+- [psr-namespace-usage.md](psr-namespace-usage.md) — how to structure and alias namespace imports
+- [psr-12-coding-style.md](psr-12-coding-style.md) — formatting rules inside the file body

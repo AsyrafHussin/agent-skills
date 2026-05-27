@@ -1,170 +1,81 @@
 ---
-title: Open/Closed Principle
+title: Open/Closed Principle (OCP)
 impact: HIGH
-impactDescription: Extend without modifying, reduces regression risk
-tags: solid, ocp, design-principles, extension
+impactDescription: SOLID principles and clean OOP design
+tags: php, solid, oop, design-patterns
 ---
 
 # Open/Closed Principle (OCP)
 
-Classes should be open for extension but closed for modification.
+## Why it matters
+Every time you open a class to add a new `if` branch for a new variant, you risk breaking the existing variants. A payment processor with five payment types inline has been modified five times — each change a potential regression. The real cost is not just bugs; it's that your test suite must re-verify unchanged paths every time.
 
-## Bad Example
+## Rule
+Extend where change is expected. Do not pre-abstract imaginary futures. Introduce interfaces and strategy patterns at the boundaries where the domain genuinely varies — not "just in case" you might need a third implementation someday.
+
+## Bad
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Must modify this class every time a new payment method is added
-class PaymentProcessor
+final class PaymentProcessor
 {
     public function process(string $type, float $amount): PaymentResult
     {
-        // Adding new payment type requires modifying this method
         if ($type === 'credit_card') {
-            // Credit card processing logic
             $fee = $amount * 0.029;
             return new PaymentResult($amount + $fee, 'credit_card');
         }
 
         if ($type === 'paypal') {
-            // PayPal processing logic
             $fee = $amount * 0.035;
             return new PaymentResult($amount + $fee, 'paypal');
         }
 
-        if ($type === 'bank_transfer') {
-            // Bank transfer logic
-            $fee = 1.00;
-            return new PaymentResult($amount + $fee, 'bank_transfer');
-        }
-
-        // Adding crypto? Must modify this class again!
+        // Adding crypto means modifying this class again
         if ($type === 'crypto') {
             $fee = $amount * 0.01;
             return new PaymentResult($amount + $fee, 'crypto');
         }
 
-        throw new InvalidArgumentException("Unknown payment type: {$type}");
-    }
-}
-
-// Same problem with discount calculation
-class DiscountCalculator
-{
-    public function calculate(string $type, float $amount): float
-    {
-        return match ($type) {
-            'percentage' => $amount * 0.10,
-            'fixed' => 5.00,
-            'buy_one_get_one' => $amount / 2,
-            // Adding new discount type = modifying this class
-            default => 0.0,
-        };
+        throw new \InvalidArgumentException("Unknown payment type: {$type}");
     }
 }
 ```
 
-## Good Example
+## Better
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Define contract for payment methods
 interface PaymentMethod
 {
     public function process(Money $amount): PaymentResult;
-    public function calculateFee(Money $amount): Money;
     public function getName(): string;
 }
 
-// Each payment method is a separate class - closed for modification
-class CreditCardPayment implements PaymentMethod
+final class CreditCardPayment implements PaymentMethod
 {
-    private const FEE_PERCENTAGE = 0.029;
-
-    public function __construct(
-        private PaymentGateway $gateway,
-    ) {}
+    public function __construct(private readonly PaymentGateway $gateway) {}
 
     public function process(Money $amount): PaymentResult
     {
-        $totalAmount = $amount->add($this->calculateFee($amount));
-        return $this->gateway->charge($totalAmount);
+        return $this->gateway->charge($amount->multiply(1.029));
     }
 
-    public function calculateFee(Money $amount): Money
-    {
-        return $amount->multiply(self::FEE_PERCENTAGE);
-    }
-
-    public function getName(): string
-    {
-        return 'credit_card';
-    }
+    public function getName(): string { return 'credit_card'; }
 }
 
-class PayPalPayment implements PaymentMethod
-{
-    private const FEE_PERCENTAGE = 0.035;
-
-    public function __construct(
-        private PayPalClient $client,
-    ) {}
-
-    public function process(Money $amount): PaymentResult
-    {
-        $totalAmount = $amount->add($this->calculateFee($amount));
-        return $this->client->createPayment($totalAmount);
-    }
-
-    public function calculateFee(Money $amount): Money
-    {
-        return $amount->multiply(self::FEE_PERCENTAGE);
-    }
-
-    public function getName(): string
-    {
-        return 'paypal';
-    }
-}
-
-// New payment method - extend without modifying existing code
-class CryptoPayment implements PaymentMethod
-{
-    private const FEE_PERCENTAGE = 0.01;
-
-    public function __construct(
-        private CryptoGateway $gateway,
-    ) {}
-
-    public function process(Money $amount): PaymentResult
-    {
-        $totalAmount = $amount->add($this->calculateFee($amount));
-        return $this->gateway->processPayment($totalAmount);
-    }
-
-    public function calculateFee(Money $amount): Money
-    {
-        return $amount->multiply(self::FEE_PERCENTAGE);
-    }
-
-    public function getName(): string
-    {
-        return 'crypto';
-    }
-}
-
-// Payment processor is closed for modification
-class PaymentProcessor
+final class PaymentProcessor
 {
     /** @var array<string, PaymentMethod> */
     private array $methods = [];
 
-    public function registerMethod(PaymentMethod $method): void
+    public function register(PaymentMethod $method): void
     {
         $this->methods[$method->getName()] = $method;
     }
@@ -172,47 +83,138 @@ class PaymentProcessor
     public function process(string $methodName, Money $amount): PaymentResult
     {
         if (!isset($this->methods[$methodName])) {
-            throw new UnsupportedPaymentMethodException($methodName);
+            throw new \InvalidArgumentException("Unknown payment method: {$methodName}");
         }
-
         return $this->methods[$methodName]->process($amount);
-    }
-}
-
-// Usage with dependency injection
-class PaymentServiceProvider
-{
-    public function register(Container $container): void
-    {
-        $container->singleton(PaymentProcessor::class, function ($c) {
-            $processor = new PaymentProcessor();
-            $processor->registerMethod($c->make(CreditCardPayment::class));
-            $processor->registerMethod($c->make(PayPalPayment::class));
-            $processor->registerMethod($c->make(CryptoPayment::class));
-            return $processor;
-        });
     }
 }
 ```
 
-### Strategy Pattern Example
+## Best
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Discount strategy interface
+interface PaymentMethod
+{
+    public function process(Money $amount): PaymentResult;
+    public function calculateFee(Money $amount): Money;
+    public function getName(): string;
+}
+
+final class CreditCardPayment implements PaymentMethod
+{
+    private const FEE_RATE = 0.029;
+
+    public function __construct(private readonly PaymentGateway $gateway) {}
+
+    public function process(Money $amount): PaymentResult
+    {
+        return $this->gateway->charge($amount->add($this->calculateFee($amount)));
+    }
+
+    public function calculateFee(Money $amount): Money
+    {
+        return $amount->multiply(self::FEE_RATE);
+    }
+
+    public function getName(): string { return 'credit_card'; }
+}
+
+final class PayPalPayment implements PaymentMethod
+{
+    private const FEE_RATE = 0.035;
+
+    public function __construct(private readonly PayPalClient $client) {}
+
+    public function process(Money $amount): PaymentResult
+    {
+        return $this->client->createPayment($amount->add($this->calculateFee($amount)));
+    }
+
+    public function calculateFee(Money $amount): Money
+    {
+        return $amount->multiply(self::FEE_RATE);
+    }
+
+    public function getName(): string { return 'paypal'; }
+}
+
+final class CryptoPayment implements PaymentMethod
+{
+    private const FEE_RATE = 0.01;
+
+    public function __construct(private readonly CryptoGateway $gateway) {}
+
+    public function process(Money $amount): PaymentResult
+    {
+        return $this->gateway->processPayment($amount->add($this->calculateFee($amount)));
+    }
+
+    public function calculateFee(Money $amount): Money
+    {
+        return $amount->multiply(self::FEE_RATE);
+    }
+
+    public function getName(): string { return 'crypto'; }
+}
+
+// New payment method? Write a new class. Touch nothing else.
+final class PaymentProcessor
+{
+    /** @var array<string, PaymentMethod> */
+    private array $methods = [];
+
+    public function register(PaymentMethod $method): void
+    {
+        $this->methods[$method->getName()] = $method;
+    }
+
+    public function process(string $methodName, Money $amount): PaymentResult
+    {
+        $method = $this->methods[$methodName]
+            ?? throw new UnsupportedPaymentMethodException($methodName);
+
+        return $method->process($amount);
+    }
+}
+
+// Wiring happens in the composition root, not inside business logic
+final class PaymentServiceProvider
+{
+    public function register(Container $container): void
+    {
+        $container->singleton(PaymentProcessor::class, static function (Container $c): PaymentProcessor {
+            $processor = new PaymentProcessor();
+            $processor->register($c->make(CreditCardPayment::class));
+            $processor->register($c->make(PayPalPayment::class));
+            $processor->register($c->make(CryptoPayment::class));
+            return $processor;
+        });
+    }
+}
+```
+
+## Strategy pattern — second OCP example
+
+```php
+<?php
+
+declare(strict_types=1);
+
+// Discount strategies: add a new one without touching existing code
 interface DiscountStrategy
 {
     public function calculate(Money $amount): Money;
     public function getDescription(): string;
 }
 
-class PercentageDiscount implements DiscountStrategy
+final class PercentageDiscount implements DiscountStrategy
 {
     public function __construct(
-        private float $percentage,
+        private readonly float $percentage,
     ) {}
 
     public function calculate(Money $amount): Money
@@ -222,14 +224,14 @@ class PercentageDiscount implements DiscountStrategy
 
     public function getDescription(): string
     {
-        return sprintf('%d%% off', $this->percentage * 100);
+        return sprintf('%d%% off', (int) ($this->percentage * 100));
     }
 }
 
-class FixedAmountDiscount implements DiscountStrategy
+final class FixedAmountDiscount implements DiscountStrategy
 {
     public function __construct(
-        private Money $discountAmount,
+        private readonly Money $discountAmount,
     ) {}
 
     public function calculate(Money $amount): Money
@@ -239,11 +241,11 @@ class FixedAmountDiscount implements DiscountStrategy
 
     public function getDescription(): string
     {
-        return sprintf('%s off', $this->discountAmount->format());
+        return "{$this->discountAmount->format()} off";
     }
 }
 
-class BuyOneGetOneFreeDiscount implements DiscountStrategy
+final class BuyOneGetOneFreeDiscount implements DiscountStrategy
 {
     public function calculate(Money $amount): Money
     {
@@ -256,22 +258,22 @@ class BuyOneGetOneFreeDiscount implements DiscountStrategy
     }
 }
 
-// Closed for modification, open for new discount strategies
-class DiscountCalculator
+// DiscountCalculator is closed for modification — open to new strategies
+final class DiscountCalculator
 {
     public function apply(Money $amount, DiscountStrategy $strategy): Money
     {
-        $discount = $strategy->calculate($amount);
-        return $amount->subtract($discount);
+        return $amount->subtract($strategy->calculate($amount));
     }
 }
 ```
 
-## Why
+## Exceptions / trade-offs
+OCP is not a mandate to wrap everything in interfaces upfront. If you have one payment method and no concrete plan to add another, the interface is premature. Apply OCP at the second variant, not the first. Over-abstracting creates indirection that hurts readability with no payoff. The principle says "closed for modification" — an early-stage class that is modified routinely because the design is still evolving is not a violation.
 
-- **No Regression Risk**: Existing code isn't modified when adding features
-- **Easy Extension**: New functionality via new classes, not changes
-- **Better Testing**: Existing tests remain valid
-- **Plugin Architecture**: Easy to add new behaviors at runtime
-- **Team Parallelism**: Different team members add features independently
-- **Framework Integration**: Works well with DI containers
+## Static-analysis notes
+PHPStan/Psalm will flag calls to undefined methods on concrete types but won't enforce OCP structurally. Use `@final` or `final` to signal that a class is closed. Architecture rule tools like Deptrac can enforce that high-level modules only reference interfaces, not concrete implementations.
+
+## Related topics
+- [solid-srp.md](solid-srp.md) — separate responsibilities first; OCP applies per-responsibility
+- [solid-dip.md](solid-dip.md) — depend on the interface, not the concrete implementation

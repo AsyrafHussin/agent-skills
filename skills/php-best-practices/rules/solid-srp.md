@@ -1,23 +1,26 @@
 ---
-title: Single Responsibility Principle
-impact: CRITICAL
-impactDescription: One reason to change, easier testing and maintenance
-tags: solid, srp, design-principles, single-responsibility
+title: Single Responsibility Principle (SRP)
+impact: HIGH
+impactDescription: SOLID principles and clean OOP design
+tags: php, solid, oop, design-patterns
 ---
 
 # Single Responsibility Principle (SRP)
 
-A class should have only one reason to change - one responsibility.
+## Why it matters
+A class that does payment processing, sends emails, and logs to files has three reasons to change: business rules around payment, notification policy, and logging infrastructure. Each of those changes touches the same class, making every change a potential regression in the other two concerns, and making each concern impossible to test in isolation.
 
-## Bad Example
+## Rule
+Give a class one coherent purpose, not one method. "One reason to change" means one stakeholder or one domain concern drives all mutations to that class — not that the class has exactly one method.
+
+## Bad
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// This class has multiple responsibilities
-class User
+final class User
 {
     public function __construct(
         private int $id,
@@ -25,13 +28,6 @@ class User
         private string $email,
     ) {}
 
-    // Responsibility 1: User data
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    // Responsibility 2: Database operations
     public function save(): void
     {
         $pdo = new PDO('mysql:host=localhost;dbname=app', 'user', 'pass');
@@ -39,27 +35,16 @@ class User
         $stmt->execute([$this->name, $this->email]);
     }
 
-    // Responsibility 3: Email sending
     public function sendWelcomeEmail(): void
     {
-        mail(
-            $this->email,
-            'Welcome!',
-            "Hello {$this->name}, welcome to our platform!"
-        );
+        mail($this->email, 'Welcome!', "Hello {$this->name}");
     }
 
-    // Responsibility 4: Formatting/Display
     public function toJson(): string
     {
-        return json_encode([
-            'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-        ]);
+        return json_encode(['id' => $this->id, 'name' => $this->name], JSON_THROW_ON_ERROR);
     }
 
-    // Responsibility 5: Validation
     public function validate(): array
     {
         $errors = [];
@@ -74,55 +59,32 @@ class User
 }
 ```
 
-## Good Example
+## Better
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Responsibility: User domain entity
-class User
+// Domain entity — only business rules
+final class User
 {
     public function __construct(
-        private UserId $id,
-        private UserName $name,
-        private Email $email,
+        private readonly UserId $id,
+        private readonly Email $email,
+        private readonly UserName $name,
         private UserStatus $status = UserStatus::Active,
     ) {}
 
-    public function getId(): UserId
-    {
-        return $this->id;
-    }
-
-    public function getName(): UserName
-    {
-        return $this->name;
-    }
-
-    public function getEmail(): Email
-    {
-        return $this->email;
-    }
-
-    public function isActive(): bool
-    {
-        return $this->status === UserStatus::Active;
-    }
-
-    public function activate(): void
-    {
-        $this->status = UserStatus::Active;
-    }
-
-    public function deactivate(): void
-    {
-        $this->status = UserStatus::Inactive;
-    }
+    public function getId(): UserId { return $this->id; }
+    public function getEmail(): Email { return $this->email; }
+    public function getName(): UserName { return $this->name; }
+    public function isActive(): bool { return $this->status === UserStatus::Active; }
+    public function activate(): void { $this->status = UserStatus::Active; }
+    public function deactivate(): void { $this->status = UserStatus::Inactive; }
 }
 
-// Responsibility: Database persistence
+// Persistence — only how a User is stored
 interface UserRepository
 {
     public function find(UserId $id): ?User;
@@ -130,153 +92,111 @@ interface UserRepository
     public function delete(User $user): void;
 }
 
-class DatabaseUserRepository implements UserRepository
+final class DatabaseUserRepository implements UserRepository
 {
-    public function __construct(
-        private PDO $pdo,
-    ) {}
+    public function __construct(private readonly \PDO $pdo) {}
 
     public function find(UserId $id): ?User
     {
         $stmt = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
         $stmt->execute([$id->value]);
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
+        $data = $stmt->fetch(\PDO::FETCH_ASSOC);
         return $data ? $this->hydrate($data) : null;
     }
 
-    public function save(User $user): void
-    {
-        // Save implementation
-    }
+    public function save(User $user): void { /* save implementation */ }
+    public function delete(User $user): void { /* delete implementation */ }
 
-    public function delete(User $user): void
-    {
-        // Delete implementation
-    }
-
-    private function hydrate(array $data): User
-    {
-        // Hydration logic
-    }
+    private function hydrate(array $data): User { /* hydration logic */ }
 }
 
-// Responsibility: Email notifications
-class UserEmailNotifier
+// Notification — only how a User is welcomed
+final class UserEmailNotifier
 {
     public function __construct(
-        private MailerInterface $mailer,
-        private EmailTemplateRenderer $renderer,
+        private readonly MailerInterface $mailer,
+        private readonly EmailTemplateRenderer $renderer,
     ) {}
 
     public function sendWelcomeEmail(User $user): void
     {
-        $content = $this->renderer->render('welcome', [
-            'name' => $user->getName()->value,
-        ]);
-
-        $this->mailer->send(
-            to: $user->getEmail()->value,
-            subject: 'Welcome!',
-            body: $content,
-        );
-    }
-
-    public function sendPasswordResetEmail(User $user, string $token): void
-    {
-        // Password reset email logic
+        $body = $this->renderer->render('welcome', ['name' => $user->getName()->value]);
+        $this->mailer->send($user->getEmail()->value, 'Welcome!', $body);
     }
 }
+```
 
-// Responsibility: Serialization
-class UserSerializer
-{
-    public function toArray(User $user): array
-    {
-        return [
-            'id' => $user->getId()->value,
-            'name' => $user->getName()->value,
-            'email' => $user->getEmail()->value,
-        ];
-    }
+## Best
 
-    public function toJson(User $user): string
-    {
-        return json_encode($this->toArray($user), JSON_THROW_ON_ERROR);
-    }
-}
+```php
+<?php
 
-// Responsibility: Validation
-class CreateUserValidator
-{
-    public function validate(array $data): ValidationResult
-    {
-        $errors = [];
+declare(strict_types=1);
 
-        if (empty($data['name'])) {
-            $errors['name'] = 'Name is required';
-        }
-
-        if (empty($data['email'])) {
-            $errors['email'] = 'Email is required';
-        } elseif (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors['email'] = 'Invalid email format';
-        }
-
-        return new ValidationResult($errors);
-    }
-}
-
-// Responsibility: Orchestrating user creation (Application Service)
-class UserService
+// Domain entity: only business rules for what a User is
+final class User
 {
     public function __construct(
-        private UserRepository $repository,
-        private CreateUserValidator $validator,
-        private UserEmailNotifier $notifier,
-        private UserFactory $factory,
+        private readonly UserId $id,
+        private readonly Email $email,
+        private readonly UserName $name,
+        private UserStatus $status = UserStatus::Active,
     ) {}
 
-    public function create(array $data): User
+    public function getId(): UserId { return $this->id; }
+    public function getEmail(): Email { return $this->email; }
+    public function getName(): UserName { return $this->name; }
+    public function isActive(): bool { return $this->status === UserStatus::Active; }
+    public function deactivate(): void { $this->status = UserStatus::Inactive; }
+}
+
+// Persistence: only how a User is stored
+interface UserRepository
+{
+    public function find(UserId $id): ?User;
+    public function save(User $user): void;
+}
+
+// Notification: only how a User is welcomed
+final class UserWelcomeMailer
+{
+    public function __construct(
+        private readonly MailerInterface $mailer,
+        private readonly TemplateRenderer $renderer,
+    ) {}
+
+    public function send(User $user): void
     {
-        $result = $this->validator->validate($data);
+        $body = $this->renderer->render('welcome', ['name' => $user->getName()->value]);
+        $this->mailer->send($user->getEmail()->value, 'Welcome!', $body);
+    }
+}
 
-        if (!$result->isValid()) {
-            throw new ValidationException($result->getErrors());
-        }
+// Application service: thin orchestrator, no domain logic
+final class RegisterUserHandler
+{
+    public function __construct(
+        private readonly UserRepository $repository,
+        private readonly UserWelcomeMailer $mailer,
+        private readonly UserFactory $factory,
+    ) {}
 
-        $user = $this->factory->create($data);
+    public function handle(RegisterUserCommand $command): User
+    {
+        $user = $this->factory->fromCommand($command);
         $this->repository->save($user);
-        $this->notifier->sendWelcomeEmail($user);
-
+        $this->mailer->send($user);
         return $user;
     }
 }
 ```
 
-## Identifying Violations
+## Exceptions / trade-offs
+Small value objects may legitimately handle both data and formatting (e.g., a `Money` class that also knows how to format itself). Don't split trivially small classes for the sake of the principle — the goal is cohesion, not class count. An anemic domain model split so far that the `User` class has no behavior is also a violation.
 
-Signs a class has multiple responsibilities:
+## Static-analysis notes
+PHPStan and Psalm cannot enforce SRP directly. Watch for: classes with many constructor parameters (5+), methods with low cohesion (operate on disjoint sets of properties), and classes that import from radically different namespaces (e.g., domain + HTTP + database all in one class).
 
-- Class name contains "And", "Manager", or "Helper"
-- Large number of injected dependencies (5+)
-- Methods that operate on unrelated data
-- Fat controllers with validation, business logic, DB, email, and logging mixed together
-
-### Refactoring Strategy
-
-Extract each responsibility into its own class:
-- **Validation** -> `UserValidator` or Form Request
-- **Persistence** -> `UserRepository`
-- **Notifications** -> `UserEmailNotifier`
-- **Formatting** -> `UserSerializer` or API Resource
-- **Orchestration** -> `UserService` (thin coordinator)
-
-## Why
-
-- **Focused Classes**: Each class does one thing well
-- **Easier Testing**: Small, focused classes are easier to unit test
-- **Better Reusability**: Single-purpose classes can be reused elsewhere
-- **Simpler Maintenance**: Changes to one responsibility don't affect others
-- **Clear Dependencies**: Easier to understand what a class needs
-- **Team Scalability**: Different developers can work on different responsibilities
+## Related topics
+- [solid-ocp.md](solid-ocp.md) — how to extend instead of modify once responsibilities are separated
+- [solid-dip.md](solid-dip.md) — depend on abstractions to decouple separated responsibilities

@@ -1,11 +1,35 @@
 {
-  "name": "clean-code-principles",
   "version": "1.0.2",
-  "author": "AsyrafHussin",
-  "license": "MIT",
+  "skill": {
+    "name": "clean-code-principles",
+    "version": "1.0.2",
+    "description": "SOLID principles, design patterns, DRY, KISS, and clean code fundamentals. Use when reviewing architecture, checking code quality, refactoring, or discussing design decisions. Triggers on \"review architecture\", \"check code quality\", \"SOLID principles\", \"design patterns\", or \"clean code\".",
+    "author": "Agent Skills",
+    "license": "MIT",
+    "keywords": [
+      "software design",
+      "architecture",
+      "maintainability",
+      "scalability",
+      "testability",
+      "code quality",
+      "best practices",
+      "object-oriented design",
+      "functional programming",
+      "design principles",
+      "code organization",
+      "refactoring",
+      "technical debt",
+      "clean architecture"
+    ]
+  },
+  "name": "clean-code-principles",
   "description": "SOLID principles, design patterns, DRY, KISS, and clean code fundamentals for writing maintainable, scalable software",
-  "author": "Agent Skills",
   "license": "MIT",
+  "author": {
+    "name": "Agent Skills",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
   "tags": [
     "SOLID",
     "clean-code",
@@ -371,6 +395,21 @@
       "implemented_categories": 3,
       "total_rules": 23,
       "coverage_percentage": 42.86
+    }
+  },
+  "meta": {
+    "created": "2026-01-17",
+    "last_updated": "2026-03-07",
+    "rule_count": 23,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
     }
   }
 }

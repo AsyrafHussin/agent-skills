@@ -1,7 +1,27 @@
 {
+  "version": "1.0.2",
+  "skill": {
+    "name": "laravel-inertia-react",
+    "version": "1.0.2",
+    "description": "Laravel + Inertia.js + React integration patterns. Use when building Inertia page components, handling forms with useForm, managing shared data, or implementing persistent layouts. Triggers on tasks involving Inertia.js, page props, form handling, or Laravel React integration.",
+    "author": "Asyraf Hussin",
+    "license": "MIT",
+    "keywords": [
+      "laravel",
+      "inertia",
+      "inertiajs",
+      "react",
+      "typescript",
+      "fullstack",
+      "spa",
+      "forms",
+      "validation",
+      "routing",
+      "ziggy"
+    ]
+  },
   "name": "laravel-inertia-react",
   "displayName": "Laravel + Inertia.js + React",
-  "version": "1.0.2",
   "phpVersion": "8.3+",
   "laravelVersion": "13.x",
   "description": "Comprehensive patterns for building modern monolithic applications with Laravel, Inertia.js, and React. Covers page components, forms, navigation, shared data, and persistent layouts.",
@@ -29,9 +49,21 @@
     "advanced-patterns"
   ],
   "priority": {
-    "critical": ["page-components", "forms", "navigation", "shared-data", "layouts"],
-    "high": ["navigation", "shared-data"],
-    "medium": ["layouts", "advanced-patterns"]
+    "critical": [
+      "page-components",
+      "forms",
+      "navigation",
+      "shared-data",
+      "layouts"
+    ],
+    "high": [
+      "navigation",
+      "shared-data"
+    ],
+    "medium": [
+      "layouts",
+      "advanced-patterns"
+    ]
   },
   "references": [
     {
@@ -134,5 +166,20 @@
     "routing",
     "authentication"
   ],
-  "updatedAt": "2026-01-17"
+  "updatedAt": "2026-01-17",
+  "meta": {
+    "created": "2026-01-17",
+    "last_updated": "2026-01-17",
+    "rule_count": 24,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

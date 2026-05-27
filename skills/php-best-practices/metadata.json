@@ -1,75 +1,143 @@
 {
-  "version": "2.1.0",
+  "version": "3.0.0",
+  "skill": {
+    "name": "php-best-practices",
+    "version": "3.0.0",
+    "description": "PHP 8.x strict typing, modern language features, type safety, RCA + Kanban workflow, PHPStan + php-cs-fixer validation, value objects, no-magic design, and legacy migration. 56 rules across 9 sections. Use when reviewing PHP code, checking type safety, auditing code quality, or ensuring PHP best practices. Triggers on \"review PHP\", \"check PHP code\", \"audit PHP\", \"PHP best practices\", or \"PHP static analysis\".",
+    "author": "php-community",
+    "license": "MIT",
+    "keywords": [
+      "php",
+      "strict-types",
+      "static-analysis",
+      "psr",
+      "value-objects",
+      "refactoring",
+      "performance"
+    ]
+  },
   "organization": "PHP Community",
   "date": "March 2026",
   "phpVersion": "8.0 - 8.5",
-  "rulesTotal": 51,
-  "abstract": "Comprehensive PHP 8.x best practices guide designed for AI agents and LLMs. Contains 51 rules across 7 categories (type system, modern features, PSR standards, SOLID principles, error handling, performance, security), prioritized by impact from critical to medium. Each rule includes detailed explanations, real-world examples comparing incorrect vs. correct implementations, and specific rationale to guide automated refactoring and code generation. Always detect the project's PHP version before suggesting features.",
+  "rulesTotal": 56,
+  "abstract": "PHP 8.x best practices guide for AI agents and LLMs. Contains 56 rules across 9 sections (types, modern PHP, error handling, security, performance, SOLID/design, PSR/structure, tooling/static analysis, legacy migration). Emphasises strict typing, native types first, PHPDoc as a precision layer only when native PHP cannot express enough, value objects over primitives, no magic-heavy design, analyzable code, and explicit error handling. Includes first-principles Problem Definition, RCA workflow, Kanban phases, and mandatory PHPStan + php-cs-fixer validation loop. Always detect the project's PHP version before suggesting features.",
   "references": [
     "https://www.php.net/manual/en/",
+    "https://www.php.net/manual/en/language.types.declarations.php",
+    "https://www.php.net/manual/en/language.oop5.property-hooks.php",
+    "https://www.php.net/manual/en/language.oop5.visibility.php",
     "https://www.php.net/releases/8.3/en.php",
     "https://www.php.net/releases/8.4/en.php",
+    "https://wiki.php.net/rfc/pipe-operator-v3",
     "https://www.php-fig.org/psr/",
     "https://www.php-fig.org/psr/psr-4/",
     "https://www.php-fig.org/psr/psr-12/",
     "https://github.com/php/php-src",
     "https://phpstan.org/",
+    "https://phpstan.org/writing-php-code/phpdoc-types",
     "https://psalm.dev/",
-    "https://github.com/rectorphp/rector",
     "https://cs.symfony.com/",
     "https://phptherightway.com/"
   ],
   "categories": [
     {
-      "name": "Type System",
+      "name": "Types",
       "prefix": "type",
       "impact": "CRITICAL",
-      "description": "Strict types, property types, return types, union/intersection types, never/void"
+      "ruleCount": 9,
+      "description": "declare(strict_types=1), parameter types, return types, property types, nullable discipline, union/intersection types, void/never, avoiding mixed"
     },
     {
-      "name": "Modern PHP Features",
+      "name": "Modern PHP",
       "prefix": "modern",
       "impact": "CRITICAL",
-      "description": "Enums, readonly, constructor promotion, match, property hooks (8.4), pipe operator (8.5)"
-    },
-    {
-      "name": "PSR Standards",
-      "prefix": "psr",
-      "impact": "HIGH",
-      "description": "PSR-4 autoloading, PSR-12 coding style, file structure, naming conventions"
-    },
-    {
-      "name": "SOLID Principles",
-      "prefix": "solid",
-      "impact": "HIGH",
-      "description": "SRP, OCP, LSP, ISP, DIP — object-oriented design principles"
+      "ruleCount": 16,
+      "description": "Constructor promotion (8.0+), enums (8.1+), readonly (8.1+/8.2+), typed constants and #[Override] (8.3+), property hooks and asymmetric visibility (8.4+), pipe operator (8.5+, deployment-dependent)"
     },
     {
       "name": "Error Handling",
       "prefix": "error",
       "impact": "HIGH",
-      "description": "Custom exceptions, exception hierarchy, specific catches, finally cleanup, no suppression"
-    },
-    {
-      "name": "Performance",
-      "prefix": "perf",
-      "impact": "MEDIUM",
-      "description": "Lazy loading, generators, native array/string functions, avoid globals"
+      "ruleCount": 5,
+      "description": "Catch specific exceptions, custom exceptions when callers react differently, shallow exception hierarchies, finally for cleanup only, never suppress errors"
     },
     {
       "name": "Security",
       "prefix": "sec",
       "impact": "CRITICAL",
-      "description": "Input validation, output escaping, password hashing, prepared statements, file uploads"
+      "ruleCount": 5,
+      "description": "Input validation at boundaries, context-aware output escaping, prepared statements always, password_hash/verify, file upload validation"
+    },
+    {
+      "name": "Performance",
+      "prefix": "perf",
+      "impact": "MEDIUM",
+      "ruleCount": 5,
+      "description": "Native string functions over regex, native array functions with readability first, generators for streaming, lazy loading for genuinely expensive deps, no globals"
+    },
+    {
+      "name": "SOLID / Design",
+      "prefix": "solid, design",
+      "impact": "HIGH",
+      "ruleCount": 7,
+      "description": "SRP, OCP, LSP, ISP, DIP — applied pragmatically. Value objects over primitives (design-value-objects). No magic-heavy design — prefer explicit typed methods over __get/__call (design-no-magic)."
+    },
+    {
+      "name": "PSR / Structure",
+      "prefix": "psr",
+      "impact": "HIGH",
+      "ruleCount": 6,
+      "description": "PSR-4 autoloading, PSR-12 style via tooling, file structure discipline, domain-reflecting namespaces, intent-revealing class and method names"
+    },
+    {
+      "name": "Tooling / Static Analysis",
+      "prefix": "tooling, phpstan",
+      "impact": "CRITICAL",
+      "ruleCount": 2,
+      "description": "PHPStan + php-cs-fixer before every commit, enforced in CI (tooling-phpstan-cs-fixer). PHPDoc precision layer — @template, array shapes, class-string, int-ranges only when native types cannot express enough (phpstan-phpdoc). Inline @var is a last resort."
+    },
+    {
+      "name": "Legacy Migration",
+      "prefix": "legacy",
+      "impact": "HIGH",
+      "ruleCount": 1,
+      "description": "Incremental modernisation: PHPStan baseline → Rector syntax transforms → type coverage file-by-file → Strangler Fig isolation of legacy modules. Never rewrite everything at once."
     }
   ],
   "keyFeatures": [
+    "First-principles Problem Definition checklist before coding",
+    "RCA (Root Cause Analysis) workflow for bugs and quality violations",
+    "Kanban phases: DEFINE/SCOPE → DESIGN/PLANNING → CODING/FEEDBACK",
     "Version detection: always check composer.json before suggesting features",
-    "Strict types declaration on every file",
-    "Modern PHP 8.0-8.5 syntax (enums, readonly, property hooks, pipe operator)",
-    "PSR-4 autoloading and PSR-12 coding style",
-    "SOLID principles with PHP examples",
-    "Union and intersection types for precise type safety",
-    "Per-rule PHP version annotations (8.0+, 8.1+, 8.2+, 8.3+, 8.4+, 8.5+)"
-  ]
+    "9-section structure ordered by impact: Types first, then Modern PHP, Error Handling, Security, Performance, SOLID/Design, PSR/Structure, Tooling, Legacy Migration",
+    "56 rules using Bad / Better / Best three-tier examples",
+    "declare(strict_types=1) in every code example",
+    "final and readonly by default where applicable",
+    "Native types first; PHPDoc only when native PHP cannot express enough",
+    "Per-rule PHP version annotations (8.0+ through 8.5+)",
+    "Pipe operator (8.5+) explicitly marked as deployment-dependent",
+    "Property hooks (8.4+) and asymmetric visibility (8.4+) accurately version-gated",
+    "Typed class constants (8.3+) accurately version-gated",
+    "Value objects over primitives: self-validating, immutable domain types (design-value-objects)",
+    "No-magic-heavy design: explicit typed methods over __get/__call (design-no-magic)",
+    "PHPStan-style PHPDoc: generics, array shapes, class-string, int-ranges (phpstan-phpdoc)",
+    "Legacy migration: PHPStan baseline, Rector transforms, Strangler Fig pattern (legacy-migration)",
+    "Mandatory PHPStan + php-cs-fixer validation loop with CI integration (tooling-phpstan-cs-fixer)",
+    "Response Template for structured PHP task responses"
+  ],
+  "meta": {
+    "created": "2026-03-01",
+    "last_updated": "2026-03-01",
+    "rule_count": 56,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
 }

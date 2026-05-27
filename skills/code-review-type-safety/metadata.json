@@ -1,0 +1,96 @@
+{
+  "version": "1.0.0",
+  "skill": {
+    "name": "code-review-type-safety",
+    "version": "1.0.0",
+    "description": "Type-safety review lens for catching schema mismatches, unsafe coercions, missing annotations, and weak contracts during code review.",
+    "author": "Agent Skills Team",
+    "license": "MIT",
+    "keywords": [
+      "code-review",
+      "code-review-type-safety",
+      "review-lens",
+      "review-typings",
+      "schema-mismatch",
+      "type-coverage",
+      "type-safety-review",
+      "unsafe-cast"
+    ]
+  },
+  "name": "code-review-type-safety",
+  "description": "Type-safety review lens for public API typing, runtime validation, unsafe casts, and generic discipline.",
+  "license": "MIT",
+  "author": {
+    "name": "Agent Skills Team",
+    "url": "https://github.com/AsyrafHussin/agent-skills"
+  },
+  "tags": [
+    "code-review",
+    "review-lens",
+    "type-generic-discipline",
+    "type-type-correctness",
+    "type-type-coverage",
+    "type-type-safety"
+  ],
+  "categories": [
+    {
+      "id": "type-type-coverage",
+      "name": "Type Coverage",
+      "priority": "high",
+      "prefix": "type-type-coverage",
+      "count": 1,
+      "description": "Typed public APIs, critical internals, and avoiding implicit any gaps"
+    },
+    {
+      "id": "type-type-correctness",
+      "name": "Type Correctness",
+      "priority": "critical",
+      "prefix": "type-type-correctness",
+      "count": 1,
+      "description": "Annotations, assertions, and guards that match real behavior"
+    },
+    {
+      "id": "type-type-safety",
+      "name": "Type Safety",
+      "priority": "critical",
+      "prefix": "type-type-safety",
+      "count": 1,
+      "description": "Unsafe casts, unknown data, discriminated unions, and runtime checks"
+    },
+    {
+      "id": "type-generic-discipline",
+      "name": "Generic Discipline",
+      "priority": "medium",
+      "prefix": "type-generic-discipline",
+      "count": 1,
+      "description": "Constraints, parameter bounds, and avoiding generic overuse"
+    }
+  ],
+  "references": [
+    {
+      "title": "Pi Ensemble type-safety lens",
+      "url": "https://raw.githubusercontent.com/randomm/pi-ensemble/main/skill/code-review-type-safety/SKILL.md",
+      "type": "source"
+    },
+    {
+      "title": "TypeScript handbook",
+      "url": "https://www.typescriptlang.org/docs/",
+      "type": "reference"
+    }
+  ],
+  "meta": {
+    "created": "2026-05-26",
+    "last_updated": "2026-05-26",
+    "rule_count": 4,
+    "structure_version": "2.0",
+    "compatibility": {
+      "platforms": [
+        "GitHub Copilot",
+        "Codex",
+        "Claude Code",
+        "Cursor",
+        "Gemini CLI"
+      ]
+    }
+  }
+}

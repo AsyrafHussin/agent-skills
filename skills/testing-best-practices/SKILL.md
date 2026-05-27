@@ -26,6 +26,14 @@ Reference these guidelines when:
 - Setting up testing infrastructure
 - Debugging flaky or slow tests
 
+## Test Expansion Discipline
+
+- For bug fixes, start with the narrowest failing regression test before changing production code.
+- When asked for "more tests" or "more coverage", target a real branch, edge case, or defect-prone path instead of optimizing for the headline percentage first.
+- Set up only the dependencies the code under test actually touches.
+- Follow the nearest existing repository test style before introducing a new test pattern.
+- Prefer small local test doubles or inline collaborators when they keep the setup obvious and avoid unnecessary fixture sprawl.
+
 ## Rule Categories by Priority
 
 | Priority | Category | Impact | Prefix |
@@ -96,6 +104,17 @@ Reference these guidelines when:
 - `perf-test-organization` - Organize tests for fast feedback
 
 ## Essential Guidelines
+
+### Regression-First Bug Fixes
+
+```typescript
+// Prefer this sequence:
+// 1. isolate the bug in the smallest failing test
+// 2. confirm it fails for the right reason
+// 3. change production code
+// 4. rerun the same test until it passes
+// 5. widen validation only if the change touches shared behavior
+```
 
 ### AAA Pattern (Arrange, Act, Assert)
 

@@ -1,67 +1,108 @@
 ---
-title: Dependency Inversion Principle
-impact: CRITICAL
-impactDescription: Depend on abstractions, improves testability and flexibility
-tags: solid, dip, design-principles, abstractions, dependency-injection
+title: Dependency Inversion Principle (DIP)
+impact: HIGH
+impactDescription: SOLID principles and clean OOP design
+tags: php, solid, oop, design-patterns
 ---
 
 # Dependency Inversion Principle (DIP)
 
-High-level modules should not depend on low-level modules. Both should depend on abstractions.
+## Why it matters
+High-level business logic that instantiates `new MySqlDatabase(...)` or `new SmtpMailer(...)` internally is untestable without a real database and a real mail server. It is also immovable — switching from MySQL to PostgreSQL requires editing the class that should know nothing about storage. The coupling is invisible until it bites you in a test suite that takes ten minutes because every test hits the database.
 
-## Bad Example
+## Rule
+Depend on abstractions at meaningful boundaries, not everywhere by ritual. High-level modules (business logic, application services) must not depend on concrete low-level implementations (databases, mailers, HTTP clients). Both should depend on interfaces defined by the high-level module. Do not create interfaces for trivial utilities where there is genuinely only one implementation and no testing need.
+
+## Bad
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// High-level module directly depends on low-level implementations
-class OrderService
+final class OrderService
 {
     private MySqlDatabase $database;
     private SmtpMailer $mailer;
     private StripePayment $payment;
-    private FileLogger $logger;
 
     public function __construct()
     {
-        // Creating concrete implementations - tight coupling
+        // Hard-coded infrastructure — untestable, unswappable
         $this->database = new MySqlDatabase('localhost', 'shop', 'user', 'pass');
-        $this->mailer = new SmtpMailer('smtp.gmail.com', 587);
-        $this->payment = new StripePayment('sk_test_...');
-        $this->logger = new FileLogger('/var/log/orders.log');
+        $this->mailer   = new SmtpMailer('smtp.gmail.com', 587);
+        $this->payment  = new StripePayment('sk_live_...');
     }
 
     public function createOrder(array $data): Order
     {
-        $this->logger->log('Creating order...');
-
-        // Directly using concrete classes
         $order = new Order($data);
-        $this->database->insert('orders', $order->toArray());
         $this->payment->charge($order->getTotal());
-        $this->mailer->send($order->getCustomerEmail(), 'Order Confirmation', '...');
-
+        $this->database->insert('orders', $order->toArray());
+        $this->mailer->send($order->getCustomerEmail(), 'Confirmed', '...');
         return $order;
     }
 }
-
-// Problems:
-// - Can't swap MySQL for PostgreSQL without changing OrderService
-// - Can't test without real database, mailer, payment gateway
-// - Can't use different mailer in production vs development
-// - OrderService knows about infrastructure details
 ```
 
-## Good Example
+## Better
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-// Define abstractions (interfaces) in the domain/application layer
+// Abstractions defined in the domain/application layer
+interface OrderRepository
+{
+    public function save(Order $order): void;
+}
+
+interface PaymentGateway
+{
+    public function charge(Money $amount, PaymentMethod $method): PaymentResult;
+}
+
+interface Mailer
+{
+    public function send(string $to, string $subject, string $body): void;
+}
+
+// High-level module depends only on interfaces
+final class OrderService
+{
+    public function __construct(
+        private readonly OrderRepository $repository,
+        private readonly PaymentGateway $payment,
+        private readonly Mailer $mailer,
+    ) {}
+
+    public function createOrder(CreateOrderCommand $command): Order
+    {
+        $order  = Order::create($command->customerId, $command->items);
+        $result = $this->payment->charge($order->total(), $command->paymentMethod);
+
+        if (!$result->isSuccessful()) {
+            throw new PaymentFailedException($result->error());
+        }
+
+        $order->markAsPaid($result->transactionId());
+        $this->repository->save($order);
+        $this->mailer->send($command->email, 'Order confirmed', '...');
+
+        return $order;
+    }
+}
+```
+
+## Best
+
+```php
+<?php
+
+declare(strict_types=1);
+
+// Domain interfaces — owned by the application layer
 interface OrderRepository
 {
     public function save(Order $order): void;
@@ -70,66 +111,39 @@ interface OrderRepository
 
 interface PaymentGateway
 {
+    /** @throws PaymentFailedException */
     public function charge(Money $amount, PaymentMethod $method): PaymentResult;
 }
 
-interface NotificationService
+interface OrderNotifier
 {
-    public function notify(User $user, Notification $notification): void;
+    public function confirmationSent(Order $order): void;
 }
 
-interface Logger
-{
-    public function info(string $message, array $context = []): void;
-    public function error(string $message, array $context = []): void;
-}
-
-// High-level module depends on abstractions
-class OrderService
+// Application service: pure orchestration, zero infrastructure knowledge
+final class OrderService
 {
     public function __construct(
-        private OrderRepository $repository,
-        private PaymentGateway $payment,
-        private NotificationService $notifications,
-        private Logger $logger,
+        private readonly OrderRepository $repository,
+        private readonly PaymentGateway $payment,
+        private readonly OrderNotifier $notifier,
     ) {}
 
     public function createOrder(CreateOrderCommand $command): Order
     {
-        $this->logger->info('Creating order', ['customer' => $command->customerId]);
-
-        $order = Order::create(
-            customerId: $command->customerId,
-            items: $command->items,
-        );
-
-        $paymentResult = $this->payment->charge(
-            $order->getTotal(),
-            $command->paymentMethod,
-        );
-
-        if (!$paymentResult->isSuccessful()) {
-            throw new PaymentFailedException($paymentResult->getError());
-        }
-
-        $order->markAsPaid($paymentResult->getTransactionId());
+        $order  = Order::create($command->customerId, $command->items);
+        $result = $this->payment->charge($order->total(), $command->paymentMethod);
+        $order->markAsPaid($result->transactionId());
         $this->repository->save($order);
-
-        $this->notifications->notify(
-            $order->getCustomer(),
-            new OrderConfirmationNotification($order),
-        );
-
+        $this->notifier->confirmationSent($order);
         return $order;
     }
 }
 
-// Low-level modules implement the abstractions
-class DoctrineOrderRepository implements OrderRepository
+// Infrastructure: implements the interfaces
+final class DoctrineOrderRepository implements OrderRepository
 {
-    public function __construct(
-        private EntityManagerInterface $em,
-    ) {}
+    public function __construct(private readonly EntityManagerInterface $em) {}
 
     public function save(Order $order): void
     {
@@ -143,118 +157,54 @@ class DoctrineOrderRepository implements OrderRepository
     }
 }
 
-class StripePaymentGateway implements PaymentGateway
+final class StripePaymentGateway implements PaymentGateway
 {
-    public function __construct(
-        private StripeClient $stripe,
-    ) {}
+    public function __construct(private readonly \Stripe\StripeClient $stripe) {}
 
     public function charge(Money $amount, PaymentMethod $method): PaymentResult
     {
-        // Stripe implementation
+        // Stripe-specific logic isolated here
     }
 }
 
-class EmailNotificationService implements NotificationService
-{
-    public function __construct(
-        private Mailer $mailer,
-        private TemplateRenderer $renderer,
-    ) {}
-
-    public function notify(User $user, Notification $notification): void
-    {
-        $content = $this->renderer->render($notification->getTemplate(), [
-            'user' => $user,
-            'data' => $notification->getData(),
-        ]);
-
-        $this->mailer->send($user->getEmail(), $notification->getSubject(), $content);
-    }
-}
-
-// Wire everything together in composition root (DI container)
-class OrderServiceProvider
+// Composition root — the only place that knows concrete types
+final class OrderServiceProvider
 {
     public function register(Container $container): void
     {
         $container->bind(OrderRepository::class, DoctrineOrderRepository::class);
         $container->bind(PaymentGateway::class, StripePaymentGateway::class);
-        $container->bind(NotificationService::class, EmailNotificationService::class);
-        $container->bind(Logger::class, MonologLogger::class);
     }
 }
-```
 
-### Testing Benefits
-
-```php
-<?php
-
-declare(strict_types=1);
-
-class OrderServiceTest extends TestCase
+// Test: swap infrastructure with fast in-memory doubles
+final class OrderServiceTest extends \PHPUnit\Framework\TestCase
 {
-    public function testCreateOrderChargesPayment(): void
+    public function testCreateOrderChargesAndSaves(): void
     {
-        // Use test doubles - easy because we depend on abstractions
         $repository = new InMemoryOrderRepository();
-        $payment = $this->createMock(PaymentGateway::class);
-        $notifications = new NullNotificationService();
-        $logger = new NullLogger();
+        $payment    = $this->createMock(PaymentGateway::class);
+        $notifier   = new NullOrderNotifier();
 
-        $payment->expects($this->once())
+        $payment->expects(self::once())
             ->method('charge')
             ->willReturn(PaymentResult::success('txn_123'));
 
-        $service = new OrderService(
-            $repository,
-            $payment,
-            $notifications,
-            $logger,
-        );
+        $service = new OrderService($repository, $payment, $notifier);
+        $order   = $service->createOrder(CreateOrderCommand::fixture());
 
-        $order = $service->createOrder(new CreateOrderCommand(
-            customerId: 1,
-            items: [new OrderItem('product-1', 2, Money::USD(1000))],
-            paymentMethod: new CreditCard('4242...'),
-        ));
-
-        $this->assertTrue($order->isPaid());
-    }
-}
-
-// In-memory implementation for testing
-class InMemoryOrderRepository implements OrderRepository
-{
-    private array $orders = [];
-
-    public function save(Order $order): void
-    {
-        $this->orders[$order->getId()->value] = $order;
-    }
-
-    public function find(OrderId $id): ?Order
-    {
-        return $this->orders[$id->value] ?? null;
-    }
-}
-
-// Null implementation for testing
-class NullNotificationService implements NotificationService
-{
-    public function notify(User $user, Notification $notification): void
-    {
-        // Do nothing - for testing
+        self::assertTrue($order->isPaid());
+        self::assertNotNull($repository->find($order->getId()));
     }
 }
 ```
 
-## Why
+## Exceptions / trade-offs
+Not every class needs an interface. A `Money` value object, a `DateRange`, or a utility like `Uuid::generate()` does not need an abstraction — there is no meaningful variation and no testing benefit. Create interfaces at architectural boundaries: between the application layer and infrastructure, between your code and third-party SDKs. Avoid the ritual of `FooInterface + Foo` pairs where only one implementation will ever exist.
 
-- **Decoupling**: High-level policy doesn't depend on low-level details
-- **Testability**: Easy to substitute test doubles for dependencies
-- **Flexibility**: Swap implementations without changing business logic
-- **Maintainability**: Changes to infrastructure don't affect domain code
-- **Framework Independence**: Business logic isn't tied to specific frameworks
-- **Parallel Development**: Teams can work on different layers independently
+## Static-analysis notes
+PHPStan/Psalm enforce that constructor parameters match declared types, so they will catch accidental concrete dependencies when interfaces are declared. Deptrac can enforce architectural layer rules (e.g., "domain layer must not import from infrastructure layer") at the boundary level.
+
+## Related topics
+- [solid-ocp.md](solid-ocp.md) — strategy pattern implementations depend on the same interface DIP defines
+- [solid-isp.md](solid-isp.md) — narrow interfaces make DIP more precise and mocking simpler

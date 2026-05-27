@@ -1,124 +1,149 @@
 ---
-title: File Upload Security
+title: Validate File Uploads on Content, Not Client Claims
 impact: CRITICAL
-impactDescription: Unrestricted file uploads can lead to remote code execution
-tags: security, file-uploads, validation, php8
+impactDescription: Security best practices and input safety
+tags: php, security, validation
 ---
 
-# File Upload Security
+# Validate File Uploads on Content, Not Client Claims
 
-Always validate file type, size, and name. Store uploads outside the web root or in non-executable locations.
+## Why it matters
+A file upload handler that trusts the client-supplied filename or MIME type can be trivially abused to upload a PHP shell and achieve remote code execution. The client controls every byte in the upload request — filename, stated type, and content. The server must independently verify all of them.
 
-## Bad Example
+## Rule
+Validate content type using `finfo` (not `$_FILES['type']`), restrict extensions to an explicit allowlist, generate a random filename, enforce a server-side size limit, store outside the web root, and serve through a controller with access checks.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-// No validation - accepts anything
-$file = $_FILES['upload'];
-move_uploaded_file($file['tmp_name'], "uploads/{$file['name']}");
-// Attacker uploads shell.php → remote code execution
+// No validation — uploads shell.php directly into the web root
+move_uploaded_file(
+    $_FILES['upload']['tmp_name'],
+    'uploads/' . $_FILES['upload']['name']
+);
 
-// Only checking extension - easily bypassed
+// Extension-only check is bypassed with "shell.php.jpg" or null bytes
 $ext = pathinfo($_FILES['upload']['name'], PATHINFO_EXTENSION);
 if ($ext === 'jpg') {
-    move_uploaded_file($file['tmp_name'], "uploads/{$file['name']}");
+    move_uploaded_file($_FILES['upload']['tmp_name'], 'uploads/' . $_FILES['upload']['name']);
 }
-// Attacker uploads shell.php.jpg or uses double extension
 
-// Trusting MIME type from client - can be faked
+// Client MIME type can be set to anything
 if ($_FILES['upload']['type'] === 'image/jpeg') {
-    // Client sends whatever MIME type they want
+    move_uploaded_file($_FILES['upload']['tmp_name'], 'public/uploads/' . $_FILES['upload']['name']);
 }
-
-// Storing in web-accessible directory with original name
-move_uploaded_file($file['tmp_name'], "public/uploads/{$file['name']}");
 ```
 
-## Good Example
-
+## Better
 ```php
 <?php
 
 declare(strict_types=1);
 
-function handleUpload(array $file): string
+// Uses finfo (good), but still uses original filename (bad)
+// and stores in web-accessible directory (bad)
+$finfo    = new \finfo(FILEINFO_MIME_TYPE);
+$mimeType = $finfo->file($_FILES['upload']['tmp_name']);
+$allowed  = ['image/jpeg', 'image/png'];
+
+if (in_array($mimeType, $allowed, true)) {
+    move_uploaded_file(
+        $_FILES['upload']['tmp_name'],
+        'public/uploads/' . $_FILES['upload']['name'] // still dangerous
+    );
+}
+```
+
+## Best
+```php
+<?php
+
+declare(strict_types=1);
+
+final class FileUploadHandler
 {
-    // Check for upload errors
-    if ($file['error'] !== UPLOAD_ERR_OK) {
-        throw new UploadException('Upload failed with error code: ' . $file['error']);
-    }
+    private const MAX_BYTES = 5 * 1024 * 1024; // 5 MB
 
-    // Validate file size (server-side, don't rely on MAX_FILE_SIZE)
-    $maxSize = 5 * 1024 * 1024; // 5MB
-    if ($file['size'] > $maxSize) {
-        throw new UploadException('File exceeds maximum size of 5MB');
-    }
-
-    // Validate MIME type using file content (not client-provided type)
-    $finfo = new \finfo(FILEINFO_MIME_TYPE);
-    $mimeType = $finfo->file($file['tmp_name']);
-
-    $allowedMimes = [
+    /** @var array<string, string> mime => extension */
+    private const ALLOWED = [
         'image/jpeg' => 'jpg',
-        'image/png' => 'png',
+        'image/png'  => 'png',
         'image/webp' => 'webp',
         'application/pdf' => 'pdf',
     ];
 
-    if (!isset($allowedMimes[$mimeType])) {
-        throw new UploadException('File type not allowed: ' . $mimeType);
+    public function __construct(private readonly string $storageRoot) {}
+
+    /** @param array{error:int,size:int,tmp_name:string} $file */
+    public function handle(array $file): string
+    {
+        if ($file['error'] !== UPLOAD_ERR_OK) {
+            throw new UploadException("Upload error code: {$file['error']}");
+        }
+
+        if ($file['size'] > self::MAX_BYTES) {
+            throw new UploadException('File exceeds the 5 MB limit');
+        }
+
+        // Detect content type from file bytes, not from the request
+        $finfo    = new \finfo(FILEINFO_MIME_TYPE);
+        $mimeType = $finfo->file($file['tmp_name']);
+
+        if (!isset(self::ALLOWED[$mimeType])) {
+            throw new UploadException("Unsupported file type: {$mimeType}");
+        }
+
+        // Random filename — never use the client-supplied name
+        $ext      = self::ALLOWED[$mimeType];
+        $filename = bin2hex(random_bytes(16)) . '.' . $ext;
+        $dest     = $this->storageRoot . '/' . $filename;
+
+        if (!move_uploaded_file($file['tmp_name'], $dest)) {
+            throw new UploadException('Failed to persist uploaded file');
+        }
+
+        // For images: verify the file is a real image
+        if (str_starts_with($mimeType, 'image/') && getimagesize($dest) === false) {
+            unlink($dest);
+            throw new UploadException('File is not a valid image');
+        }
+
+        return $filename;
     }
-
-    // Generate random filename - never use original
-    $extension = $allowedMimes[$mimeType];
-    $filename = bin2hex(random_bytes(16)) . '.' . $extension;
-
-    // Store outside web root
-    $storagePath = '/var/app/storage/uploads';
-    $destination = $storagePath . '/' . $filename;
-
-    if (!move_uploaded_file($file['tmp_name'], $destination)) {
-        throw new UploadException('Failed to store uploaded file');
-    }
-
-    return $filename;
 }
 
-// For images, verify they are valid images
-function validateImage(string $path): void
+// Serve through a controller — never expose storage URLs directly
+function serveFile(string $filename, string $storageRoot): void
 {
-    $imageInfo = getimagesize($path);
-    if ($imageInfo === false) {
-        unlink($path);
-        throw new UploadException('File is not a valid image');
-    }
-}
+    // Authorize the current user here before serving
 
-// Serve files through a controller (not direct URL access)
-function downloadFile(string $filename): void
-{
-    $path = '/var/app/storage/uploads/' . basename($filename);
-
-    if (!file_exists($path)) {
+    $path = $storageRoot . '/' . basename($filename); // basename strips traversal
+    if (!is_file($path)) {
         throw new NotFoundException('File not found');
     }
 
     $finfo = new \finfo(FILEINFO_MIME_TYPE);
-    header('Content-Type: ' . $finfo->file($path));
+    header('Content-Type: '        . $finfo->file($path));
+    header('Content-Length: '      . filesize($path));
     header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
-    header('Content-Length: ' . filesize($path));
     readfile($path);
 }
 ```
 
-## Why
+## Exceptions / trade-offs
+Cloud storage (S3, GCS) with pre-signed upload URLs moves the storage concern off-server, but content-type and size validation must still happen before generating the pre-signed URL or via a server-side hook.
 
-- **Random Filenames**: Prevents path traversal and overwrites
-- **MIME Validation**: `finfo` checks actual file content, not client-provided type
-- **Outside Web Root**: PHP files in uploads can't be executed directly
-- **Size Limits**: Prevents disk exhaustion attacks
-- **basename()**: Strips directory components from filenames to prevent traversal
-- **Serve via Controller**: Allows access control checks before serving files
+## Static-analysis notes
+PHPStan and Psalm cannot detect unsafe `move_uploaded_file` calls without custom rules. The key invariant to enforce in review: no path derived from user input reaches the second argument of `move_uploaded_file`.
+
+## Security notes
+`$_FILES['name']` can contain `../` sequences and null bytes on older PHP versions. Always use `basename()` if any part of the original filename must be referenced, though the preferred approach is to discard it entirely and generate a random name.
+
+`random_bytes(16)` provides 128 bits of entropy — sufficient to make filename enumeration infeasible.
+
+## Related topics
+- [sec-input-validation.md](sec-input-validation.md) — general boundary validation principles
+- [sec-output-escaping.md](sec-output-escaping.md) — escaping filenames when reflected in HTML

@@ -1,15 +1,19 @@
 ---
 title: Avoid Mixed Type
-impact: HIGH
-impactDescription: Maintains type safety, use union types or generics instead
-tags: type-system, mixed, union-types, generics, php8
+impact: CRITICAL
+impactDescription: Strong type safety across all PHP code
+tags: php, types, strict-types, type-safety
 ---
 
 # Avoid Mixed Type
 
-Avoid using mixed type; prefer specific types or union types instead.
+## Why it matters
+`mixed` is a promise to the type system that you will handle anything — and a promise the type system cannot help you keep. Every `mixed` in a signature forces every downstream caller to guard against every possible type before they can do useful work. Over time `mixed` accumulates: one becomes five, five become ten, and the codebase loses static-analysis coverage precisely in the paths most likely to carry bugs.
 
-## Bad Example
+## Rule
+Treat `mixed` as a temporary border checkpoint, not a home address. Use it only at true external boundaries (JSON decode output, framework callbacks, deserialization), and narrow it to a specific type immediately after entry. Never propagate `mixed` deeper into the domain.
+
+## Bad
 
 ```php
 <?php
@@ -18,25 +22,20 @@ declare(strict_types=1);
 
 class DataProcessor
 {
-    // mixed accepts anything - no type safety
-    public function process(mixed $data): mixed
+    public function process(mixed $data): mixed  // callers learn nothing
     {
-        // What can we do with $data? Anything!
-        // What does this return? Who knows!
         return $data;
     }
 
-    // mixed hides the actual expected types
     public function transform(mixed $input, mixed $options): mixed
     {
-        // Lost all type information
+        // all type information is gone
     }
 }
 
 class Cache
 {
-    // Using mixed as a crutch
-    public function get(string $key): mixed
+    public function get(string $key): mixed  // could be anything
     {
         return $this->storage[$key] ?? null;
     }
@@ -48,7 +47,7 @@ class Cache
 }
 ```
 
-## Good Example
+## Better
 
 ```php
 <?php
@@ -57,92 +56,127 @@ declare(strict_types=1);
 
 class DataProcessor
 {
-    // Specific union type instead of mixed
     public function process(array|object $data): array
     {
-        if (is_object($data)) {
-            return get_object_vars($data);
-        }
-        return $data;
-    }
-
-    // Generic-like approach using templates (PHPStan/Psalm)
-    /**
-     * @template T
-     * @param T $input
-     * @return T
-     */
-    public function transform(mixed $input): mixed
-    {
-        // When mixed is unavoidable, use generics for type tracking
-        return $input;
+        return is_object($data) ? get_object_vars($data) : $data;
     }
 }
 
-// Type-safe cache using generics
-/**
- * @template T
- */
-class TypedCache
-{
-    /** @var array<string, T> */
-    private array $storage = [];
-
-    /**
-     * @param T $value
-     */
-    public function set(string $key, mixed $value): void
-    {
-        $this->storage[$key] = $value;
-    }
-
-    /**
-     * @return T|null
-     */
-    public function get(string $key): mixed
-    {
-        return $this->storage[$key] ?? null;
-    }
-}
-
-// Specific cache implementations
-class UserCache
+// Type-specific cache avoids mixed entirely
+final class UserCache
 {
     /** @var array<string, User> */
-    private array $users = [];
+    private array $store = [];
 
     public function get(string $id): ?User
     {
-        return $this->users[$id] ?? null;
+        return $this->store[$id] ?? null;
     }
 
     public function set(string $id, User $user): void
     {
-        $this->users[$id] = $user;
-    }
-}
-
-// When mixed is truly needed, document why
-class JsonEncoder
-{
-    /**
-     * Encodes any JSON-serializable value.
-     * Mixed is appropriate here as JSON can encode any scalar, array, or object.
-     *
-     * @param scalar|array|object|null $value
-     */
-    public function encode(mixed $value): string
-    {
-        return json_encode($value, JSON_THROW_ON_ERROR);
+        $this->store[$id] = $user;
     }
 }
 ```
 
-## Why
+## Best
 
-- **Type Safety Lost**: mixed disables all type checking
-- **Hidden Bugs**: Type errors only appear at runtime
-- **Poor Documentation**: Callers don't know what to pass
-- **IDE Limitations**: No autocompletion or type hints
-- **Maintenance Burden**: Future developers must guess types
-- **Better Alternatives**: Union types, generics, or specific types are clearer
+```php
+<?php
+
+declare(strict_types=1);
+
+namespace App\Infrastructure;
+
+// mixed at the boundary — immediately narrowed
+final class JsonDecoder
+{
+    /**
+     * Decodes and narrows to a specific shape.
+     *
+     * @return array<string, mixed>
+     * @throws \JsonException
+     */
+    public function decodeAssoc(string $json): array
+    {
+        $decoded = json_decode($json, true, 512, JSON_THROW_ON_ERROR);
+
+        if (! is_array($decoded)) {
+            throw new \UnexpectedValueException('Expected JSON object, got scalar');
+        }
+
+        return $decoded;  // mixed is gone — callers receive array<string, mixed>
+    }
+}
+
+// Generic template approach for truly polymorphic containers
+/**
+ * @template T
+ */
+final class TypedCollection
+{
+    /** @var list<T> */
+    private array $items = [];
+
+    /**
+     * @param T $item
+     */
+    public function add(mixed $item): void  // mixed needed for template satisfaction
+    {
+        $this->items[] = $item;
+    }
+
+    /**
+     * @return list<T>
+     */
+    public function all(): array
+    {
+        return $this->items;
+    }
+}
+
+// Concrete specialisation — mixed never escapes to the caller
+/**
+ * @extends TypedCollection<User>
+ */
+final class UserCollection extends TypedCollection
+{
+    public function add(mixed $item): void
+    {
+        if (! $item instanceof User) {
+            throw new \TypeError('Expected User, got ' . get_debug_type($item));
+        }
+        parent::add($item);
+    }
+}
+
+// Legitimate mixed at a framework boundary — narrowed immediately
+function resolveServiceFromContainer(string $abstract): object
+{
+    $resolved = app($abstract);  // returns mixed
+
+    if (! is_object($resolved)) {
+        throw new \RuntimeException("{$abstract} did not resolve to an object");
+    }
+
+    return $resolved;  // object — mixed is gone
+}
+```
+
+## Exceptions / trade-offs
+- **JSON-serialisable values**: `json_encode` legitimately accepts any scalar, array, or `JsonSerializable` — `mixed` is appropriate for the value parameter. Annotate with `@param scalar|array|object|null` to give static analysers more detail.
+- **Generic template parameters**: PHPDoc `@template T` requires `mixed` in the native signature of template-satisfying methods. This is an unavoidable limitation of PHP's type system — document the intent clearly.
+- **Framework integration points**: Some PSR contracts and framework hooks expose `mixed` (e.g., middleware `$handler`). Accept it at the adapter layer, narrow before passing to your domain.
+
+## Static-analysis notes
+PHPStan treats `mixed` as a special type that bypasses many checks — code touching `mixed` values requires explicit narrowing via `is_*`, `instanceof`, or `assert`. At PHPStan level 8+ (`mixed` strictness), operations on `mixed` without narrowing are flagged as errors. Psalm similarly flags `mixed` usage in strict mode. Use `get_debug_type()` (PHP 8.0+) in runtime narrowing error messages for precise type names.
+
+## Version notes
+`PHP 8.0+` — `mixed` as a native type declaration. `get_debug_type()` also requires PHP 8.0+.
+
+## Related topics
+- [type-union-types.md](type-union-types.md) — narrow specific alternatives instead of mixed
+- [type-intersection-types.md](type-intersection-types.md) — compose contracts instead of accepting mixed objects
+- [type-parameter-types.md](type-parameter-types.md) — typed parameters eliminate mixed at entry
+- [type-return-types.md](type-return-types.md) — typed returns eliminate mixed at exit

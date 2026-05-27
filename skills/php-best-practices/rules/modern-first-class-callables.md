@@ -1,197 +1,198 @@
 ---
 title: First-Class Callable Syntax
-impact: MEDIUM
-impactDescription: Concise callable references with IDE support
-tags: modern-features, first-class-callables, closures, php81
+impact: CRITICAL
+impactDescription: Modern PHP 8.x language features
+tags: php, modern-php, php8
 ---
 
 # First-Class Callable Syntax
 
-Use first-class callable syntax to create closures from callables (PHP 8.1+).
+## Why it matters
+Array callables like `[$obj, 'method']` are opaque strings at the type level — renaming the method in an IDE does not update them, static analysis cannot resolve their signature, and a typo produces a runtime error. First-class callables are real closures with fully-resolved types available at the call site.
 
-## Bad Example
+## Rule
+Use the `...` first-class callable syntax instead of array callables or `Closure::fromCallable()`. The result is a typed `Closure` that IDEs and static analysers can inspect.
 
+## Bad
 ```php
 <?php
 
 declare(strict_types=1);
 
-class StringProcessor
+final class Formatter
 {
-    public function toUpperCase(string $str): string
+    public function format(string $value): string
     {
-        return strtoupper($str);
-    }
-
-    public function toLowerCase(string $str): string
-    {
-        return strtolower($str);
+        return strtoupper(trim($value));
     }
 }
 
-// Old way - verbose Closure::fromCallable
-$processor = new StringProcessor();
-$upper = Closure::fromCallable([$processor, 'toUpperCase']);
-$lower = Closure::fromCallable([$processor, 'toLowerCase']);
+$formatter = new Formatter();
 
-// String-based callable - no IDE support, error-prone
-$callback = [$processor, 'toUpperCase'];
-array_map($callback, $strings); // Works but fragile
+// String-based — not refactorable, no type info, runtime error on typo
+$callable = [$formatter, 'format'];
 
-// Static methods
-$formatter = Closure::fromCallable([DateFormatter::class, 'format']);
-
-// Functions
-$trimmer = Closure::fromCallable('trim');
+$results = array_map($callable, $names);
 ```
 
-## Good Example
+## Better
+```php
+<?php
+
+declare(strict_types=1);
+
+final class Formatter
+{
+    public function format(string $value): string
+    {
+        return strtoupper(trim($value));
+    }
+}
+
+$formatter = new Formatter();
+
+// Explicit, but verbose
+$callable = Closure::fromCallable([$formatter, 'format']);
+
+$results = array_map($callable, $names);
+```
+
+## Best
+```php
+<?php
+
+declare(strict_types=1);
+
+final class Formatter
+{
+    public function format(string $value): string
+    {
+        return strtoupper(trim($value));
+    }
+}
+
+$formatter = new Formatter();
+
+// Concise, refactorable, fully typed Closure
+$results = array_map($formatter->format(...), $names);
+
+// Works for static methods and plain functions too
+$trimmed = array_map(trim(...), $names);
+```
+
+## Exceptions / trade-offs
+- When the method name is determined at runtime (dynamic dispatch), the array callable `[$obj, $methodName]` remains necessary. Document why and validate the name.
+
+## Pipeline and composition
 
 ```php
 <?php
 
 declare(strict_types=1);
 
-class StringProcessor
+// Pipeline pattern using first-class callables
+final class Pipeline
 {
-    public function toUpperCase(string $str): string
-    {
-        return strtoupper($str);
-    }
-
-    public function toLowerCase(string $str): string
-    {
-        return strtolower($str);
-    }
-
-    public function getProcessors(): array
-    {
-        // First-class callable syntax - concise and type-safe
-        return [
-            'upper' => $this->toUpperCase(...),
-            'lower' => $this->toLowerCase(...),
-        ];
-    }
-}
-
-// Instance methods
-$processor = new StringProcessor();
-$upper = $processor->toUpperCase(...);
-$lower = $processor->toLowerCase(...);
-
-$strings = ['hello', 'world'];
-$uppercased = array_map($upper, $strings); // ['HELLO', 'WORLD']
-
-// Static methods
-class DateFormatter
-{
-    public static function format(DateTimeInterface $date): string
-    {
-        return $date->format('Y-m-d');
-    }
-
-    public static function formatTime(DateTimeInterface $date): string
-    {
-        return $date->format('H:i:s');
-    }
-}
-
-$formatDate = DateFormatter::format(...);
-$formatTime = DateFormatter::formatTime(...);
-
-$dates = [new DateTime(), new DateTime('+1 day')];
-$formatted = array_map($formatDate, $dates);
-
-// Built-in functions
-$trim = trim(...);
-$strlen = strlen(...);
-$strtoupper = strtoupper(...);
-
-$cleaned = array_map($trim, $dirtyStrings);
-$lengths = array_map($strlen, $strings);
-
-// Constructor as callable
-class User
-{
-    public function __construct(
-        public string $name,
-        public string $email,
-    ) {}
-}
-
-// Can't use new directly, but can wrap
-$createUser = fn(array $data) => new User($data['name'], $data['email']);
-
-// Practical use cases
-class EventDispatcher
-{
-    /** @var array<string, Closure[]> */
-    private array $listeners = [];
-
-    public function subscribe(string $event, Closure $listener): void
-    {
-        $this->listeners[$event][] = $listener;
-    }
-}
-
-class UserController
-{
-    public function __construct(
-        private EventDispatcher $dispatcher,
-        private UserService $service,
-    ) {
-        // Subscribe methods as first-class callables
-        $this->dispatcher->subscribe('user.created', $this->onUserCreated(...));
-        $this->dispatcher->subscribe('user.deleted', $this->onUserDeleted(...));
-    }
-
-    private function onUserCreated(User $user): void
-    {
-        // Handle event
-    }
-
-    private function onUserDeleted(int $userId): void
-    {
-        // Handle event
-    }
-}
-
-// Pipeline pattern
-class Pipeline
-{
-    /** @var Closure[] */
+    /** @var list<\Closure> */
     private array $stages = [];
 
-    public function pipe(Closure $stage): self
+    public function pipe(\Closure $stage): static
     {
-        $this->stages[] = $stage;
-        return $this;
+        $clone = clone $this;
+        $clone->stages[] = $stage;
+        return $clone;
     }
 
     public function process(mixed $payload): mixed
     {
         return array_reduce(
             $this->stages,
-            fn($carry, $stage) => $stage($carry),
-            $payload
+            fn(mixed $carry, \Closure $stage): mixed => $stage($carry),
+            $payload,
         );
     }
 }
 
-$pipeline = new Pipeline();
-$pipeline
+final class StringProcessor
+{
+    public function normalise(string $value): string
+    {
+        return strtolower(trim($value));
+    }
+
+    public function slugify(string $value): string
+    {
+        return str_replace(' ', '-', $this->normalise($value));
+    }
+}
+
+$processor = new StringProcessor();
+
+$pipeline = (new Pipeline())
     ->pipe(trim(...))
     ->pipe(strtolower(...))
-    ->pipe($processor->toUpperCase(...));
+    ->pipe($processor->normalise(...));
 
-$result = $pipeline->process('  Hello World  '); // 'HELLO WORLD'
+$result = $pipeline->process('  Hello World  '); // 'hello world'
 ```
 
-## Why
+## Event listeners and higher-order functions
 
-- **Concise Syntax**: `$obj->method(...)` instead of `Closure::fromCallable()`
-- **IDE Support**: Full autocompletion, refactoring, and navigation
-- **Type Safety**: Closures maintain the callable's type signature
-- **Refactoring Safe**: Renaming methods updates references automatically
-- **Consistency**: Same syntax for instance, static, and global functions
-- **Functional PHP**: Enables cleaner functional programming patterns
+```php
+<?php
+
+declare(strict_types=1);
+
+final class UserController
+{
+    public function __construct(
+        private readonly EventDispatcher $dispatcher,
+        private readonly UserService $service,
+    ) {
+        // Subscribe instance methods as typed closures
+        $this->dispatcher->subscribe('user.created', $this->onUserCreated(...));
+        $this->dispatcher->subscribe('user.deleted', $this->onUserDeleted(...));
+    }
+
+    private function onUserCreated(User $user): void {}
+    private function onUserDeleted(UserId $id): void {}
+}
+
+// Sorting with first-class callables
+/** @var list<User> $users */
+$sorted = array_filter($users, $someUser->isActive(...));
+
+usort($users, fn(User $a, User $b) => $a->name <=> $b->name);
+```
+
+## Built-in PHP functions as callables
+
+```php
+<?php
+
+declare(strict_types=1);
+
+$strings = ['  hello  ', ' world ', '  php  '];
+
+// Native functions as first-class callables
+$trimmed   = array_map(trim(...),      $strings);
+$lengths   = array_map(strlen(...),    $trimmed);
+$uppercased = array_map(strtoupper(...), $trimmed);
+
+// Static methods
+$formatDate = \DateTimeImmutable::createFromFormat(...);
+$dates = array_map(
+    fn(string $s) => \DateTimeImmutable::createFromFormat('Y-m-d', $s),
+    ['2024-01-01', '2024-06-15'],
+);
+```
+
+## Static-analysis notes
+PHPStan and Psalm resolve the exact `Closure` type (including parameter and return types) from first-class callables. This enables accurate type inference for `array_map`, `array_filter`, and similar higher-order functions. Psalm's `@param callable(T): R` annotations work fully with first-class callable results.
+
+## Version notes
+`PHP 8.1+`
+
+## Related topics
+- [modern-arrow-functions.md](modern-arrow-functions.md) — lightweight closures for simple transforms
+- [modern-pipe-operator.md](modern-pipe-operator.md) — composing callables in a pipeline (PHP 8.5+)
