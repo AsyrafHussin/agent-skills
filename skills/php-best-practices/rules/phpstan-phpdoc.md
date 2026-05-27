@@ -13,7 +13,7 @@ PHP's native type system cannot express generic collections (`list<User>`), fixe
 
 ## Rule
 
-Use PHPStan-compatible PHPDoc annotations only where native PHP cannot express enough — generic collections, array shapes, class-string constraints, int ranges, and conditional return types. Do not add PHPDoc for types that native declarations already cover. Inline `@var` is a last resort; restructure code to eliminate the ambiguity instead.
+Use PHPStan-compatible PHPDoc annotations only where native PHP cannot express enough — generic collections, array shapes, class-string constraints, int ranges, and conditional return types. Do not add PHPDoc for types that native declarations already cover. Inline `@var` is a last resort; restructure code to eliminate the ambiguity instead. If a stricter pseudo-type still matches the intended contract, preserve it and fix the proof gap with earlier validation, narrower adapters, or a focused documented ignore instead of weakening the contract.
 
 ## Bad
 
@@ -421,6 +421,7 @@ function coalesce(mixed $value, mixed $default): mixed
 - **`@template`** gives full generic safety at zero runtime cost. PHPStan infers the concrete type at each call site.
 - **`non-empty-string`** and **`non-empty-list<T>`** eliminate the need for defensive `=== ''` or `=== []` guards after the annotation point.
 - **`literal-string`** is the PHPStan mechanism for preventing user-supplied strings from reaching SQL/shell/eval functions.
+- **Do not weaken honest strict contracts to appease the analyzer.** Relax `literal-string`, `class-string<T>`, `non-empty-string`, and similar pseudo-types only when the contract itself is wrong, not merely because the current code path does not prove it yet.
 - **`positive-int`** and **`non-negative-int`** are shorthand for `int<1, max>` and `int<0, max>` respectively.
 - PHPStan level 7+ requires `@param`/`@return` annotations when native types are absent; level 9 flags all `mixed` usage.
 

@@ -43,6 +43,21 @@ The skill activates on:
 - ❌ Retry or exception hygiene unless it changes performance behavior
 - ❌ Pure architecture or readability concerns
 
+## Cross-Lens Handoff Discipline
+
+Use this as a targeted lens, not a generic review bundle.
+
+- Prove one dominant cost or scalability issue first.
+- If another concern becomes primary, recommend exactly one next review lens instead of broadening into a vague multi-lens pass.
+- Keep the current pass focused on evidence this lens can actually prove.
+
+Smallest likely follow-up lenses:
+
+- `code-review-architecture` when the real cost comes from ownership, layering, or boundary design
+- `code-review-error-handling` when retries, timeouts, or partial-failure recovery dominate the regression
+- `code-review-simplicity` when duplicated or over-abstracted work is the main source of waste
+- `code-review-security` when the issue is adversarial resource exhaustion or unsafe cost amplification
+
 ## Output Format
 
 Use this exact structure:

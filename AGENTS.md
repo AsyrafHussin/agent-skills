@@ -109,6 +109,8 @@ Load only the skills that match the detected stack and user request. Use the tab
 
 Multiple skills may be active at once. Apply them in the priority order defined above.
 
+For the `code-review-*` skills specifically, prefer one dominant review lens first. If a different concern becomes primary, recommend one smaller follow-up lens instead of expanding the current pass into a vague multi-lens review cloud.
+
 ---
 
 ## Step 3 — Apply Rules in Priority Order

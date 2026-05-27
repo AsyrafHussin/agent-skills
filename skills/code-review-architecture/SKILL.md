@@ -60,6 +60,21 @@ Apply this lens when explicitly requested or when a review workflow dispatches i
 - ❌ Raw throughput or micro-optimization analysis
 - ❌ Pure readability or naming concerns
 
+## Cross-Lens Handoff Discipline
+
+Use this as a targeted lens, not a generic review bundle.
+
+- Prove one dominant structural issue first.
+- If another concern becomes primary, recommend exactly one next review lens instead of broadening into a vague multi-lens pass.
+- Keep the current pass focused on evidence this lens can actually prove.
+
+Smallest likely follow-up lenses:
+
+- `code-review-performance` when the proven problem is mainly cost, query shape, or resource growth
+- `code-review-error-handling` when rollback, cleanup, or partial-failure semantics are local rather than structural
+- `code-review-security` when the boundary design mainly weakens isolation, authz, or trust controls
+- `code-review-simplicity` when the root issue is over-abstraction more than architecture correctness
+
 ## Output Format
 
 ```markdown

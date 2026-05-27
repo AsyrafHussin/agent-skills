@@ -13,7 +13,7 @@ Rewriting a working legacy codebase in one large branch is one of the highest-ri
 
 ## Rule
 
-Establish a safety net first, then modernize in small automated steps. Never rewrite a working class from scratch. Use the Strangler Fig pattern to isolate legacy code behind typed interfaces so new code replaces it module by module without disrupting callers.
+Establish a safety net first, then modernize in small automated steps. Never rewrite a working class from scratch. Use the Strangler Fig pattern to isolate legacy code behind typed interfaces so new code replaces it module by module without disrupting callers. Start with the smallest modernization seam that resolves the real problem: a typed boundary, value object, adapter, explicit method, or narrow request cleanup. Stop after the smallest safe slice unless more is clearly required.
 
 ## Bad
 
@@ -178,10 +178,17 @@ Commit a migration checklist to the repository to make progress visible:
 | 7 | Raise PHPStan level one step at a time | Validates all prior work |
 
 ## Exceptions / trade-offs
-
 - **Legacy code with no tests**: write characterization tests (golden-master tests) before touching anything. Tests that prove "this is what it currently does" are better than no tests.
 - **Tight deadlines**: a PHPStan baseline is not tech debt — it is an honest inventory. Generate it, commit it, and shrink it over time. Leaving it at the initial size is tech debt.
 - **Third-party integrations**: wrap them behind typed interfaces from day one. Do not let their untyped APIs bleed into your domain.
+
+## Modernization slice checklist
+
+- Name the observed symptom before refactoring.
+- Identify the immediate cause and the structural root cause.
+- Pick one seam to improve instead of broad aesthetic cleanup.
+- Add characterization or regression coverage before widening a risky slice.
+- Re-run the narrowest validation for the touched seam, then stop.
 
 ## Static-analysis notes
 

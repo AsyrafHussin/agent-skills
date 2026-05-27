@@ -32,6 +32,15 @@ The skill activates on:
 - "validation contract"
 - "task boundary"
 
+## Maintenance Discipline
+
+- Edit the canonical repo-owned instruction source first, not installed, copied, or generated derivatives.
+- Regenerate machine-readable manifests or compiled prompt artifacts only when the interface-facing metadata actually changed.
+- After changing repo-owned guidance, rerun the repository's validation and install/sync steps for the affected agent assets.
+- When a durable correction appears only in chat history, memory, or review notes, promote it into the owning repo guidance instead of leaving it as tribal knowledge.
+- Clean stale generated copies when a skill, prompt file, or subagent definition is renamed, merged, or retired.
+- For one-off operational mutations, prefer inspect-first workflows with an explicit execute flag rather than auto-running destructive behavior by default.
+
 ## Rule Categories
 
 ### 1. Repo-Owned Control (CRITICAL - 2 rules)
@@ -70,6 +79,35 @@ The skill activates on:
 | `evidence-output` | Validation & Evidence | HIGH |
 | `machine-readable-first` | Validation & Evidence | HIGH |
 | `portable-skill-manifests` | Portability | MEDIUM |
+
+## Canonical-Source-First Workflow
+
+1. Edit the reviewed source file, not generated copies.
+2. Regenerate manifests or compiled assets only if needed.
+3. Run the repo validation commands for the changed guidance surface.
+4. Reinstall or resync generated agent assets.
+5. Remind the user about any required client reload step only when that client actually needs one.
+
+## Manual Operation Contract
+
+1. Print the target objects or scope before any write step.
+2. Default to dry-run or inspect mode.
+3. Require an explicit `--execute` or equivalent flag for mutations.
+4. Keep validation and rollback expectations visible in the task contract.
+
+## Cross-Layer Task Contract
+
+1. Name only the layers that actually change: data, domain, request boundary, rendering, browser flow, tests.
+2. Assign one owner per changed layer so instructions do not overlap.
+3. Sequence contract-producing layers before dependent layers.
+4. Make the handoff explicit: accepted input, produced data shape, emitted IDs or values, proving tests.
+
+## Specialist Routing Contract
+
+1. Start with one primary specialist instruction set.
+2. Add a second specialist only when the task clearly spans a second concern.
+3. Avoid broad instruction bundles when a smaller owner can prove or implement the change.
+4. After review or triage, hand off to the smallest proven next owner instead of escalating into another broad pass.
 
 ---
 

@@ -86,7 +86,7 @@ $stmt->execute();
 ```
 
 ## Exceptions / trade-offs
-Column names and table names cannot be bound as parameters — they must be whitelisted from a hard-coded list. Dynamic `IN (?, ?, ?)` clauses require constructing the placeholder list programmatically, which is mechanical but necessary; use a loop and `implode`.
+Column names and table names cannot be bound as parameters — they must be whitelisted from a hard-coded list. Dynamic `IN (?, ?, ?)` clauses require constructing the placeholder list programmatically, which is mechanical but necessary; use a loop and `implode`. Never bind a comma-separated string like `'1,2,3'` into a single placeholder inside `IN (?)`; that is not equivalent to per-item binding and silently breaks filtering.
 
 ## Static-analysis notes
 Psalm's taint analysis (`--taint-analysis`) and phpcs rules such as `WordPress.DB.PreparedSQL` can identify concatenated SQL. PHPStan has no built-in SQL injection detection without a plugin.

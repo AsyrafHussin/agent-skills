@@ -312,6 +312,8 @@ Type-safety review lens for focused code review. Contains 4 rules across 4 categ
 npx skills add AsyrafHussin/agent-skills --skill code-review-type-safety
 ```
 
+The `code-review-*` skills are intended to be used as targeted lenses, not as a mandatory review swarm. Start with the dominant concern, keep the pass evidence-first, and if another concern becomes primary, hand off to exactly one smaller follow-up lens instead of broadening into a vague multi-lens review.
+
 ---
 
 ### [api-design-patterns](skills/api-design-patterns)

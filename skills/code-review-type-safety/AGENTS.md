@@ -36,12 +36,28 @@ The skill activates on:
 - Check public APIs and risky internal paths for precise, honest types
 - Verify runtime validation where untyped input crosses a trust boundary
 - Assess type guards and annotations against actual behavior
+- Flag changes that relax a previously honest contract only to satisfy current tooling or inference; recommend restoring proof or validation when the stricter contract is still correct.
 
 ### Do Not Broaden Into
 - ❌ Security issues as the primary lens
 - ❌ Retry, timeout, or other resilience behavior
 - ❌ Performance-only questions
 - ❌ Architecture or readability concerns unless clearly cross-lens
+
+## Cross-Lens Handoff Discipline
+
+Use this as a targeted lens, not a generic review bundle.
+
+- Prove one dominant contract or typing issue first.
+- If another concern becomes primary, recommend exactly one next review lens instead of broadening into a vague multi-lens pass.
+- Keep the current pass focused on evidence this lens can actually prove.
+
+Smallest likely follow-up lenses:
+
+- `code-review-security` when the real issue is untyped external input at a trust boundary
+- `code-review-architecture` when the contract mismatch is really a leaky boundary or wrong abstraction
+- `code-review-simplicity` when generic machinery or dead constraints are the true problem
+- `code-review-error-handling` when dishonest types mainly hide failure contracts
 
 ## Output Format
 

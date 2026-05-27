@@ -12,6 +12,7 @@ Unvalidated input is the root cause of SQL injection, XSS, path traversal, and c
 
 ## Rule
 Validate at every trust boundary, normalize exactly once, and narrow types as early as possible. Reject unknown input by default; allow known-good values explicitly.
+Choose validation and normalization for the next sink: persistence and business logic need raw normalized values, while HTML safety belongs at the final output boundary.
 
 ## Bad
 ```php
@@ -103,7 +104,7 @@ function buildListQuery(PDO $pdo, array $input): \PDOStatement
 ```
 
 ## Exceptions / trade-offs
-Do not validate inside domain models or services — that leaks boundary concerns inward. Validate at the HTTP controller or console command boundary, then pass typed value objects downstream. For bulk imports, consider validating and collecting all errors before aborting so the user sees all problems at once.
+Do not validate inside domain models or services — that leaks boundary concerns inward. Validate at the HTTP controller or console command boundary, then pass typed value objects downstream. For bulk imports, consider validating and collecting all errors before aborting so the user sees all problems at once. Do not persist pre-escaped HTML-safe values just because they arrived from a browser form; store normalized raw data and escape only when rendering.
 
 ## Static-analysis notes
 Psalm's `@param-type` and PHPStan's `array-shape` can enforce the shape of validated arrays. Return a typed DTO rather than an array for the strongest guarantees.

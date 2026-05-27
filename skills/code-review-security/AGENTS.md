@@ -43,6 +43,21 @@ The skill activates on:
 - ❌ Performance or architecture trade-offs as the main lens
 - ❌ Readability-only issues
 
+## Cross-Lens Handoff Discipline
+
+Use this as a targeted lens, not a generic review bundle.
+
+- Prove one dominant security issue first.
+- If another concern becomes primary, recommend exactly one next review lens instead of broadening into a vague multi-lens pass.
+- Keep the current pass focused on evidence this lens can actually prove.
+
+Smallest likely follow-up lenses:
+
+- `code-review-error-handling` when cleanup, timeout, retry, or partial-failure behavior weakens a security control
+- `code-review-type-safety` when the real issue is untrusted shape or validation proof rather than exploit logic
+- `code-review-architecture` when authz, trust boundaries, or state transitions are wrong by design
+- `code-review-performance` only when user-triggerable cost amplification or DoS-style resource pressure is the dominant risk
+
 ## Output Format
 
 Use this exact structure:
@@ -79,6 +94,7 @@ Use this exact structure:
 
 - Construct one concrete adversarial input that exercises the primary code path changed in the diff.
 - Trace what the system does with that input, including validation, sanitization, authorization, persistence, and output behavior.
+- Check whether the diff mixes input sanitization, persistence formatting, and output escaping in the wrong order, especially by storing pre-escaped values or trusting one context's escaping in another sink.
 - If no adversarial input can be constructed, return BLOCKED.
 
 ---

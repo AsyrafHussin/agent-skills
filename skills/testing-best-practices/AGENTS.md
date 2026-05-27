@@ -17,9 +17,25 @@ When applying this skill, agents must:
 - Run the repository's existing validation commands in documented order when code changes are requested.
 - If this repository does not define a validation command for the current task, say so instead of inventing one.
 
+## Test Expansion Discipline
+
+- For bug fixes, start with the narrowest failing regression test before changing production code.
+- When asked for "more tests" or "more coverage", target a real branch, edge case, or defect-prone path instead of optimizing for the headline percentage first.
+- Set up only the dependencies the code under test actually touches.
+- Follow the nearest existing repository test style before introducing a new test pattern.
+- Prefer small local test doubles or inline collaborators when they keep the setup obvious and avoid unnecessary fixture sprawl.
+
 ## Abstract
 
 Unit testing, integration testing, and TDD principles for reliable, maintainable test suites. Contains 34 rules across 7 categories using TypeScript with Jest/Vitest.
+
+## Regression-First Bug Fixes
+
+- isolate the bug in the smallest failing test
+- confirm it fails for the right reason
+- change production code
+- rerun the same test until it passes
+- widen validation only if the change touches shared behavior
 
 ## References
 

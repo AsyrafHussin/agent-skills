@@ -20,6 +20,15 @@ Reference these guidelines when:
 - Writing portable skill manifests or task-specific command recipes
 - Tightening task boundaries, validation loops, or review output
 
+## Maintenance Discipline
+
+- Edit the canonical repo-owned instruction source first, not installed, copied, or generated derivatives.
+- Regenerate machine-readable manifests or compiled prompt artifacts only when the interface-facing metadata actually changed.
+- After changing repo-owned guidance, rerun the repository's validation and install/sync steps for the affected agent assets.
+- When a durable correction appears only in chat history, memory, or review notes, promote it into the owning repo guidance instead of leaving it as tribal knowledge.
+- Clean stale generated copies when a skill, prompt file, or subagent definition is renamed, merged, or retired.
+- For one-off operational mutations, prefer inspect-first workflows with an explicit execute flag rather than auto-running destructive behavior by default.
+
 ## Rule Categories by Priority
 
 | Priority | Category | Impact | Prefix |
@@ -53,6 +62,16 @@ Reference these guidelines when:
 
 ## Essential Patterns
 
+### Canonical-Source-First Workflow
+
+```markdown
+1. Edit the reviewed source file, not generated copies
+2. Regenerate manifests or compiled assets only if needed
+3. Run the repo validation commands for the changed guidance surface
+4. Reinstall or resync generated agent assets
+5. Remind the user about any required client reload step only when that client actually needs one
+```
+
 ### Minimal Repository Contract
 
 ```markdown
@@ -69,6 +88,36 @@ Reference these guidelines when:
 - Run: composer test
 - Run: composer phpstan
 - Stop and ask if requirements conflict or the validation command is missing
+```
+
+### Manual Operation Contract
+
+```markdown
+## One-off operation
+- Print the target objects or scope before any write step
+- Default to dry-run / inspect mode
+- Require an explicit `--execute` or equivalent flag for mutations
+- Keep validation and rollback expectations visible in the task contract
+```
+
+### Cross-Layer Task Contract
+
+```markdown
+## Cross-layer change
+- Name only the layers that actually change (data, domain, request boundary, rendering, browser flow, tests)
+- Assign one owner per changed layer so instructions do not overlap
+- Sequence contract-producing layers before dependent layers
+- Make the handoff explicit: accepted input, produced data shape, emitted IDs/values, proving tests
+```
+
+### Specialist Routing Contract
+
+```markdown
+## Specialist routing
+- Start with one primary specialist instruction set
+- Add a second specialist only when the task clearly spans a second concern
+- Avoid broad instruction bundles when a smaller owner can prove or implement the change
+- After review or triage, hand off to the smallest proven next owner instead of escalating into another broad pass
 ```
 
 ### Vendor-Neutral Skill Manifest

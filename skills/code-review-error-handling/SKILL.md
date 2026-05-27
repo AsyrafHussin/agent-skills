@@ -42,6 +42,7 @@ Reference these guidelines when:
 - `err-observability` - Logs, trackers, correlation IDs, and actionable context
 - `err-resource-cleanup` - Scoped release patterns for files, locks, sockets, and transactions
 - `err-defensive-overreach` - Unnecessary guards and catches that add noise without resilience value
+- Treat catches as recovery, translation, or logging boundaries; if a catch block does none of those, question whether it should exist.
 
 ## Scope Discipline
 
@@ -58,6 +59,21 @@ Apply this lens when explicitly requested or when a review workflow dispatches i
 - ❌ Type-system coverage or generic design
 - ❌ Raw performance tuning outside resilience concerns
 - ❌ Pure architecture or readability refactors
+
+## Cross-Lens Handoff Discipline
+
+Use this as a targeted lens, not a generic review bundle.
+
+- Prove one dominant resilience or failure-path issue first.
+- If another concern becomes primary, recommend exactly one next review lens instead of broadening into a vague multi-lens pass.
+- Keep the current pass focused on evidence this lens can actually prove.
+
+Smallest likely follow-up lenses:
+
+- `code-review-security` when the failure path leaks secrets, bypasses controls, or weakens authorization
+- `code-review-performance` when retries, timeouts, backpressure, or blocking behavior are the dominant risk
+- `code-review-architecture` when the core issue is transaction or boundary design rather than local cleanup logic
+- `code-review-type-safety` when the main defect is a dishonest error/result contract
 
 ## Output Format
 

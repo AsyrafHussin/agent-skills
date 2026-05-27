@@ -165,6 +165,7 @@ Reference these guidelines when:
 - `phpstan-phpdoc` - Generics (`@template`), array shapes, `class-string`, `int<min,max>`, conditional return types
 
 PHPDoc is a precision layer — use it only when native PHP cannot express enough. Inline `@var` is a last resort.
+If a stricter contract such as `literal-string`, `class-string<T>`, or `non-empty-string` still expresses the real design, fix the proof gap instead of weakening the contract just to satisfy current inference.
 
 ### 9. Legacy Migration (HIGH) — 1 rule
 

@@ -43,6 +43,21 @@ The skill activates on:
 - ❌ Performance-only bottlenecks
 - ❌ Architecture or type-system issues unless marked cross-lens
 
+## Cross-Lens Handoff Discipline
+
+Use this as a targeted lens, not a generic review bundle.
+
+- Prove one dominant complexity or maintainability issue first.
+- If another concern becomes primary, recommend exactly one next review lens instead of broadening into a vague multi-lens pass.
+- Keep the current pass focused on evidence this lens can actually prove.
+
+Smallest likely follow-up lenses:
+
+- `code-review-architecture` when the abstraction drift is structural rather than local clutter
+- `code-review-performance` when the complexity mainly creates duplicated expensive work
+- `code-review-type-safety` when dead-range logic or confusing control flow comes from dishonest constraints
+- `code-review-error-handling` when complexity mainly hides failure paths, cleanup, or observability
+
 ## Output Format
 
 Use this exact structure:

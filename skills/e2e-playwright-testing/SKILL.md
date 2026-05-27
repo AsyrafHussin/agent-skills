@@ -78,6 +78,14 @@ Comprehensive E2E testing guide for web applications. Contains 8 rules across 6 
 - Choosing locator strategies for elements
 - Configuring Playwright for CI/CD
 
+## Flow Discipline
+
+- Start with one concrete end-user path before automating nearby variants.
+- Prefer the narrowest meaningful E2E scope the project tooling supports.
+- When page structure or selectors are unclear, inspect the live DOM before inventing brittle selectors.
+- Assert the visible browser transition first, then verify persistence or backend side effects separately when the repository has a stable way to do that.
+- When role or label locators are not enough, prefer durable app-owned selectors such as explicit test ids, stable input names, or other intentional hooks over styling-driven CSS chains.
+
 ## Rule Categories by Priority
 
 | Priority | Category | Impact | Prefix |
@@ -118,6 +126,17 @@ Comprehensive E2E testing guide for web applications. Contains 8 rules across 6 
 - `rel-no-wait-for-timeout` - Never use arbitrary waitForTimeout
 
 ## Essential Patterns
+
+### Browser-First Assertion Order
+
+```javascript
+// Prefer this order for state-changing flows:
+// 1. wait for the relevant next-step control or ready state
+// 2. perform the action
+// 3. wait for redirect or visible route/content transition
+// 4. assert the target page with URL plus stable visible anchors
+// 5. only then verify persistence or backend side effects if needed
+```
 
 ### Locator Priority
 

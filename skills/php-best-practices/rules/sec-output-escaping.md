@@ -12,6 +12,7 @@ XSS attacks execute because data is inserted into a context without the escaping
 
 ## Rule
 Escape by the context where the value will appear: HTML text, HTML attribute, JavaScript, URL query parameter, or shell argument. Apply the correct function for each context at the point of output.
+Escaping is not an input-normalization strategy and not a storage format. Do not pre-escape values before persistence or business comparisons.
 
 ## Bad
 ```php
