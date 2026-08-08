@@ -60,6 +60,32 @@ Reference these guidelines when:
 
 - `portable-skill-manifests` - Publish vendor-neutral skill manifests and task recipes in repo-owned YAML
 
+## Reusable Prompt Recipes
+
+`operating-prompts.json` packages recurring operational prompting patterns for deterministic consumers such as `agent-recall-compiler`.
+
+Most entries are **L2 recipes**, not generic execution prompts. They describe how to use the current repository context to construct one project-specific L1 operational prompt. The generated L1 shape is:
+
+```text
+Goal + Context + Constraints + Done When
+```
+
+Keep reusable method and quality policy in the L2 recipe. Keep exact files, symbols, callers, tests, commands, architecture, and risks in the project-specific recall context.
+
+A manifest entry declares its level explicitly:
+
+```json
+{
+  "id": "coverage-mutation",
+  "level": 2,
+  "template": "Create a project-specific test-hardening prompt with at least {{minimum_percentage_points}} percentage points coverage growth and mutation evidence from {{mutation_command}}."
+}
+```
+
+Use `level: 1` only for contracts that are genuinely context-independent, such as a final evidence-report shape or a bounded retry stop condition.
+
+Do not hide task policy in reusable defaults. The caller supplies values such as the planning horizon, minimum findings, coverage floor, or retry limit explicitly.
+
 ## Essential Patterns
 
 ### Canonical-Source-First Workflow
@@ -155,6 +181,8 @@ Each rule file contains:
 - Bad / Better / Best examples
 - Exceptions and trade-offs
 - Related topics for adjacent rules
+
+For task-level reuse, select an entry from `operating-prompts.json`, provide every required argument, and let the consuming recall layer combine it with project context.
 
 ## Full Compiled Document
 
