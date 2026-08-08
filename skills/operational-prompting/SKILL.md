@@ -67,8 +67,10 @@ Reference these guidelines when:
 Most entries are **L2 recipes**, not generic execution prompts. They describe how to use the current repository context to construct one project-specific L1 operational prompt. The generated L1 shape is:
 
 ```text
-Goal + Context + Constraints + Done When
+Goal + Context + Constraints + Verification + Done When
 ```
+
+`Verification` names the concrete measurement procedure: exact tests, static analysis, mutation testing, benchmarks, probes, or other repository-supported checks. `Done When` names the observable result those checks must produce before execution may stop. Do not collapse the two: a command is not an acceptance criterion, and an acceptance criterion without a way to measure it is decorative prose.
 
 Keep reusable method and quality policy in the L2 recipe. Keep exact files, symbols, callers, tests, commands, architecture, and risks in the project-specific recall context.
 
@@ -85,6 +87,8 @@ A manifest entry declares its level explicitly:
 Use `level: 1` only for contracts that are genuinely context-independent, such as a final evidence-report shape or a bounded retry stop condition.
 
 Do not hide task policy in reusable defaults. The caller supplies values such as the planning horizon, minimum findings, coverage floor, or retry limit explicitly.
+
+Use `reproduce-before-fix` when a bug claim must be proven before production code changes. Use `reject-and-restart` when an implementation crossed an approved boundary and repairing the existing patch would preserve a failed assumption or invalid approach.
 
 ## Essential Patterns
 

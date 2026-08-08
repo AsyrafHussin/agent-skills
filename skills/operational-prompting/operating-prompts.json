@@ -47,6 +47,16 @@
       "template": "Create a project-specific regression-hunting prompt that strengthens tests until they expose at least {{minimum_findings}} real regression, broken assumption, missing edge case, weak assertion, behavior drift, or equivalent concrete defect. Use the actual changed production files, existing tests, public contracts, call sites, and high-risk branches from recall context as search anchors. Coverage growth alone must not satisfy Done When. The generated prompt must instruct the agent to fix production code when a new test exposes a defect unless repository evidence proves the requirement changed."
     },
     {
+      "id": "reproduce-before-fix",
+      "level": 2,
+      "template": "Create a project-specific bug-fixing prompt that forbids production-code changes until the suspected behavior is reproduced by a failing automated test. Use the actual affected production files, nearest relevant tests, public contracts, callers, runtime boundaries, and repository-specific test and validation commands from recall context. The generated prompt must require the failure to be observed before the fix, then require the smallest production change, rerun the regression test, and run the relevant repository validation. If the bug cannot be reproduced, Done When must permit a BLOCKED result that records the exact attempted reproduction commands, inputs, environment, observed results, and why the bug claim remains unconfirmed. Do not manufacture failure by asserting behavior that repository evidence does not support."
+    },
+    {
+      "id": "reject-and-restart",
+      "level": 2,
+      "template": "Create a project-specific rejection-and-restart prompt for an implementation that violated the approved contract. Ground every rejection reason in current diff or repository evidence. Preserve valid evidence already gathered, discard the invalid implementation approach, return to the last validated state, and reconstruct the execution prompt whenever the failed assumption changes any L1 contract element: Goal, Context, Constraints, Verification, or Done When. The generated prompt must not negotiate around violations such as scope expansion, public-contract drift, missing reproduction, bypassed verification, or invented architecture. Define the exact evidence required before implementation may resume."
+    },
+    {
       "id": "retry-stop",
       "level": 1,
       "template": "Retry only while each attempt is based on new evidence. If the same validation fails {{maximum_failures}} times in a row, stop. Do not attempt another speculative fix. Report the exact failing command, the latest concrete error, what changed between attempts, the smallest safe next step, and what information is still missing."
