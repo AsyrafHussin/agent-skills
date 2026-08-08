@@ -1,118 +1,77 @@
 ---
 name: code-review-performance
-description: Performance-focused review lens for identifying inefficiencies, high-cost query shapes, resource waste, and worst-case scalability issues during code review. Triggers on "performance review", "find bottlenecks", "n+1 review", "resource usage", and related review requests.
+description: Performance-focused review lens for identifying inefficiencies, high-cost query shapes, resource waste, and worst-case scalability issues during code review.
 license: MIT
 metadata:
   author: Agent Skills Team
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Code Review Performance
 
-Performance review lens for algorithmic cost, data access, caching, concurrency, and worst-case resource usage. Contains 7 rules across 7 focused categories for targeted multi-lens review work.
+Targeted performance lens for algorithmic cost, data access, caching, concurrency, and worst-case resource usage.
 
-## When to Apply
+## Review Focus
 
-Reference these guidelines when:
-- Running a targeted review for this concern
-- Merging findings from a broader multi-lens review
-- Stress-testing a risky diff before approval
-- Writing or refining repo-owned review instructions for this lens
+| Priority | Category | Prefix |
+|----------|----------|--------|
+| CRITICAL | Algorithmic complexity | `perf-algorithmic-complexity` |
+| CRITICAL | Database performance | `perf-database-performance` |
+| HIGH | Network I/O | `perf-network-io` |
+| HIGH | Memory management | `perf-memory-management` |
+| MEDIUM | Caching strategy | `perf-caching-strategy` |
+| HIGH | Concurrency | `perf-concurrency` |
+| LOW | Asset & payload optimization | `perf-asset-optimization` |
 
-## Rule Categories by Priority
+Look for complexity growth, N+1 queries, missing indexes, redundant round trips, unbounded collections, bad cache invalidation, blocking work, pool pressure, and user-visible payload waste.
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Algorithmic Complexity | CRITICAL | `perf-algorithmic-complexity` |
-| 2 | Database Performance | CRITICAL | `perf-database-performance` |
-| 3 | Network I/O | HIGH | `perf-network-io` |
-| 4 | Memory Management | HIGH | `perf-memory-management` |
-| 5 | Caching Strategy | MEDIUM | `perf-caching-strategy` |
-| 6 | Concurrency | HIGH | `perf-concurrency` |
-| 7 | Asset & Payload Optimization | LOW | `perf-asset-optimization` |
+## Scope
 
-## Quick Reference
+Run this lens when cost, latency, throughput, or scalability is the dominant concern or a workflow explicitly dispatches it. Do not broaden into a generic review bundle.
 
-- `perf-algorithmic-complexity` - Complexity growth, nested loops, and expensive recomputation
-- `perf-database-performance` - N+1 queries, indexes, joins, and query-shape efficiency
-- `perf-network-io` - Batching, pagination, parallelism, timeouts, and unnecessary round trips
-- `perf-memory-management` - Leaks, retention, object copying, and unbounded collections
-- `perf-caching-strategy` - Cacheability, invalidation, key design, and cold-path cost
-- `perf-concurrency` - Blocking work, pool exhaustion, async behavior, and race-related throughput loss
-- `perf-asset-optimization` - Bundles, images, compression, and lazy loading opportunities
+Out of scope as primary concerns: type safety, security, retry hygiene without performance impact, architecture-only refactors, readability-only feedback.
 
-## Scope Discipline
+## Handoff
 
-Apply this lens when explicitly requested or when a review workflow dispatches it.
+When another concern becomes dominant, emit **at most one** focused handoff with the observed `path:line` and why that concern is dominant:
 
-### In Scope
-- Review performance concerns: efficiency, bottlenecks, and resource use
-- Analyze algorithmic complexity and data-access patterns
-- Check caching, batching, lazy loading, and concurrency behavior
-- Estimate worst-case cost for the modified path
+- `code-review-architecture` for ownership/layering defects causing the cost;
+- `code-review-error-handling` for retries, timeout, or recovery behavior;
+- `code-review-simplicity` for duplicated or over-abstracted work;
+- `code-review-security` for adversarial resource exhaustion.
 
-### Out of Scope
-- ❌ Primary type-safety analysis
-- ❌ Primary security vulnerability review
-- ❌ Retry or exception hygiene unless it changes performance behavior
-- ❌ Pure architecture or readability concerns
+## Evidence Discipline
 
-## Cross-Lens Handoff Discipline
+- Tie each finding to an observed cost path, query shape, allocation pattern, network call, or concurrency boundary.
+- When the changed path can amplify work with input size, construct one credible worst-case input and estimate the relevant CPU/query/memory/network growth. Do not block unrelated changes merely because no synthetic worst case exists.
+- Prefer removing work over adding caches or concurrency machinery when deletion solves the measured problem.
+- If the claimed regression depends on unavailable runtime/query evidence, return `blocked` instead of guessing.
 
-Use this as a targeted lens, not a generic review bundle.
+## Terminal Contract
 
-- Prove one dominant cost or scalability issue first.
-- If another concern becomes primary, recommend exactly one next review lens instead of broadening into a vague multi-lens pass.
-- Keep the current pass focused on evidence this lens can actually prove.
-
-Smallest likely follow-up lenses:
-
-- `code-review-architecture` when the real cost comes from ownership, layering, or boundary design
-- `code-review-error-handling` when retries, timeouts, or partial-failure recovery dominate the regression
-- `code-review-simplicity` when duplicated or over-abstracted work is the main source of waste
-- `code-review-security` when the issue is adversarial resource exhaustion or unsafe cost amplification
-
-## Output Format
-
-```markdown
-## Must Fix
-- [CRITICAL|HIGH] [path:line] Title
-  - Description: What is wrong and why it matters
-  - Suggestion: Specific fix with code example
-  - Metadata: cross_lens_candidate=true/false, tradeoff_required=true/false
-
-## Observations
-- [MEDIUM|LOW] [path:line] Title
-  - Description: Informational finding
-  - Metadata: cross_lens_candidate=true/false, tradeoff_required=true/false
-
-## Summary
-[One paragraph overall assessment]
+```text
+STATUS: findings
+<path>:<line>: <CRITICAL|HIGH|MEDIUM|LOW> <problem>. <concrete fix>.
+HANDOFF: <code-review-* lens> <path>:<line> <why this concern is dominant>   # optional, at most one
 ```
 
-## Severity Scale
+```text
+STATUS: clean
+```
 
-- **CRITICAL**: Regressions likely to cause timeouts, outages, or severe user-facing slowdowns.
-- **HIGH**: Measurable inefficiencies or scalability problems with meaningful impact.
-- **MEDIUM**: Optimization opportunities with moderate cost savings.
-- **LOW**: Minor optimizations or asset-level polish.
+```text
+STATUS: blocked
+UNKNOWN: <exact missing evidence>.
+```
 
-## Metadata Guidance Tags
+`STATUS` is this lens' judgment only. The caller owns merge, dedupe, precedence, approval, persistence, and workflow progression.
 
-- **cross_lens_candidate** — true when the performance issue also implies architecture, error-handling, or security follow-up, otherwise false.
-- **tradeoff_required** — true when the fix introduces complexity or maintenance trade-offs, otherwise false.
+## Severity
 
-## Adversarial Input Discipline
-
-- Construct one concrete high-load or worst-case input for the main code path changed in the diff.
-- Estimate the resulting CPU, query, memory, or network cost at that input size.
-- If no credible worst-case input can be constructed, return BLOCKED.
-
-## Integration Notes
-
-- Part of the six-pass review protocol. Precedence: SECURITY > ERROR_HANDLING > TYPE_SAFETY > PERFORMANCE > ARCHITECTURE > SIMPLICITY.
-- Dedupe merged findings by `(path, line, title)`.
-- Lead with the highest-severity must-fix items first.
+- **CRITICAL**: likely timeout, outage, or severe user-facing slowdown.
+- **HIGH**: measurable inefficiency or scalability problem with meaningful impact.
+- **MEDIUM**: clear optimization with moderate savings.
+- **LOW**: minor optimization or payload polish.
 
 ## References
 

@@ -1,113 +1,76 @@
 ---
 name: code-review-type-safety
-description: Type-safety review lens for catching schema mismatches, unsafe coercions, missing annotations, and weak contracts during code review. Triggers on "type safety review", "review typings", "schema mismatch", "unsafe cast", and related review requests.
+description: Type-safety review lens for catching schema mismatches, unsafe coercions, missing annotations, and weak contracts during code review.
 license: MIT
 metadata:
   author: Agent Skills Team
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # Code Review Type Safety
 
-Type-safety review lens for public API typing, runtime validation, unsafe casts, and generic discipline. Contains 4 rules across 4 focused categories for targeted multi-lens review work.
+Targeted type-safety lens for honest contracts, runtime validation, unsafe casts, and generic discipline.
 
-## When to Apply
+## Review Focus
 
-Reference these guidelines when:
-- Running a targeted review for this concern
-- Merging findings from a broader multi-lens review
-- Stress-testing a risky diff before approval
-- Writing or refining repo-owned review instructions for this lens
+| Priority | Category | Prefix |
+|----------|----------|--------|
+| HIGH | Type coverage | `type-type-coverage` |
+| CRITICAL | Type correctness | `type-type-correctness` |
+| CRITICAL | Type safety | `type-type-safety` |
+| MEDIUM | Generic discipline | `type-generic-discipline` |
 
-## Rule Categories by Priority
+Look for untyped public contracts, annotations that disagree with behavior, unsafe casts, unvalidated external shapes, weak nullability, and generic machinery that hides rather than proves constraints.
 
-| Priority | Category | Impact | Prefix |
-|----------|----------|--------|--------|
-| 1 | Type Coverage | HIGH | `type-type-coverage` |
-| 2 | Type Correctness | CRITICAL | `type-type-correctness` |
-| 3 | Type Safety | CRITICAL | `type-type-safety` |
-| 4 | Generic Discipline | MEDIUM | `type-generic-discipline` |
+Do not relax an honest contract merely to satisfy current inference. Prove the stricter type or add the missing validation when it still reflects reality.
 
-## Quick Reference
+## Scope
 
-- `type-type-coverage` - Typed public APIs, critical internals, and avoiding implicit any gaps
-- `type-type-correctness` - Annotations, assertions, and guards that match real behavior
-- `type-type-safety` - Unsafe casts, unknown data, discriminated unions, and runtime checks
-- `type-generic-discipline` - Constraints, parameter bounds, and avoiding generic overuse
-- Flag changes that relax a previously honest contract only to satisfy current tooling or inference; recommend restoring proof or validation when the stricter contract is still correct.
+Run this lens when typing/contracts are the dominant concern or a workflow explicitly dispatches it. Do not broaden into a generic review bundle.
 
-## Scope Discipline
+Out of scope as primary concerns: security vulnerabilities, retry/timeout behavior, performance-only questions, architecture/readability concerns without a type-contract defect.
 
-Apply this lens when explicitly requested or when a review workflow dispatches it.
+## Handoff
 
-### In Scope
-- Review type-related concerns: type coverage, schema alignment, casts, and generic constraints
-- Check public APIs and risky internal paths for precise, honest types
-- Verify runtime validation where untyped input crosses a trust boundary
-- Assess type guards and annotations against actual behavior
+When another concern becomes dominant, emit **at most one** focused handoff with the observed `path:line` and why that concern is dominant:
 
-### Out of Scope
-- ❌ Security issues as the primary lens
-- ❌ Retry, timeout, or other resilience behavior
-- ❌ Performance-only questions
-- ❌ Architecture or readability concerns unless clearly cross-lens
+- `code-review-security` for untyped external input at a trust boundary;
+- `code-review-architecture` for a leaky or wrongly owned contract;
+- `code-review-simplicity` for needless generic machinery or dead constraints;
+- `code-review-error-handling` for dishonest failure/result types.
 
-## Cross-Lens Handoff Discipline
+## Evidence Discipline
 
-Use this as a targeted lens, not a generic review bundle.
+- Compare declared types with actual producers, consumers, and runtime validation.
+- When the diff changes external/untyped input, nullability, coercion, or shape constraints, construct one relevant unexpected value and trace both static proof and runtime behavior. Do not manufacture adversarial typing exercises for unrelated code.
+- Prefer explicit domain types and narrow unions/shapes over `mixed`, unchecked casts, or speculative generics.
+- If the claimed contract defect depends on unavailable producer/consumer evidence, return `blocked` instead of guessing.
 
-- Prove one dominant contract or typing issue first.
-- If another concern becomes primary, recommend exactly one next review lens instead of broadening into a vague multi-lens pass.
-- Keep the current pass focused on evidence this lens can actually prove.
+## Terminal Contract
 
-Smallest likely follow-up lenses:
-
-- `code-review-security` when the real issue is untyped external input at a trust boundary
-- `code-review-architecture` when the contract mismatch is really a leaky boundary or wrong abstraction
-- `code-review-simplicity` when generic machinery or dead constraints are the true problem
-- `code-review-error-handling` when dishonest types mainly hide failure contracts
-
-## Output Format
-
-```markdown
-## Must Fix
-- [CRITICAL|HIGH] [path:line] Title
-  - Description: What is wrong and why it matters
-  - Suggestion: Specific fix with code example
-  - Metadata: cross_lens_candidate=true/false, tradeoff_required=true/false
-
-## Observations
-- [MEDIUM|LOW] [path:line] Title
-  - Description: Informational finding
-  - Metadata: cross_lens_candidate=true/false, tradeoff_required=true/false
-
-## Summary
-[One paragraph overall assessment]
+```text
+STATUS: findings
+<path>:<line>: <CRITICAL|HIGH|MEDIUM|LOW> <problem>. <concrete fix>.
+HANDOFF: <code-review-* lens> <path>:<line> <why this concern is dominant>   # optional, at most one
 ```
 
-## Severity Scale
+```text
+STATUS: clean
+```
 
-- **CRITICAL**: Type issues likely to break compilation, runtime behavior, or key contracts.
-- **HIGH**: Significant typing gaps, unsafe assertions, or unvalidated external shapes.
-- **MEDIUM**: Helpful precision or generic-discipline improvements.
-- **LOW**: Minor verbosity or style-level type feedback.
+```text
+STATUS: blocked
+UNKNOWN: <exact missing evidence>.
+```
 
-## Metadata Guidance Tags
+`STATUS` is this lens' judgment only. The caller owns merge, dedupe, precedence, approval, persistence, and workflow progression.
 
-- **cross_lens_candidate** — true when the type issue also indicates security or architectural risk, otherwise false.
-- **tradeoff_required** — true when stricter types would force an API or ergonomics trade-off, otherwise false.
+## Severity
 
-## Adversarial Input Discipline
-
-- Construct one concrete input with unexpected shape, type, or nullability for the main changed path.
-- State what the type system proves and what runtime validation does with that input.
-- If no adversarial typed input can be constructed, return BLOCKED.
-
-## Integration Notes
-
-- Part of the six-pass review protocol. Precedence: SECURITY > ERROR_HANDLING > TYPE_SAFETY > PERFORMANCE > ARCHITECTURE > SIMPLICITY.
-- Dedupe merged findings by `(path, line, title)`.
-- Lead with the highest-severity must-fix items first.
+- **CRITICAL**: contract likely to break runtime behavior or key invariants.
+- **HIGH**: significant unsafe assertion, unvalidated shape, or misleading public type.
+- **MEDIUM**: concrete precision/generic-discipline improvement.
+- **LOW**: minor type verbosity or style feedback.
 
 ## References
 
