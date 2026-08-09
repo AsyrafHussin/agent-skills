@@ -1,452 +1,181 @@
 # Agent Skills
 
-![Release](https://img.shields.io/github/v/release/AsyrafHussin/agent-skills?style=flat-square) ![Stars](https://img.shields.io/github/stars/AsyrafHussin/agent-skills?style=flat-square) ![License](https://img.shields.io/github/license/AsyrafHussin/agent-skills?style=flat-square)
+![Release](https://img.shields.io/github/v/release/voku/agent-skills?style=flat-square) ![Stars](https://img.shields.io/github/stars/voku/agent-skills?style=flat-square) ![License](https://img.shields.io/github/license/voku/agent-skills?style=flat-square)
 
-A collection of skills for AI coding agents. Works with Claude Code, Cursor, Codex, Windsurf, and [40+ agents](https://github.com/vercel-labs/skills#supported-agents).
+A repository of portable skills for coding agents. This fork keeps the broader
+upstream skill catalog and adds voku's evidence-driven engineering skills used by
+the `voku/agent-*` workflow.
 
-Skills follow the [Agent Skills](https://agentskills.io/) specification. Discover more at [skills.sh](https://skills.sh).
+Skills follow the [Agent Skills](https://agentskills.io/) specification and can
+be installed by clients supported by the `skills` CLI.
 
 ## Installation
 
-### Using npx (recommended)
+Install the catalog:
 
 ```bash
-# Install all skills
-npx skills add AsyrafHussin/agent-skills
-
-# Install a specific skill
-npx skills add AsyrafHussin/agent-skills --skill laravel-best-practices
-
-# Install multiple skills
-npx skills add AsyrafHussin/agent-skills --skill laravel-best-practices --skill seo-best-practices
-
-# Install globally (available across all projects)
-npx skills add AsyrafHussin/agent-skills -g
-
-# Install to a specific agent
-npx skills add AsyrafHussin/agent-skills -a claude-code
-
-# List available skills without installing
-npx skills add AsyrafHussin/agent-skills --list
+npx skills add voku/agent-skills
 ```
 
-| Scope | Flag | Location | Use Case |
-|-------|------|----------|----------|
-| Project | (default) | `.claude/skills/` | Shared with team via git |
-| Global | `-g` | `~/.claude/skills/` | Available across all projects |
-
-### Manual installation
+Install one skill:
 
 ```bash
-git clone https://github.com/AsyrafHussin/agent-skills.git
+npx skills add voku/agent-skills --skill operational-prompting
+npx skills add voku/agent-skills --skill coding-simplicity
+npx skills add voku/agent-skills --skill php-best-practices
+```
 
-# Copy all skills
+Install globally or for a specific agent:
+
+```bash
+npx skills add voku/agent-skills -g
+npx skills add voku/agent-skills -a claude-code
+```
+
+List the current catalog instead of relying on a manually duplicated README
+inventory:
+
+```bash
+npx skills add voku/agent-skills --list
+```
+
+Manual installation remains ordinary Git:
+
+```bash
+git clone https://github.com/voku/agent-skills.git
 cp -r agent-skills/skills/* .claude/skills/
-
-# Or copy a single skill
-cp -r agent-skills/skills/laravel-best-practices .claude/skills/
 ```
 
-Each skill contains `SKILL.md`, `AGENTS.md`, `rules/`, and `metadata.json`.
-Each `AGENTS.md` now includes a shared operational contract for scope, stop/ask behavior, and evidence reporting, while each `metadata.json` exposes canonical `skill` and `meta` blocks for consistent machine parsing.
-Some metadata files also keep legacy top-level fields for backward compatibility with existing consumers, but the canonical source of operational identity is the nested `skill` block.
+## voku engineering skills
 
-### Managing skills
+### `operational-prompting`
+
+Reusable operational prompting for coding agents. The main design is not a pile
+of polished generic prompts. Most reusable engineering recipes are **L2
+meta-prompts** that tell the consuming agent how to create a project-specific L1
+contract from current repository recall.
+
+The generated L1 contract has exactly five parts:
+
+```text
+Goal
+Context
+Constraints
+Verification
+Done When
+```
+
+`Verification` defines how reality is measured. `Done When` defines the observed
+result that permits the task to stop.
+
+The versioned recipe catalog lives at:
+
+```text
+skills/operational-prompting/operating-prompts.json
+```
+
+Current L2 recipes include:
+
+- `adversarial-review`
+- `coverage-mutation`
+- `deletion-first`
+- `missingness-audit`
+- `multi-pass-correctness-simplify`
+- `plan-horizon`
+- `regression-hunt`
+- `reproduce-before-fix`
+- `reject-and-restart`
+
+Context-independent controls remain L1, including continuation, evidence
+reporting, and bounded retry/stop behavior.
+
+Recipes deliberately contain no hidden repository commands or task thresholds.
+The caller supplies hard policy such as horizons, minimum coverage increases,
+mutation commands, retry limits, and stopping conditions. Concrete files,
+symbols, callers, tests, project conventions, risks, and executable validation
+come from the consuming repository's recall.
+
+### `coding-simplicity`
+
+Implementation-time simplicity without deleting correctness. Before adding new
+surface area, search in this order:
+
+1. no code change;
+2. existing repository owner/pattern;
+3. language standard library;
+4. native platform capability;
+5. already-installed dependency;
+6. one shared root-cause fix;
+7. minimum new code.
+
+The skill keeps explicit safety and verification floors. A shorter patch that
+moves behavior into the wrong layer, drops a trust-boundary check, or leaves
+sibling callers broken is not simpler.
+
+### `code-review-*`
+
+The review skills are **independent targeted lenses**, not a mandatory review
+swarm. Start with the dominant concern and keep the review evidence-first. If
+another concern becomes primary, hand off to at most one smaller follow-up lens.
+
+Available lenses include architecture, error handling, performance, security,
+simplicity, and type safety.
+
+### `php-best-practices`
+
+Modern PHP engineering guidance covering typing, static analysis, maintainable
+object design, legacy migration, and repository-native verification.
+
+## Full catalog
+
+The repository contains the complete catalog under [`skills/`](skills/),
+including the Laravel, React/TypeScript, testing, security, database, API, Git,
+SEO, accessibility, technical-debt, and documentation skills inherited from and
+extended beyond the upstream project.
+
+Use the repository itself as the source of truth:
 
 ```bash
-npx skills list              # List installed skills
-npx skills find laravel      # Search for skills
-npx skills remove            # Remove installed skills
-npx skills update            # Update all skills to latest
+npx skills add voku/agent-skills --list
 ```
 
-## Available Skills
+Each skill's own `SKILL.md`, rules, metadata, and supporting files define its
+actual contract. README summaries are intentionally not a second hand-maintained
+manifest.
 
-### [laravel-best-practices](skills/laravel-best-practices)
+## Using with agent-loop
 
-Laravel 13 conventions and architecture. Contains 31 rules across 7 categories.
+`voku/agent-loop` can install this catalog as an explicit extra skill root. The
+`operational-prompting` manifest is also consumed explicitly by the governed
+L2 workflow:
 
-**Example:** `Review this Laravel controller for best practices`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill laravel-best-practices
+```text
+approved WorkBrief policy
++ project recall
++ selected L2 recipe
+        ↓
+project-specific L1 execution contract
+        ↓
+implementation + verification
 ```
 
----
+The skill repository owns reusable engineering semantics. `agent-session` owns
+approved task policy, `agent-recall-compiler` owns deterministic project context
+and recipe rendering, and `agent-loop` owns orchestration and execution-contract
+gates.
 
-### [technical-debt](skills/technical-debt)
+## Changelog
 
-Technical debt audit and prioritization for **PHP/Laravel (MySQL) and Node/TypeScript/React**. Contains 42 rules across 10 categories. Produces a ranked debt ledger (effort × impact, P0–P3) and supports audit mode with PASS/FAIL/N/A output.
+See [CHANGELOG.md](CHANGELOG.md) for voku-specific catalog changes.
 
-**Example:** `Audit technical debt in this project` or `What should we refactor first?`
+## Provenance
 
-```bash
-npx skills add AsyrafHussin/agent-skills --skill technical-debt
-```
+This repository is derived from the public `AsyrafHussin/agent-skills` catalog
+and retains upstream skill material where useful. voku-specific changes focus on
+governed agentic coding, operational prompting, simplicity, review routing, and
+integration with the `voku/agent-*` packages.
 
----
-
-### [code-slop](skills/code-slop)
-
-Code-quality enforcement for **PHP/Laravel and TypeScript/React** — catches the sloppy patterns that pass every metric but degrade the codebase: narration comments, generic names, premature interfaces, defensive overdose, mock-everything tests. Most devs use AI now, so these patterns are common; this skill is how you keep code clean regardless of who (or what) wrote it. 24 rules across 6 categories. Verdicts: CLEAN / SUSPICIOUS / INFLATED / CRITICAL.
-
-**`code-slop` vs `technical-debt` — which to pick?**
-
-| Use `code-slop` when… | Use `technical-debt` when… |
-|---|---|
-| Reviewing a PR — keeping the bar for clean code | Auditing the codebase for ranked debt to pay down |
-| Concern is **taste**: comments, naming, over-engineering, defensive overdose, test quality | Concern is **metrics**: complexity, duplication, CVEs, missing indexes, N+1 queries |
-| Question: "Is this clean code or sloppy patterns to reject?" | Question: "What should we refactor first?" |
-| Output: classified diff verdicts (CLEAN / SUSPICIOUS / INFLATED / CRITICAL) | Output: ranked debt ledger (P0–P3) |
-
-Run **both** for a full audit — taste check (`code-slop`) catches what metrics miss; metric audit (`technical-debt`) catches what taste-review misses.
-
-**Example:** `Review this PR for code quality` or `Find sloppy patterns in app/Services/`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill code-slop
-```
-
----
-
-### [project-docs](skills/project-docs)
-
-Documentation lifecycle for **PHP/Laravel and Node/TypeScript/React**. Contains 25 rules across 6 categories (structure, naming, essential files, quality, cleanup, lifecycle). Supports bootstrap, audit, and reference modes — including AI-slop detection in both file names (PLAN.md, IMPLEMENTATION-SUMMARY.md) and content (filler phrases, generic praise, closing sign-offs).
-
-**Example:** `Set up docs for this project` or `Audit the markdown files in this repo`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill project-docs
-```
-
----
-
-### [laravel-inertia-react](skills/laravel-inertia-react)
-
-Laravel 13 + Inertia.js + React 18 full-stack patterns. Covers page components, form handling, layouts, file uploads, and real-time features.
-
-**Example:** `How do I share data from Laravel to a React component with Inertia?`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill laravel-inertia-react
-```
-
----
-
-### [laravel-testing](skills/laravel-testing)
-
-Laravel 13 testing with Pest PHP 4 and PHPUnit 12. Contains 24 rules across 6 categories covering HTTP feature tests, model factories, database assertions, facade faking (Mail, Queue, Notification, Event, Storage, AI SDK), authentication testing, and test organisation patterns. Detects Pest or PHPUnit automatically from `composer.json`.
-
-**Example:** `Write feature tests for this Laravel controller`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill laravel-testing
-```
-
----
-
-### [laravel-owasp-security](skills/laravel-owasp-security)
-
-OWASP Top 10 security audit and secure coding guidelines for Laravel + React/Inertia.js.
-
-**Example:** `Run OWASP security audit on my Laravel app`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill laravel-owasp-security
-```
-
----
-
-### [php-best-practices](skills/php-best-practices)
-
-Modern PHP 8.0–8.5 patterns, type system, PSR standards, SOLID principles, PHPStan-style PHPDoc, value objects, legacy migration, and a mandatory static-analysis tooling loop. Contains 56 rules across 9 sections.
-
-**Example:** `Review my PHP class for SOLID principles`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill php-best-practices
-```
-
----
-
-### [react-vite-best-practices](skills/react-vite-best-practices)
-
-React + Vite performance optimization. Contains 23 rules across 6 categories covering build config (OXC minification, tree shaking), code splitting (React.lazy, Suspense), asset handling, environment config, and bundle analysis.
-
-**Example:** `Review this React component for performance issues`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill react-vite-best-practices
-```
-
----
-
-### [typescript-react-patterns](skills/typescript-react-patterns)
-
-Type-safe React with TypeScript. Contains 33 rules across 7 categories covering component typing, hooks, event handling, refs, generics, context, and utility types.
-
-**Example:** `How do I properly type this React component with TypeScript?`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill typescript-react-patterns
-```
-
----
-
-### [state-management](skills/state-management)
-
-Server state with TanStack Query v5 and client state with Zustand v5. Covers caching, mutations, optimistic updates, and devtools.
-
-**Example:** `How do I manage server state with React Query?`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill state-management
-```
-
----
-
-### [tailwind-best-practices](skills/tailwind-best-practices)
-
-Tailwind CSS v3.4+ and v4 best practices. Contains 29 rules across 8 categories covering responsive design, dark mode, component patterns, configuration, and v3-to-v4 migration.
-
-**Example:** `Review my Tailwind classes for best practices`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill tailwind-best-practices
-```
-
----
-
-### [web-design-guidelines](skills/web-design-guidelines)
-
-WCAG accessibility, semantic HTML, keyboard navigation, forms, and performance. Contains 23 rules across 4 categories. Supports accessibility audit mode with PASS/FAIL checklist output.
-
-**Example:** `Run accessibility audit on this project` or `Review this component for accessibility`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill web-design-guidelines
-```
-
----
-
-### [clean-code-principles](skills/clean-code-principles)
-
-Language-agnostic SOLID, DRY, KISS principles and design patterns (Factory, Strategy, Repository). Contains 23 rules for maintainable software.
-
-**Example:** `Review this class for code smells and SOLID violations`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill clean-code-principles
-```
-
----
-
-
-### [code-review-architecture](skills/code-review-architecture)
-
-Architecture review lens for targeted code reviews. Contains 8 rules across 8 categories covering coupling, separation of concerns, module boundaries, abstraction quality, and transaction-boundary invariants.
-
-**Example:** `Review this diff for architecture issues`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill code-review-architecture
-```
-
----
-
-### [code-review-error-handling](skills/code-review-error-handling)
-
-Error-handling and resilience review lens. Contains 8 rules across 8 categories covering failure signalling, timeout discipline, retries, cleanup, observability, and partial-failure safety.
-
-**Example:** `Review this diff for error-handling and resilience issues`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill code-review-error-handling
-```
-
----
-
-### [code-review-performance](skills/code-review-performance)
-
-Performance review lens for code review. Contains 7 rules across 7 categories covering algorithmic complexity, database efficiency, network I/O, memory use, caching, concurrency, and payload optimization.
-
-**Example:** `Review this diff for performance regressions`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill code-review-performance
-```
-
----
-
-### [code-review-security](skills/code-review-security)
-
-Security review lens for targeted code reviews. Contains 6 rules across 6 categories covering injection risks, auth/authz, data protection, validation, dependency security, and secure configuration.
-
-**Example:** `Review this diff for security issues`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill code-review-security
-```
-
----
-
-### [code-review-simplicity](skills/code-review-simplicity)
-
-Simplicity review lens for maintainability-focused code review. Contains 8 rules across 8 categories covering readability, cognitive load, unnecessary abstraction, duplicated logic, and bound-range collapse checks.
-
-**Example:** `Review this diff for simplicity and maintainability issues`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill code-review-simplicity
-```
-
----
-
-### [code-review-type-safety](skills/code-review-type-safety)
-
-Type-safety review lens for focused code review. Contains 4 rules across 4 categories covering type coverage, correctness, unsafe coercions, runtime validation, and generic discipline.
-
-**Example:** `Review this diff for type-safety issues`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill code-review-type-safety
-```
-
-The `code-review-*` skills are intended to be used as targeted lenses, not as a mandatory review swarm. Start with the dominant concern, keep the pass evidence-first, and if another concern becomes primary, hand off to exactly one smaller follow-up lens instead of broadening into a vague multi-lens review.
-
----
-
-### [api-design-patterns](skills/api-design-patterns)
-
-RESTful API design patterns. Contains 38 rules across 7 categories covering resource design, error handling, security, pagination, versioning, response format, and OpenAPI documentation.
-
-**Example:** `Review my API endpoints for REST best practices`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill api-design-patterns
-```
-
----
-
-### [git-workflow](skills/git-workflow)
-
-Git workflow conventions for commits, branching, pull requests, and history management. Contains 31 rules covering conventional commits, git hooks, workflow strategies (GitHub Flow, GitFlow, Trunk-Based), monorepo workflows, git worktree, and .gitignore best practices.
-
-**Example:** `Review my git workflow and suggest improvements`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill git-workflow
-```
-
----
-
-### [prd-writing](skills/prd-writing)
-
-Step-by-step workflow for writing Product Requirements Documents. 6-step process: assess project state, ask clarifying questions (with lettered options), draft using 12-section template, review, revise, and save. Contains 25 rules across 7 categories as supporting knowledge.
-
-**Example:** `Write a PRD for this feature`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill prd-writing
-```
-
----
-
-### [operational-prompting](skills/operational-prompting)
-
-Repo-owned operational prompting for coding agents. Contains 8 rules across 4 categories covering instruction hierarchy, scope contracts, validation contracts, evidence-first outputs, and portable skill manifests.
-
-**Example:** `Audit this repo's Copilot instructions and agent prompts`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill operational-prompting
-```
-
----
-
-### [testing-best-practices](skills/testing-best-practices)
-
-Unit, integration, and E2E testing with TypeScript/Vitest. Contains 34 rules across 7 categories covering test structure (AAA), isolation, assertions, test data factories, mocking, coverage strategy, and test performance.
-
-**Example:** `Write tests for this Laravel service class`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill testing-best-practices
-```
-
----
-
-### [e2e-playwright-testing](skills/e2e-playwright-testing)
-
-End-to-end browser testing with Playwright. Contains 8 rules across 6 categories covering locator strategies, authentication reuse (storageState), React form gotchas (date inputs, sr-only checkboxes), web-first assertions, test organization, and reliability. Includes stack detection for React/Inertia/Vue projects.
-
-**Example:** `Write E2E tests for this login flow` or `Set up Playwright for this project`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill e2e-playwright-testing
-```
-
----
-
-### [seo-best-practices](skills/seo-best-practices)
-
-SEO patterns for Laravel Blade and Laravel + Inertia.js + React. Contains 31 rules across 8 categories covering Core Web Vitals, meta tags, structured data (JSON-LD), Open Graph, performance, and mobile-first indexing. Supports SEO audit mode with PASS/FAIL checklist output. Auto-detects project type.
-
-**Example:** `Run SEO audit on this project` or `Set up Open Graph meta tags`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill seo-best-practices
-```
-
----
-
-### [laravel-database-optimization](skills/laravel-database-optimization)
-
-Laravel 13 database optimization. Contains 33 rules across 9 categories covering N+1 prevention, indexing strategies, Eloquent performance, Redis caching, cursor pagination, transactions, zero-downtime migrations, naming conventions, and query debugging.
-
-**Example:** `Optimize the database queries in this controller`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill laravel-database-optimization
-```
-
----
-
-### [laravel-queues](skills/laravel-queues)
-
-Production-grade queue patterns for **Laravel 13 (MySQL + Redis)**. 20 rules across 6 categories: driver choice (database/redis/sqs), job design (`ShouldQueue`, IDs-not-models, idempotency), retry & failure (`#[Backoff]`, `#[FailOnTimeout]`, `failed()`), worker scaling and Supervisor config, `Bus::batch` vs `Bus::chain`, and when to adopt Horizon.
-
-**Example:** `Audit our queue setup` or `Review this job class`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill laravel-queues
-```
-
----
-
-### [laravel-ai-sdk](skills/laravel-ai-sdk)
-
-Laravel AI SDK for building AI-powered features. Contains 17 rules across 7 categories covering agents, tools, structured output, streaming, images, audio, embeddings, vector stores, and testing with fakes.
-
-**Example:** `Create an AI agent that analyzes sales transcripts`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill laravel-ai-sdk
-```
-
----
-
-### [laravel-mcp](skills/laravel-mcp)
-
-Laravel MCP server development. Contains 7 rules across 5 categories covering server creation, tools with schemas, prompts, resources, authentication (OAuth/Sanctum), and testing.
-
-**Example:** `Create an MCP tool that exposes weather data to AI clients`
-
-```bash
-npx skills add AsyrafHussin/agent-skills --skill laravel-mcp
-```
-
----
+Individual adapted skills retain their own provenance where applicable.
 
 ## License
 
