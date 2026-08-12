@@ -150,7 +150,7 @@ manifest.
 L2 workflow:
 
 ```text
-approved WorkBrief policy
+approved task policy
 + project recall
 + selected L2 recipe
         ↓
@@ -159,10 +159,17 @@ project-specific L1 execution contract
 implementation + verification
 ```
 
-The skill repository owns reusable engineering semantics. `agent-session` owns
-approved task policy, `agent-recall-compiler` owns deterministic project context
-and recipe rendering, and `agent-loop` owns orchestration and execution-contract
-gates.
+The wording above is intentionally about semantic ownership, not a particular
+working-memory file. Approved task policy must come from the governed workflow's
+current durable source; pruneable Session state is not the canonical source for
+an L2 execution contract.
+
+The skill repository owns reusable engineering semantics.
+`agent-recall-compiler` owns deterministic project context and recipe rendering,
+and `agent-loop` owns durable task/Run orchestration and execution-contract
+gates. Working-memory packages may carry resumable Session state, but they do
+not become the durable authority for approved L2 policy merely because an older
+integration passed a WorkBrief through them.
 
 ## Changelog
 
