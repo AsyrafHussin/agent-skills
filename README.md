@@ -99,8 +99,8 @@ come from the consuming repository's recall.
 `breaking-change-review` also carries no global compatibility default. It must
 resolve the applicable repo-owned policy for each affected path or package and
 block when that policy is absent or contradictory. This lets pre-1.0 projects
-prefer coordinated dependency migration and deletion without weakening projects
-that still promise backward compatibility.
+prefer coordinated owner/consumer migration and deletion without weakening
+projects that still promise backward compatibility.
 
 ### `coding-simplicity`
 

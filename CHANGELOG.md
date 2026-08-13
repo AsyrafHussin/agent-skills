@@ -13,7 +13,7 @@ runtime consumes.
 - Added the L2 `breaking-change-review` recipe. It turns current task scope and
   repo-owned project policy into a project-specific compatibility review rather
   than assuming either permanent backward compatibility or unrestricted breakage.
-- The recipe prefers coordinated dependency/consumer migration and deletion of
+- The recipe prefers coordinated owner/consumer migration and deletion of
   the old path before compatibility layers when the applicable project policy
   allows breaking change, and blocks when policy is missing or contradictory.
 
