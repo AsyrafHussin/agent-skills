@@ -6,6 +6,17 @@ This repository is a skill catalog rather than a Composer package, so entries ar
 dated and tied to Git commits instead of inventing a package version that no
 runtime consumes.
 
+## 2026-08-13 - Scoped compatibility review
+
+### Added
+
+- Added the L2 `breaking-change-review` recipe. It turns current task scope and
+  repo-owned project policy into a project-specific compatibility review rather
+  than assuming either permanent backward compatibility or unrestricted breakage.
+- The recipe prefers coordinated owner/consumer migration and deletion of
+  the old path before compatibility layers when the applicable project policy
+  allows breaking change, and blocks when policy is missing or contradictory.
+
 ## 2026-08-09 - Governed operational prompting and coding simplicity
 
 ### Added
