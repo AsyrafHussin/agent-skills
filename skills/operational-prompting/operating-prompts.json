@@ -7,6 +7,11 @@
       "template": "Create a project-specific review prompt that treats the current implementation as a first draft. Require at least {{minimum_failure_modes}} concrete failure modes plus the design assumption most likely to be wrong. Ground the review in the actual changed files, contracts, callers, tests, runtime boundaries, and repository-specific validation already present in recall context. Require an exact trigger scenario and confirming or disproving evidence for every failure mode."
     },
     {
+      "id": "breaking-change-review",
+      "level": 2,
+      "template": "Create a project-specific compatibility review prompt from the current task scope and applicable repo-owned project policy in recall context. The generated prompt must determine separately for every affected module, directory, package, and public contract whether breaking change is allowed, compatibility is required, or policy is unspecified. Where breaking change is allowed, require the reviewer to evaluate coordinated dependency and consumer migration plus deletion of the old path before accepting aliases, adapters, fallbacks, or legacy layers. Where compatibility is required, demand evidence for the external contract and the narrowest migration boundary. Where policy is unspecified or conflicting, return BLOCKED instead of guessing. Require concrete changed files, callers, dependency constraints, release or migration steps, tests, and validation evidence for every conclusion."
+    },
+    {
       "id": "continue-until-done",
       "level": 1,
       "template": "Continue from the current validated state without restarting discovery. After each step, run the cheapest meaningful validation and use passing evidence as the signal to continue. Do not stop after the first acceptable result. Stop only when {{done_condition}} is satisfied or a concrete blocker makes further safe progress impossible."
