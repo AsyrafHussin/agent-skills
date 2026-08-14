@@ -4,7 +4,7 @@ description: Repo-owned operational prompting for coding agents. Use when design
 license: MIT
 metadata:
   author: Agent Skills Team
-  version: "1.0.0"
+  version: "1.0.1"
 ---
 
 # Operational Prompting
@@ -23,11 +23,23 @@ Reference these guidelines when:
 ## Maintenance Discipline
 
 - Edit the canonical repo-owned instruction source first, not installed, copied, or generated derivatives.
+- If a skill invokes, configures, or depends on a specific tool's CLI, API, schema, generated files, or runtime behavior, keep the canonical skill and its tool-specific resources in that tool's repository. Generic skill collections may explain the principle or link to the owner; they should not duplicate the executable instructions.
 - Regenerate machine-readable manifests or compiled prompt artifacts only when the interface-facing metadata actually changed.
 - After changing repo-owned guidance, rerun the repository's validation and install/sync steps for the affected agent assets.
 - When a durable correction appears only in chat history, memory, or review notes, promote it into the owning repo guidance instead of leaving it as tribal knowledge.
 - Clean stale generated copies when a skill, prompt file, or subagent definition is renamed, merged, or retired.
 - For one-off operational mutations, prefer inspect-first workflows with an explicit execute flag rather than auto-running destructive behavior by default.
+
+## Tool Ownership Boundary
+
+This repository owns **tool-neutral engineering guidance**. A skill becomes tool-coupled when its correctness depends on a particular tool command, option, file layout, schema, output contract, or lifecycle behavior. At that point the tool repository must own the canonical skill so code changes and coding instructions are reviewed, tested, and released together.
+
+Examples:
+
+- Generic advice such as "prefer exact validation commands" belongs here.
+- Instructions for a concrete CLI command belong with the CLI implementation.
+- A machine-readable recipe catalog consumed by one specific compiler belongs with that compiler.
+- A central collection may reference or install a tool-owned skill, but must not become a second canonical copy.
 
 ## Rule Categories by Priority
 
@@ -59,40 +71,6 @@ Reference these guidelines when:
 ### 4. Portability (MEDIUM)
 
 - `portable-skill-manifests` - Publish vendor-neutral skill manifests and task recipes in repo-owned YAML
-
-## Reusable Prompt Recipes
-
-`operating-prompts.json` packages recurring operational prompting patterns for deterministic consumers such as `agent-recall-compiler`.
-
-Most entries are **L2 recipes**, not generic execution prompts. They describe how to use the current repository context to construct one project-specific L1 operational prompt. The generated L1 shape is:
-
-```text
-Goal + Context + Constraints + Verification + Done When
-```
-
-`Verification` names the concrete measurement procedure: exact tests, static analysis, mutation testing, benchmarks, probes, or other repository-supported checks. `Done When` names the observable result those checks must produce before execution may stop. Do not collapse the two: a command is not an acceptance criterion, and an acceptance criterion without a way to measure it is decorative prose.
-
-Keep reusable method and quality policy in the L2 recipe. Keep exact files, symbols, callers, tests, commands, architecture, and risks in the project-specific recall context.
-
-A manifest entry declares its level explicitly:
-
-```json
-{
-  "id": "coverage-mutation",
-  "level": 2,
-  "template": "Create a project-specific test-hardening prompt with at least {{minimum_percentage_points}} percentage points coverage growth and mutation evidence from {{mutation_command}}."
-}
-```
-
-Use `level: 1` only for contracts that are genuinely context-independent, such as a final evidence-report shape or a bounded retry stop condition.
-
-Do not hide task policy in reusable defaults. The caller supplies values such as the planning horizon, minimum adversarial probes, coverage floor, or retry limit explicitly.
-
-Use `adversarial-review` when a project-specific review should attack a first draft from current Recall evidence. Its numeric floor counts distinct plausible failure-mode hypotheses or attack scenarios that must actually be investigated; it does **not** require that many defects to exist. A disproved hypothesis is useful falsification evidence, and `CLEAN` remains valid when the requested probes were performed without finding an evidence-backed defect. Never manufacture findings merely to satisfy the floor.
-
-Use the context-light `agent-recall-compiler review first-draft` lens when no project-specific L2 construction pass is needed. It is the immediate review primitive; `adversarial-review` is the project-grounded L2 recipe. They share falsification semantics without duplicating ownership.
-
-Use `reproduce-before-fix` when a bug claim must be proven before production code changes. Use `reject-and-restart` when an implementation crossed an approved boundary and repairing the existing patch would preserve a failed assumption or invalid approach.
 
 ## Essential Patterns
 
@@ -190,7 +168,7 @@ Each rule file contains:
 - Exceptions and trade-offs
 - Related topics for adjacent rules
 
-For task-level reuse, select an entry from `operating-prompts.json`, provide every required argument, and let the consuming recall layer combine it with project context.
+Tool-specific instructions belong in the repository that owns the tool. Link or install that canonical skill rather than copying its commands or machine-readable resources into this collection.
 
 ## Full Compiled Document
 

@@ -2,7 +2,7 @@
 
 Repo-owned operational prompting for coding agents. 8 rules across 4 categories.
 
-**Version:** 1.0.0
+**Version:** 1.0.1
 
 ## Overview
 
@@ -12,6 +12,11 @@ This skill provides guidance for:
 - Defining exact validation commands and stopping conditions
 - Requiring evidence-first summaries instead of theatrical process narration
 - Publishing portable, vendor-neutral skill manifests in YAML
+- Keeping tool-coupled skills and machine-readable resources in the repository that owns the tool
+
+## Ownership boundary
+
+This collection owns tool-neutral engineering guidance. If a skill invokes, configures, or depends on a specific tool's CLI, API, schema, output contract, file layout, or runtime behavior, its canonical instructions belong in that tool's repository so code and coding instructions are reviewed and released together. Link or install that tool-owned skill instead of keeping a second canonical copy here.
 
 ## Categories
 

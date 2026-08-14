@@ -1,9 +1,9 @@
 {
-  "version": "1.0.0",
+  "version": "1.0.1",
   "skill": {
     "name": "operational-prompting",
-    "version": "1.0.0",
-    "description": "Repo-owned operational prompting, instruction hierarchy, validation contracts, evidence-first outputs, and portable agent skill manifests",
+    "version": "1.0.1",
+    "description": "Repo-owned operational prompting, instruction hierarchy, validation contracts, evidence-first outputs, portable agent skill manifests, and tool-owned skill boundaries",
     "author": "Agent Skills Team",
     "license": "MIT",
     "keywords": [
@@ -15,7 +15,8 @@
       "skills",
       "validation",
       "repo-owned-prompts",
-      "deterministic-output"
+      "deterministic-output",
+      "tool-ownership"
     ]
   },
   "categories": [
@@ -81,7 +82,7 @@
   },
   "meta": {
     "created": "2026-05-08",
-    "last_updated": "2026-05-08",
+    "last_updated": "2026-08-14",
     "rule_count": 8,
     "structure_version": "2.0",
     "compatibility": {
