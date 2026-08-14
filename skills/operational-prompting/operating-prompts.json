@@ -4,7 +4,7 @@
     {
       "id": "adversarial-review",
       "level": 2,
-      "template": "Create a project-specific review prompt that treats the current implementation as a first draft. Require at least {{minimum_failure_modes}} concrete failure modes plus the design assumption most likely to be wrong. Ground the review in the actual changed files, contracts, callers, tests, runtime boundaries, and repository-specific validation already present in recall context. Require an exact trigger scenario and confirming or disproving evidence for every failure mode."
+      "template": "Create a project-specific review prompt that treats the current implementation as a first draft. Require at least {{minimum_failure_modes}} distinct plausible failure-mode hypotheses or attack scenarios to be investigated, plus the design assumption most likely to be wrong. Ground the review in the actual changed files, contracts, callers, tests, runtime boundaries, and repository-specific validation already present in recall context. For every attempted failure mode, require an exact trigger scenario and confirming or disproving evidence. A hypothesis disproved by evidence is a successful falsification attempt, not a finding. Do not manufacture defects merely to satisfy the numeric floor; CLEAN remains valid when the required adversarial probes were performed and no evidence-backed defect remains."
     },
     {
       "id": "breaking-change-review",

@@ -86,7 +86,11 @@ A manifest entry declares its level explicitly:
 
 Use `level: 1` only for contracts that are genuinely context-independent, such as a final evidence-report shape or a bounded retry stop condition.
 
-Do not hide task policy in reusable defaults. The caller supplies values such as the planning horizon, minimum findings, coverage floor, or retry limit explicitly.
+Do not hide task policy in reusable defaults. The caller supplies values such as the planning horizon, minimum adversarial probes, coverage floor, or retry limit explicitly.
+
+Use `adversarial-review` when a project-specific review should attack a first draft from current Recall evidence. Its numeric floor counts distinct plausible failure-mode hypotheses or attack scenarios that must actually be investigated; it does **not** require that many defects to exist. A disproved hypothesis is useful falsification evidence, and `CLEAN` remains valid when the requested probes were performed without finding an evidence-backed defect. Never manufacture findings merely to satisfy the floor.
+
+Use the context-light `agent-recall-compiler review first-draft` lens when no project-specific L2 construction pass is needed. It is the immediate review primitive; `adversarial-review` is the project-grounded L2 recipe. They share falsification semantics without duplicating ownership.
 
 Use `reproduce-before-fix` when a bug claim must be proven before production code changes. Use `reject-and-restart` when an implementation crossed an approved boundary and repairing the existing patch would preserve a failed assumption or invalid approach.
 

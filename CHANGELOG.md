@@ -6,6 +6,25 @@ This repository is a skill catalog rather than a Composer package, so entries ar
 dated and tied to Git commits instead of inventing a package version that no
 runtime consumes.
 
+## 2026-08-14 - Falsification-safe adversarial review
+
+### Changed
+
+- `adversarial-review` now applies its numeric floor to distinct plausible
+  failure-mode hypotheses or attack scenarios that must be investigated, not to
+  confirmed defects that the reviewer is forced to produce.
+- Disproving a hypothesis is explicitly useful falsification evidence and
+  `CLEAN` remains a valid result after the requested probes find no
+  evidence-backed defect.
+- Documented the ownership boundary between the context-light
+  `agent-recall-compiler review first-draft` lens and the project-grounded L2
+  `adversarial-review` recipe.
+
+### Fixed
+
+- Removed the Goodhart-shaped incentive to manufacture findings merely to satisfy
+  an adversarial-review count.
+
 ## 2026-08-13 - Scoped compatibility review
 
 ### Added
