@@ -50,12 +50,20 @@ cp -r agent-skills/skills/* .claude/skills/
 
 ### `operational-prompting`
 
-Reusable operational prompting for coding agents. The main design is not a pile
-of polished generic prompts. Most reusable engineering recipes are **L2
-meta-prompts** that tell the consuming agent how to create a project-specific L1
-contract from current repository recall.
+Reusable, tool-neutral operational prompting for coding agents. It covers
+repo-owned instructions, instruction hierarchy, bounded task contracts,
+validation/evidence contracts, machine-readable workflows, stopping conditions,
+and portable skill manifests.
 
-The generated L1 contract has exactly five parts:
+The canonical skill deliberately does **not** own the governed
+`voku/agent-*` operating-prompt recipe catalog. A machine-readable recipe catalog
+whose correctness depends on one compiler belongs with that compiler. For the
+current workflow, `voku/agent-recall-compiler` owns recipe definitions, typed
+arguments, rendering/template identity, and recipe applicability metadata;
+`voku/agent-loop` owns lifecycle and execution authority.
+
+A project-specific execution contract still benefits from the familiar five
+concerns:
 
 ```text
 Goal
@@ -66,41 +74,8 @@ Done When
 ```
 
 `Verification` defines how reality is measured. `Done When` defines the observed
-result that permits the task to stop.
-
-The versioned recipe catalog lives at:
-
-```text
-skills/operational-prompting/operating-prompts.json
-```
-
-Current L2 recipes include:
-
-- `adversarial-review`
-- `breaking-change-review`
-- `coverage-mutation`
-- `deletion-first`
-- `missingness-audit`
-- `multi-pass-correctness-simplify`
-- `plan-horizon`
-- `regression-hunt`
-- `reproduce-before-fix`
-- `reject-and-restart`
-
-Context-independent controls remain L1, including continuation, evidence
-reporting, and bounded retry/stop behavior.
-
-Recipes deliberately contain no hidden repository commands or task thresholds.
-The caller supplies hard policy such as horizons, minimum coverage increases,
-mutation commands, retry limits, and stopping conditions. Concrete files,
-symbols, callers, tests, project conventions, risks, and executable validation
-come from the consuming repository's recall.
-
-`breaking-change-review` also carries no global compatibility default. It must
-resolve the applicable repo-owned policy for each affected path or package and
-block when that policy is absent or contradictory. This lets pre-1.0 projects
-prefer coordinated owner/consumer migration and deletion without weakening
-projects that still promise backward compatibility.
+result that permits the task to stop. The skill teaches those reusable principles
+without duplicating Recall-owned recipes or Loop-owned lifecycle policy.
 
 ### `coding-simplicity`
 
@@ -152,31 +127,23 @@ manifest.
 
 ## Using with agent-loop
 
-`voku/agent-loop` can install this catalog as an explicit extra skill root. The
-`operational-prompting` manifest is also consumed explicitly by the governed
-L2 workflow:
+`voku/agent-loop` can install this catalog as an explicit extra skill root for
+portable engineering guidance. Governed workflow prompt recipes are not sourced
+from this catalog: `voku/agent-recall-compiler` owns and releases that catalog,
+while `voku/agent-loop` owns durable Contract/Run orchestration and the gates that
+may authorize execution.
+
+The intended ownership shape is:
 
 ```text
-approved task policy
-+ project recall
-+ selected L2 recipe
-        ↓
-project-specific L1 execution contract
-        ↓
-implementation + verification
+tool-neutral engineering principles  -> voku/agent-skills
+bounded project context + recipes     -> voku/agent-recall-compiler
+Contract / Run / lifecycle authority  -> voku/agent-loop
 ```
 
-The wording above is intentionally about semantic ownership, not a particular
-working-memory file. Approved task policy must come from the governed workflow's
-current durable source; pruneable Session state is not the canonical source for
-an L2 execution contract.
-
-The skill repository owns reusable engineering semantics.
-`agent-recall-compiler` owns deterministic project context and recipe rendering,
-and `agent-loop` owns durable task/Run orchestration and execution-contract
-gates. Working-memory packages may carry resumable Session state, but they do
-not become the durable authority for approved L2 policy merely because an older
-integration passed a WorkBrief through them.
+Working-memory packages may carry resumable Session state, but they do not become
+the durable authority for approved task policy. Likewise, installing a portable
+skill does not grant workflow or mutation authority.
 
 ## Changelog
 

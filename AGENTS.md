@@ -9,6 +9,19 @@ This repository contains comprehensive skills for AI coding agents, optimized fo
 - PHP 8.x
 - Clean Code & Design Patterns
 
+## Repository ownership boundary
+
+This repository owns **portable, tool-neutral engineering guidance**. It must not become a second canonical home for instructions whose correctness depends on a concrete tool's CLI, PHP API, file layout, schema, generated artifacts, or lifecycle behavior.
+
+For the `voku/agent-*` stack specifically:
+
+- `voku/agent-recall-compiler` owns the machine-readable operating-prompt recipe catalog, typed arguments, rendering/template identity, and recipe applicability metadata used by the governed workflow.
+- `voku/agent-loop` owns governed Contract/Run lifecycle, approvals, canonical next actions, mutation authority, and workflow prompt envelopes.
+- This repository may teach reusable prompting/review/testing principles and may point at a tool-owned capability, but it must not keep a second canonical copy of Recall recipes or Loop lifecycle policy.
+- When reusable guidance becomes coupled to one tool, move the executable/canonical form to that tool's repository and leave only the tool-neutral principle here.
+
+Before adding a new skill or rule, check whether an existing semantic owner already exists. Prefer extending that owner over creating overlapping guidance with a different name.
+
 ---
 
 ## Rule Priority Model
