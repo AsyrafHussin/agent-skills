@@ -2,7 +2,7 @@
 
 ![Release](https://img.shields.io/github/v/release/AsyrafHussin/agent-skills?style=flat-square) ![Stars](https://img.shields.io/github/stars/AsyrafHussin/agent-skills?style=flat-square) ![License](https://img.shields.io/github/license/AsyrafHussin/agent-skills?style=flat-square)
 
-A collection of skills for AI coding agents. Works with Claude Code, Cursor, Codex, Windsurf, and [40+ agents](https://github.com/vercel-labs/skills#supported-agents).
+A collection of skills for AI coding agents. Works with Claude Code, Cursor, Codex, and [70+ agents](https://github.com/vercel-labs/skills#supported-agents).
 
 Skills follow the [Agent Skills](https://agentskills.io/) specification. Discover more at [skills.sh](https://skills.sh).
 
