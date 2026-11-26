@@ -2,6 +2,10 @@
 
 ![Release](https://img.shields.io/github/v/release/AsyrafHussin/agent-skills?style=flat-square) ![Stars](https://img.shields.io/github/stars/AsyrafHussin/agent-skills?style=flat-square) ![License](https://img.shields.io/github/license/AsyrafHussin/agent-skills?style=flat-square)
 
+<!-- yarkr:badges:start -->
+[![Indexed on Yarkr](https://api.yarkr.com/functions/v1/api/api/v1/badges/repos/AsyrafHussin/agent-skills/version.svg)](https://yarkr.com/arks/asyrafhussin/agent-skills)
+<!-- yarkr:badges:end -->
+
 A collection of skills for AI coding agents. Works with Claude Code, Cursor, Codex, and [70+ agents](https://github.com/vercel-labs/skills#supported-agents).
 
 Skills follow the [Agent Skills](https://agentskills.io/) specification. Discover more at [skills.sh](https://skills.sh).
@@ -57,6 +61,40 @@ npx skills find laravel      # Search for skills
 npx skills remove            # Remove installed skills
 npx skills update            # Update all skills to latest
 ```
+
+<!-- yarkr:install:start -->
+## Install with Yarkr
+
+This repo is indexed on [Yarkr](https://yarkr.com/arks/asyrafhussin/agent-skills) as the ark [asyrafhussin/agent-skills](https://yarkr.com/arks/asyrafhussin/agent-skills), so its skills install into Claude Code, Codex, Cursor and other agent harnesses with one command.
+
+### CLI
+
+Install the whole ark, which Yarkr keeps equal to this repo:
+
+```bash
+npx yarkr-cli sync asyrafhussin/agent-skills
+```
+
+Or add individual skills:
+
+```bash
+npx yarkr-cli add skill:asyrafhussin/agent-skills/api-design-patterns
+npx yarkr-cli add skill:asyrafhussin/agent-skills/clean-code-principles
+npx yarkr-cli add skill:asyrafhussin/agent-skills/code-slop
+```
+
+No Node.js? `curl -fsSL https://yarkr.com/install.sh | sh` (macOS, Linux) or `irm https://yarkr.com/install.ps1 | iex` (Windows PowerShell) installs `yarkr` as a standalone binary; then type `yarkr` in place of `npx yarkr-cli`.
+
+### MCP
+
+Connect your agent to the ark over MCP:
+
+```bash
+npx yarkr-cli mcp add asyrafhussin/agent-skills
+```
+
+Or point any MCP client at `https://api.yarkr.com/functions/v1/api/mcp/o/asyrafhussin/agent-skills`.
+<!-- yarkr:install:end -->
 
 ## Available Skills
 
